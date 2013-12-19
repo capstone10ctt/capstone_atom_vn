@@ -1,0 +1,66 @@
+
+.cpanelContainer {  position: fixed; top: 2%;left:0; z-index: 999;padding-left:45px;display:block }
+.boss-themedesign{ }
+.boss-themedesign.cpanel_opened { background:#fff;width:282px; padding:10px 10px; 
+	-webkit-border-radius: 9px;
+	-moz-border-radius: 9px;
+	-khtml-border-radius: 9px;
+	border-radius: 9px;
+	border:7px solid rgb(151, 162, 168);
+}
+.boss-themedesign.cpanel_closed h2, .boss-themedesign.cpanel_closed  #bt_category{ display:none}
+.boss-themedesign  h2 { margin-bottom:10px; text-transform:uppercase; font:400 16px DroidSansBold;font-size:20px;margin-bottom:15px}
+.cpanel_icon  { display:inline-block; width:40px; height:40px;text-indent:-9999px; background:url(../image/i-setting.png) no-repeat 0 0 ; cursor:pointer ; position:asolute; top:0; left:0; position:absolute}
+.cpanel_icon:hover{ background:url(../image/i-setting-open.png) no-repeat 0 0 ; transform: rotate(-3600deg);transition: all 0.2s ease 0s;}
+
+.bt_category { border:1px solid #ccc; background:#fff;overflow:hidden} 
+#bt_category  { max-height:400px; overflow-y:auto}
+#bt_category  li { padding:10px 0 ; border-top:1px solid #ccc; overflow:hidden; font:400 12px Arial}
+#bt_category  li ul li { padding:0 0 8px 0; border:none}
+#bt_category  li ul li p{clear:both; display:block; overflow:hidden}
+#bt_category  li ul li p span{vertical-align:-15px; margin-left:20px;}
+#bt_category  li:first-child { border-top:0}
+#bt_category ul { padding-top:10px; clear:both; font:400 12px Arial}
+#bt_category  li a { float:left; font-weight:bold}
+#bt_category  li a.active { color:#af0600}
+#bt_category  li h3, #bt_category  li h4 { margin-bottom:5px; font:400 12px Arial}
+
+.design_background { overflow: hidden; margin-top:15px }
+.design_background li { float:left; margin-right:2px}
+.boss-themedesign  .design_background a:hover { background:none}
+.boss-themedesign  .design_background a { background:none; padding:2px}
+.boss-themedesign  .design_background a img { display:block }
+.design_background img{height:30px;width:30px;}
+.boss-themedesign  .design_background a:hover , .boss-themedesign  .design_background a.active { background:#AF0600}
+
+.accordion_content {font:400 12px Arial}
+.accordion_content h3 { margin:0 0 5px 0; width:185px;float:left; font:400 12px Arial}
+.accordion_content li div { float:left}
+.accordion_content li select { width:100%; height: auto;line-height: normal;padding: 2px 5px; font:400 12px Arial;margin-top:4px;background:#eee;border-color:#ddd}
+.accordion_content li select:hover{background:#fffbe5;border-color:#928641 #d7cd94 #d7cd94 #aea368}
+.accordion_content li div.boss_font{ width:66%; margin-right:5px}
+.accordion_content li div.boss_size { width:30%}
+.accordion_content li div.boss_color_scheme { float:none}
+.accordion_content li   h3 { margin-top:15px}
+
+.accordion_content label { float:left; margin-right:5px; margin-top:3px; font:400 12px Arial}
+.boss_design_color li div { float:none}
+.boss_design_color #customWidget { float:right }
+.colorpicker { z-index:1600; position:fixed}
+
+span.expand {  background:url(../image/icon_shopby.png) no-repeat right -17px ;display:inline-block;  cursor:pointer; width:100%; font:400 12px Arial;text-transform:uppercase}
+span.expand:hover { color:#af0600;/*background:url(../image/icon_shopby.png) no-repeat right 7px ;*/}
+#bt_category input{ clear:both; font:400 12px Arial}
+#bt_category input[type='text']{float:right; clear:none; font:400 12px Arial;height:30px;border-radius:5px}
+
+#bt_category li ul.accordion_content li input{margin-top:5px;margin-bottom:0;width:64px!important;border:1px solid #969696;text-align:center;padding-right:5px;height:28px}
+#bt_category li ul.accordion_content li p input.hex{}
+
+
+
+
+
+
+@media only screen and (max-width: 767px) {	
+.cpanelContainer { display:none}
+}

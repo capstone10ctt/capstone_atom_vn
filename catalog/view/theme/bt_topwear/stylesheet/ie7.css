@@ -1,0 +1,249 @@
+/* God I hate Microsoft! */
+/* menu */
+#boss_menu {z-index:100;float:left; width:100%;}
+.boss_menu{height:63px!important}
+
+#boss_menu > ul { }
+#boss_menu > ul > li { float:left}
+#boss_menu > ul > li > div.dropdown ul  { float:left}
+#boss_menu > ul > li > div.dropdown{padding-bottom:22px}
+#boss_menu > ul > li > div.dropdown ul.product span.price{margin-bottom:40px}
+#boss_menu > ul > li > div.dropdown ul.category{padding-bottom:0px}
+#boss_menu > ul > li > div.dropdown .manufacturer a img{margin-bottom:0px}
+#boss_menu > ul > li > div.dropdown .manufacturer a{padding-top:0;padding-bottom:0}
+#boss_menu  > ul > li > a{display:inline-block;}
+#boss_menu  > ul > li > div.dropdown{ }
+#boss_menu  > ul > li:first-child{}
+#boss_menu  > ul > li > div.dropdown a.parent + .column.category li > div.sub_menu ul {}
+#boss_menu  > ul > li > div.dropdown a.parent + .column.category li > div.sub_menu ul li{ }
+#boss_menu  > ul > li > div.dropdown .column.category li{display:inline-block}
+#boss_menu  ul li ul li > div.sub_menu{} 
+#menu ul li:hover > div{display:block!important}
+
+.success, .warning, .attention, .information {
+	position: relative;
+}
+.success .close, .warning .close, .attention .close, .information .close {
+	position: absolute;
+	right: 10px;
+}
+.box-product > div {
+	display: inline;
+}
+.product-grid > div, #column-left + #column-right + #content .product-grid > div  {
+	display: inline;
+}
+/* button */
+.product-info a.button span {
+	line-height: 12px;
+	display: block;
+}
+
+.return-reason  input[type="radio"] { margin: -3px 3px 0 0; vertical-align: 0;}
+
+body .list_carousel li { display:inline}
+
+/******************************************************************/
+.home_filter_content .list_carousel a.button{display:none}
+.home_filter_content .list_carousel .hover_img:hover a.button{display:block}
+.menu-toggle{display:none!important}
+
+#boss_menu > ul > li > div.dropdown .option ul{position:relative;z-index:10}
+#boss_menu > ul > li > div.dropdown .column.category li{position:relative;z-index:50!important}
+#boss_menu > ul > li > div.dropdown .column.category li .sub_menu ul li{z-index:99!important}
+.product-filter .sort .sbOptions, .product-filter .limit .sbOptions{background-color:#fff;z-index:999}
+#header .button-search{left:20px}
+#header #search input{padding-top:15px;margin-top:-1px;width:242px;padding-right:10px;height:30px}
+#header #search{width:261px;padding-left:51px}
+#megamenu-responsive.hide-on-desktop{display:none}
+.slide_width_wide{overflow:hidden}
+
+.product-list{position:relative;z-index:10}
+.sbOptions{z-index:50}
+.article-filter .display{width:82px}
+.rss-feed{margin-top:7px}
+
+a.button.cst{background:url(../image/right_button1.jpg) no-repeat right;border:none;padding:8px 9px 10px 0px!important;}
+span.button_fr{background:url(../image/left_button1.jpg) no-repeat left;border:none;padding:12px 17px 13px 26px!important;}
+input.button.cst{border:none;}
+a.button.cst:hover{background:url(../image/right_button_hover1.jpg) no-repeat right;border:none;}
+a.button.cst:hover span.button_fr{background:url(../image/left_button_hover1.jpg) no-repeat left;}
+
+span.button_fr_ip{background:url(../image/right_button1.jpg) no-repeat right;border:none;padding:13px 0px 13px 0px!important;margin:0}
+input.button.cst{background:url(../image/left_button1.jpg) no-repeat left;border:none;padding:9px 10px 10px 11px!important;text-align:center!important}
+span.button_fr_ip:hover{background:url(../image/right_button_hover1.jpg) no-repeat right;border:none;}
+span.button_fr_ip:hover input.button.cst{background:url(../image/left_button_hover1.jpg) no-repeat left;border:none;}
+.login-content input.button.cst{padding-left:14px!important;padding-right:14px!important}
+
+.login-content .paragraph{height:134px}
+
+.shoppingcart_fr input[type="radio"]{margin-top:-4px!important}
+.cart-info tbody .quantity input[type="text"]{line-height:26px}
+
+input[type="text"], input[type="password"]{line-height:20px}
+#header #search input{line-height:26px}
+.compare-info td a.remove{margin-top:-25px}
+.camera_pag{bottom:20px!important}
+.boss_article-item #productRelated .relProduct .image{margin-bottom:20px}
+
+#header #cart .checkout a{vertical-align:30px;display:inline-block}
+.afiliate_resg_fr tr td input[type="radio"],.afiliate_resg_fr input[type="checkbox"]{margin-left:-4px}
+
+.checkout-heading a{margin-top:-28px}
+#shipping-method .checkout-content label,#payment-method .checkout-content label{margin-top:4px}
+.checkout-content input[type="radio"],.checkout-content input[type="checkbox"]{margin-left:-3px}
+.article-grid .grid_6{margin-right:0;display:inline}
+
+.action input.button, .cart input.button{font-family:'Conv_AdventPro-ExtraLight'!important;font-size:16px!important;font-weight:700;padding-top:0;padding-bottom:0}
+.list_carousel.responsive a.button{font-family:'Conv_AdventPro-ExtraLight'!important;font-size:16px!important;font-weight:700;padding-top:2px!important}
+.home_filter_content .list_carousel .hover_img:hover a.button{display:inline;padding-left:6px!important;padding-right:5px!important}
+.shoppingcart_fr .buttons .right.checkout a.button{padding-top:4px}
+.product-info .cart input.button{font-size:24px!important;font-family:'Conv_AdventPro-ExtraLight'!important;font-weight:700}
+
+#boss_menu > ul > li{padding-right:43px}
+#header #cart .content{padding-bottom:3px}
+.register tr td.input{padding-top:0px}
+.register tr td.subscribe{width: 7% !important;}
+.register select{height:auto!important}
+.return-detail input[type="radio"]{margin-left:-4px}
+.transaction_fr span.button_fr{padding-top:11px!important}
+
+.address_form_fr select{height:auto}
+table.form td{display:block;width:100%}
+.checkout-content select{height:auto}
+.shoppingcart_fr .buttons .right.checkout a.button{font-family:'Conv_AdventPro-ExtraLight';font-weight:700;padding-top:2px}
+.cart-total td.left b{word-spacing:nowrap}
+
+.search_fr select{height:auto}
+.cloud-zoom-lens{margin-left:0px!important;}
+.product-info .options .box-check.radio{width:48%!important}
+#tab-description.tab-content p strong.first{margin-top:0!important}
+.product-info select{height:auto}
+a.sft_quickshop_icon{display:none!important}
+#boss_menu > ul > li > a{padding-top:0!important; height:55px!important;line-height:47px}
+#boss_menu > ul > li{padding-top:5px!important}
+.cpanelContainer #bt_category input{margin-top:15px}
+
+#bt_category li h3{margin-top:17px!important}
+.boss-themedesign h2{margin-top:15px!important}
+#bt_category li ul li p span{float:left;margin-top:18px!important}
+.action input.button, .cart input.button{white-space:pre!important}
+
+#bt_category ul.mode_css{padding-top:0!important;float:left;margin-top:-5px;margin-left:-4px}
+#bt_category li.dcjq-parent-li ul.mode_css p{margin-bottom:0px!important}
+#bt_category li.dcjq-parent-li ul.mode_css input{vertical-align:-2px}
+#bt_category li ul.accordion_content li{padding-bottom:0!important}
+
+.product-grid .boss_bt{ display:inline}
+#boss_menu > ul > li > div .staticblock p{margin-bottom:10px}
+.box-product .image{margin-top:1px}
+#bt_category li ul.accordion_content li input{color:transparent}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

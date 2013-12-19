@@ -1,0 +1,17 @@
+<modification>
+	<id>Bossthemes - catalog - controller - common - header</id>
+	<version>1.5.3.1</version>
+	<vqmver>2.1.6</vqmver>
+	<author>bossthemes</author>
+	<file name="catalog/controller/common/header.php">
+		<operation>
+			<search position="before"><![CDATA[
+				if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/common/header.tpl')) {
+			]]></search>
+			<add><![CDATA[
+				$this->children[] = 'module/boss_megamenu';
+				$this->children[] = 'module/boss_editorthemes';
+			]]></add>
+		</operation>
+	</file>
+</modification>

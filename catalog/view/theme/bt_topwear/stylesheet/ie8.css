@@ -1,0 +1,115 @@
+.menu-toggle{display:none!important}
+.boss_menu{margin-bottom:0px}
+.home_filter_content .list_carousel a.button{display:none}
+.home_filter_content .list_carousel .hover_img:hover a.button{display:block}
+.grid_bt{display:none}
+.grid_hover:hover .grid_bt{display:block;position:absolute}
+
+a.button.cst{background:url(../image/right_button1.jpg) no-repeat right;border:none;padding:8px 10px 10px 0px!important;}
+span.button_fr{background:url(../image/left_button1.jpg) no-repeat left;border:none;padding:12px 17px 13px 26px!important;}
+input.button.cst{border:none}
+a.button.cst:hover{background:url(../image/right_button_hover1.jpg) no-repeat right;border:none;}
+a.button.cst:hover span.button_fr{background:url(../image/left_button_hover1.jpg) no-repeat left;}
+
+span.button_fr_ip{background:url(../image/right_button1.jpg) no-repeat right;border:none;padding:12px 19px 13px 0px!important}
+input.button.cst{background:url(../image/left_button1.jpg) no-repeat left;border:none;padding:10px 7px 12px 28px!important}
+span.button_fr_ip:hover{background:url(../image/right_button_hover1.jpg) no-repeat right;border:none;}
+span.button_fr_ip:hover input.button.cst{background:url(../image/left_button_hover1.jpg) no-repeat left;border:none;}
+
+
+
+#header #search{padding-top:0px}
+input[type="text"], input[type="password"]{line-height:18px}
+#header #search input{line-height:29px!important;height:30px;padding-top:13px}
+
+.ui-notify a.boss_button_remove{top:5px}
+
+.cart-info tbody .quantity input[type="text"]{padding-top:5px;height:23px}
+.afiliate_resg_fr tr td input[type="radio"],.afiliate_resg_fr input[type="checkbox"]{margin-left:-4px}
+#shipping-method .checkout-content label,#payment-method .checkout-content label{margin-top:2px}
+.checkout-content input[type="radio"],.checkout-content input[type="checkbox"]{margin-left:-3px}
+
+.action input.button, .cart input.button{font-family:'Conv_AdventPro-ExtraLight'!important;font-size:16px!important;padding-top:3px!important;padding-bottom:4px!important;padding-left:6px!important;padding-right:5px!important;font-weight:700;}
+.list_carousel.responsive a.button{font-family:'Conv_AdventPro-ExtraLight'!important;font-size:16px!important;font-weight:700;padding-top:2px!important}
+.home_filter_content .list_carousel .hover_img:hover a.button{display:inline;padding-left:6px!important;padding-right:5px!important}
+.shoppingcart_fr .buttons .right.checkout a.button{padding-top:4px}
+.product-info .cart input.button{font-size:24px!important;font-family:'Conv_AdventPro-ExtraLight'!important;font-weight:700;padding-top:2px!important}
+#boss_menu{margin-bottom:10px}
+.register tr td.input{padding-top:0px}
+.order_info_fr span.button_fr{padding-top:11px!important}
+.return-detail input[type="radio"]{margin-left:-3px!important}
+.newsletter_fr .button_fr_ip input{margin-left:0;margin-right:0}
+.compare_fr .buttons span.button_fr{padding-top:11px!important}
+.shoppingcart_fr .buttons .right.checkout a.button{font-family:'Conv_AdventPro-ExtraLight';font-weight:700;padding-top:2px}
+.shoppingcart_fr table.radio td label{margin-top:4px}
+#tab-review .buttons{display:block;clear:both}
+a.sft_quickshop_icon{display:none!important}
+.action input.button, .cart input.button{padding-top:2px!important;padding-bottom:3px!important}
+.productdetail .htabs{margin-bottom:5px}
+#bt_category li ul.accordion_content li input{color:transparent}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

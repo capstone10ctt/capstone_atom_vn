@@ -1,0 +1,28 @@
+.g_bg_image, .h_bg_image, .f_bg_image, .m_bg_image, .s_bg_image, .mdrop_bg_image{
+height:30px;
+width:30px;
+border:2px solid #E1E1E1;
+cursor:pointer;
+}
+.upload_image{
+clear:both;
+margin:10px 10px 10px 0;
+padding:10px;
+border:2px solid #E1E1E1;
+width:100px;
+}
+.vtabs-content input[type="text"]
+{
+	border: 1px solid #969696;
+    margin-bottom: 0;
+    margin-top: 5px;
+    width: 70px !important;
+	height:28px;
+	border-radius:4px;
+	text-align:center;
+	margin-right:30px;
+	padding-right:5px
+	
+}
+.vtabs-content tr td span{margin-right:5px}
+

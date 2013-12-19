@@ -1,0 +1,45 @@
+#language,#currency{padding-bottom:7px}
+
+
+
+.product-list .grid_5 .image{padding-top:0px}
+.afiliate_resg_fr tr td input[type="radio"],.afiliate_resg_fr input[type="checkbox"]{margin-left:-4px}
+.checkout-content input[type="radio"],.checkout-content input[type="checkbox"]{margin-left:-3px}
+
+#shipping-method .checkout-content label,#payment-method .checkout-content label{margin-top:4px}
+input.button.cst{padding-bottom:7px!important;padding-top:5px!important}
+.product-info .cart input.button{padding-top:2px}
+#header #cart .checkout a.button{padding-top:5px!important}
+.register tr td.input{padding-top:0px}
+.return-detail input[type="radio"]{margin-left:-3px}
+input[type="text"], input[type="password"]{padding-top:1px;padding-bottom:0;height:25px}
+a.button.cst{padding-top:6px;padding-bottom:6px}
+#language .sbOptions,#currency .sbOptions{top:37px!important}
+a.button.cst{padding-left:25px;padding-right:24px}
+input.button.cst{padding-left:27px;padding-right:26px}
+.shoppingcart_fr table.radio td label{margin-top:5px}
+.search_fr input.button.cst{padding-top:6px!important;padding-bottom:6px!important}
+.product-info select{padding-top:5px}
+.action input.button, .cart input.button{padding-top:2px!important;padding-bottom:3px!important}
+.search_fr select{padding-top:6px}
+.cart-info tbody .quantity input[type="text"]{height:32px}
+#header #search input{height:30px;padding-top:13px}
+.box-product .image{margin-top:1px}
+.boss-alphabet ul li a{line-height:22px}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

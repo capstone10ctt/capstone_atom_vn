@@ -1,0 +1,37 @@
+.box.alphabet .box-content{padding-right:0;padding-left:15px}
+.boss-alphabet {overflow: hidden;}
+.boss-alphabet ul{padding-left:0}
+.boss-alphabet ul li a
+{
+	list-style:none;
+	width:22px;
+	height:22px;
+	display:inline;
+	float: left;
+	text-align: center;
+	text-transform:uppercase;
+	border:1px solid #f1f1f1;
+	color:#5b5b5b;
+	font-size:10px;
+	line-height:20px;
+	margin-right:5px;
+	margin-bottom:6px;
+	transition-duration:0.3s;
+	-webkit-transition-duration:0.3s;
+	-moz-transition-duration:0.3s;
+}
+.boss-alphabet ul li a:hover
+{
+	
+	
+	background:url(../image/alphabet.jpg) no-repeat;
+	transition-duration:0.3s;
+	-webkit-transition-duration:0.3s;
+	-moz-transition-duration:0.3s;
+}
+
+.boss-alphabet ul li {
+    display: inline;
+    height: 20px;
+    width: 20px;
+}

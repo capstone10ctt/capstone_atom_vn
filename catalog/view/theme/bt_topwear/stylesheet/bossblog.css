@@ -1,0 +1,298 @@
+.block .block-content ol,.block .block-content ul{list-style:none outside none;padding:0px;margin:0px; font: 12px/1.55 Arial,Helvetica,sans-serif;}
+.block .box-content{background:url(../image/bossblog/bkg-boss-line.png) no-repeat center top}
+#column-right{width:200px}
+#column-right + #content{margin-right:220px}
+/*Block Blog common*/
+.block .block-title{}
+.boss_block-recent-post li.item .blog-title,.boss_block-tag-cloud li.item .blog-title ,.boss_block-recent-comments li.item .blog-title,.boss_blog-cat li.item .blog-title{text-decoration:none;padding:0;font-weight:bold;color:#0a263c;font-weight:bold;font-size:12px}
+.boss_block-recent-post li.item,.boss_block-recent-comments li.item ,.boss_blog-cat li.item {padding: 15px 0;}
+.boss_block-recent-post li.item.last,.boss_block-tag-cloud li.item .last,.boss_block-recent-comments li.item.last ,.boss_blog-cat li.item.last{border:0} 
+.time-stamp,span.article-by,span.comment-by{color:#505050;font-size:12px;}
+
+span.comment-by span{font-weight:bold}
+.time-stamp,.block span.post-by,.block span.article-by,.block span.comment-by {/*display:block*/}
+.time-stamp span,span.post-by span,span.article-by span,span.comment-by span{color:#131313;font-size:12px;font-weight:bold}
+.block .article-title,.block .comment-title{font-size:12px;font-weight:bold;text-decoration:none; display:block; padding-bottom:5px}
+.block .article-title:hover, .block .comment-title:hover{}
+.boss_block-recent-post li.item:first-child{border-top:none; padding-top:0}
+.boss_block-recent-post li.item{border-top:1px solid #ebebeb}
+/*Block: Recent Post*/
+.boss_block-recent-post .block-title strong {/*background-image: url("../image/bossblog/i_block-recent-post.gif");background-position:center left; background-repeat:no-repeat; padding-left:21px;*/}
+
+/*Block: Tag Cloud*/
+.boss_block-tag-cloud .block-title strong {/*background-image: url("../image/bossblog/i_block-tag-cloud.gif");background-position:center left; background-repeat:no-repeat; padding-left:21px;*/}
+
+/*Block: Recent Comment*/
+.boss_block-recent-comments .block-title strong {/*background-image: url("../image/bossblog/i_block-recent-comment.gif");background-position:center left; background-repeat:no-repeat; padding-left:21px;*/}
+.boss_block-recent-comments li.item .recent-content{color:#5a5a5a;text-decoration:none}
+.recent-comment-content{color:#131313;font-size:12px;font-style:italic;margin:4px 0; line-height:1.2em}
+.recent-comment-content pre{white-space:normal}
+.boss_block-recent-comments li.item:first-child{border-top:none; padding-top:0}
+.boss_block-recent-comments li.item + li.item{border-top:1px solid #ebebeb}
+/* feed display */
+
+/*Block :Blog Category*/
+.boss_blog-cat .block-title strong {/*background-image: url("../image/bossblog/i_block-blog.gif");background-position:center left; background-repeat:no-repeat; padding-left:21px;*/}
+.boss_blog-cat .box-category > ul > li > a{}
+.boss_blog-cat .box-category > ul > li > a:hover{}
+.boss_blog-cat .box-category > ul > li + li{}
+.boss_blog-cat .box-category > ul > li{}
+.boss_blog-cat .box-category{}
+.boss_blog-cat .box-category > ul > li ul > li > a:hover{color:#131313}
+/*Post List*/
+.boss_article-item {/*margin-bottom: 15px;*/}
+.article-title h2{margin:0}
+.article-title small{margin-bottom:7px}
+.article-title  h2 a{font-size:14px;font-weight:bold;text-decoration:none}
+
+.boss_article-item  .std p{font-size:12px}
+.boss_article-item  .std img{float:left;margin-right:20px;margin-top:4px}
+.article-by span{color:#5f8eb4;font-size:11px}
+.comment-count a{}
+.comment-count a:hover{}
+.article-footer{font-size:11px;color:#969696;/*border-top:1px solid #e8e8e8;*/padding-top:5px;margin-top:10px}
+
+.article-grid .article-footer{margin-top:19px;border-top:1px solid #eaeaea;padding-top:8px}
+
+/*article detail*/
+.boss_article-action-top{position:relative}
+.boss_article-action-top .prev-button{position:absolute;top:-23px;right:23px}
+.boss_article-action-top .next-button{position:absolute;top:-23px;right:0}
+.blog-index-view small.date{display:block;color:#969696;font-size:11px;font-style:italic}
+.blog-index-view .page-title {border:none;margin-bottom:7px}
+.boss_article-item .article-content {height:100%;overflow:hidden;}
+.boss_article-item .article-content .blogimg img{margin-right:15px;margin-bottom:16px;margin-top:16px}
+.boss_article-item .article-content p{font-size:12px; overflow:hidden}
+.boss_article-item .article-content .smallimg img{float:left;margin-top:3px;margin-right:20px}
+.boss_article-item .article-content .smallimg{margin-top:14px}
+.boss_article-item .article-content p.blogimg{text-align:center}
+.boss_article-action{overflow:hidden;font-size:11px;border-top: 1px solid #ebebeb;padding-top: 8px; padding-bottom:8px; margin-top:44px}
+.boss_article-action .tags{float:left;min-width:400px}
+.boss_article-action .tags ul{list-style:none outside none; margin:0px;padding:0}
+.boss_article-action .tags ul li{display:inline}
+.boss_article-action .tags span,.boss_article-action .tags li a{float:left;margin-right:8px;text-decoration:none;font-size:12px;color:#131313}
+.boss_article-action .tags li a:hover{text-decoration:none;font-weight:700}
+.boss_article-action .tags span{font-weight:bold}
+.boss_article-action .article-share{float:right}
+.boss_article-action .article-share img{height:16px;width:16px;margin-right:5px;float:left}
+.boss_article-action .article-share span{float:left;margin-right:5px;font-weight: bold;padding-top:1px}
+.form-comment-container h3,#comments-header h3.form-title,.temp  h3.form-title{font-size:16px;font-weight:bold; padding-bottom:8px}
+.form-comment-container h3,.temp  h3.form-title{}
+.temp  h3.form-title{position:absolute;top:15px;left:0;width:100%}
+.form-comment-container{ height: 100%;overflow: hidden; border-top:1px solid #ebebeb}
+.form-comment{padding:0 0 30px;position:relative}
+.comments .field{margin:5px 0px}
+.comments div.input-box{width:312px}
+.comments div.input-box .input-text{background-color:#fff;margin-top:9px}
+.comments div.input-box .textarea{width:528px}
+.comments div.input-box textarea{}
+.captcha{margin:10px 0px}
+.form-comment-container #recaptcha_widget_div{top:55px;*top:60px}
+.comments .required-1  {color:#e56f03;font-size:9px;font-style:italic}
+.comments .form-comment-container  .required-1  {width: 63px;}
+.form-comment-container .hide{display:none}
+.comments .required{color:#131313;font-size:12px;font-weight:normal}
+.comments .required em{color:#ff0000}
+.comments .temp{padding-top: 45px;}
+.form-comment-container .temp{padding-top: 0!important;}
+.comment-item-header{position: relative;font-size:12px;padding:5px 5px 5px 0}
+.comment-button{ position: absolute;right: 0;top: 4px;}
+.comment-body{padding:5px 0 15px}
+.comment-body pre{white-space: normal;font-size:11px;color:#5a5a5a}
+.comment-item-header .time-stamp{display:inline; color:#131313}
+.comment-item-header .line{color:#bebebe;margin-left:3px;margin-right:2px}
+.article-title .date-post{padding:5px 0 7px;margin-bottom:23px}
+/*Article Fillter*/
+.article-filter {
+	border-bottom: 1px solid #EEEEEE;
+	margin-top:31px
+	
+}
+.article-filter .display {
+	margin-right: 20px;
+	float:left;
+	color: #333;
+	margin-top:1px;
+}
+body:nth-of-type(1).article-filter .display{margin-top:2px;}
+.article-filter .display a {
+	font-weight: bold;
+	float:right
+}
+.article-filter .sort {
+	float: right;
+	color: #2b2b2b;
+}
+.article-filter .limit {
+	margin-left: 10px;
+	float: right;
+	color: #333;
+}
+
+/* */
+.article-related h3.form-title{padding:25px 0 10px; margin:0}
+#productRelated h3.form-title{margin:0;padding:25px 0 17px; text-transform:capitalize;font-size:16px}
+.article-related ul{margin:0;padding:0;list-style:none;}
+.article-related li{ 
+    display: block;
+    padding: 3px 0 3px 0;
+    vertical-align: bottom;}
+.article-related li a{font-weight:bold; text-decoration:none;}
+.article-related li a:hover{}
+
+/*Ngan==========*/
+h1{}
+h1.article-title-boss{font-weight:400; margin-bottom:0;}
+.article-filter{}
+.boss_article-item .article-title{}
+.boss_article-item h2 a{font-size:22px; font-weight:700; text-decoration:none; }
+.boss_article-item h2 a:hover{}
+.time-stamp small{color:#505050; font-size:12px; font-style:normal; padding-bottom:16px; }
+.time-stamp  small{display:block}
+.boss_article-item .post-by{color:#505050; font-size:12px; font-style:normal;}
+.boss_article-item .post-by span{color:#131313; font-weight:bold; font-style:normal;}
+
+.article-title .comment-count{font-size:12px; color:#505050 }
+.comment-count span{font-weight:bold;font-size:12px;color:#131313;margin-right:3px}
+.comment-count a{}
+.comment-count a:hover{text-decoration:underline;color:#505050}
+
+.article-list div.std {
+    display: block;
+    overflow: hidden;
+}
+.article-list .boss_article-item .std{padding-bottom:40px;}
+.article-list .boss_article-item .std.last{border-bottom:none;margin-bottom:20px}
+.article-list .boss_article-item .std .time-stamp{overflow:hidden}
+.boss_article-item .std p{margin-bottom:0}
+.boss_article-item .article-footer{overflow:hidden;margin-top:31px}
+.boss_article-item .separator{padding:0 3px; vertical-align:top}
+
+.pagination .links a{}
+.pagination .links b, .pagination .links a:hover{}
+.pagination .results{color:#505050; padding-top:6px}
+.article-name h2{margin-bottom:7px}
+.article-grid .article-name h2 a{font-size:21px; font-weight:700; line-height:20px; }
+.article-grid .article-image{margin-bottom:18px} 
+.article-list .boss_article-item .article-name{overflow:hidden}
+.article-grid .article-title{}
+
+.boss_article-detail small{margin-top:0 !important; padding-bottom:0; margin-bottom:10px; display:inline}
+.boss_article-detail .article-title p{font-size:16px;padding-top:5px}
+
+.captcha input{margin-top:10px; width:138px;margin-right:6px}
+
+/* article-related */
+.article-related .form-title{font-size:16px; font-weight:bold; color:#131313}
+.article-related{border-top:1px solid #ebebeb; padding-bottom:23px;}
+a.button-boss{}
+a.button-boss span{}
+a.button-boss:hover{}
+#productRelated{border-top:1px solid #ebebeb}
+#productRelated .box-product .name a{}
+#productRelated .box-product .name a:hover{}
+#productRelated .box-product .image img{border:none}
+.article_fr #productRelated .box-product .image img{max-width:none}
+#productRelated .box-product .price-new, #productRelated .box-product .price{}
+#productRelated .cart{margin-top:15px}
+.comments{border-top:1px solid #ebebeb}
+.comments h3{margin:0; padding:20px 0 10px; font-size:16px}
+.boss_article-item #productRelated .relProduct{width:auto; margin-right:57px}
+.boss_article-item #productRelated .relProduct.last{margin-right:0}
+/*textarea#comment{overflow:hidden}*/
+/*filter*/
+.display b{display:none}
+a.no-active-gird, span.active-list, a.no-active-list, span.active-gird{display:block; text-indent:-999px; width:41px; height:28px; float:left}
+a.no-active-gird:hover, span.active-gird{background:url(../image/a2.png) no-repeat;float:right}
+a.no-active-list{background:url(../image/a1.png) no-repeat;}
+a.no-active-list:hover, span.active-list{background:url(../image/a3.png) no-repeat;float:right}
+a.no-active-gird{background:url(../image/a4.png) no-repeat;}
+.article-filter select{}
+.article-filter .limit select{padding:4px 10px 6px 15px; padding:6px 10px 6px 15px \0; }
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+.article-filter select{padding:4px 10px 5px 5px;}
+.article-filter .limit select{padding:4px 10px 5px 15px;}
+select{line-height:22px; outline:0}
+}
+.article-filter .sort, .article-filter .limit{*margin-top:5px}
+
+/*article-grid list*/
+.article-grid{overflow:hidden; margin-top:35px;margin-left:-10px;margin-right:-30px }
+.article-grid .boss_article-item{/*float:left; width:360px; margin-right:40px;*/ padding-bottom:40px}
+.article-grid .boss_article-item.last{margin-right:0}
+.article-grid .boss_article-item .article-footer{}
+.article-grid .grid_6{margin-bottom:52px;margin-right:7px}
+.article-grid .grid_4{margin-right:2px;margin-bottom:52px}
+.article-grid .grid_3{margin-right:3px;margin-bottom:52px}
+.article-grid .grid_5{margin-right:0px;margin-bottom:52px}
+.article-grid .grid_8{margin-right:-11px;margin-bottom:52px}
+.article-grid .article-image img{max-width:100%}
+.article-grid .article-image{height:auto}
+.article-grid > div {display:inline-block;vertical-align:top;}
+.article-list{margin-top: 35px;overflow:hidden}
+.article-list > div {
+    clear: both;
+    float: left;
+    margin-bottom: 40px;
+    margin-left: 0;
+    width: 100% !important;
+}
+.article-grid > div > div {
+    min-height: 465px;
+    padding-bottom: 20px;
+    padding-right: 10px;
+}
+/**/
+.rss-feed{float:right; margin-left:20px}
+.rss-content td{padding:10px 0}
+.allcomments{padding-bottom:15px}
+.category-list ul li{list-style:none}
+/*boss_block-tag-cloud*/
+.boss_block-tag-cloud a:hover{}
+#footer{margin-top:40px}
+.category-image{margin-top:5px}
+.category-image.blog_banner img{width:100%;margin-bottom:17px}
+.category-description.std{margin-bottom:34px}
+.article_fr .list_carousel .next{right:0;top:-41px}
+.article_fr .list_carousel .prev{right:33px;top:-41px}
+.article_fr #productRelated{padding-bottom:10px}
+.boss_article-item #productRelated .relProduct .image{margin-bottom:20px;margin-right:0}
+.comments div.input-box .input-text{width:430px}
+.boss_block-recent-post .box-content.block-content,.boss_block-recent-comments .box-content.block-content {padding:16px 15px 14px}
+.article-footer span.separator{padding-left:3px;padding-right:2px}
+.bossblog_fr h1{font-weight:400}
+.boss_block-tag-cloud .box-content.block-content{padding-top:16px}
+
+.boss_article-items .article-grid .article-image {
+    display: block;
+    margin-bottom: 19px;
+    margin-right: 0;
+    width: 100%;
+}
+.boss_article-items .article-image {
+    float: left;
+    margin-right: 20px;
+	margin-top:5px
+}
+.article-list .boss_article-item{border-bottom:1px solid #ebebeb;padding-bottom:40px}
+.article-list .boss_article-item.last{border-bottom:none;margin-bottom:30px}
+.article_fr h1{margin-bottom:5px;margin-top:2px}
+.article_fr .article-title .date-post span.separator{color:#bebebe}
+.blogsearch_fr input[type="text"],.blogsearch_fr input[type="password"]{margin-top:8px}
+.article_fr .comments{padding-top:6px}
+#article-comments #allcomments .comment-item{margin-bottom:10px}
+.article_fr {overflow:hidden;margin-bottom:10px}
+.blogsearch_fr{width:100%}
+.boss_blog-cat .box-content{padding-top:16px}
+.boss_article-items .article-name{clear:both}
+.boss_article-item .article-footer  span.comment-count{color:#131313;font-weight:700}
+.boss_article-item .article-footer  span.comment-count a{font-weight:400}
+
+
+
+
+
+
+
+
+

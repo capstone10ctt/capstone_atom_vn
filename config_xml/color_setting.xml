@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<items_setting>
+	<general>
+		<background>
+			<text>Background Color</text>
+			<item>
+				<name>g_bg_color</name>
+				<class>#container</class>
+				<style>background-color</style>
+			</item>
+		</background>
+		<text_color>
+			<text>Text Color</text>
+			<item>
+				<name>g_text_color</name>
+				<class>input,a,select,p, body, td, th,.article-related h3.form-title,.refine_search h2,.pagination .results,.recent-comment-content,.comments h3,.comments .required,.blogsearch_fr h2,.login-content h2,h2,table.list thead td,.sitemap-info .right a,.sitemap-info .left a,.product-info .description span.stock span,.product-info .description span,.attribute thead td, .attribute thead tr td:first-child,.checkout-product table tfoot td,.checkout-product thead td,.compare-info tr td:first-child,ul.box-category > li > a,.boss-alphabet ul li a,.box.tagcloud a,.account_fr ul li a, .boss_block-tag-cloud a,.box.block a.comment-title,ul.box-category > li > ul > li > a,#boss_menu > ul > li > div .staticblock p,#boss_menu > ul > li > div.dropdown a,#menu ul li ul li a,#boss_menu > ul > li > div.dropdown ul.manufacturer li a,#boss_menu > ul > li > div.dropdown ul.manufacturer li a:hover,#menu > ul > li > div > ul > li > a:hover,.box.account ul li.active a,#megamenu-responsive ul li ul li ul li a,.product-filter .sbOptions a:hover,.product-filter .sbSelector:hover,.article-filter .sbSelector:hover,#header #search input,.product-filter .sbOptions a,.product-filter .sbSelector,.article-filter .sbSelector,.product-filter product-compare a,a:visited, a b,.comment-count,#header #cart .empty,.checkout-content #login b,.checkout-product tbody .price,label,.product-info .options .box-check b,.product-info b,.boss_article-action .tags span,.time-stamp, span.post-by, span.article-by, span.comment-by,.boss_article-item .post-by span,.boss_article-item .post-by,.article-title .comment-count,.comment-count span,.box-content.block-content a.article-title,span.post-by span,span.comment-by span ,.comment-item-header .time-stamp,.time-stamp small,.boss_article-item .article-footer span.comment-count,.product-list .price-tax</class>
+				<style>color</style>
+			</item>
+		</text_color>
+		
+		<color_1>
+			<text>Color 1/Color hover 1 </text>
+			<item>
+				<name>g_color_1</name>
+				<class>ul.box-category > li > a.active, ul.box-category > li > a:hover,.box.tagcloud a:hover,.boss_block-tag-cloud a:hover,.box.block a.comment-title:hover,a:hover,.login-content .right a,.cart-total td.right.last,.product_mfl_fr b:hover,#payment-method .checkout-content .buttons b,#header #welcome a,#header .links a:hover,#boss_menu > ul > li:hover a,#menu > ul > li:hover > a,#megamenu-responsive > ul > li > ul > li > a:hover,#boss_menu > ul > li > div.dropdown a.parent:hover,#menu > ul > li ul > li > a:hover,.box-product .name a:hover, .product-list .name a:hover, .product-grid .name a:hover,.mini-cart-info td.name a:hover,.wishlist-info tbody .name a:hover,.cart-info tbody .name a:hover,.article-name a:hover,.box-content.block-content .item a:hover,#productRelated .box-product .name a:hover,.blogsearch_fr .article-title h2 a:hover,#boss_menu > ul > li > div.dropdown ul.product a:hover,.compare-info .name a:hover,tbody .name a:hover,.ui-notify .boss_text h3 a:hover,.article-list .boss_article-item .article-name a:hover,#boss_menu > ul > li > div.dropdown ul.product a:hover,a:hover,.mini-cart-total tr.last td.right</class>
+				<style>color</style>
+			</item>
+		</color_1>
+		<color_2>
+			<text>Color 2/Color hover 2 </text>
+			<item>
+				<name>g_color_2</name>
+				<class>#boss_menu > ul > li > div.dropdown a:hover,#megamenu-responsive ul li ul li ul li a:hover,.manufacturer-list ul li a:hover,ul.box-category > li > ul > li > a:hover,.register .buttons b,.boss_block-recent-post .box-content li a.article-title:hover,.boss_block-recent-comments .box-content li a.comment-title:hover,.account_fr ul li a:hover,.tags a,.product-info .cart .rating a,#header #cart .checkout a,.compare-info td.name,#payment-address .checkout-content .left a b,.boss_article-action .tags li a</class>
+				<style>color</style>
+			</item>
+		</color_2>
+		<slideshow>
+			<text>Text Slideshow</text>
+			<item>
+				<name>s_color</name>
+				<class>.camera_caption</class>
+				<style>color</style>
+			</item>
+		</slideshow>
+		
+	</general>
+	
+	
+	<header>
+		<background>
+			<text>Background Color</text>
+			<item>
+				<name>h_bg_color</name>
+				<class>#header</class>
+				<style>background-color</style>
+			</item>
+		</background>
+		<color_1>
+			<text>Link/Welcome</text>
+			<item>
+				<name>h_color_1_normal</name>
+				<class>#header .links a,#header #welcome</class>
+				<style>color</style>
+			</item>	
+		</color_1>
+		<color_2>
+			<text>Color 2 (Cart/Button Search)</text>
+			<item>
+				<text>Text</text>
+				<name>h_color_2</name>
+				<class>#megamenu-responsive-root li.menu-toggle,#header #cart .heading h4,#header #cart .heading a span,.discount.boss_label p, .homefilter_tabs a</class>
+				<style>color</style>
+			</item>
+			<item>
+				<text>Background</text>
+				<name>h_color_2_bg</name>
+				<class>#header .button-search,#header #cart,#megamenu-responsive-root li.menu-toggle</class>
+				<style>background-color</style>
+			</item>
+		</color_2>
+		<color_3>
+			<text>Color 3 (Langugue/Currency)</text>
+			<item>
+				<name>h_color_3</name>
+				<class>#language .sbHolder a,#currency .sbHolder a,#language .title, #currency .title,#language .sbHolder a:hover, #currency .sbHolder a:hover</class>
+				<style>color</style>
+			</item>
+			
+		</color_3>
+	</header>
+	
+	
+	
+	<footer>
+		<background>
+			<text>Background Color</text>
+			<item>
+				<name>f_bg_color</name>
+				<class>#footer</class>
+				<style>background-color</style>
+			</item>
+		</background>
+		<color_1>
+			<text>Color 1</text>
+			<item>
+				<name>f_color_1</name>
+				<class>#footer h3,#footer .column a:hover, #powered a:hover</class>
+				<style>color</style>
+			</item>		
+		</color_1>
+		<color_2>
+			<text>Color 2</text>
+			<item>
+				<name>f_color_2</name>
+				<class>#footer .column a,#footer p, #footer a,#powered, #powered a</class>
+				<style>color</style>
+			</item>
+		</color_2>
+		<color_3>
+			<text>Color 3</text>
+			<item>
+				<name>f_color_3</name>
+				<class>#footer .about-des a.footer_logo, #footer .about-des a.read-more</class>
+				<style>color</style>
+			</item>
+		</color_3>
+	</footer>
+	
+	<menu>
+		<background>
+			<text>Background Color</text>
+			<item>
+				<name>m_bg_normal_color</name>
+				<class>#boss_menu,#menu</class>
+				<style>background-color</style>
+			</item>
+		</background>
+		<background>
+			<text>Background Color Dropdown</text>
+			<item>
+				<name>mdrop_bg_normal_color</name>
+				<class>#boss_menu > ul > li > div,#menu > ul > li > div</class>
+				<style>background-color</style>
+			</item>
+		</background>
+		<border>
+			<text>Border</text>
+			<item>
+				<name>m_text_normal_color_border</name>
+				<class>#boss_menu</class>
+				<style>border-color</style>
+			</item>	
+		</border>	
+		<text_color>
+			<text>Text Color</text>
+			<item>
+				<name>m_text_normal_color</name>
+				<class>#boss_menu > ul > li > a,#menu > ul > li > a,#megamenu-responsive > ul > li > ul > li > a</class>
+				<style>color</style>
+			</item>
+		</text_color>
+			
+	</menu>
+	
+	
+	
+	<product>
+		<product_name>
+			<text>Product Name</text>
+			<item>
+				<name>p_name_color</name>
+				<class>.box-product .name a, .product-list .name a, .product-grid .name a,.name a,.mini-cart-info td.name a,.wishlist-info tbody .name a,.cart-info tbody .name a,.article-name a, #productRelated .box-product .name a,.blogsearch_fr .article-title h2 a,.compare-info .name a,tbody .name a,.ui-notify .boss_text h3 a,.article-list .boss_article-item .article-name a,#boss_menu > ul > li > div.dropdown ul.product a,.product-info h1,.cate-description .boss_info h3</class>
+				<style>color</style>
+			</item>
+			
+		</product_name>
+		<product_des>
+			<text>Product Description</text>
+			<item>
+				<name>p_des_color</name>
+				<class>.product-list .description,.product-grid .description,.cate-description .boss_info p,#boss_menu > ul > li > div.dropdown .column.product li div.description</class>
+				<style>color</style>
+			</item>
+		</product_des>
+		<price>
+			<text>Price color</text>
+			<item>
+				<name>p_price_color</name>
+				<class>.box-product .price-old, .product-grid .price-old, .product-info .price-old, .product-info .price,.box-product .price, .product-list .price, .product-grid .price,#productRelated .box-product .price, tbody td.price,#boss_menu > ul > li > div.dropdown ul.product span.price-old,#boss_menu > ul > li > div.dropdown ul.product span.price</class>
+				<style>color</style>
+			</item>
+		</price>
+		<price_spec>
+			<text>Special Price color</text>
+			<item>
+				<name>p_spec_color</name>
+				<class>.price-new,.product-info .price-new</class>
+				<style>color</style>
+			</item>
+		</price_spec>
+		<text_color>
+			<text>Background Label</text>
+			<item>
+				<name>p_label_color</name>
+				<class>.discount.boss_label</class>
+				<style>background-color</style>
+			</item>
+		</text_color>
+		<button_color>
+			<text>Button Color</text>
+			<item>
+				<text>Background</text>
+				<name>p_but_normal_color</name>
+				<class>a.button, input.button,a.sft_quickshop_icon,.product-grid .cart input.button,.product-list .cart input.button,.product-info .cart input.button</class>
+				<style>background-color</style>
+			</item>
+			<item>
+				<text>Background hover</text>
+				<name>p_but_hover_color</name>
+				<class>a.button:hover, input.button:hover,a.sft_quickshop_icon:hover,.product-grid .cart input.button:hover,.product-list .cart input.button:hover,.product-info .cart input.button:hover</class>
+				<style>background-color</style>
+			</item>					
+		</button_color>
+		<text_button>
+			<text>Text Button</text>
+			<item>
+				<text>Normal</text>
+				<name>p_text_but_normal_color</name>
+				<class>a.button, input.button,a.sft_quickshop_icon span</class>
+				<style>color</style>
+			</item>
+			<item>
+				<text>Hover</text>
+				<name>p_text_but_hover_color</name>
+				<class>a.button:hover, input.button:hover,a.sft_quickshop_icon:hover span</class>
+				<style>color</style>
+			</item>					
+		</text_button>
+	</product>
+	
+	
+	
+	<title>
+		<page_title>
+			<text>General title/ Page title</text>
+			<item>
+				<name>t_page_color</name>
+				<class>h1,#boss_menu > ul > li > div.dropdown a.parent,#boss_menu > ul > li > div .staticblock h3,.boss-themedesign h2</class>
+				<style>color</style>
+			</item>
+		</page_title>
+		<block_title>
+			<text>Block Title</text>
+			<item>
+				<text>Text Title</text>
+				<name>t_block_color</name>
+				<class>.box .box-heading,.boss-alphabet ul li a:hover</class>
+				<style>color</style>
+			</item>
+			<item>
+				<text>Background Color 1</text>
+				<name>t_block_color_bg_1</name>
+				<class>.box .box-heading</class>
+				<style>background-color</style>
+			</item>
+			<item>
+				<text>Background Color 2</text>
+				<name>t_block_color_bg_2</name>
+				<class>.box .box-heading.t_block_color_bg_2, .homefilter_tabs</class>
+				<style>background-color</style>
+			</item>
+			<item>
+				<text>Background Color 3</text>
+				<name>t_block_color_bg_3</name>
+				<class>.box .box-heading.t_block_color_bg_3, .homefilter_tabs a.selected,.homefilter_tabs a:hover</class>
+				<style>background-color</style>
+			</item>
+		</block_title>
+		<bread_crumb_1>
+			<text>Breadcrumb color</text>
+			<item>
+				<text>Normal</text>
+				<name>t_bread_normal_color_1</name>
+				<class>.breadcrumb a,.breadcrumb a span</class>
+				<style>color</style>
+			</item>
+			<item>
+				<text>Hover</text>
+				<name>t_bread_hover_color_1</name>
+				<class>.breadcrumb a:hover,.breadcrumb a span:hover</class>
+				<style>color</style>
+			</item>	
+			<item>
+				<text>Last Breadcrumb color</text>
+				<name>t_bread_normal_color_2</name>
+				<class>.breadcrumb a.last</class>
+				<style>color</style>
+			</item>
+		</bread_crumb_1>
+		
+	</title>
+</items_setting>
