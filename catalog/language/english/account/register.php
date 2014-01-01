@@ -32,6 +32,29 @@ $_['entry_newsletter']     = 'Subscribe:';
 $_['entry_password']       = 'Password:';
 $_['entry_confirm']        = 'Password Confirm:';
 
+// start changing: adding new feature and error message
+$_['entry_university']        = 'Your university:';
+$_['entry_faculty']        = 'Your faculty:';
+$_['entry_student_id']        = 'Student ID:';
+$_['error_university']         = 'Warning: Please select your university!';
+$_['error_faculty']         = 'Warning: Please select your faculty!';
+$_['error_student_id']         = 'Warning: Please input your student ID or it is duplicated!';
+
+$_['entry_idnum']        = 'ID Number:';
+$_['entry_iddate']        = 'Issued:';
+$_['entry_idlocation']        = 'ID location:';
+$_['text_id']   = 'Your Identity';
+$_['error_idnum']         = 'Warning: ID Number must be 9 in length or being duplicated!';
+$_['error_iddate']         = 'Warning: Issued is in wrong format, please input a valid one!';
+$_['error_gender']         = 'Warning: Please select your gender!';
+$_['error_id_location']         = 'Warning: Please select your ID\'s location!';
+
+$_['entry_gender']        = 'Gender:';
+$_['entry_male']        = 'Male';
+$_['entry_female']        = 'Female';
+
+//end changing: adding new feature and error message
+
 // Error
 $_['error_exists']         = 'Warning: E-Mail Address is already registered!';
 $_['error_firstname']      = 'First Name must be between 1 and 32 characters!';
@@ -43,7 +66,7 @@ $_['error_confirm']        = 'Password confirmation does not match password!';
 $_['error_company_id']     = 'Company ID required!';
 $_['error_tax_id']         = 'Tax ID required!';
 $_['error_vat']            = 'VAT number is invalid!';
-$_['error_address_1']      = 'Address 1 must be between 3 and 128 characters!';
+$_['error_address_1']      = 'Address must be between 3 and 128 characters!';
 $_['error_city']           = 'City must be between 2 and 128 characters!';
 $_['error_postcode']       = 'Postcode must be between 2 and 10 characters!';
 $_['error_country']        = 'Please select a country!';

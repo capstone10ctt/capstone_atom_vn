@@ -40,6 +40,24 @@
             <?php } ?></td>
         </tr>
         <tr>
+          <td> <?php echo $entry_gender; ?><span class="required">*</span></td>
+		</tr>
+		<tr>
+          <td><select name="gender_id">
+              <option value=""><?php echo $text_select; ?></option>
+              <?php foreach ($genders as $gender) { ?>
+              <?php if ($gender['gender_id'] == $gender_id) { ?>
+              <option value="<?php echo $gender['gender_id']; ?>" selected="selected"><?php echo $gender['gender']; ?></option>
+              <?php } else { ?>
+              <option value="<?php echo $gender['gender_id']; ?>"><?php echo $gender['gender']; ?></option>
+              <?php } ?>
+              <?php } ?>
+            </select>
+            <?php if ($error_gender) { ?>
+            <span class="error"><?php echo $error_gender; ?></span>
+            <?php } ?></td>
+        </tr>
+        <tr>
           <td> <?php echo $entry_email; ?><span class="required">*</span></td>
 		</tr>
 		<tr>
@@ -65,37 +83,54 @@
         </tr>
       </table>
     </div>
-	<h2 class="password"><?php echo $text_your_password; ?></h2>
+    
+    <!-- start VLMN -->
+    <h2 class="password"><?php echo $text_id; ?></h2>
     <div class="content">
       <table class="form">
         <tr>
-          <td> <?php echo $entry_password; ?><span class="required">*</span></td>
+          <td> <?php echo $entry_idnum; ?><span class="required">*</span></td>
 		</tr>
 		<tr>
-          <td><input type="password" name="password" value="<?php echo $password; ?>" />
-            <?php if ($error_password) { ?>
-            <span class="error"><?php echo $error_password; ?></span>
+          <td><input type="text" name="idnum" value="<?php echo $idnum; ?>" />
+            <?php if ($error_idnum) { ?>
+            <span class="error"><?php echo $error_idnum; ?></span>
             <?php } ?></td>
         </tr>
         <tr>
-          <td> <?php echo $entry_confirm; ?><span class="required">*</span></td>
+          <td> <?php echo $entry_iddate; ?><span class="required">*</span></td>
 		</tr>
 		<tr>
-          <td><input type="password" name="confirm" value="<?php echo $confirm; ?>" />
-            <?php if ($error_confirm) { ?>
-            <span class="error"><?php echo $error_confirm; ?></span>
+          <td><input type="text" name="iddate" value="<?php echo $iddate; ?>" />
+            <?php if ($error_iddate) { ?>
+            <span class="error"><?php echo $error_iddate; ?></span>
             <?php } ?></td>
+        </tr>
+        <tr>
+          <td> <?php echo $entry_idlocation; ?><span class="required">*</span></td>
+		</tr>
+		<tr>
+          <td>
+          <select name="id_location">
+              
+            </select>
+            <?php if ($error_id_location) { ?>
+            <span class="error"><?php echo $error_id_location; ?></span>
+            <?php } ?>
+          </td>
         </tr>
       </table>
     </div>
-    
+    <!-- end VLMN -->
     
 	</div>
     <div class="right">
 	<h2><?php echo $text_your_address; ?></h2>
     <div class="content">
       <table class="form">
-        <tr>
+      
+      <!-- start VLMN -->
+       <!-- <tr>
           <td><?php echo $entry_company; ?></td>
 		</tr>
 		<tr>
@@ -130,7 +165,51 @@
             <?php if ($error_tax_id) { ?>
             <span class="error"><?php echo $error_tax_id; ?></span>
             <?php } ?></td>
+        </tr>-->
+        
+        <!-- end VLMN -->
+        
+        <!-- start VLMN -->
+        <tr>
+          <td> <?php echo $entry_university; ?><span class="required">*</span></td>
+		</tr>
+		<tr>
+          <td><select name="university_id">
+              <option value="-1"><?php echo $text_select; ?></option>
+              <?php foreach ($universities as $university) { ?>
+              <?php if ($university['category_id'] == $university_id) { ?>
+              <option value="<?php echo $university['category_id']; ?>" selected="selected"><?php echo $university['name']; ?></option>
+              <?php } else { ?>
+              <option value="<?php echo $university['category_id']; ?>"><?php echo $university['name']; ?></option>
+              <?php } ?>
+              <?php } ?>
+            </select>
+            <?php if ($error_university) { ?>
+            <span class="error"><?php echo $error_university; ?></span>
+            <?php } ?></td>
         </tr>
+         <tr>
+          <td> <?php echo $entry_faculty; ?><span class="required">*</span></td>
+		</tr>
+		<tr>
+          <td><select name="faculty_id">
+              
+            </select>
+            <?php if ($error_faculty) { ?>
+            <span class="error"><?php echo $error_faculty; ?></span>
+            <?php } ?></td>
+        </tr>
+        <tr id="studentidblock_head">
+          <td> <?php echo $entry_student_id; ?><span class="required">*</span></td>
+		</tr>
+		<tr id="studentidblock_tail">
+          <td><input type="text" name="student_id" value="<?php echo $student_id; ?>" />
+            <?php if ($error_student_id) { ?>
+            <span class="error"><?php echo $error_student_id; ?></span>
+            <?php } ?></td>
+        </tr>
+        <!-- end VLMN -->
+        
         <tr>
           <td> <?php echo $entry_address_1; ?><span class="required">*</span></td>
 		</tr>
@@ -141,15 +220,20 @@
             <?php } ?></td>
         </tr>
         <tr>
-          <td><?php echo $entry_address_2; ?></td>
+          <td><?php echo $entry_address_2; ?><span class="required">*</span></td>
 		</tr>
 		<tr>
-          <td><input type="text" name="address_2" value="<?php echo $address_2; ?>" /></td>
+          <td><input type="text" name="address_2" value="<?php echo $address_2; ?>" />
+          	<?php if ($error_address_2) { ?>
+            <span class="error"><?php echo $error_address_2; ?></span>
+            <?php } ?></td>
         </tr>
-        <tr>
+        <!-- start VLMN -->
+        
+		<!--<tr>
           <td> <?php echo $entry_city; ?><span class="required">*</span></td>
 		</tr>
-		<tr>
+        <tr>
           <td><input type="text" name="city" value="<?php echo $city; ?>" />
             <?php if ($error_city) { ?>
             <span class="error"><?php echo $error_city; ?></span>
@@ -163,7 +247,10 @@
             <?php if ($error_postcode) { ?>
             <span class="error"><?php echo $error_postcode; ?></span>
             <?php } ?></td>
-        </tr>
+        </tr>-->
+        
+        <!-- end VLMN -->
+        
         <tr>
           <td> <?php echo $entry_country; ?><span class="required">*</span></td>
 		</tr>
@@ -194,6 +281,31 @@
         </tr>
       </table>
     </div>
+    
+    <h2 class="password"><?php echo $text_your_password; ?></h2>
+    <div class="content">
+      <table class="form">
+        <tr>
+          <td> <?php echo $entry_password; ?><span class="required">*</span></td>
+		</tr>
+		<tr>
+          <td><input type="password" name="password" value="<?php echo $password; ?>" />
+            <?php if ($error_password) { ?>
+            <span class="error"><?php echo $error_password; ?></span>
+            <?php } ?></td>
+        </tr>
+        <tr>
+          <td> <?php echo $entry_confirm; ?><span class="required">*</span></td>
+		</tr>
+		<tr>
+          <td><input type="password" name="confirm" value="<?php echo $confirm; ?>" />
+            <?php if ($error_confirm) { ?>
+            <span class="error"><?php echo $error_confirm; ?></span>
+            <?php } ?></td>
+        </tr>
+      </table>
+    </div>
+    
 	</div>
 	<div class="left newsletter">
     <div class="content">
@@ -312,6 +424,26 @@ $('select[name=\'country_id\']').bind('change', function() {
 			}
 			
 			$('select[name=\'zone_id\']').html(html);
+			
+			<!-- start VLMN-->
+			html_id_location = '<option value=""><?php echo $text_select; ?></option>';
+			
+			if (json['zone'] != '') {
+				for (i = 0; i < json['zone'].length; i++) {
+        			html_id_location += '<option value="' + json['zone'][i]['zone_id'] + '"';
+	    			
+					if (json['zone'][i]['zone_id'] == '<?php echo $id_location; ?>') {
+	      				html_id_location += ' selected="selected"';
+	    			}
+	
+	    			html_id_location += '>' + json['zone'][i]['name'] + '</option>';
+				}
+			} else {
+				html_id_location += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+			}
+			
+			$('select[name=\'id_location\']').html(html_id_location);
+			<!-- end VLMN-->
 		},
 		error: function(xhr, ajaxOptions, thrownError) {
 			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
@@ -320,6 +452,59 @@ $('select[name=\'country_id\']').bind('change', function() {
 });
 
 $('select[name=\'country_id\']').trigger('change');
+
+<!-- start VLMN -->
+var nkid = '<?php echo $NKUniversity ?>';
+$('select[name=\'university_id\']').bind('change', function() {
+	$.ajax({
+		url: 'index.php?route=account/register/childcategory&university_id=' + $('select[name=\'university_id\']').val(),
+		dataType: 'json',
+		beforeSend: function() {
+			$('select[name=\'university_id\']').after('<span class="wait">&nbsp;<img src="catalog/view/theme/default/image/loading.gif" alt="" /></span>');
+		},
+		complete: function() {
+			$('.wait').remove();
+		},			
+		success: function(json) {
+			
+			html = '<option value=""><?php echo $text_select; ?></option>';
+			if (json) {
+				for (i = 0; i < json.length; i++) {
+        			html += '<option value="' + json[i]['faculty_id'] + '"';
+	    			
+					if (json[i]['faculty_id'] == '<?php echo $faculty_id; ?>') {
+	      				html += ' selected="selected"';
+	    			}
+	
+	    			html += '>' + json[i]['name'] + '</option>';
+				}
+			} else {
+				html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+			}
+			
+			$('select[name=\'faculty_id\']').html(html);
+			
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});
+	//check Nang Khieu
+	if($('select[name=\'university_id\']').val() == nkid) {
+		var timestamp = +new Date();
+		$('tr[id^=\'studentidblock_\']').hide();
+		$('input[name=\'student_id\']').val('NK'+ timestamp.toString().substr(0,8));
+		$('input[name=\'student_id\']').attr("readonly","readonly");
+	}
+	else{
+		$('tr[id^=\'studentidblock_\']').show();
+		$('input[name=\'student_id\']').val('');
+		$('input[name=\'student_id\']').removeAttr("readonly");
+	}
+});
+
+$('select[name=\'university_id\']').trigger('change');
+<!--start VLMN-->
 //--></script> 
 <script type="text/javascript"><!--
 $(document).ready(function() {

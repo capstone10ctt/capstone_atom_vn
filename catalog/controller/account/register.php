@@ -1,7 +1,8 @@
 <?php 
 class ControllerAccountRegister extends Controller {
 	private $error = array();
-	      
+	public $NKUniversity = 0;
+	
   	public function index() {
 		if ($this->customer->isLogged()) {
 	  		$this->redirect($this->url->link('account/account', '', 'SSL'));
@@ -69,7 +70,114 @@ class ControllerAccountRegister extends Controller {
 		$this->data['text_no'] = $this->language->get('text_no');
 		$this->data['text_select'] = $this->language->get('text_select');
 		$this->data['text_none'] = $this->language->get('text_none');
-						
+		
+		// start changing
+		$this->data['entry_university'] = $this->language->get('entry_university');
+		$this->data['entry_faculty'] = $this->language->get('entry_faculty');
+		$this->data['entry_student_id'] = $this->language->get('entry_student_id');
+		$this->data['error_university'] = $this->language->get('error_university');
+		$this->data['error_faculty'] = $this->language->get('error_faculty');
+		$this->data['error_student_id'] = $this->language->get('error_student_id');
+		
+		$this->data['entry_idnum'] = $this->language->get('entry_idnum');
+		$this->data['entry_iddate'] = $this->language->get('entry_iddate');
+		$this->data['entry_idlocation'] = $this->language->get('entry_idlocation');
+		$this->data['text_id'] = $this->language->get('text_id');
+		$this->data['entry_gender'] = $this->language->get('entry_gender');
+		
+		$this->load->model('catalog/category');
+		$universities = $this->model_catalog_category->getCategories();
+		$this->data['universities'] = $universities;
+		
+		$NKUniversity = $this->model_account_customer->NKUniversity();//lay trong database id cua truong nang khieu
+		$this->data['NKUniversity'] = $NKUniversity;//set no ra ngoai view
+		
+		$genders = array(
+					array('gender_id' => '1', 'gender' => $this->language->get('entry_male')),
+					array('gender_id' => '0', 'gender' => $this->language->get('entry_female')),
+					);
+					
+		$this->data['genders'] = $genders;
+		
+		if (isset($this->error['university'])) {
+			$this->data['error_university'] = $this->error['university'];
+		} else {
+			$this->data['error_university'] = '';
+		}
+		if (isset($this->error['faculty'])) {
+			$this->data['error_faculty'] = $this->error['faculty'];
+		} else {
+			$this->data['error_faculty'] = '';
+		}
+		if (isset($this->error['student_id'])) {
+			$this->data['error_student_id'] = $this->error['student_id'];
+		} else {
+			$this->data['error_student_id'] = '';
+		}
+		if (isset($this->error['idnum'])) {
+			$this->data['error_idnum'] = $this->error['idnum'];
+		} else {
+			$this->data['error_idnum'] = '';
+		}
+		if (isset($this->error['iddate'])) {
+			$this->data['error_iddate'] = $this->error['iddate'];
+		} else {
+			$this->data['error_iddate'] = '';
+		}
+		if (isset($this->error['address_2'])) {
+			$this->data['error_address_2'] = $this->error['address_2'];
+		} else {
+			$this->data['error_address_2'] = '';
+		}
+		if (isset($this->error['gender'])) {
+			$this->data['error_gender'] = $this->error['gender'];
+		} else {
+			$this->data['error_gender'] = '';
+		}
+		if (isset($this->error['id_location'])) {
+			$this->data['error_id_location'] = $this->error['id_location'];
+		} else {
+			$this->data['error_id_location'] = '';
+		}
+		
+		
+		if (isset($this->request->post['university_id'])) {
+    		$this->data['university_id'] = $this->request->post['university_id'];
+		} else {
+			$this->data['university_id'] = '';
+		}
+		if (isset($this->request->post['faculty_id'])) {
+    		$this->data['faculty_id'] = $this->request->post['faculty_id'];
+		} else {
+			$this->data['faculty_id'] = '';
+		}
+		if (isset($this->request->post['student_id'])) {
+    		$this->data['student_id'] = $this->request->post['student_id'];
+		} else {
+			$this->data['student_id'] = '';
+		}
+		if (isset($this->request->post['gender_id'])) {
+    		$this->data['gender_id'] = $this->request->post['gender_id'];
+		} else {
+			$this->data['gender_id'] = '';
+		}
+		if (isset($this->request->post['id_location'])) {
+    		$this->data['id_location'] = $this->request->post['id_location'];
+		} else {
+			$this->data['id_location'] = '';
+		}
+		if (isset($this->request->post['idnum'])) {
+    		$this->data['idnum'] = $this->request->post['idnum'];
+		} else {
+			$this->data['idnum'] = '';
+		}
+		if (isset($this->request->post['iddate'])) {
+    		$this->data['iddate'] = $this->request->post['iddate'];
+		} else {
+			$this->data['iddate'] = '';
+		}
+		//end changing
+		
     	$this->data['entry_firstname'] = $this->language->get('entry_firstname');
     	$this->data['entry_lastname'] = $this->language->get('entry_lastname');
     	$this->data['entry_email'] = $this->language->get('entry_email');
@@ -348,7 +456,7 @@ class ControllerAccountRegister extends Controller {
 				
 		$this->response->setOutput($this->render());	
   	}
-
+	
   	protected function validate() {
     	if ((utf8_strlen($this->request->post['firstname']) < 1) || (utf8_strlen($this->request->post['firstname']) > 32)) {
       		$this->error['firstname'] = $this->language->get('error_firstname');
@@ -369,6 +477,29 @@ class ControllerAccountRegister extends Controller {
     	if ((utf8_strlen($this->request->post['telephone']) < 3) || (utf8_strlen($this->request->post['telephone']) > 32)) {
       		$this->error['telephone'] = $this->language->get('error_telephone');
     	}
+		
+		// start adding
+		if ((utf8_strlen($this->request->post['idnum']) != 9)) {
+      		$this->error['idnum'] = $this->language->get('error_idnum');
+    	}
+		if ((utf8_strlen($this->request->post['university_id']) == '')) {
+      		$this->error['university'] = $this->language->get('error_university');
+    	}
+		if ((utf8_strlen($this->request->post['faculty_id']) == '')) {
+      		$this->error['faculty'] = $this->language->get('error_faculty');
+    	}
+		if (is_null(utf8_strlen($this->request->post['student_id'])) || !$this->checkStudentID($this->request->post['student_id'])) {
+      		$this->error['student_id'] = $this->language->get('error_student_id');
+    	}
+        
+        if (is_null(utf8_strlen($this->request->post['idnum'])) || !$this->checkIDNum($this->request->post['idnum'])) {
+      		$this->error['student_id'] = $this->language->get('error_student_id');
+    	}
+				//check input date satisfy dd/mm/yyyy
+		if (!$this->checkdateDDMMYYYY($this->request->post['iddate'])) {
+      		$this->error['iddate'] = $this->language->get('error_iddate');
+    	}
+		// end changing
 		
 		// Customer Group
 		$this->load->model('account/customer_group');
@@ -397,19 +528,26 @@ class ControllerAccountRegister extends Controller {
       		$this->error['address_1'] = $this->language->get('error_address_1');
     	}
 
-    	if ((utf8_strlen($this->request->post['city']) < 2) || (utf8_strlen($this->request->post['city']) > 128)) {
-      		$this->error['city'] = $this->language->get('error_city');
+		// start changing
+		if ((utf8_strlen($this->request->post['address_2']) < 3) || (utf8_strlen($this->request->post['address_2']) > 128)) {
+      		$this->error['address_2'] = $this->language->get('error_address_1');
     	}
+		if ($this->request->post['gender_id'] == '') {
+      		$this->error['gender'] = $this->language->get('error_gender');
+    	}
+		if ($this->request->post['id_location'] == '') {
+      		$this->error['id_location'] = $this->language->get('error_id_location');
+    	}
+    	/*if ((utf8_strlen($this->request->post['city']) < 2) || (utf8_strlen($this->request->post['city']) > 128)) {
+      		$this->error['city'] = $this->language->get('error_city');
+    	}*/
+		// end changing
 
 		$this->load->model('localisation/country');
 		
 		$country_info = $this->model_localisation_country->getCountry($this->request->post['country_id']);
 		
 		if ($country_info) {
-			if ($country_info['postcode_required'] && (utf8_strlen($this->request->post['postcode']) < 2) || (utf8_strlen($this->request->post['postcode']) > 10)) {
-				$this->error['postcode'] = $this->language->get('error_postcode');
-			}
-			
 			// VAT Validation
 			$this->load->helper('vat');
 			
@@ -417,7 +555,7 @@ class ControllerAccountRegister extends Controller {
 				$this->error['tax_id'] = $this->language->get('error_vat');
 			}
 		}
-
+		
     	if ($this->request->post['country_id'] == '') {
       		$this->error['country'] = $this->language->get('error_country');
     	}
@@ -475,5 +613,53 @@ class ControllerAccountRegister extends Controller {
 		
 		$this->response->setOutput(json_encode($json));
 	}	
+	
+	// start changing
+	protected function checkdateDDMMYYYY($s)
+	{
+            if (preg_match('@^(\d\d)-(\d\d)-(\d\d\d\d)$@', $s, $m) == false) {
+                if (preg_match('@^(\d\d)/(\d\d)/(\d\d\d\d)$@', $s, $m) == false) {
+                    if (preg_match('@^(\d)/(\d\d)/(\d\d\d\d)$@', $s, $m) == false) {
+                        if (preg_match('@^(\d\d)/(\d)/(\d\d\d\d)$@', $s, $m) == false) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            if (checkdate($m[2], $m[1], $m[3]) == false) {
+                return false;
+            }
+            return true;
+	}
+	protected function checkStudentID($student_id) {
+		$this->load->model('account/customer');
+		
+		if($this->model_account_customer->checkStudentID($student_id)) {
+			return true;
+		}
+		
+		return false;
+	}
+	public function childcategory() {
+		$json = array();
+		
+		$this->load->model('catalog/category');
+
+    	$result = $this->model_catalog_category->getCategories($this->request->get['university_id']);
+		$universities = array();
+		
+		if ($result) {
+			foreach($result as $university) {
+				$universities[] = array(
+					'faculty_id'        => $university['category_id'],
+					'name'              => $university['name']
+				);
+			}
+		}
+		
+		$json = $universities;
+		$this->response->setOutput(json_encode($json));
+	}
+	// end changing
 }
 ?>
