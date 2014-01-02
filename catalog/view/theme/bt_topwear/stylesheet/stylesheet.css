@@ -129,6 +129,7 @@ img {
 ul,
 ol {
   list-style: none;
+  
 }
 
 li {
@@ -645,14 +646,14 @@ h1.h1margin{margin-top:29px}
 
 /* breadcrumb*/
 
-.breadcrumb{}
-.breadcrumb a{background:url(../image/breadscrum_bg_right.png) no-repeat right;padding: 10px 12px 10px 0px;margin-left:-3px;display:inline-block;margin-right:7px}
+/*.breadcrumb{background:blue;}*/
+.breadcrumb a{/* background:url(../image/breadscrum_bg_right.png) no-repeat right */;padding: 10px 12px 10px 0px;margin-left:-3px;display:inline-block;margin-right:7px}
 
-.breadcrumb a span{background:url(../image/breadcruma_left.png) no-repeat left;padding:10px 20px 10px 20px}
-.breadcrumb a:hover, .breadcrumb a span:hover, .breadcrumb a.last{font-weight:700}
-.breadcrumb a:first-child{background:url("../image/breadscrum_bg_right.png") no-repeat scroll right center transparent;padding: 10px 12px 10px 0;margin-left:0px;margin-right:0}
-.breadcrumb a:first-child span{background:url("../image/breadscrum_bg_left.jpg") no-repeat scroll left center transparent;padding:10px 20px 10px 10px}
-.breadcrumb a.last{background:none;font-weight:700;padding-left:0;margin-left:7px;cursor:default;margin-left:0}
+.breadcrumb a span{/* background:url(../image/breadcruma_left.png) no-repeat left */;padding:10px 20px 10px 20px}
+/*.breadcrumb a:hover, .breadcrumb a span:hover, */ .breadcrumb a.last{font-weight:700}
+.breadcrumb a:first-child{/* background:url("../image/breadscrum_bg_right.png") no-repeat scroll right center transparent */;padding: 10px 12px 10px 0;margin-left:0px;margin-right:0}
+.breadcrumb a:first-child span{color:white;/* background:url("../image/breadscrum_bg_left.jpg") 	 no-repeat scroll left center transparent */;padding:10px 20px 10px 10px}
+.breadcrumb a.last{color:white!important;/* background:none;font-weight:700 */;padding-left:0;margin-left:7px;cursor:default;margin-left:0}
 
 
 
@@ -1438,7 +1439,7 @@ ul.box-category > li ul {
 	display: none;
 	padding-top:2px;padding-bottom:2px
 }
-ul.box-category > li a:hover,ul.box-category > li a.active {font-weight: 700;}
+/* ul.box-category > li a:hover,ul.box-category > li a.active {font-weight: 700;} */
 ul.box-category > li a.active + ul {
 	display: block;
 }
