@@ -71,8 +71,19 @@ class ControllerAccountRegister extends Controller {
 		$this->data['text_select'] = $this->language->get('text_select');
 		$this->data['text_none'] = $this->language->get('text_none');
 		
-		// start changing
+	/////////////////////// Modification//////////////////////
+        //       ID: 1051018	 	 	 	 	
+        //       Name: Tran Thanh Toan	 	 	 	 	
+        // 	 Class: 10CTT 
+        // 	 Date 1/1/2014
+        // 	 Description: take data from language 
+        // 	 Date modified: 1/1/2014 
+        // 	 Last updated: list the change by line number and goal, ex: 
+        //	 	 + line 289: optimize the operation
+        /////////// Start “you-id” - “your-name” modifications/////////////
 		$this->data['entry_university'] = $this->language->get('entry_university');
+                $this->data['entry_date_of_birth'] = $this->language->get('entry_date_of_birth');
+                $this->data['entry_ethnic'] = $this->language->get('entry_ethnic');
 		$this->data['entry_faculty'] = $this->language->get('entry_faculty');
 		$this->data['entry_student_id'] = $this->language->get('entry_student_id');
 		$this->data['error_university'] = $this->language->get('error_university');
@@ -99,10 +110,20 @@ class ControllerAccountRegister extends Controller {
 					
 		$this->data['genders'] = $genders;
 		
-		if (isset($this->error['university'])) {
+                if (isset($this->error['university'])) {
 			$this->data['error_university'] = $this->error['university'];
 		} else {
 			$this->data['error_university'] = '';
+		}
+                if (isset($this->error['ethnic'])) {
+			$this->data['error_ethnic'] = $this->error['ethnic'];
+		} else {
+			$this->data['error_ethnic'] = '';
+		}
+		if (isset($this->error['date_of_birth'])) {
+			$this->data['error_date_of_birth'] = $this->error['date_of_birth'];
+		} else {
+			$this->data['error_date_of_birth'] = '';
 		}
 		if (isset($this->error['faculty'])) {
 			$this->data['error_faculty'] = $this->error['faculty'];
@@ -141,8 +162,18 @@ class ControllerAccountRegister extends Controller {
 		}
 		
 		
+                if (isset($this->request->post['ethnic'])) {
+                    $this->data['ethnic'] = $this->request->post['ethnic'];
+		} else {
+			$this->data['ethnic'] = '';
+		}
+                if (isset($this->request->post['date_of_birth'])) {
+                    $this->data['date_of_birth'] = $this->request->post['date_of_birth'];
+		} else {
+			$this->data['date_of_birth'] = '';
+		}
 		if (isset($this->request->post['university_id'])) {
-    		$this->data['university_id'] = $this->request->post['university_id'];
+                    $this->data['university_id'] = $this->request->post['university_id'];
 		} else {
 			$this->data['university_id'] = '';
 		}
@@ -176,7 +207,7 @@ class ControllerAccountRegister extends Controller {
 		} else {
 			$this->data['iddate'] = '';
 		}
-		//end changing
+		/////////// END “you-id” - “your-name” modifications/////////////
 		
     	$this->data['entry_firstname'] = $this->language->get('entry_firstname');
     	$this->data['entry_lastname'] = $this->language->get('entry_lastname');
@@ -478,7 +509,19 @@ class ControllerAccountRegister extends Controller {
       		$this->error['telephone'] = $this->language->get('error_telephone');
     	}
 		
-		// start adding
+	/////////////////////// Modification//////////////////////
+        //       ID: 1051018	 	 	 	 	
+        //       Name: Tran Thanh Toan	 	 	 	 	
+        // 	 Class: 10CTT 
+        // 	 Date 1/1/2014
+        // 	 Description: check for input error
+        // 	 Date modified: 1/1/2014 
+        // 	 Last updated: list the change by line number and goal, ex: 
+        //	 	 + line 289: optimize the operation
+        /////////// Start “you-id” - “your-name” modifications/////////////
+        if ((utf8_strlen($this->request->post['ethnic']) >= 9)) {
+      		$this->error['ethnic'] = $this->language->get('error_ethnic');
+    	}
 		if ((utf8_strlen($this->request->post['idnum']) != 9)) {
       		$this->error['idnum'] = $this->language->get('error_idnum');
     	}
@@ -493,13 +536,16 @@ class ControllerAccountRegister extends Controller {
     	}
         
         if (is_null(utf8_strlen($this->request->post['idnum'])) || !$this->checkIDNum($this->request->post['idnum'])) {
-      		$this->error['student_id'] = $this->language->get('error_student_id');
+      		$this->error['error_idnum'] = $this->language->get('error_idnum');
     	}
 				//check input date satisfy dd/mm/yyyy
 		if (!$this->checkdateDDMMYYYY($this->request->post['iddate'])) {
       		$this->error['iddate'] = $this->language->get('error_iddate');
     	}
-		// end changing
+        if (!$this->checkdateDDMMYYYY($this->request->post['date_of_birth'])) {
+      		$this->error['date_of_birth'] = $this->language->get('error_date_of_birth');
+    	}
+        /////////// END “you-id” - “your-name” modifications/////////////
 		
 		// Customer Group
 		$this->load->model('account/customer_group');
@@ -528,7 +574,16 @@ class ControllerAccountRegister extends Controller {
       		$this->error['address_1'] = $this->language->get('error_address_1');
     	}
 
-		// start changing
+	/////////////////////// Modification//////////////////////
+        //       ID: 1051018	 	 	 	 	
+        //       Name: Tran Thanh Toan	 	 	 	 	
+        // 	 Class: 10CTT 
+        // 	 Date 1/1/2014
+        // 	 Description: check for input error (contiunue)
+        // 	 Date modified: 1/1/2014 
+        // 	 Last updated: list the change by line number and goal, ex: 
+        //	 	 + line 289: optimize the operation
+        /////////// Start “you-id” - “your-name” modifications/////////////
 		if ((utf8_strlen($this->request->post['address_2']) < 3) || (utf8_strlen($this->request->post['address_2']) > 128)) {
       		$this->error['address_2'] = $this->language->get('error_address_1');
     	}
@@ -541,7 +596,7 @@ class ControllerAccountRegister extends Controller {
     	/*if ((utf8_strlen($this->request->post['city']) < 2) || (utf8_strlen($this->request->post['city']) > 128)) {
       		$this->error['city'] = $this->language->get('error_city');
     	}*/
-		// end changing
+		/////////// END “you-id” - “your-name” modifications/////////////
 
 		$this->load->model('localisation/country');
 		
@@ -614,13 +669,22 @@ class ControllerAccountRegister extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}	
 	
-	// start changing
+	/////////////////////// Modification//////////////////////
+        //       ID: 1051018	 	 	 	 	
+        //       Name: Tran Thanh Toan	 	 	 	 	
+        // 	 Class: 10CTT 
+        // 	 Date 1/1/2014
+        // 	 Description: check for input error (contiunue): date
+        // 	 Date modified: 1/1/2014 
+        // 	 Last updated: list the change by line number and goal, ex: 
+        //	 	 + line 289: optimize the operation
+        /////////// Start “you-id” - “your-name” modifications/////////////
 	protected function checkdateDDMMYYYY($s)
 	{
-            if (preg_match('@^(\d\d)-(\d\d)-(\d\d\d\d)$@', $s, $m) == false) {
-                if (preg_match('@^(\d\d)/(\d\d)/(\d\d\d\d)$@', $s, $m) == false) {
-                    if (preg_match('@^(\d)/(\d\d)/(\d\d\d\d)$@', $s, $m) == false) {
-                        if (preg_match('@^(\d\d)/(\d)/(\d\d\d\d)$@', $s, $m) == false) {
+            if (preg_match('@^(\d\d)/(\d\d)/(\d\d\d\d)$@', $s, $m) == false) {
+                if (preg_match('@^(\d)/(\d\d)/(\d\d\d\d)$@', $s, $m) == false) {
+                    if (preg_match('@^(\d\d)/(\d)/(\d\d\d\d)$@', $s, $m) == false) {
+                        if (preg_match('@^(\d)/(\d)/(\d\d\d\d)$@', $s, $m) == false) {
                             return false;
                         }
                     }
@@ -631,10 +695,30 @@ class ControllerAccountRegister extends Controller {
             }
             return true;
 	}
+        /////////// END “you-id” - “your-name” modifications/////////////
+        /////////////////////// Modification//////////////////////
+        //       ID: 1051018	 	 	 	 	
+        //       Name: Tran Thanh Toan	 	 	 	 	
+        // 	 Class: 10CTT 
+        // 	 Date 1/1/2014
+        // 	 Description: check if a student id exist
+        // 	 Date modified: 1/1/2014 
+        // 	 Last updated: list the change by line number and goal, ex: 
+        //	 	 + line 289: optimize the operation
+        /////////// Start “you-id” - “your-name” modifications/////////////
 	protected function checkStudentID($student_id) {
 		$this->load->model('account/customer');
 		
 		if($this->model_account_customer->checkStudentID($student_id)) {
+			return true;
+		}
+		
+		return false;
+	}
+        protected function checkIDNum($id_num) {
+		$this->load->model('account/customer');
+		
+		if($this->model_account_customer->checkIDNum($id_num)) {
 			return true;
 		}
 		
@@ -660,6 +744,6 @@ class ControllerAccountRegister extends Controller {
 		$json = $universities;
 		$this->response->setOutput(json_encode($json));
 	}
-	// end changing
+	/////////// END “you-id” - “your-name” modifications/////////////
 }
 ?>

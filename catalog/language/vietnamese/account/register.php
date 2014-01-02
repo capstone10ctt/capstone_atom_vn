@@ -33,6 +33,8 @@ $_['entry_district']        = 'Quận/Huyện:';
 
 // start changing: adding new feature and error message
 $_['entry_university']        = 'Trường đại học:';
+$_['entry_date_of_birth']        = 'Ngày sinh:';
+$_['entry_ethnic']        = 'Tôn giáo:';
 $_['entry_faculty']        = 'Khoa:';
 $_['entry_student_id']        = 'MSSV:';
 $_['error_university']         = 'Lỗi: Xin lựa chọn trường!';
@@ -45,6 +47,8 @@ $_['entry_idlocation']        = 'Nơi cấp:';
 $_['text_id']   = 'Chứng minh nhân dân';
 $_['error_idnum']         = 'Lỗi: Số CMND phải có chiều dài là 9 ký tự hoặc đã được đăng ký';
 $_['error_iddate']         = 'Lỗi: Ngày cấp không hợp lệ!';
+$_['error_date_of_birth']         = 'Lỗi: Ngày sinh không hợp lệ!';
+$_['error_ethnic']         = 'Lỗi: Xin nhập tôn giáo và độ dài phải bé hơn 9';
 $_['error_gender']         = 'Lỗi: Xin lựa chọn giới tính!';
 $_['error_id_location']         = 'Lỗi: Xin lựa chọn khu vực!';
 

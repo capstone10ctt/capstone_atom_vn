@@ -34,6 +34,8 @@ $_['entry_confirm']        = 'Password Confirm:';
 
 // start changing: adding new feature and error message
 $_['entry_university']        = 'Your university:';
+$_['entry_date_of_birth']        = 'Date of birth:';
+$_['entry_ethnic']        = 'Ethnic:';
 $_['entry_faculty']        = 'Your faculty:';
 $_['entry_student_id']        = 'Student ID:';
 $_['error_university']         = 'Warning: Please select your university!';
@@ -46,6 +48,8 @@ $_['entry_idlocation']        = 'ID location:';
 $_['text_id']   = 'Your Identity';
 $_['error_idnum']         = 'Warning: ID Number must be 9 in length or being duplicated!';
 $_['error_iddate']         = 'Warning: Issued is in wrong format, please input a valid one!';
+$_['error_date_of_birth']         = 'Warning: DOB is in wrong format, please input a valid one!';
+$_['error_ethnic']         = 'Warning: Please input your ethnic and its length must less than 9';
 $_['error_gender']         = 'Warning: Please select your gender!';
 $_['error_id_location']         = 'Warning: Please select your ID\'s location!';
 

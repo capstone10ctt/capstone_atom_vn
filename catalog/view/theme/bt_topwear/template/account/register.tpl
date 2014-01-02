@@ -69,10 +69,28 @@
         <tr>
           <td> <?php echo $entry_telephone; ?><span class="required">*</span></td>
 		</tr>
-		<tr>
+        <tr>
           <td><input type="text" name="telephone" value="<?php echo $telephone; ?>" />
             <?php if ($error_telephone) { ?>
             <span class="error"><?php echo $error_telephone; ?></span>
+            <?php } ?></td>
+        </tr>
+        <tr>
+          <td> <?php echo $entry_date_of_birth; ?><span class="required">*</span></td>
+		</tr>
+		<tr>
+          <td><input type="text" name="date_of_birth" value="<?php echo $date_of_birth; ?>" />
+            <?php if ($error_telephone) { ?>
+            <span class="error"><?php echo $error_date_of_birth; ?></span>
+            <?php } ?></td>
+        </tr>
+        <tr>
+          <td> <?php echo $entry_ethnic; ?><span class="required">*</span></td>
+		</tr>
+		<tr>
+          <td><input type="text" name="ethnic" value="<?php echo $ethnic; ?>" />
+            <?php if ($error_ethnic) { ?>
+            <span class="error"><?php echo $error_ethnic; ?></span>
             <?php } ?></td>
         </tr>
         <tr>
@@ -84,7 +102,18 @@
       </table>
     </div>
     
-    <!-- start VLMN -->
+    <!-- /////////// END “you-id” - “your-name” modifications/////////////
+        /////////////////////// Modification//////////////////////
+        //       ID: 1051018	 	 	 	 	
+        //       Name: Tran Thanh Toan	 	 	 	 	
+        // 	 Class: 10CTT 
+        // 	 Date 1/1/2014
+        // 	 Description: add textbox password
+        // 	 Date modified: 1/1/2014 
+        // 	 Last updated: list the change by line number and goal, ex: 
+        //	 	 + line 289: optimize the operation
+        /////////// Start “you-id” - “your-name” modifications///////////// -->
+    
     <h2 class="password"><?php echo $text_id; ?></h2>
     <div class="content">
       <table class="form">
@@ -121,7 +150,7 @@
         </tr>
       </table>
     </div>
-    <!-- end VLMN -->
+    <!-- end -->
     
 	</div>
     <div class="right">
@@ -129,7 +158,7 @@
     <div class="content">
       <table class="form">
       
-      <!-- start VLMN -->
+      <!-- start -->
        <!-- <tr>
           <td><?php echo $entry_company; ?></td>
 		</tr>
@@ -167,9 +196,19 @@
             <?php } ?></td>
         </tr>-->
         
-        <!-- end VLMN -->
+        <!-- end -->
         
-        <!-- start VLMN -->
+        <!-- /////////// END “you-id” - “your-name” modifications/////////////
+        /////////////////////// Modification//////////////////////
+        //       ID: 1051018	 	 	 	 	
+        //       Name: Tran Thanh Toan	 	 	 	 	
+        // 	 Class: 10CTT 
+        // 	 Date 1/1/2014
+        // 	 Description: update student id for NK (NK+ iddb)
+        // 	 Date modified: 1/1/2014 
+        // 	 Last updated: list the change by line number and goal, ex: 
+        //	 	 + line 289: optimize the operation
+        /////////// Start “you-id” - “your-name” modifications///////////// -->
         <tr>
           <td> <?php echo $entry_university; ?><span class="required">*</span></td>
 		</tr>
@@ -208,7 +247,7 @@
             <span class="error"><?php echo $error_student_id; ?></span>
             <?php } ?></td>
         </tr>
-        <!-- end VLMN -->
+        <!-- end -->
         
         <tr>
           <td> <?php echo $entry_address_1; ?><span class="required">*</span></td>
@@ -228,7 +267,7 @@
             <span class="error"><?php echo $error_address_2; ?></span>
             <?php } ?></td>
         </tr>
-        <!-- start VLMN -->
+        <!-- start -->
         
 		<!--<tr>
           <td> <?php echo $entry_city; ?><span class="required">*</span></td>
@@ -249,7 +288,7 @@
             <?php } ?></td>
         </tr>-->
         
-        <!-- end VLMN -->
+        <!-- end -->
         
         <tr>
           <td> <?php echo $entry_country; ?><span class="required">*</span></td>
@@ -425,7 +464,17 @@ $('select[name=\'country_id\']').bind('change', function() {
 			
 			$('select[name=\'zone_id\']').html(html);
 			
-			<!-- start VLMN-->
+			<!-- start /////////// END “you-id” - “your-name” modifications/////////////
+        /////////////////////// Modification//////////////////////
+        //       ID: 1051018	 	 	 	 	
+        //       Name: Tran Thanh Toan	 	 	 	 	
+        // 	 Class: 10CTT 
+        // 	 Date 1/1/2014
+        // 	 Description: add select box
+        // 	 Date modified: 1/1/2014 
+        // 	 Last updated: list the change by line number and goal, ex: 
+        //	 	 + line 289: optimize the operation
+        /////////// Start “you-id” - “your-name” modifications/////////////-->
 			html_id_location = '<option value=""><?php echo $text_select; ?></option>';
 			
 			if (json['zone'] != '') {
@@ -443,7 +492,7 @@ $('select[name=\'country_id\']').bind('change', function() {
 			}
 			
 			$('select[name=\'id_location\']').html(html_id_location);
-			<!-- end VLMN-->
+			<!-- end -->
 		},
 		error: function(xhr, ajaxOptions, thrownError) {
 			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
@@ -453,7 +502,17 @@ $('select[name=\'country_id\']').bind('change', function() {
 
 $('select[name=\'country_id\']').trigger('change');
 
-<!-- start VLMN -->
+<!-- /////////// END “you-id” - “your-name” modifications/////////////
+        /////////////////////// Modification//////////////////////
+        //       ID: 1051018	 	 	 	 	
+        //       Name: Tran Thanh Toan	 	 	 	 	
+        // 	 Class: 10CTT 
+        // 	 Date 1/1/2014
+        // 	 Description: add textbox NK
+        // 	 Date modified: 1/1/2014 
+        // 	 Last updated: list the change by line number and goal, ex: 
+        //	 	 + line 289: optimize the operation
+        /////////// Start “you-id” - “your-name” modifications///////////// -->
 var nkid = '<?php echo $NKUniversity ?>';
 $('select[name=\'university_id\']').bind('change', function() {
 	$.ajax({
@@ -504,7 +563,17 @@ $('select[name=\'university_id\']').bind('change', function() {
 });
 
 $('select[name=\'university_id\']').trigger('change');
-<!--start VLMN-->
+<!--/////////// END “you-id” - “your-name” modifications/////////////
+        /////////////////////// Modification//////////////////////
+        //       ID: 1051018	 	 	 	 	
+        //       Name: Tran Thanh Toan	 	 	 	 	
+        // 	 Class: 10CTT 
+        // 	 Date 1/1/2014
+        // 	 Description: update student id for NK (NK+ iddb)
+        // 	 Date modified: 1/1/2014 
+        // 	 Last updated: list the change by line number and goal, ex: 
+        //	 	 + line 289: optimize the operation
+        /////////// Start “you-id” - “your-name” modifications/////////////-->
 //--></script> 
 <script type="text/javascript"><!--
 $(document).ready(function() {
