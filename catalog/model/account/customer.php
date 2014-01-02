@@ -1,18 +1,8 @@
 <?php
 class ModelAccountCustomer extends Model {
-	/////////// END “you-id” - “your-name” modifications/////////////
-        /////////////////////// Modification//////////////////////
-        //       ID: 1051018	 	 	 	 	
-        //       Name: Tran Thanh Toan	 	 	 	 	
-        // 	 Class: 10CTT 
-        // 	 Date 1/1/2014
-        // 	 Description: check if a student studentid, ID, exists
-        // 	 Date modified: 1/1/2014 
-        // 	 Last updated: list the change by line number and goal, ex: 
-        //	 	 + line 289: optimize the operation
-        /////////// Start “you-id” - “your-name” modifications/////////////
+	// start changing: 
 	public function checkStudentID($student_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer WHERE student_id = '" . $this->db->escape($student_id) . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer WHERE student_id = '" . (int)$student_id . "'");
 		if($query->num_rows) {
 			return false;
 		}
@@ -20,7 +10,7 @@ class ModelAccountCustomer extends Model {
 		return true;
 	}
         public function checkIDNum($id_num) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer WHERE id_num = '" . $this->db->escape($id_num) . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer WHERE id_num = '" . (int)$id_num . "'");
 		if($query->num_rows) {
 			return false;
 		}
@@ -35,7 +25,7 @@ class ModelAccountCustomer extends Model {
 		
 		return 0;
 	}
-	/////////// END “you-id” - “your-name” modifications/////////////
+	//end changing
 	
 	public function addCustomer($data) {
 		if (isset($data['customer_group_id']) && is_array($this->config->get('config_customer_group_display')) && in_array($data['customer_group_id'], $this->config->get('config_customer_group_display'))) {
@@ -50,21 +40,11 @@ class ModelAccountCustomer extends Model {
 		
 		
 		
-	/////////// END “you-id” - “your-name” modifications/////////////
-        /////////////////////// Modification//////////////////////
-        //       ID: 1051018	 	 	 	 	
-        //       Name: Tran Thanh Toan	 	 	 	 	
-        // 	 Class: 10CTT 
-        // 	 Date 1/1/2014
-        // 	 Description: update student id for NK (NK+ iddb)
-        // 	 Date modified: 1/1/2014 
-        // 	 Last updated: list the change by line number and goal, ex: 
-        //	 	 + line 289: optimize the operation
-        /////////// Start “you-id” - “your-name” modifications/////////////
+		// start changing:
 		$NKUniversity = $this->NKUniversity();
 		$inputdate = date("Y-m-d", strtotime($data['iddate']));
 		
-      	$this->db->query("INSERT INTO " . DB_PREFIX . "customer SET store_id = '" . (int)$this->config->get('config_store_id') . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', gender = '" . $this->db->escape($data['gender_id']) . "', id_num = '" . $this->db->escape($data['idnum']) . "', date_of_birth = '" . $this->db->escape($data['date_of_birth']) . "', ethnic = '" . $this->db->escape($data['ethnic']) . "', id_date = '" . $this->db->escape($inputdate) . "', id_location = '" . $this->db->escape($data['id_location']) . "',university = '" . $this->db->escape($data['university_id']) . "',faculty = '" . $this->db->escape($data['faculty_id']) . "',student_id = '" . $this->db->escape($data['student_id']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', newsletter = '" . (isset($data['newsletter']) ? (int)$data['newsletter'] : 0) . "', customer_group_id = '" . (int)$customer_group_id . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', status = '1', approved = '" . (int)!$customer_group_info['approval'] . "', date_added = NOW()");
+      	$this->db->query("INSERT INTO " . DB_PREFIX . "customer SET store_id = '" . (int)$this->config->get('config_store_id') . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', gender = '" . $this->db->escape($data['gender_id']) . "', id_num = '" . $this->db->escape($data['idnum']) . "', id_date = '" . $this->db->escape($inputdate) . "', id_location = '" . $this->db->escape($data['id_location']) . "',university = '" . $this->db->escape($data['university_id']) . "',faculty = '" . $this->db->escape($data['faculty_id']) . "',student_id = '" . $this->db->escape($data['student_id']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', newsletter = '" . (isset($data['newsletter']) ? (int)$data['newsletter'] : 0) . "', customer_group_id = '" . (int)$customer_group_id . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', status = '1', approved = '" . (int)!$customer_group_info['approval'] . "', date_added = NOW()");
 		
 		$customer_id = $this->db->getLastId();
 		
@@ -72,10 +52,10 @@ class ModelAccountCustomer extends Model {
 		if((int)$data['university_id'] == (int)$NKUniversity) {
 			$this->db->query("UPDATE " . DB_PREFIX . "customer SET student_id = 'NK" . (int)$customer_id . "' WHERE customer_id = '" . (int)$customer_id . "'");
 		}
-	/////////// END “you-id” - “your-name” modifications/////////////
+      	// end changing
 		
 			
-      	$this->db->query("INSERT INTO " . DB_PREFIX . "address SET customer_id = '" . (int)$customer_id . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', company = '" . $this->db->escape($data['company']) . "', company_id = '" . $this->db->escape($data['company_id']) . "', tax_id = '" . $this->db->escape($data['tax_id']) . "', address_1 = '" . $this->db->escape($data['address_1']) . "', address_2 = '" . $this->db->escape($data['address_2']) . "', city = '" . $this->db->escape($data['city']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', country_id = '" . (int)$data['country_id'] . "', zone_id = '" . (int)$data['zone_id'] . "'");
+      	$this->db->query("INSERT INTO " . DB_PREFIX . "address SET customer_id = '" . (int)$customer_id . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', address_1 = '" . $this->db->escape($data['address_1']) . "', address_2 = '" . $this->db->escape($data['address_2']) . "', country_id = '" . (int)$data['country_id'] . "', zone_id = '" . (int)$data['zone_id'] . "'");
 		
 		$address_id = $this->db->getLastId();
 
