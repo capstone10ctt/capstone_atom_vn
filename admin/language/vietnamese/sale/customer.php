@@ -2,6 +2,74 @@
 // Heading
 $_['heading_title']         = 'Sinh viên';
 
+/////////////////////// Modification//////////////////////
+// ID: 1051015	 	 	 	
+// Name: Luu Minh Tan 	 	 	 	 	
+// Class: 10CTT
+// Date created: 20/12/2013
+// Description: Add variables
+// Date modified: 2/1/2014
+// Last updated: 
+// + $_['entry_bed']: line 41
+// + $_['error_bed']: line 42
+//////////////////////////////////////////////////////////////
+// start LMT
+$_['column_student_id']           = 'MSSV';
+$_['column_gender']           = 'Giới tính';
+$_['column_university']           = 'Trường';
+$_['column_faculty']           = 'Khoa';
+$_['column_customer_group'] = 'Phòng';
+$_['column_floor']           = 'Tầng';
+$_['column_date_of_birth']           = 'Ngày sinh';
+$_['column_address_1']           = 'Địa chỉ';
+$_['column_bed']           = 'Giường';
+$_['column_ethnic']           = 'Dân tộc';
+
+$_['text_male']          = 'Nam';
+$_['text_female']          = 'Nữ';
+
+$_['text_basic_info']          = 'Thông tin cá nhân';
+$_['text_contact']          = 'Liên lạc';
+$_['text_identity']          = 'Chứng minh nhân dân';
+$_['text_university']          = 'Trường';
+$_['text_password']          = 'Mật khẩu';
+$_['text_campus']          = 'Thông tin phòng';
+
+$_['entry_date_of_birth']        = 'Ngày sinh:';
+$_['error_date_of_birth']          = 'Lỗi: Ngày sinh không hợp lệ!';
+
+$_['entry_bed']        = 'Giường:';
+$_['error_bed']         = 'Giường này đang có người dùng!';
+$_['entry_bed_1']        = '1';
+$_['entry_bed_2']        = '2';
+$_['entry_bed_3']        = '3';
+$_['entry_bed_4']        = '4';
+$_['entry_bed_5']        = '5';
+$_['entry_bed_6']        = '6';
+$_['entry_bed_7']        = '7';
+$_['entry_bed_8']        = '8';
+	
+$_['entry_university']        = 'Trường đại học:';
+$_['entry_faculty']        = 'Khoa:';
+$_['entry_student_id']        = 'MSSV:';
+$_['error_university']         = 'Lỗi: Xin lựa chọn trường!';
+$_['error_faculty']         = 'Lỗi: Xin lựa chọn khoa!';
+$_['error_student_id']         = 'Lỗi: Xin nhập mã số sinh viên hoặc mã sinh viên bị trùng!';
+
+$_['entry_idnum']        = 'Số CMND:';
+$_['entry_iddate']        = 'Ngày cấp:';
+$_['entry_idlocation']        = 'Nơi cấp:';
+$_['text_id']   = 'Chứng minh nhân dân';
+$_['error_idnum']         = 'Lỗi: Số CMND phải có chiều dài là 9 ký tự!';
+$_['error_iddate']         = 'Lỗi: Ngày cấp không hợp lệ!';
+$_['error_gender']         = 'Lỗi: Xin lựa chọn giới tính!';
+$_['error_id_location']         = 'Lỗi: Xin lựa chọn khu vực!';
+
+$_['entry_gender']        = 'Giới tính:';
+$_['entry_male']        = 'Nam';
+$_['entry_female']        = 'Nữ';
+// end LMT
+
 // Text
 $_['text_success']          = 'Bạn đã sửa đổi sinh viên thành công!';
 $_['text_default']          = 'Mặc định';
@@ -10,9 +78,10 @@ $_['text_wait']             = 'Xin vui lòng đợi!';
 $_['text_balance']          = 'Số dư:';
 
 // Column
+
+
 $_['column_name']           = 'Tên sinh viên';
 $_['column_email']          = 'Email';
-$_['column_customer_group'] = 'Nhóm sinh viên';
 $_['column_status']         = 'Trạng thái';
 $_['column_login']          = 'Đăng nhập';
 $_['column_approved']       = 'Phê chuẩn';
@@ -31,12 +100,16 @@ $_['entry_email']             = 'Email:';
 $_['entry_telephone']         = 'Điện thoại:';
 $_['entry_fax']               = 'Fax:';
 $_['entry_newsletter']        = 'Nhận tin:';
-$_['entry_customer_group']    = 'Nhóm sinh viên:';
+// start LMT
+$_['entry_customer_group']    = 'Phòng:';
+// end LMT
 $_['entry_status']            = 'Trạng thái:';
 $_['entry_password']          = 'Mật khẩu:';
 $_['entry_confirm']           = 'Nhập lại:';
 $_['entry_company']           = 'Công ty:';
-$_['entry_address_1']         = 'Địa chỉ 1:';
+// start LMT
+$_['entry_address_1']         = 'Địa chỉ:';
+// end LMT
 $_['entry_address_2']         = 'Địa chỉ 2:';
 $_['entry_city']              = 'Thành phố:';
 $_['entry_postcode']          = 'Mã bưu điện:';

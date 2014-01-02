@@ -1,10 +1,30 @@
 <?php
 class ModelSaleCustomer extends Model {
+	/////////////////////// Modification//////////////////////
+  // ID: 1051015        
+  // Name: Luu Minh Tan           
+  // Class: 10CTT
+  // Date created: 25/12/2013
+  // Description: Change update database func, insert database func
+  // Date modified: 1/1/2014
+  ////////////////////////////////////////////////////////////// 
 	public function addCustomer($data) {
-      	$this->db->query("INSERT INTO " . DB_PREFIX . "customer SET firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', newsletter = '" . (int)$data['newsletter'] . "', customer_group_id = '" . (int)$data['customer_group_id'] . "', salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', status = '" . (int)$data['status'] . "', date_added = NOW()");
-      	
+		//start LMT
+		$this->load->model('catalog/category');
+		$NKUniversity = $this->model_catalog_category->NKUniversity();
+		$inputdate = date("Y-m-d", strtotime($data['iddate']));
+
+		// start LMT
+		$date_of_birth = date("Y-m-d", strtotime($data['date_of_birth']));
+		
+      	$this->db->query("INSERT INTO " . DB_PREFIX . "customer SET firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', gender = '" . $this->db->escape($data['gender_id']) . "', id_num = '" . $this->db->escape($data['idnum']) . "', id_date = '" . $this->db->escape($inputdate) . "',date_of_birth = '" . $this->db->escape($date_of_birth) . "', id_location = '" . $this->db->escape($data['id_location']) . "',university = '" . $this->db->escape($data['university_id']) . "',faculty = '" . $this->db->escape($data['faculty_id']) . "',student_id = '" . $this->db->escape($data['student_id']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', newsletter = '" . (int)$data['newsletter'] . "', customer_group_id = '" . (int)$data['customer_group_id'] . "',bed = '" . (int)$data['bed_id'] . "',  salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', status = '" . (int)$data['status'] . "', date_added = NOW()");
+      	// end LMT
       	$customer_id = $this->db->getLastId();
-      	
+		//update NK University
+		if((int)$data['university_id'] == (int)$NKUniversity) {
+			$this->db->query("UPDATE " . DB_PREFIX . "customer SET student_id = 'NK" . (int)$customer_id . "' WHERE customer_id = '" . (int)$customer_id . "'");
+		}
+      	//end LMT
       	if (isset($data['address'])) {		
       		foreach ($data['address'] as $address) {	
       			$this->db->query("INSERT INTO " . DB_PREFIX . "address SET customer_id = '" . (int)$customer_id . "', firstname = '" . $this->db->escape($address['firstname']) . "', lastname = '" . $this->db->escape($address['lastname']) . "', company = '" . $this->db->escape($address['company']) . "', company_id = '" . $this->db->escape($address['company_id']) . "', tax_id = '" . $this->db->escape($address['tax_id']) . "', address_1 = '" . $this->db->escape($address['address_1']) . "', address_2 = '" . $this->db->escape($address['address_2']) . "', city = '" . $this->db->escape($address['city']) . "', postcode = '" . $this->db->escape($address['postcode']) . "', country_id = '" . (int)$address['country_id'] . "', zone_id = '" . (int)$address['zone_id'] . "'");
@@ -19,8 +39,23 @@ class ModelSaleCustomer extends Model {
 	}
 	
 	public function editCustomer($customer_id, $data) {
-		$this->db->query("UPDATE " . DB_PREFIX . "customer SET firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', newsletter = '" . (int)$data['newsletter'] . "', customer_group_id = '" . (int)$data['customer_group_id'] . "', status = '" . (int)$data['status'] . "' WHERE customer_id = '" . (int)$customer_id . "'");
-	
+		//start LMT
+		$this->load->model('catalog/category');
+		$NKUniversity = $this->model_catalog_category->NKUniversity();
+		$inputdate = date("Y-m-d", strtotime($data['iddate']));
+
+		// start LMT
+		$date_of_birth = date("Y-m-d", strtotime($data['date_of_birth']));
+
+		//$this->db->query("UPDATE " . DB_PREFIX . "customer SET firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', gender = '" . $this->db->escape($data['gender_id']) . "', id_num = '" . $this->db->escape($data['idnum']) . "', id_date = '" . $this->db->escape($inputdate) . "', id_location = '" . $this->db->escape($data['id_location']) . "',university = '" . $this->db->escape($data['university_id']) . "',faculty = '" . $this->db->escape($data['faculty_id']) . "',student_id = '" . $this->db->escape($data['student_id']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', newsletter = '" . (int)$data['newsletter'] . "', customer_group_id = '" . (int)$data['customer_group_id'] . "', status = '" . (int)$data['status'] . "' WHERE customer_id = '" . (int)$customer_id . "'");
+		$this->db->query("UPDATE " . DB_PREFIX . "customer SET firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', gender = '" . $this->db->escape($data['gender_id']) . "', id_num = '" . $this->db->escape($data['idnum']) . "', id_date = '" . $this->db->escape($inputdate) . "',date_of_birth = '" . $this->db->escape($date_of_birth) . "',  id_location = '" . $this->db->escape($data['id_location']) . "',university = '" . $this->db->escape($data['university_id']) . "',faculty = '" . $this->db->escape($data['faculty_id']) . "',student_id = '" . $this->db->escape($data['student_id']) . "', telephone = '" . $this->db->escape($data['telephone']) . "',  newsletter = '" . (int)$data['newsletter'] . "', customer_group_id = '" . (int)$data['customer_group_id'] . "', bed = '" . (int)$data['bed_id'] . "', status = '" . (int)$data['status'] . "' WHERE customer_id = '" . (int)$customer_id . "'");
+		// end LMT
+		//update NK University
+		if((int)$data['university_id'] == (int)$NKUniversity) {
+			$this->db->query("UPDATE " . DB_PREFIX . "customer SET student_id = 'NK" . (int)$customer_id . "' WHERE customer_id = '" . (int)$customer_id . "'");
+		}
+      	//end LMT
+		
       	if ($data['password']) {
         	$this->db->query("UPDATE " . DB_PREFIX . "customer SET salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "' WHERE customer_id = '" . (int)$customer_id . "'");
       	}
@@ -29,13 +64,16 @@ class ModelSaleCustomer extends Model {
       	
       	if (isset($data['address'])) {
       		foreach ($data['address'] as $address) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "address SET address_id = '" . (int)$address['address_id'] . "', customer_id = '" . (int)$customer_id . "', firstname = '" . $this->db->escape($address['firstname']) . "', lastname = '" . $this->db->escape($address['lastname']) . "', company = '" . $this->db->escape($address['company']) . "', company_id = '" . $this->db->escape($address['company_id']) . "', tax_id = '" . $this->db->escape($address['tax_id']) . "', address_1 = '" . $this->db->escape($address['address_1']) . "', address_2 = '" . $this->db->escape($address['address_2']) . "', city = '" . $this->db->escape($address['city']) . "', postcode = '" . $this->db->escape($address['postcode']) . "', country_id = '" . (int)$address['country_id'] . "', zone_id = '" . (int)$address['zone_id'] . "'");
-					
+      			// start LMT
+				//$this->db->query("INSERT INTO " . DB_PREFIX . "address SET address_id = '" . (int)$address['address_id'] . "', customer_id = '" . (int)$customer_id . "', firstname = '" . $this->db->escape($address['firstname']) . "', lastname = '" . $this->db->escape($address['lastname']) . "', company = '" . $this->db->escape($address['company']) . "', company_id = '" . $this->db->escape($address['company_id']) . "', tax_id = '" . $this->db->escape($address['tax_id']) . "', address_1 = '" . $this->db->escape($address['address_1']) . "', address_2 = '" . $this->db->escape($address['address_2']) . "', city = '" . $this->db->escape($address['city']) . "', postcode = '" . $this->db->escape($address['postcode']) . "', country_id = '" . (int)$address['country_id'] . "', zone_id = '" . (int)$address['zone_id'] . "'");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "address SET address_id = '" . (int)$address['address_id'] . "', customer_id = '" . (int)$customer_id . "', address_1 = '" . $this->db->escape($address['address_1']) . "',    country_id = '" . (int)$address['country_id'] . "', zone_id = '" . (int)$address['zone_id'] . "'");
+				
 				if (isset($address['default'])) {
 					$address_id = $this->db->getLastId();
 						
 					$this->db->query("UPDATE " . DB_PREFIX . "customer SET address_id = '" . (int)$address_id . "' WHERE customer_id = '" . (int)$customer_id . "'");
 				}
+				// end LMT
 			}
 		}
 	}
@@ -63,12 +101,42 @@ class ModelSaleCustomer extends Model {
 	
 		return $query->row;
 	}
-			
+	/////////////////////// Modification//////////////////////
+  // ID: 1051015        
+  // Name: Luu Minh Tan           
+  // Class: 10CTT
+  // Date created: 25/12/2013
+  // Description: Change update database func, insert database func
+  // Date modified: 1/1/2014
+  ////////////////////////////////////////////////////////////// 
 	public function getCustomers($data = array()) {
-		$sql = "SELECT *, CONCAT(c.firstname, ' ', c.lastname) AS name, cgd.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+		$sql = "SELECT *, CONCAT(c.lastname, ' ', c.firstname) AS name, cgd.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
 		$implode = array();
-		
+		// start LMT
+
+		if (isset($data['filter_gender']) && !is_null($data['filter_gender'])) {
+			$implode[] = "c.gender = '" . (int)$data['filter_gender'] . "'";
+		}
+		if (!empty($data['filter_date_of_birth'])) {
+			$implode[] = "c.date_of_birth LIKE '%" . $this->db->escape(date("Y-m-d", strtotime($data['filter_date_of_birth']))) . "%'";
+		}
+		if (isset($data['filter_bed']) && !is_null($data['filter_bed'])) {
+			$implode[] = "c.bed = '" . (int)$data['filter_bed'] . "'";
+		}
+		if (!empty($data['filter_ethnic'])) {
+			$implode[] = "c.ethnic LIKE '%" . $this->db->escape($data['filter_ethnic']) . "%'";
+		}
+		if (!empty($data['filter_university'])) {
+			$implode[] = "c.university LIKE '%" . $this->db->escape($data['filter_university']) . "%'";
+		}
+		if (!empty($data['filter_faculty'])) {
+			$implode[] = "c.faculty LIKE '%" . $this->db->escape($data['filter_faculty']) . "%'";
+		}
+		if (!empty($data['filter_address_1'])) {
+			$implode[] = "c.id_location LIKE '%" . $this->db->escape($data['filter_address_1']) . "%'";
+		}
+		// end LMT
 		if (!empty($data['filter_name'])) {
 			$implode[] = "CONCAT(c.firstname, ' ', c.lastname) LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
 		}
@@ -106,13 +174,24 @@ class ModelSaleCustomer extends Model {
 		}
 		
 		$sort_data = array(
+			// start LMT
+			'student_id',
 			'name',
+			'gender',
+			'date_of_birth',
+			'university',
+			'faculty',
 			'c.email',
 			'customer_group',
+			'floor',
+			'bed',
+			'ethnic',
+			'address_1',
 			'c.status',
 			'c.approved',
 			'c.ip',
 			'c.date_added'
+			// end LMT
 		);	
 			
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {

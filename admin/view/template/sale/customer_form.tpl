@@ -14,11 +14,29 @@
       <div class="buttons"><a onclick="$('#form').submit();" class="button"><?php echo $button_save; ?></a><a href="<?php echo $cancel; ?>" class="button"><?php echo $button_cancel; ?></a></div>
     </div>
     <div class="content">
+    <!--
+    /////////////////////// Modification//////////////////////
+    // ID: 1051015        
+    // Name: Luu Minh Tan           
+    // Class: 10CTT
+    // Date created: 24/12/2013
+    // Description: Change tab. Add attributes in list-view
+    // Date modified: 2/1/2014
+    ////////////////////////////////////////////////////////////// 
+    -->
+    <!-- start LMT -->
       <div id="htabs" class="htabs"><a href="#tab-general"><?php echo $tab_general; ?></a>
+        <!-- Delete
         <?php if ($customer_id) { ?>
-        <a href="#tab-history"><?php echo $tab_history; ?></a><a href="#tab-transaction"><?php echo $tab_transaction; ?></a><a href="#tab-reward"><?php echo $tab_reward; ?></a>
+        
+        <a href="#tab-history"><?php echo $tab_history; ?></a>
+        <a href="#tab-transaction"><?php echo $tab_transaction; ?></a>
+        <a href="#tab-reward"><?php echo $tab_reward; ?></a>
         <?php } ?>
-        <a href="#tab-ip"><?php echo $tab_ip; ?></a></div>
+        <a href="#tab-ip"><?php echo $tab_ip; ?></a>
+        -->
+        </div>
+        <!-- end LMT -->
       <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
         <div id="tab-general">
           <div id="vtabs" class="vtabs"><a href="#tab-customer"><?php echo $tab_general; ?></a>
@@ -29,7 +47,11 @@
             <?php } ?>
             <span id="address-add"><?php echo $button_add_address; ?>&nbsp;<img src="view/image/add.png" alt="" onclick="addAddress();" /></span></div>
           <div id="tab-customer" class="vtabs-content">
-            <table class="form">
+          <!-- start LMT -->
+          <h2 style="border-bottom:none"><?php echo $text_basic_info; ?></h2>
+          <div class="content" style="border:1px solid #EEEEEE" >
+          <table class="form" style="margin-bottom:0px">
+          <!-- end LMT -->
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_firstname; ?></td>
                 <td><input type="text" name="firstname" value="<?php echo $firstname; ?>" />
@@ -45,6 +67,37 @@
                   <?php } ?></td>
               </tr>
               <tr>
+                <td><span class="required">*</span> <?php echo $entry_date_of_birth; ?></td>
+                <td><input type="text" name="date_of_birth" value="<?php echo $date_of_birth; ?>" size="12" class="date" />
+                <?php if ($error_date_of_birth) { ?>
+                  <span class="error"><?php echo $error_date_of_birth; ?></span>
+                  <?php  } ?>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="required">*</span> <?php echo $entry_gender; ?></td>
+                <td><select name="gender_id">
+                  <option value=""><?php echo $text_select; ?></option>
+                  <?php foreach ($genders as $gender) { ?>
+                  <?php if ($gender['gender_id'] == $gender_id) { ?>
+                  <option value="<?php echo $gender['gender_id']; ?>" selected="selected"><?php echo $gender['gender']; ?></option>
+                  <?php } else { ?>
+                  <option value="<?php echo $gender['gender_id']; ?>"><?php echo $gender['gender']; ?></option>
+                  <?php } ?>
+                  <?php } ?>
+                </select>
+                <?php if ($error_gender) { ?>
+                <span class="error"><?php echo $error_gender; ?></span>
+                <?php } ?></td>
+              </tr>
+              <!-- start LMT --> 
+              </table>
+              </div>
+              <h2 style="border-bottom:none"><?php echo $text_contact; ?></h2>
+              <div class="content" style="border:1px solid #EEEEEE" >
+              <table class="form" style="margin-bottom:0px">
+              <!-- end LMT -->
+              <tr>
                 <td><span class="required">*</span> <?php echo $entry_email; ?></td>
                 <td><input type="text" name="email" value="<?php echo $email; ?>" />
                   <?php if ($error_email) { ?>
@@ -58,10 +111,99 @@
                   <span class="error"><?php echo $error_telephone; ?></span>
                   <?php  } ?></td>
               </tr>
+              <!-- start LMT --> 
+              </table>
+              </div>
+              <h2 style="border-bottom:none"><?php echo $text_identity; ?></h2>
+              <div class="content" style="border:1px solid #EEEEEE" >
+          <table class="form" style="margin-bottom:0px">
+              <!-- end LMT -->
+              <!-- start LMT -->
+              <tr>
+                <td><span class="required">*</span> <?php echo $entry_idnum; ?></td>
+                <td><input type="text" name="idnum" value="<?php echo $idnum; ?>" />
+                  <?php if ($error_idnum) { ?>
+                  <span class="error"><?php echo $error_idnum; ?></span>
+                  <?php  } ?></td>
+              </tr>
+              <tr>
+                <td><span class="required">*</span> <?php echo $entry_iddate; ?></td>
+                <td><input type="text" name="iddate" value="<?php echo $iddate; ?>" size="12" class="date"/>
+                <?php if ($error_iddate) { ?>
+                  <span class="error"><?php echo $error_iddate; ?></span>
+                  <?php  } ?>
+                </td>
+              </tr>
+              <tr>
+              <!-- start LMT -->
+                <td><span class="required">*</span><?php echo $entry_idlocation; ?></td>
+                <td><select name="id_location">
+                  <option value=""><?php echo $text_select; ?></option>
+                  <?php foreach ($regions as $region) { ?>
+                  <?php if ($region['zone_id'] == $id_location) { ?>
+                  <option value="<?php echo $region['zone_id']; ?>" selected="selected"><?php echo $region['name']; ?></option>
+                  <?php } else { ?>
+                  <option value="<?php echo $region['zone_id']; ?>"><?php echo $region['name']; ?></option>
+                  <?php } ?>
+                  <?php } ?>
+                </select>
+                <?php if ($error_id_location) { ?>
+              <span class="error"><?php echo $error_id_location; ?></span>
+            <?php } ?></td>
+            <!-- end LMT -->
+              </tr>
+              <!-- start LMT --> 
+              </table>
+              </div>
+              <h2 style="border-bottom:none"><?php echo $text_university; ?></h2>
+              <div class="content" style="border:1px solid #EEEEEE" >
+          <table class="form" style="margin-bottom:0px">
+              <!-- end LMT -->
+              <tr>
+                  <td><span class="required">*</span> <?php echo $entry_university; ?></td>
+                  <td><select name="university_id">
+                      <option value="-1"><?php echo $text_select; ?></option>
+                      <?php foreach ($universities as $university) { ?>
+                      <?php if ($university['category_id'] == $university_id) { ?>
+                      <option value="<?php echo $university['category_id']; ?>" selected="selected"><?php echo $university['name']; ?></option>
+                      <?php } else { ?>
+                      <option value="<?php echo $university['category_id']; ?>"><?php echo $university['name']; ?></option>
+                      <?php } ?>
+                      <?php } ?>
+                    </select>
+                    <?php if ($error_university) { ?>
+                    <span class="error"><?php echo $error_university; ?></span>
+                    <?php } ?></td>
+                </tr>
+                 <tr>
+                  <td><span class="required">*</span> <?php echo $entry_faculty; ?></td>
+                  <td><select name="faculty_id">
+                    </select>
+                    <?php if ($error_faculty) { ?>
+                    <span class="error"><?php echo $error_faculty; ?></span>
+                    <?php } ?></td>
+                </tr>
+                <tr id="studentidblock_head">
+                  <td><span class="required">*</span> <?php echo $entry_student_id; ?></td>
+                  <td><input type="text" name="student_id" value="<?php echo $student_id; ?>" />
+                    <?php if ($error_student_id) { ?>
+                    <span class="error"><?php echo $error_student_id; ?></span>
+                    <?php } ?></td>
+                </tr>
+              <!-- end LMT -->
+               <!-- start LMT --> 
+              </table>
+              </div>
+              <h2 style="border-bottom:none"><?php echo $text_password; ?></h2>
+              <div class="content" style="border:1px solid #EEEEEE" >
+          <table class="form" style="margin-bottom:0px">
+              <!-- Delete
               <tr>
                 <td><?php echo $entry_fax; ?></td>
                 <td><input type="text" name="fax" value="<?php echo $fax; ?>" /></td>
               </tr>
+              -->
+              <!-- end LMT -->
               <tr>
                 <td><?php echo $entry_password; ?></td>
                 <td><input type="password" name="password" value="<?php echo $password; ?>"  />
@@ -76,18 +218,13 @@
                   <span class="error"><?php echo $error_confirm; ?></span>
                   <?php  } ?></td>
               </tr>
-              <tr>
-                <td><?php echo $entry_newsletter; ?></td>
-                <td><select name="newsletter">
-                    <?php if ($newsletter) { ?>
-                    <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
-                    <option value="0"><?php echo $text_disabled; ?></option>
-                    <?php } else { ?>
-                    <option value="1"><?php echo $text_enabled; ?></option>
-                    <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
-                    <?php } ?>
-                  </select></td>
-              </tr>
+              <!-- start LMT --> 
+              </table>
+              </div>
+              <h2 style="border-bottom:none"><?php echo $text_campus; ?></h2>
+              <div class="content" style="border:1px solid #EEEEEE" >
+          <table class="form" style="margin-bottom:0px">
+              <!-- end LMT -->
               <tr>
                 <td><?php echo $entry_customer_group; ?></td>
                 <td><select name="customer_group_id">
@@ -100,6 +237,32 @@
                     <?php } ?>
                   </select></td>
               </tr>
+              <tr>
+              <td><?php echo $entry_bed; ?></td>
+                <td><select name="bed_id">
+                  <option value=""></option>
+                  <?php foreach ($beds as $bed) { ?>
+                  <?php if ($bed['bed_id'] == $bed_id) { ?>
+                  <option value="<?php echo $bed['bed_id']; ?>" selected="selected"><?php echo $bed['name']; ?></option>
+                  <?php } else { ?>
+                  <option value="<?php echo $bed['bed_id']; ?>"><?php echo $bed['name']; ?></option>
+                  <?php } ?>
+                  <?php } ?>
+                </select></td>
+              </tr>
+              <tr>
+                <td><?php echo $entry_newsletter; ?></td>
+                <td><select name="newsletter">
+                    <?php if ($newsletter) { ?>
+                    <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
+                    <option value="0"><?php echo $text_disabled; ?></option>
+                    <?php } else { ?>
+                    <option value="1"><?php echo $text_enabled; ?></option>
+                    <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+                    <?php } ?>
+                  </select></td>
+              </tr>
+              
               <tr>
                 <td><?php echo $entry_status; ?></td>
                 <td><select name="status">
@@ -114,11 +277,14 @@
               </tr>
             </table>
           </div>
+          </div>
           <?php $address_row = 1; ?>
           <?php foreach ($addresses as $address) { ?>
           <div id="tab-address-<?php echo $address_row; ?>" class="vtabs-content">
             <input type="hidden" name="address[<?php echo $address_row; ?>][address_id]" value="<?php echo $address['address_id']; ?>" />
             <table class="form">
+            <!-- start LMT -->
+            <!--
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_firstname; ?></td>
                 <td><input type="text" name="address[<?php echo $address_row; ?>][firstname]" value="<?php echo $address['firstname']; ?>" />
@@ -148,6 +314,8 @@
                   <span class="error"><?php echo $error_address_tax_id[$address_row]; ?></span>
                   <?php } ?></td>
               </tr>
+              -->
+               <!-- end LMT -->
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_address_1; ?></td>
                 <td><input type="text" name="address[<?php echo $address_row; ?>][address_1]" value="<?php echo $address['address_1']; ?>" />
@@ -155,10 +323,13 @@
                   <span class="error"><?php echo $error_address_address_1[$address_row]; ?></span>
                   <?php } ?></td>
               </tr>
+              <!-- start LMT -->
+              <!-- 
               <tr>
                 <td><?php echo $entry_address_2; ?></td>
                 <td><input type="text" name="address[<?php echo $address_row; ?>][address_2]" value="<?php echo $address['address_2']; ?>" /></td>
               </tr>
+             
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_city; ?></td>
                 <td><input type="text" name="address[<?php echo $address_row; ?>][city]" value="<?php echo $address['city']; ?>" />
@@ -166,10 +337,13 @@
                   <span class="error"><?php echo $error_address_city[$address_row]; ?></span>
                   <?php } ?></td>
               </tr>
+
               <tr>
                 <td><span id="postcode-required<?php echo $address_row; ?>" class="required">*</span> <?php echo $entry_postcode; ?></td>
                 <td><input type="text" name="address[<?php echo $address_row; ?>][postcode]" value="<?php echo $address['postcode']; ?>" /></td>
               </tr>
+              -->
+              <!-- end LMT -->
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_country; ?></td>
                 <td><select name="address[<?php echo $address_row; ?>][country_id]" onchange="country(this, '<?php echo $address_row; ?>', '<?php echo $address['zone_id']; ?>');">
@@ -208,6 +382,8 @@
           <?php $address_row++; ?>
           <?php } ?>
         </div>
+        <!-- start LMT -->
+        <!-- Delete
         <?php if ($customer_id) { ?>
         <div id="tab-history">
           <div id="history"></div>
@@ -286,6 +462,8 @@
             </tbody>
           </table>
         </div>
+        -->
+        <!-- end LMT -->
       </form>
     </div>
   </div>
@@ -351,8 +529,29 @@ function country(element, index, zone_id) {
 				} else {
 					html += '<option value="0"><?php echo $text_none; ?></option>';
 				}
-				
 				$('select[name=\'address[' + index + '][zone_id]\']').html(html);
+				
+				<!-- start LMT-->
+				html_id_location = '<option value=""><?php echo $text_select; ?></option>';
+				
+				if (json['zone'] != '') {
+					for (i = 0; i < json['zone'].length; i++) {
+						html_id_location += '<option value="' + json['zone'][i]['zone_id'] + '"';
+						
+						if (json['zone'][i]['zone_id'] == '<?php echo $id_location; ?>') {
+							html_id_location += ' selected="selected"';
+						}
+		
+						html_id_location += '>' + json['zone'][i]['name'] + '</option>';
+					}
+				} else {
+					html_id_location += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+				}
+				
+				$('select[name=\'id_location\']').html(html_id_location);
+				<!-- end LMT-->
+				
+				
 			},
 			error: function(xhr, ajaxOptions, thrownError) {
 				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
@@ -362,6 +561,67 @@ function country(element, index, zone_id) {
 }
 
 $('select[name$=\'[country_id]\']').trigger('change');
+
+/////////////////////// Modification//////////////////////
+  // ID: 1051015        
+  // Name: Luu Minh Tan           
+  // Class: 10CTT
+  // Date created: 22/12/2013
+  // Description: Code get university and check NK high school function 
+  // Date modified: 2/1/2014
+  ////////////////////////////////////////////////////////////// 
+<!-- start LMT -->
+var nkid = '<?php echo $NKUniversity ?>';
+$('select[name=\'university_id\']').bind('change', function() {
+	$.ajax({
+		url: 'index.php?route=sale/customer/childcategory&token=<?php echo $token; ?>&university_id=' + $('select[name=\'university_id\']').val(),
+		dataType: 'json',
+		beforeSend: function() {
+			$('select[name=\'university_id\']').after('<span class="wait">&nbsp;<img src="catalog/view/theme/default/image/loading.gif" alt="" /></span>');
+		},
+		complete: function() {
+			$('.wait').remove();
+		},			
+		success: function(json) {
+			
+			html = '<option value=""><?php echo $text_select; ?></option>';
+			if (json) {
+				for (i = 0; i < json.length; i++) {
+        			html += '<option value="' + json[i]['faculty_id'] + '"';
+	    			
+					if (json[i]['faculty_id'] == '<?php echo $faculty_id; ?>') {
+	      				html += ' selected="selected"';
+	    			}
+	
+	    			html += '>' + json[i]['name'] + '</option>';
+				}
+			} else {
+				html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+			}
+			
+			$('select[name=\'faculty_id\']').html(html);
+			
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});
+	//check Nang Khieu
+	// if($('select[name=\'university_id\']').val() == nkid) {
+	// 	var timestamp = +new Date();
+	// 	$('tr[id^=\'studentidblock_\']').hide();
+	// 	$('input[name=\'student_id\']').val('NK'+ timestamp.toString().substr(0,8));
+	// 	$('input[name=\'student_id\']').attr("readonly","readonly");
+	// }
+	// else{
+	// 	$('tr[id^=\'studentidblock_\']').show();
+	// 	$('input[name=\'student_id\']').val('');
+	// 	$('input[name=\'student_id\']').removeAttr("readonly");
+	// }
+});
+
+$('select[name=\'university_id\']').trigger('change');
+<!--start LMT-->
 //--></script> 
 <script type="text/javascript"><!--
 var address_row = <?php echo $address_row; ?>;
@@ -371,6 +631,8 @@ function addAddress() {
 	html += '  <input type="hidden" name="address[' + address_row + '][address_id]" value="" />';
 	html += '  <table class="form">'; 
 	html += '    <tr>';
+  // start LMT
+  /*
     html += '	   <td><span class="required">*</span> <?php echo $entry_firstname; ?></td>';
     html += '	   <td><input type="text" name="address[' + address_row + '][firstname]" value="" /></td>';
     html += '    </tr>';
@@ -389,16 +651,20 @@ function addAddress() {
     html += '    <tr class="tax-id-display">';
     html += '      <td><?php echo $entry_tax_id; ?></td>';
     html += '      <td><input type="text" name="address[' + address_row + '][tax_id]" value="" /></td>';
-    html += '    </tr>';			
+    html += '    </tr>';	
+    */
+    // end LMT		
     html += '    <tr>';
     html += '      <td><span class="required">*</span> <?php echo $entry_address_1; ?></td>';
     html += '      <td><input type="text" name="address[' + address_row + '][address_1]" value="" /></td>';
     html += '    </tr>';
+    // start LMT 
+    /*
     html += '    <tr>';
-    html += '      <td><?php echo $entry_address_2; ?></td>';
+    html += '      <td><span class="required">*</span><?php echo $entry_address_2; ?></td>';
     html += '      <td><input type="text" name="address[' + address_row + '][address_2]" value="" /></td>';
     html += '    </tr>';
-    html += '    <tr>';
+    html += '    <tr style="display:none;">';
     html += '      <td><span class="required">*</span> <?php echo $entry_city; ?></td>';
     html += '      <td><input type="text" name="address[' + address_row + '][city]" value="" /></td>';
     html += '    </tr>';
@@ -406,6 +672,8 @@ function addAddress() {
     html += '      <td><span id="postcode-required' + address_row + '" class="required">*</span> <?php echo $entry_postcode; ?></td>';
     html += '      <td><input type="text" name="address[' + address_row + '][postcode]" value="" /></td>';
     html += '    </tr>';
+    */
+    // end LMT
 	html += '    <tr>';
     html += '      <td><span class="required">*</span> <?php echo $entry_country; ?></td>';
     html += '      <td><select name="address[' + address_row + '][country_id]" onchange="country(this, \'' + address_row + '\', \'0\');">';
@@ -611,4 +879,11 @@ function removeBanIP(ip) {
 $('.htabs a').tabs();
 $('.vtabs a').tabs();
 //--></script> 
+<!-- start LMT -->
+<script type="text/javascript"><!--
+$(document).ready(function() {
+  $('.date').datepicker({dateFormat: 'dd-mm-yy'});
+});
+//--></script> 
+<!-- end LMT -->
 <?php echo $footer; ?>

@@ -1,4 +1,12 @@
 <?php
+/////////////////////// Modification//////////////////////
+  // ID: 1051015        
+  // Name: Luu Minh Tan           
+  // Class: 10CTT
+  // Date created: 25/12/2013
+  // Description: Change update database func, insert database func
+  // Date modified: 1/1/2014
+  ////////////////////////////////////////////////////////////// 
 class ModelCatalogCategory extends Model {
 	public function addCategory($data) {
 		$this->db->query("INSERT INTO " . DB_PREFIX . "category SET parent_id = '" . (int)$data['parent_id'] . "', `top` = '" . (isset($data['top']) ? (int)$data['top'] : 0) . "', `column` = '" . (int)$data['column'] . "', sort_order = '" . (int)$data['sort_order'] . "', status = '" . (int)$data['status'] . "', date_modified = NOW(), date_added = NOW()");
@@ -197,6 +205,53 @@ class ModelCatalogCategory extends Model {
 			$this->repairCategories($category['category_id']);
 		}
 	}
+	/////////////////////// Modification//////////////////////
+  // ID: 1051015        
+  // Name: Luu Minh Tan           
+  // Class: 10CTT
+  // Date created: 25/12/2013
+  // Description: code func check stundent ID
+  // Date modified: 1/1/2014
+  ////////////////////////////////////////////////////////////// 
+	// start LMT
+	public function checkStudentID($student_id) {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer WHERE student_id = '" . (int)$student_id . "'");
+		if($query->num_rows) {
+			return false;
+		}
+		
+		return true;
+	}
+	/////////////////////// Modification//////////////////////
+  // ID: 1051015        
+  // Name: Luu Minh Tan           
+  // Class: 10CTT
+  // Date created: 25/12/2013
+  // Description: Code func get NK high school
+  // Date modified: 1/1/2014
+  ////////////////////////////////////////////////////////////// 
+	public function NKUniversity() {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "category_description WHERE name like '%Nang Khieu%'");
+		if($query->row) {
+			return $query->row['category_id'];
+		}
+		
+		return 0;
+	}
+	/////////////////////// Modification//////////////////////
+  // ID: 1051015        
+  // Name: Luu Minh Tan           
+  // Class: 10CTT
+  // Date created: 25/12/2013
+  // Description: Code func get all universities
+  // Date modified: 1/1/2014
+  ////////////////////////////////////////////////////////////// 
+	public function getUniversityCategories($parent_id = 0) {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "category c LEFT JOIN " . DB_PREFIX . "category_description cd ON (c.category_id = cd.category_id) LEFT JOIN " . DB_PREFIX . "category_to_store c2s ON (c.category_id = c2s.category_id) WHERE c.parent_id = '" . (int)$parent_id . "' AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND c2s.store_id = '" . (int)$this->config->get('config_store_id') . "'  AND c.status = '1' ORDER BY c.sort_order, LCASE(cd.name)");
+
+		return $query->rows;
+	}
+	//end LMT
 			
 	public function getCategory($category_id) {
 		$query = $this->db->query("SELECT DISTINCT *, (SELECT GROUP_CONCAT(cd1.name ORDER BY level SEPARATOR ' &gt; ') FROM " . DB_PREFIX . "category_path cp LEFT JOIN " . DB_PREFIX . "category_description cd1 ON (cp.path_id = cd1.category_id AND cp.category_id != cp.path_id) WHERE cp.category_id = c.category_id AND cd1.language_id = '" . (int)$this->config->get('config_language_id') . "' GROUP BY cp.category_id) AS path, (SELECT keyword FROM " . DB_PREFIX . "url_alias WHERE query = 'category_id=" . (int)$category_id . "') AS keyword FROM " . DB_PREFIX . "category c LEFT JOIN " . DB_PREFIX . "category_description cd2 ON (c.category_id = cd2.category_id) WHERE c.category_id = '" . (int)$category_id . "' AND cd2.language_id = '" . (int)$this->config->get('config_language_id') . "'");

@@ -265,26 +265,113 @@ class ControllerSaleCustomer extends Controller {
 		
 		$this->getList();
 	} 
-    
+   
+  /////////////////////// Modification//////////////////////
+  // ID: 1051015        
+  // Name: Luu Minh Tan           
+  // Class: 10CTT
+  // Date created: 22/12/2013
+  // Description: Change get list function
+  // Date modified: 2/1/2014
+  ////////////////////////////////////////////////////////////// 
+
   	protected function getList() {
+            
+            // start LMT
+  		/*
+            if (isset($this->request->get['filter_gender'])) {
+				$filter_gender = $this->request->get['filter_gender'];
+			} else {
+				$filter_gender = null;
+			}
+			*/
+			if (isset($this->request->get['filter_date_of_birth'])) {
+				$filter_date_of_birth = $this->request->get['filter_date_of_birth'];
+			} else {
+				$filter_date_of_birth = null;
+			}
+			if (isset($this->request->get['filter_university'])) {
+				$filter_university = $this->request->get['filter_university'];
+			} else {
+				$filter_university = null;
+			}
+			if (isset($this->request->get['filter_faculty'])) {
+				$filter_faculty= $this->request->get['filter_faculty'];
+			} else {
+				$filter_faculty = null;
+			}
+			if (isset($this->request->get['filter_floor'])) {
+				$filter_floor= $this->request->get['filter_floor'];
+			} else {
+				$filter_floor = null;
+			}
+            if (isset($this->request->get['filter_customer_group_id'])) {
+				$filter_customer_group_id = $this->request->get['filter_customer_group_id'];
+			} else {
+				$filter_customer_group_id = null;
+			}
+			if (isset($this->request->get['filter_bed'])) {
+				$filter_bed= $this->request->get['filter_bed'];
+			} else {
+				$filter_bed = null;
+			}
+			if (isset($this->request->get['filter_ethnic'])) {
+				$filter_ethnic= $this->request->get['filter_ethnic'];
+			} else {
+				$filter_ethnic = null;
+			}
+			if (isset($this->request->get['filter_address_1'])) {
+				$filter_address_1= $this->request->get['filter_address_1'];
+			} else {
+				$filter_address_1 = null;
+			}
+
+			$this->data['column_student_id'] = $this->language->get('column_student_id');
+			$this->data['column_gender'] = $this->language->get('column_gender');
+			$this->data['column_university'] = $this->language->get('column_university');
+			$this->data['column_faculty'] = $this->language->get('column_faculty');
+			$this->data['column_floor'] = $this->language->get('column_floor');
+			$this->data['column_date_of_birth'] = $this->language->get('column_date_of_birth');
+			$this->data['column_ethnic'] = $this->language->get('column_ethnic');
+			$this->data['column_bed'] = $this->language->get('column_bed');
+			$this->data['column_address_1'] = $this->language->get('column_address_1');
+
+			$this->data['text_male'] = $this->language->get('text_male');
+			$this->data['text_female'] = $this->language->get('text_female');
+
+			$this->load->model('catalog/category');
+			$universities = $this->model_catalog_category->getUniversityCategories();
+			$this->data['universities'] = $universities;
+
+			$NKUniversity = $this->model_catalog_category->NKUniversity();
+			$this->data['NKUniversity'] = $NKUniversity;
+
+			$this->data['text_none'] = $this->language->get('text_none');
+			
+			$beds = array(
+					array('bed_id' => '1', 'name' => $this->language->get('entry_bed_1')),
+					array('bed_id' => '2', 'name' => $this->language->get('entry_bed_2')),
+					array('bed_id' => '3', 'name' => $this->language->get('entry_bed_3')),
+					array('bed_id' => '4', 'name' => $this->language->get('entry_bed_4')),
+					array('bed_id' => '5', 'name' => $this->language->get('entry_bed_5')),
+					array('bed_id' => '6', 'name' => $this->language->get('entry_bed_6')),
+					array('bed_id' => '7', 'name' => $this->language->get('entry_bed_7')),
+					array('bed_id' => '8', 'name' => $this->language->get('entry_bed_8')),
+					);
+					
+			$this->data['beds'] = $beds;
+
+            // end LMT
 		if (isset($this->request->get['filter_name'])) {
 			$filter_name = $this->request->get['filter_name'];
 		} else {
 			$filter_name = null;
 		}
-
 		if (isset($this->request->get['filter_email'])) {
 			$filter_email = $this->request->get['filter_email'];
 		} else {
 			$filter_email = null;
 		}
-		
-		if (isset($this->request->get['filter_customer_group_id'])) {
-			$filter_customer_group_id = $this->request->get['filter_customer_group_id'];
-		} else {
-			$filter_customer_group_id = null;
-		}
-
 		if (isset($this->request->get['filter_status'])) {
 			$filter_status = $this->request->get['filter_status'];
 		} else {
@@ -328,6 +415,33 @@ class ControllerSaleCustomer extends Controller {
 		}
 						
 		$url = '';
+		// start LMT
+		if (isset($this->request->get['filter_gender'])) {
+			$url .= '&filter_gender=' . $this->request->get['filter_gender'];
+		}	
+		if (isset($this->request->get['filter_customer_group_id'])) {
+			$url .= '&filter_customer_group_id=' . $this->request->get['filter_customer_group_id'];
+		}	
+		if (isset($this->request->get['filter_date_of_birth'])) {
+			$url .= '&filter_date_of_birth=' . $this->request->get['filter_date_of_birth'];
+		}	
+		if (isset($this->request->get['filter_university'])) {
+			$url .= '&filter_university=' . $this->request->get['filter_university'];
+		}
+		if (isset($this->request->get['filter_faculty'])) {
+			$url .= '&filter_faculty=' . $this->request->get['filter_faculty'];
+		}
+		if (isset($this->request->get['filter_bed'])) {
+			$url .= '&filter_bed=' . $this->request->get['filter_bed'];
+		}
+		if (isset($this->request->get['filter_ethnic'])) {
+			$url .= '&filter_ethnic=' . urlencode(html_entity_decode($this->request->get['filter_ethnic'], ENT_QUOTES, 'UTF-8'));
+		}
+		if (isset($this->request->get['filter_address_1'])) {
+			$url .= '&filter_address_1=' . $this->request->get['filter_address_1'];
+		}
+		
+		// end LMT
 
 		if (isset($this->request->get['filter_name'])) {
 			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
@@ -335,10 +449,6 @@ class ControllerSaleCustomer extends Controller {
 		
 		if (isset($this->request->get['filter_email'])) {
 			$url .= '&filter_email=' . urlencode(html_entity_decode($this->request->get['filter_email'], ENT_QUOTES, 'UTF-8'));
-		}
-		
-		if (isset($this->request->get['filter_customer_group_id'])) {
-			$url .= '&filter_customer_group_id=' . $this->request->get['filter_customer_group_id'];
 		}
 			
 		if (isset($this->request->get['filter_status'])) {
@@ -390,6 +500,15 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['customers'] = array();
 
 		$data = array(
+            // start LMT
+            'filter_university'              => $filter_university,
+            'filter_faculty'              => $filter_faculty,
+            'filter_floor'              => $filter_floor,
+            'filter_date_of_birth' 		=> $filter_date_of_birth,
+            'filter_bed'              => $filter_bed,
+            'filter_ethnic'              => $filter_ethnic,
+            'filter_address_1'              => $filter_address_1,
+            // end LMT
 			'filter_name'              => $filter_name, 
 			'filter_email'             => $filter_email, 
 			'filter_customer_group_id' => $filter_customer_group_id, 
@@ -415,17 +534,37 @@ class ControllerSaleCustomer extends Controller {
 				'href' => $this->url->link('sale/customer/update', 'token=' . $this->session->data['token'] . '&customer_id=' . $result['customer_id'] . $url, 'SSL')
 			);
 			
+			// start LMT
+			
+			$this->load->model('catalog/category');
+			$university = $this->model_catalog_category->getCategory($result['university']);
+			$faculty = $this->model_catalog_category->getCategory($result['faculty']);
+
+			$this->load->model('localisation/zone');
+			$zone = $this->model_localisation_zone->getZone($result['id_location']);
+			// $address = get address by id_location
+
 			$this->data['customers'][] = array(
+                 
 				'customer_id'    => $result['customer_id'],
+				'student_id'    => $result['student_id'],
 				'name'           => $result['name'],
-				'email'          => $result['email'],
+				'gender'          => ($result['gender'] ? $this->language->get('text_male') : $this->language->get('text_female')),
+				'date_of_birth' 	=> date("d-m-Y", strtotime($result['date_of_birth'])),
+				'university'          => $university['name'],
+				'faculty'          => $faculty['name'],
+				'floor'          => 'floor_mark',
+				'bed'          => $result['bed'],
+				'ethnic'          => $result['ethnic'],
+				'address_1'          => $zone['name'],
 				'customer_group' => $result['customer_group'],
 				'status'         => ($result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
 				'approved'       => ($result['approved'] ? $this->language->get('text_yes') : $this->language->get('text_no')),
-				'ip'             => $result['ip'],
-				'date_added'     => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+				
 				'selected'       => isset($this->request->post['selected']) && in_array($result['customer_id'], $this->request->post['selected']),
 				'action'         => $action
+                 // end LMT           
+				
 			);
 		}	
 					
@@ -472,6 +611,33 @@ class ControllerSaleCustomer extends Controller {
 		
 		$url = '';
 
+		// start LMT
+		if (isset($this->request->get['filter_gender'])) {
+			$url .= '&filter_gender=' . $this->request->get['filter_gender'];
+		}	
+		if (isset($this->request->get['filter_university'])) {
+			$url .= '&filter_university=' . $this->request->get['filter_university'];
+		}
+		if (isset($this->request->get['filter_date_of_birth'])) {
+			$url .= '&filter_date_of_birth=' . $this->request->get['filter_date_of_birth'];
+		}	
+		if (isset($this->request->get['filter_faculty'])) {
+			$url .= '&filter_faculty=' . $this->request->get['filter_faculty'];
+		}
+		if (isset($this->request->get['filter_floor'])) {
+			$url .= '&filter_floor=' . $this->request->get['filter_floor'];
+		}
+		if (isset($this->request->get['filter_bed'])) {
+			$url .= '&filter_bed=' . $this->request->get['filter_bed'];
+		}
+		if (isset($this->request->get['filter_ethnic'])) {
+			$url .= '&filter_ethnic=' . urlencode(html_entity_decode($this->request->get['filter_ethnic'], ENT_QUOTES, 'UTF-8'));
+		}
+		if (isset($this->request->get['filter_address_1'])) {
+			$url .= '&filter_address_1=' . $this->request->get['filter_address_1'];
+		}
+		// end LMT
+
 		if (isset($this->request->get['filter_name'])) {
 			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
 		}
@@ -510,6 +676,17 @@ class ControllerSaleCustomer extends Controller {
 			$url .= '&page=' . $this->request->get['page'];
 		}
 		
+		// start LMT
+		$this->data['sort_student_id'] = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&sort=student_id' . $url, 'SSL');
+		$this->data['sort_date_of_birth'] = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&sort=date_of_birth' . $url, 'SSL');
+		$this->data['sort_gender'] = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&sort=gender' . $url, 'SSL');
+		$this->data['sort_university'] = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&sort=university' . $url, 'SSL');
+		$this->data['sort_faculty'] = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&sort=faculty' . $url, 'SSL');	
+		$this->data['sort_bed'] = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&sort=bed' . $url, 'SSL');	
+		$this->data['sort_ethnic'] = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&sort=ethnic' . $url, 'SSL');	
+		$this->data['sort_address_1'] = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&sort=id_location' . $url, 'SSL');	
+		// end LMT
+
 		$this->data['sort_name'] = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&sort=name' . $url, 'SSL');
 		$this->data['sort_email'] = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&sort=c.email' . $url, 'SSL');
 		$this->data['sort_customer_group'] = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&sort=customer_group' . $url, 'SSL');
@@ -519,6 +696,33 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['sort_date_added'] = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&sort=c.date_added' . $url, 'SSL');
 		
 		$url = '';
+
+		// start LMT
+		if (isset($this->request->get['filter_gender'])) {
+			$url .= '&filter_gender=' . $this->request->get['filter_gender'];
+		}	
+		if (isset($this->request->get['filter_university'])) {
+			$url .= '&filter_university=' . $this->request->get['filter_university'];
+		}	
+		if (isset($this->request->get['filter_date_of_birth'])) {
+			$url .= '&filter_date_of_birth=' . $this->request->get['filter_date_of_birth'];
+		}
+		if (isset($this->request->get['filter_faculty'])) {
+			$url .= '&filter_faculty=' . $this->request->get['filter_faculty'];
+		}
+		if (isset($this->request->get['filter_floor'])) {
+			$url .= '&filter_floor=' . $this->request->get['filter_floor'];
+		}
+		if (isset($this->request->get['filter_bed'])) {
+			$url .= '&filter_bed=' . $this->request->get['filter_bed'];
+		}
+		if (isset($this->request->get['filter_ethnic'])) {
+			$url .= '&filter_ethnic=' . urlencode(html_entity_decode($this->request->get['filter_ethnic'], ENT_QUOTES, 'UTF-8'));
+		}
+		if (isset($this->request->get['filter_address_1'])) {
+			$url .= '&filter_address_1=' . $this->request->get['filter_address_1'];
+		}
+		// end LMT
 
 		if (isset($this->request->get['filter_name'])) {
 			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
@@ -565,9 +769,19 @@ class ControllerSaleCustomer extends Controller {
 			
 		$this->data['pagination'] = $pagination->render();
 
+		// start LMT
+		$this->data['filter_university'] = $filter_university;
+		$this->data['filter_date_of_birth'] = $filter_date_of_birth;
+		$this->data['filter_faculty'] = $filter_faculty;
+		$this->data['filter_floor'] = $filter_floor;
+		$this->data['filter_customer_group_id'] = $filter_customer_group_id;
+		$this->data['filter_bed'] = $filter_bed;
+		$this->data['filter_ethnic'] = $filter_ethnic;
+		$this->data['filter_address_1'] = $filter_address_1;
+		// end LMT
+
 		$this->data['filter_name'] = $filter_name;
 		$this->data['filter_email'] = $filter_email;
-		$this->data['filter_customer_group_id'] = $filter_customer_group_id;
 		$this->data['filter_status'] = $filter_status;
 		$this->data['filter_approved'] = $filter_approved;
 		$this->data['filter_ip'] = $filter_ip;
@@ -576,6 +790,13 @@ class ControllerSaleCustomer extends Controller {
 		$this->load->model('sale/customer_group');
 		
     	$this->data['customer_groups'] = $this->model_sale_customer_group->getCustomerGroups();
+
+    	// start LMT 
+		$this->load->model('localisation/zone');
+
+		$id_vn = 230;
+        $this->data['regions'] = $this->model_localisation_zone->getZonesByCountryId($id_vn);
+		// end LMT
 
 		$this->load->model('setting/store');
 		
@@ -592,10 +813,132 @@ class ControllerSaleCustomer extends Controller {
 				
 		$this->response->setOutput($this->render());
   	}
-  
+  /////////////////////// Modification//////////////////////
+  // ID: 1051015        
+  // Name: Luu Minh Tan           
+  // Class: 10CTT
+  // Date created: 22/12/2013
+  // Description: Change get form function
+  // Date modified: 2/1/2014
+  ////////////////////////////////////////////////////////////// 
   	protected function getForm() {
+		// start LMT
+		$this->data['entry_university'] = $this->language->get('entry_university');
+		$this->data['entry_faculty'] = $this->language->get('entry_faculty');
+		$this->data['entry_student_id'] = $this->language->get('entry_student_id');
+		$this->data['error_university'] = $this->language->get('error_university');
+		$this->data['error_faculty'] = $this->language->get('error_faculty');
+		$this->data['error_student_id'] = $this->language->get('error_student_id');
+		
+		$this->data['entry_idnum'] = $this->language->get('entry_idnum');
+		$this->data['entry_iddate'] = $this->language->get('entry_iddate');
+		$this->data['entry_idlocation'] = $this->language->get('entry_idlocation');
+		$this->data['text_id'] = $this->language->get('text_id');
+		$this->data['entry_gender'] = $this->language->get('entry_gender');
+		
+		$this->load->model('catalog/category');
+		$universities = $this->model_catalog_category->getUniversityCategories();
+		$this->data['universities'] = $universities;
+
+		$NKUniversity = $this->model_catalog_category->NKUniversity();
+		$this->data['NKUniversity'] = $NKUniversity;
+		
+		$genders = array(
+					array('gender_id' => '1', 'gender' => $this->language->get('entry_male')),
+					array('gender_id' => '0', 'gender' => $this->language->get('entry_female')),
+					);
+					
+		$this->data['genders'] = $genders;
+		// start LMT
+		$beds = array(
+					array('bed_id' => '1', 'name' => $this->language->get('entry_bed_1')),
+					array('bed_id' => '2', 'name' => $this->language->get('entry_bed_2')),
+					array('bed_id' => '3', 'name' => $this->language->get('entry_bed_3')),
+					array('bed_id' => '4', 'name' => $this->language->get('entry_bed_4')),
+					array('bed_id' => '5', 'name' => $this->language->get('entry_bed_5')),
+					array('bed_id' => '6', 'name' => $this->language->get('entry_bed_6')),
+					array('bed_id' => '7', 'name' => $this->language->get('entry_bed_7')),
+					array('bed_id' => '8', 'name' => $this->language->get('entry_bed_8')),
+					);
+					
+			$this->data['beds'] = $beds;
+
+		$this->data['error_bed'] = $this->language->get('error_bed');
+
+		// end LMT
+		if (isset($this->error['address_2'])) {
+			$this->data['error_address_2'] = $this->error['address_2'];
+		} else {
+			$this->data['error_address_2'] = '';
+		}
+
+		
+		if (isset($this->error['gender'])) {
+			$this->data['error_gender'] = $this->error['gender'];
+		} else {
+			$this->data['error_gender'] = '';
+		}
+		if (isset($this->error['idnum'])) {
+			$this->data['error_idnum'] = $this->error['idnum'];
+		} else {
+			$this->data['error_idnum'] = '';
+		}
+		if (isset($this->error['iddate'])) {
+			$this->data['error_iddate'] = $this->error['iddate'];
+		} else {
+			$this->data['error_iddate'] = '';
+		}
+
+		// start LMT
+		if (isset($this->error['date_of_birth'])) {
+			$this->data['error_date_of_birth'] = $this->error['date_of_birth'];
+		} else {
+			$this->data['error_date_of_birth'] = '';
+		}
+		if (isset($this->error['bed'])) {
+			$this->data['error_bed'] = $this->error['bed'];
+		} else {
+			$this->data['error_bed'] = '';
+		}
+		// end LMT
+
+		if (isset($this->error['id_location'])) {
+			$this->data['error_id_location'] = $this->error['id_location'];
+		} else {
+			$this->data['error_id_location'] = '';
+		}
+		if (isset($this->error['university'])) {
+			$this->data['error_university'] = $this->error['university'];
+		} else {
+			$this->data['error_university'] = '';
+		}
+		if (isset($this->error['faculty'])) {
+			$this->data['error_faculty'] = $this->error['faculty'];
+		} else {
+			$this->data['error_faculty'] = '';
+		}
+		if (isset($this->error['student_id'])) {
+			$this->data['error_student_id'] = $this->error['student_id'];
+		} else {
+			$this->data['error_student_id'] = '';
+		}
+
+		// end LMT
+		
     	$this->data['heading_title'] = $this->language->get('heading_title');
  
+    	// start LMT 
+    	$this->data['text_basic_info'] = $this->language->get('text_basic_info');
+    	$this->data['text_contact'] = $this->language->get('text_contact');
+    	$this->data['text_identity'] = $this->language->get('text_identity');
+    	$this->data['text_university'] = $this->language->get('text_university');
+    	$this->data['text_password'] = $this->language->get('text_password');
+    	$this->data['text_campus'] = $this->language->get('text_campus');
+
+    	$this->data['entry_date_of_birth'] = $this->language->get('entry_date_of_birth');
+    	$this->data['entry_bed'] = $this->language->get('entry_bed');
+    	// end LMT
+
     	$this->data['text_enabled'] = $this->language->get('text_enabled');
     	$this->data['text_disabled'] = $this->language->get('text_disabled');
 		$this->data['text_select'] = $this->language->get('text_select');
@@ -750,6 +1093,15 @@ class ControllerSaleCustomer extends Controller {
 		
 		$url = '';
 		
+		// start LMT
+		if (isset($this->request->get['filter_bed'])) {
+			$url .= '&filter_bed=' . $this->request->get['filter_bed'];
+		}
+		if (isset($this->request->get['student_id'])) {
+			$url .= '&student_id=' . $this->request->get['student_id'];
+		}
+		// end LMT
+
 		if (isset($this->request->get['filter_name'])) {
 			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
 		}
@@ -811,7 +1163,76 @@ class ControllerSaleCustomer extends Controller {
     	if (isset($this->request->get['customer_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
       		$customer_info = $this->model_sale_customer->getCustomer($this->request->get['customer_id']);
     	}
-			
+		
+		//start LMT
+		if (isset($this->request->post['idnum'])) {
+      		$this->data['idnum'] = $this->request->post['idnum'];
+		} elseif (!empty($customer_info)) { 
+			$this->data['idnum'] = $customer_info['id_num'];
+		} else {
+      		$this->data['idnum'] = '';
+    	}
+		if (isset($this->request->post['iddate'])) {
+      		$this->data['iddate'] = $this->request->post['iddate'];
+		} elseif (!empty($customer_info)) { 
+			$this->data['iddate'] = date('d-m-Y',strtotime($customer_info['id_date']));
+		} else {
+      		$this->data['iddate'] = '';
+    	}
+    	 
+		if (isset($this->request->post['date_of_birth'])) {
+      		$this->data['date_of_birth'] = $this->request->post['date_of_birth'];
+		} elseif (!empty($customer_info)) { 
+			$this->data['date_of_birth'] = date('d-m-Y',strtotime($customer_info['date_of_birth']));
+		} else {
+      		$this->data['date_of_birth'] = '';
+    	}
+    	
+
+		if (isset($this->request->post['id_location'])) {
+      		$this->data['id_location'] = $this->request->post['id_location'];
+		} elseif (!empty($customer_info)) { 
+			$this->data['id_location'] = $customer_info['id_location'];
+		} else {
+      		$this->data['id_location'] = '';
+    	}
+		if (isset($this->request->post['university_id'])) {
+      		$this->data['university_id'] = $this->request->post['university_id'];
+		} elseif (!empty($customer_info)) { 
+			$this->data['university_id'] = $customer_info['university'];
+		} else {
+      		$this->data['university_id'] = '';
+    	}
+		if (isset($this->request->post['faculty_id'])) {
+      		$this->data['faculty_id'] = $this->request->post['faculty_id'];
+		} elseif (!empty($customer_info)) { 
+			$this->data['faculty_id'] = $customer_info['faculty'];
+		} else {
+      		$this->data['faculty_id'] = '';
+    	}
+		if (isset($this->request->post['student_id'])) {
+      		$this->data['student_id'] = $this->request->post['student_id'];
+		} elseif (!empty($customer_info)) { 
+			$this->data['student_id'] = $customer_info['student_id'];
+		} else {
+      		$this->data['student_id'] = '';
+    	}
+		if (isset($this->request->post['gender_id'])) {
+      		$this->data['gender_id'] = $this->request->post['gender_id'];
+		} elseif (!empty($customer_info)) { 
+			$this->data['gender_id'] = $customer_info['gender'];
+		} else {
+      		$this->data['gender_id'] = '';
+    	}
+    	if (isset($this->request->post['bed_id'])) {
+      		$this->data['bed_id'] = $this->request->post['bed_id'];
+		} elseif (!empty($customer_info)) { 
+			$this->data['bed_id'] = $customer_info['bed'];
+		} else {
+      		$this->data['bed_id'] = '';
+    	}
+		
+		//end LMT
     	if (isset($this->request->post['firstname'])) {
       		$this->data['firstname'] = $this->request->post['firstname'];
 		} elseif (!empty($customer_info)) { 
@@ -864,6 +1285,13 @@ class ControllerSaleCustomer extends Controller {
 			
 		$this->data['customer_groups'] = $this->model_sale_customer_group->getCustomerGroups();
 
+		// start LMT 
+		$this->load->model('localisation/zone');
+
+		$id_vn = 230;
+        $this->data['regions'] = $this->model_localisation_zone->getZonesByCountryId($id_vn);
+		// end LMT
+
     	if (isset($this->request->post['customer_group_id'])) {
       		$this->data['customer_group_id'] = $this->request->post['customer_group_id'];
     	} elseif (!empty($customer_info)) { 
@@ -893,6 +1321,7 @@ class ControllerSaleCustomer extends Controller {
 		}
 		
 		$this->load->model('localisation/country');
+
 		
 		$this->data['countries'] = $this->model_localisation_country->getCountries();
 			
@@ -938,12 +1367,49 @@ class ControllerSaleCustomer extends Controller {
 				
 		$this->response->setOutput($this->render());
 	}
-			 
+			
+	/////////////////////// Modification//////////////////////
+	  // ID: 1051015        
+	  // Name: Luu Minh Tan           
+	  // Class: 10CTT
+	  // Date created: 22/12/2013
+	  // Description: Change validate form function
+	  // Date modified: 2/1/2014
+	  //////////////////////////////////////////////////////////////  
   	protected function validateForm() {
     	if (!$this->user->hasPermission('modify', 'sale/customer')) {
       		$this->error['warning'] = $this->language->get('error_permission');
     	}
 
+		// start LMT
+		if ((utf8_strlen($this->request->post['idnum']) != 9)) {
+      		$this->error['idnum'] = $this->language->get('error_idnum');
+    	}
+		if ((utf8_strlen($this->request->post['university_id']) == '')) {
+      		$this->error['university'] = $this->language->get('error_university');
+    	}
+		if ((utf8_strlen($this->request->post['faculty_id']) == '')) {
+      		$this->error['faculty'] = $this->language->get('error_faculty');
+    	}
+		if ((utf8_strlen($this->request->post['student_id'])) == ''|| !$this->checkStudentID($this->request->post['student_id'])) {
+      		$this->error['student_id'] = $this->language->get('error_student_id');
+    	}
+		if (!$this->checkdateDDMMYYYY($this->request->post['iddate'])) {
+      		$this->error['iddate'] = $this->language->get('error_iddate');
+    	}
+		if ($this->request->post['gender_id'] == '') {
+      		$this->error['gender'] = $this->language->get('error_gender');
+    	}
+		if ($this->request->post['id_location'] == '') {
+      		$this->error['id_location'] = $this->language->get('error_id_location');
+    	}
+		// end LMT
+		
+		// start LMT
+		if (!$this->checkdateDDMMYYYY($this->request->post['date_of_birth'])) {
+      		$this->error['date_of_birth'] = $this->language->get('error_date_of_birth');
+    	}
+		// end LMT
     	if ((utf8_strlen($this->request->post['firstname']) < 1) || (utf8_strlen($this->request->post['firstname']) > 32)) {
       		$this->error['firstname'] = $this->language->get('error_firstname');
     	}
@@ -984,6 +1450,8 @@ class ControllerSaleCustomer extends Controller {
 
 		if (isset($this->request->post['address'])) {
 			foreach ($this->request->post['address'] as $key => $value) {
+				// start LMT
+				/*
 				if ((utf8_strlen($value['firstname']) < 1) || (utf8_strlen($value['firstname']) > 32)) {
 					$this->error['address_firstname'][$key] = $this->language->get('error_firstname');
 				}
@@ -991,14 +1459,20 @@ class ControllerSaleCustomer extends Controller {
 				if ((utf8_strlen($value['lastname']) < 1) || (utf8_strlen($value['lastname']) > 32)) {
 					$this->error['address_lastname'][$key] = $this->language->get('error_lastname');
 				}	
-				
+				*/
+				// end LMT
 				if ((utf8_strlen($value['address_1']) < 3) || (utf8_strlen($value['address_1']) > 128)) {
 					$this->error['address_address_1'][$key] = $this->language->get('error_address_1');
 				}
-			
+				
+				//start LMT
+				/*if ((utf8_strlen($value['address_2']) < 3) || (utf8_strlen($value['address_2']) > 128)) {
+					$this->error['address_2'] = $this->language->get('error_address_1');
+				}
 				if ((utf8_strlen($value['city']) < 2) || (utf8_strlen($value['city']) > 128)) {
 					$this->error['address_city'][$key] = $this->language->get('error_city');
 				} 
+				
 	
 				$this->load->model('localisation/country');
 				
@@ -1016,7 +1490,8 @@ class ControllerSaleCustomer extends Controller {
 						$this->error['address_tax_id'][$key] = $this->language->get('error_vat');
 					}
 				}
-			
+				*/
+				//end LMT
 				if ($value['country_id'] == '') {
 					$this->error['address_country'][$key] = $this->language->get('error_country');
 				}
@@ -1414,5 +1889,71 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->response->setOutput(json_encode($json));		
 	}
+	
+	// start LMT
+	protected function checkdateDDMMYYYY($s)
+	{
+		
+            if (preg_match('@^(\d\d)-(\d\d)-(\d\d\d\d)$@', $s, $m) == false) {
+                if (preg_match('@^(\d\d)/(\d\d)/(\d\d\d\d)$@', $s, $m) == false) {
+                    return false;
+                }
+            }
+            if (checkdate($m[2], $m[1], $m[3]) == false) {
+                return false;
+            }
+            return true;
+
+	}
+	protected function checkStudentID($student_id) {
+		$this->load->model('catalog/category');
+		
+		if($this->model_catalog_category->checkStudentID($student_id)) {
+			return true;
+		}
+		
+		return true;
+	}
+	public function childcategory() {
+		$json = array();
+
+		// start LMT
+		if (isset($this->request->get['university_id'])) {
+				$university_id = $this->request->get['university_id'];
+			} else {
+				$university_id = null;
+			}
+		if (isset($this->request->get['filter_university'])) {
+				$filter_university = $this->request->get['filter_university'];
+			} else {
+				$filter_university = null;
+			}
+
+
+		$this->load->model('catalog/category');
+		$result = '';
+		if ($university_id){
+			$result = $this->model_catalog_category->getUniversityCategories($university_id);
+		}
+		elseif ($filter_university) {
+			$result = $this->model_catalog_category->getUniversityCategories($filter_university);
+		}
+    	
+    	// end LMT
+		$universities = array();
+		
+		if ($result) {
+			foreach($result as $university) {
+				$universities[] = array(
+					'faculty_id'        => $university['category_id'],
+					'name'              => $university['name']
+				);
+			}
+		}
+		
+		$json = $universities;
+		$this->response->setOutput(json_encode($json));
+	}
+	// end LMT
 }
 ?>
