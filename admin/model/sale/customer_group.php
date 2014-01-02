@@ -1,7 +1,7 @@
 <?php
 class ModelSaleCustomerGroup extends Model {
 	public function addCustomerGroup($data) {
-		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_group SET approval = '" . (int)$data['approval'] . "', company_id_display = '" . (int)$data['company_id_display'] . "', company_id_required = '" . (int)$data['company_id_required'] . "', tax_id_display = '" . (int)$data['tax_id_display'] . "', tax_id_required = '" . (int)$data['tax_id_required'] . "', sort_order = '" . (int)$data['sort_order'] . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_group SET approval = '" . (int)$data['approval'] . "', company_id_display = '" . (int)$data['company_id_display'] . "', company_id_required = '" . (int)$data['company_id_required'] . "', tax_id_display = '" . (int)$data['tax_id_display'] . "', tax_id_required = '" . (int)$data['tax_id_required'] . "', sort_order = '" . (int)$data['sort_order'] . "', floor_id = '" . (int)$data['floor'] . "'");
 	
 		$customer_group_id = $this->db->getLastId();
 		
@@ -41,6 +41,11 @@ class ModelSaleCustomerGroup extends Model {
 			'cgd.name',
 			'cg.sort_order'
 		);	
+
+		if (isset($data['floor']))
+		{
+			$sql .= " AND floor_id=" . $data['floor'];	
+		}
 			
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
 			$sql .= " ORDER BY " . $data['sort'];	
@@ -66,6 +71,22 @@ class ModelSaleCustomerGroup extends Model {
 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 		}
 			
+		$query = $this->db->query($sql);
+		
+		return $query->rows;
+	}
+
+	public function getBlocks() {
+		$sql = "SELECT * FROM " . DB_PREFIX . "block";
+		
+		$query = $this->db->query($sql);
+		
+		return $query->rows;
+	}
+
+	public function getFloors($block) {
+		$sql = "SELECT * FROM " . DB_PREFIX . "floor WHERE block_id=". $block;
+		
 		$query = $this->db->query($sql);
 		
 		return $query->rows;

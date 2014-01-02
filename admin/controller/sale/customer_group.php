@@ -159,36 +159,69 @@ class ControllerSaleCustomerGroup extends Controller {
 							
 		$this->data['insert'] = $this->url->link('sale/customer_group/insert', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		$this->data['delete'] = $this->url->link('sale/customer_group/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');	
-	
+		
+		/////////////////////// Modification//////////////////////
+		// ID: 1051011
+		// Name: Dinh Hai Nguyen
+		// Class:  10CTT
+		// Date created: 26/12/2013
+		// Description: Add block, floor to controller
+		// Date modified: 30/12/2013
+		//////////////////////////////////////////////////////////////
+		$this->data['blocks'] = array();
+		$this->data['floors'] = array();
 		$this->data['customer_groups'] = array();
 
-		$data = array(
-			'sort'  => $sort,
-			'order' => $order,
-			'start' => ($page - 1) * $this->config->get('config_admin_limit'),
-			'limit' => $this->config->get('config_admin_limit')
-		);
-		
-		$customer_group_total = $this->model_sale_customer_group->getTotalCustomerGroups();
-		
-		$results = $this->model_sale_customer_group->getCustomerGroups($data);
+		$blocks = $this->model_sale_customer_group->getBlocks();
 
-		foreach ($results as $result) {
-			$action = array();
-			
-			$action[] = array(
-				'text' => $this->language->get('text_edit'),
-				'href' => $this->url->link('sale/customer_group/update', 'token=' . $this->session->data['token'] . '&customer_group_id=' . $result['customer_group_id'] . $url, 'SSL')
-			);		
+		foreach ($blocks as $block) {
 		
-			$this->data['customer_groups'][] = array(
-				'customer_group_id' => $result['customer_group_id'],
-				'name'              => $result['name'] . (($result['customer_group_id'] == $this->config->get('config_customer_group_id')) ? $this->language->get('text_default') : null),
-				'sort_order'        => $result['sort_order'],
-				'selected'          => isset($this->request->post['selected']) && in_array($result['customer_group_id'], $this->request->post['selected']),
-				'action'            => $action
+			$this->data['blocks'][] = array(
+				'id' => $block['block_id'],
+				'name'  => $block['block_name'] 
 			);
-		}	
+		}
+		
+		if (isset($this->request->get['block'])) {
+		
+			$floors = $this->model_sale_customer_group->getFloors($this->request->get['block']);
+			foreach ($floors as $floor) {
+			
+				$this->data['floors'][] = array(
+					'id' => $floor['floor_id'],
+					'name'  => $floor['floor_name'] 
+				);
+			}
+		}
+
+		if (isset($this->request->get['floor'])) {
+		
+				$data = array(
+				'floor' => $this->request->get['floor'],
+				'sort'  => $sort,
+				'order' => $order,
+				'start' => ($page - 1) * $this->config->get('config_admin_limit'),
+				'limit' => $this->config->get('config_admin_limit')
+				);
+			$results = $this->model_sale_customer_group->getCustomerGroups($data);
+
+			foreach ($results as $result) {
+				$action = array();
+				
+				$action[] = array(
+					'text' => $this->language->get('text_edit'),
+					'href' => $this->url->link('sale/customer_group/update', 'token=' . $this->session->data['token'] . '&customer_group_id=' . $result['customer_group_id'] . $url, 'SSL')
+				);		
+			
+				$this->data['customer_groups'][] = array(
+					'customer_group_id' => $result['customer_group_id'],
+					'name'              => $result['name'] . (($result['customer_group_id'] == $this->config->get('config_customer_group_id')) ? $this->language->get('text_default') : null),
+					'sort_order'        => $result['sort_order'],
+					'selected'          => isset($this->request->post['selected']) && in_array($result['customer_group_id'], $this->request->post['selected']),
+					'action'            => $action
+				);
+			}	
+		}
 	
 		$this->data['heading_title'] = $this->language->get('heading_title');
 		
@@ -240,18 +273,20 @@ class ControllerSaleCustomerGroup extends Controller {
 			$url .= '&order=' . $this->request->get['order'];
 		}
 				
-		$pagination = new Pagination();
-		$pagination->total = $customer_group_total;
-		$pagination->page = $page;
-		$pagination->limit = $this->config->get('config_admin_limit');
-		$pagination->text = $this->language->get('text_pagination');
-		$pagination->url = $this->url->link('sale/customer_group', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
+		//$pagination = new Pagination();
+		//$pagination->total = $customer_group_total;
+		//$pagination->page = $page;
+		//$pagination->limit = $this->config->get('config_admin_limit');
+		//$pagination->text = $this->language->get('text_pagination');
+		//$pagination->url = $this->url->link('sale/customer_group', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
 		
-		$this->data['pagination'] = $pagination->render();				
+		//$this->data['pagination'] = $pagination->render();				
 
 		$this->data['sort'] = $sort; 
 		$this->data['order'] = $order;
 
+		$this->data['link'] = $this->url->link('sale/customer_group', 'token=' . $this->session->data['token'] . $url, 'SSL');
+		
 		$this->template = 'sale/customer_group_list.tpl';
 		$this->children = array(
 			'common/header',

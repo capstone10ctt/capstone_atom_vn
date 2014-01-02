@@ -1,4 +1,17 @@
 <?php echo $header; ?>
+<?php /////////////////////// Modification//////////////////////
+    // ID: 1051011
+    // Name: Dinh Hai Nguyen
+    // Class:  10CTT
+    // Date created: 26/12/2013
+    // Description: Add floor id to form
+    // Date modified: 1/1/2014
+    //////////////////////////////////////////////////////////////
+    $floor=0;
+if(isset($_GET['floor']))
+  {
+    $floor =$_GET['floor'];
+  }?>
 <div id="content">
   <div class="breadcrumb">
     <?php foreach ($breadcrumbs as $breadcrumb) { ?>
@@ -15,6 +28,7 @@
     </div>
     <div class="content">
       <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
+        <input type="hidden" name="floor" value="<?php echo $floor; ?>">
         <table class="form">
           <tr>
             <td><span class="required">*</span> <?php echo $entry_name; ?></td>
