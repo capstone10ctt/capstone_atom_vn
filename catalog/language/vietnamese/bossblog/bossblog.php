@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']     = 'Blog';
+$_['heading_title']     = 'Test';
 
 // Text
 $_['text_empty']        = 'There are no Acticle to list.';

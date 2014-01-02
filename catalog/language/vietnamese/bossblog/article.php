@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_bossblog']     = 'Blog';
+$_['heading_bossblog']     = 'test';
 
 //text
 $_['text_comment']     = 'Leave Your Comment';
