@@ -3,31 +3,31 @@
 $_['heading_bossblog']     = 'test';
 
 //text
-$_['text_comment']     = 'Leave Your Comment';
-$_['text_username']     = 'Your Name';
-$_['text_email']     = 'Your Email';
-$_['text_tags']     = 'Tags';
-$_['text_required']     = 'Required Field';
-$_['text_wait']         = 'Please Wait!';
-$_['text_success']      = 'Thank you for your comment.';
-$_['text_approval']      = 'Thank you for your comment. It has been submitted to the webmaster for approval.';
-$_['text_comment_by']      = 'Comment by';
-$_['text_no_comments']   = 'There are no comments for this Article.';
-$_['text_on']           = ' on ';
-$_['text_product_related']           = 'related Products:';
+$_['text_comment']     = 'Để lại bình luận của bạn';
+$_['text_username']     = 'Tên';
+$_['text_email']     = 'Email';
+$_['text_tags']     = 'Đánh dấu';
+$_['text_required']     = 'Thông tin bắt buộc';
+$_['text_wait']         = 'Vui lòng chờ 1 tí!';
+$_['text_success']      = 'Cảm ơn bình luận của bạn';
+$_['text_approval']      = 'Cảm ơn bạn đã bình luận. Bình luận của bạn sẽ được chuyển lên admin để xin phép';
+$_['text_comment_by']      = 'Bình luận của';
+$_['text_no_comments']   = 'Không có bình luận cho tin này';
+$_['text_on']           = ' Mở ';
+$_['text_product_related']           = 'Các tin liên quan';
 
 //entry
-$_['entry_comment']     = 'Comment';
-$_['view_comment']     = 'Comment(s)';
+$_['entry_comment']     = 'Bình luận';
+$_['view_comment']     = 'Bình luận';
 
 //button
-$_['button_submit']     = 'Submit';
+$_['button_submit']     = 'Gửi';
 $_['public_key']     = '6LcvtdgSAAAAAMtbolsXyLL5QE87KCKkQipTtji0';
-$_['article_related']     = 'Related Articles';
+$_['article_related']     = 'Các bài liên quan';
 
 //error
-$_['error_name']        = 'Warning: Review Name must be between 3 and 25 characters!';
-$_['error_text']        = 'Warning: Review Text must be between 25 and 1000 characters!';
-$_['error_email']      = 'Please enter a valid email address. For example johndoe@domain.com.';
-$_['error_captcha']     = 'Warning: Verification code does not match the image!';
+$_['error_name']        = 'Lưu ý: Tên dài từ 3-25 kí tự!';
+$_['error_text']        = 'Lưu ý: Bình luận dài từ 25-1000 kí tự!';
+$_['error_email']      = 'Vui lòng nhập 1 email hợp lệ. Ví dụ: name@mail.com.';
+$_['error_captcha']     = 'Lưu ý: Mã kiểm tra không trùng khớp với hình ảnh!';
 ?>
