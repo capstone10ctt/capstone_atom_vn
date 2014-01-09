@@ -224,9 +224,24 @@
               <h2 style="border-bottom:none"><?php echo $text_campus; ?></h2>
               <div class="content" style="border:1px solid #EEEEEE" >
           <table class="form" style="margin-bottom:0px">
-              <!-- end LMT -->
+              <tr>
+                <td><?php echo $entry_floor; ?></td>
+                <td><select name="floor_id">
+                    <?php foreach ($floors as $floor) { ?>
+                    <?php if ($floor['floor_id'] == $floor_id) { ?>
+                    <option value="<?php echo $floor['floor_id']; ?>" selected="selected"><?php echo $floor['floor_name']; ?></option>
+                    <?php } else { ?>
+                    <option value="<?php echo $floor['floor_id']; ?>"><?php echo $floor['floor_name']; ?></option>
+                    <?php } ?>
+                    <?php } ?>
+                  </select></td>
+              </tr>
               <tr>
                 <td><?php echo $entry_customer_group; ?></td>
+                <td><select name="customer_group_id">
+                </select>
+                </td>
+                <!--
                 <td><select name="customer_group_id">
                     <?php foreach ($customer_groups as $customer_group) { ?>
                     <?php if ($customer_group['customer_group_id'] == $customer_group_id) { ?>
@@ -236,6 +251,7 @@
                     <?php } ?>
                     <?php } ?>
                   </select></td>
+                  -->
               </tr>
               <tr>
               <td><?php echo $entry_bed; ?></td>
@@ -250,28 +266,33 @@
                   <?php } ?>
                 </select></td>
               </tr>
+              <!-- end LMT -->
+              </table>
+              </div>
+              <h2 style="border-bottom:none"><?php echo $text_status; ?></h2>
+              <div class="content" style="border:1px solid #EEEEEE" >
+          <table class="form" style="margin-bottom:0px">
               <tr>
                 <td><?php echo $entry_newsletter; ?></td>
                 <td><select name="newsletter">
                     <?php if ($newsletter) { ?>
-                    <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
-                    <option value="0"><?php echo $text_disabled; ?></option>
+                    <option value="1" selected="selected"><?php echo $text_receive; ?></option>
+                    <option value="0"><?php echo $text_not_receive; ?></option>
                     <?php } else { ?>
-                    <option value="1"><?php echo $text_enabled; ?></option>
-                    <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+                    <option value="1"><?php echo $text_receive; ?></option>
+                    <option value="0" selected="selected"><?php echo $text_not_receive; ?></option>
                     <?php } ?>
                   </select></td>
               </tr>
-              
               <tr>
                 <td><?php echo $entry_status; ?></td>
                 <td><select name="status">
                     <?php if ($status) { ?>
-                    <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
-                    <option value="0"><?php echo $text_disabled; ?></option>
+                    <option value="1" selected="selected"><?php echo $text_approve; ?></option>
+                    <option value="0"><?php echo $text_not_approve; ?></option>
                     <?php } else { ?>
-                    <option value="1"><?php echo $text_enabled; ?></option>
-                    <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+                    <option value="1"><?php echo $text_approve; ?></option>
+                    <option value="0" selected="selected"><?php echo $text_not_approve; ?></option>
                     <?php } ?>
                   </select></td>
               </tr>
@@ -571,6 +592,7 @@ $('select[name$=\'[country_id]\']').trigger('change');
   // Date modified: 2/1/2014
   ////////////////////////////////////////////////////////////// 
 <!-- start LMT -->
+// Ajax for select University.......................................
 var nkid = '<?php echo $NKUniversity ?>';
 $('select[name=\'university_id\']').bind('change', function() {
 	$.ajax({
@@ -621,7 +643,49 @@ $('select[name=\'university_id\']').bind('change', function() {
 });
 
 $('select[name=\'university_id\']').trigger('change');
-<!--start LMT-->
+
+
+// Ajax for select Floor .......................................
+$('select[name=\'floor_id\']').bind('change', function() {
+  $.ajax({
+    url: 'index.php?route=sale/customer/childfloor&token=<?php echo $token; ?>&floor_id=' + $('select[name=\'floor_id\']').val(),
+    dataType: 'json',
+    beforeSend: function() {
+      $('select[name=\'floor_id\']').after('<span class="wait">&nbsp;<img src="catalog/view/theme/default/image/loading.gif" alt="" /></span>');
+    },
+    complete: function() {
+      $('.wait').remove();
+    },      
+    success: function(json) {
+      
+      html = '<option value=""></option>';
+      if (json) {
+        for (i = 0; i < json.length; i++) {
+              html += '<option value="' + json[i]['customer_group_id'] + '"';
+            
+          if (json[i]['customer_group_id'] == '<?php echo $customer_group_id; ?>') {
+                html += ' selected="selected"';
+            }
+  
+            html += '>' + json[i]['name'] + '</option>';
+        }
+      } else {
+        html += '<option value="" selected="selected"><?php echo $text_none; ?></option>';
+      }
+      
+      $('select[name=\'customer_group_id\']').html(html);
+      
+    },
+    error: function(xhr, ajaxOptions, thrownError) {
+      alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+    }
+  });
+});
+
+$('select[name=\'floor_id\']').trigger('change');
+<!--end LMT-->
+
+
 //--></script> 
 <script type="text/javascript"><!--
 var address_row = <?php echo $address_row; ?>;

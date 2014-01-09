@@ -526,7 +526,7 @@ $('select[name=\'university_id\']').bind('change', function() {
 		},			
 		success: function(json) {
 			
-			html = '<option value=""><?php echo $text_select; ?></option>';
+			html = '<option value="-1"><?php echo $text_select; ?></option>';
 			if (json) {
 				for (i = 0; i < json.length; i++) {
         			html += '<option value="' + json[i]['faculty_id'] + '"';
@@ -538,7 +538,7 @@ $('select[name=\'university_id\']').bind('change', function() {
 	    			html += '>' + json[i]['name'] + '</option>';
 				}
 			} else {
-				html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+				html += '<option value="-1" selected="selected"><?php echo $text_none; ?></option>';
 			}
 			
 			$('select[name=\'faculty_id\']').html(html);

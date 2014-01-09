@@ -68,6 +68,14 @@ $_['error_id_location']         = 'Lỗi: Xin lựa chọn khu vực!';
 $_['entry_gender']        = 'Giới tính:';
 $_['entry_male']        = 'Nam';
 $_['entry_female']        = 'Nữ';
+
+$_['entry_floor']		= "Tầng";
+$_['text_status']		= "Trạng thái sinh viên";
+
+$_['text_approve']		= "Duyệt";
+$_['text_not_approve']		= "Không duyệt";
+$_['text_receive']		= "Nhận";
+$_['text_not_receive']		= "Không nhận";
 // end LMT
 
 // Text

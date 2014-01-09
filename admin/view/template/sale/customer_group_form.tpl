@@ -1,13 +1,5 @@
 <?php echo $header; ?>
-<?php /////////////////////// Modification//////////////////////
-    // ID: 1051011
-    // Name: Dinh Hai Nguyen
-    // Class:  10CTT
-    // Date created: 26/12/2013
-    // Description: Add floor id to form
-    // Date modified: 1/1/2014
-    //////////////////////////////////////////////////////////////
-    $floor=0;
+<?php $floor=0;
 if(isset($_GET['floor']))
   {
     $floor =$_GET['floor'];
@@ -40,6 +32,22 @@ if(isset($_GET['floor']))
               <?php } ?>
               <?php } ?></td>
           </tr>
+          <tr>
+            <td><?php echo $column_total; ?></td>
+            <td><input type="text" name="max_student" value="<?php echo isset($customer_group['max_student']) ? $customer_group['max_student'] : ''; ?>"/></td>
+          </tr>
+          <tr>
+            <td><?php echo $column_type; ?></td>
+            <td>
+              <select name="type_id" >
+              <?php foreach ($room_types as $room_type)  {
+                  echo '<option value="'.$room_type['type_id'].'" ';
+                  echo (isset($customer_group['type_id']) && $customer_group['type_id']==$room_type['type_id']) ? 'selected' : '';
+                  echo '>'.$room_type['type_name'].'</option>';
+              }?>
+              </select>
+            </td>
+          </tr>
           <?php foreach ($languages as $language) { ?>
           <tr>
             <td><?php echo $entry_description; ?></td>
@@ -47,80 +55,6 @@ if(isset($_GET['floor']))
               <img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" align="top" /></td>
           </tr>
           <?php } ?>
-          <tr>
-            <td><?php echo $entry_approval; ?></td>
-            <td><?php if ($approval) { ?>
-              <input type="radio" name="approval" value="1" checked="checked" />
-              <?php echo $text_yes; ?>
-              <input type="radio" name="approval" value="0" />
-              <?php echo $text_no; ?>
-              <?php } else { ?>
-              <input type="radio" name="approval" value="1" />
-              <?php echo $text_yes; ?>
-              <input type="radio" name="approval" value="0" checked="checked" />
-              <?php echo $text_no; ?>
-              <?php } ?></td>
-          </tr>
-        <!--  <tr>
-            <td><?php echo $entry_company_id_display; ?></td>
-            <td><?php if ($company_id_display) { ?>
-              <input type="radio" name="company_id_display" value="1" checked="checked" />
-              <?php echo $text_yes; ?>
-              <input type="radio" name="company_id_display" value="0" />
-              <?php echo $text_no; ?>
-              <?php } else { ?>
-              <input type="radio" name="company_id_display" value="1" />
-              <?php echo $text_yes; ?>
-              <input type="radio" name="company_id_display" value="0" checked="checked" />
-              <?php echo $text_no; ?>
-              <?php } ?></td>
-          </tr>
-          <tr>
-            <td><?php echo $entry_company_id_required; ?></td>
-            <td><?php if ($company_id_required) { ?>
-              <input type="radio" name="company_id_required" value="1" checked="checked" />
-              <?php echo $text_yes; ?>
-              <input type="radio" name="company_id_required" value="0" />
-              <?php echo $text_no; ?>
-              <?php } else { ?>
-              <input type="radio" name="company_id_required" value="1" />
-              <?php echo $text_yes; ?>
-              <input type="radio" name="company_id_required" value="0" checked="checked" />
-              <?php echo $text_no; ?>
-              <?php } ?></td>
-          </tr>
-          <tr>
-            <td><?php echo $entry_tax_id_display; ?></td>
-            <td><?php if ($tax_id_display) { ?>
-              <input type="radio" name="tax_id_display" value="1" checked="checked" />
-              <?php echo $text_yes; ?>
-              <input type="radio" name="tax_id_display" value="0" />
-              <?php echo $text_no; ?>
-              <?php } else { ?>
-              <input type="radio" name="tax_id_display" value="1" />
-              <?php echo $text_yes; ?>
-              <input type="radio" name="tax_id_display" value="0" checked="checked" />
-              <?php echo $text_no; ?>
-              <?php } ?></td>
-          </tr>
-          <tr>
-            <td><?php echo $entry_tax_id_required; ?></td>
-            <td><?php if ($tax_id_required) { ?>
-              <input type="radio" name="tax_id_required" value="1" checked="checked" />
-              <?php echo $text_yes; ?>
-              <input type="radio" name="tax_id_required" value="0" />
-              <?php echo $text_no; ?>
-              <?php } else { ?>
-              <input type="radio" name="tax_id_required" value="1" />
-              <?php echo $text_yes; ?>
-              <input type="radio" name="tax_id_required" value="0" checked="checked" />
-              <?php echo $text_no; ?>
-              <?php } ?></td>
-          </tr>-->
-          <tr>
-            <td><?php echo $entry_sort_order; ?></td>
-            <td><input type="text" name="sort_order" value="<?php echo $sort_order; ?>" size="1" /></td>
-          </tr>
         </table>
       </form>
     </div>

@@ -87,6 +87,10 @@ $(document).ready(function(){
         <ul>
           <li><a href="<?php echo $customer; ?>"><?php echo $text_customer; ?></a></li>
           <li><a href="<?php echo $customer_group; ?>"><?php echo $text_customer_group; ?></a></li>
+          <li><a href="<?php echo $category; ?>"><?php echo $text_category; ?></a></li>
+          <li><a href="<?php echo $manage_wie_limit; ?>"><?php echo $text_manage_wie_limit; ?></a></li>
+          <li><a href="<?php echo $manage_wie; ?>"><?php echo $text_manage_wie; ?></a></li>
+          <li><a href="<?php echo $manage_email_templates; ?>"><?php echo $text_manage_email_templates; ?></a></li>
           <!--<li><a href="<?php echo $customer_ban_ip; ?>"><?php echo $text_customer_ban_ip; ?></a></li>-->
         </ul>
       </li>

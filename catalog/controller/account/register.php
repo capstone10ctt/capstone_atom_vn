@@ -525,13 +525,13 @@ class ControllerAccountRegister extends Controller {
 		if ((utf8_strlen($this->request->post['idnum']) != 9)) {
       		$this->error['idnum'] = $this->language->get('error_idnum');
     	}
-		if ((utf8_strlen($this->request->post['university_id']) == '')) {
+		if ((int)$this->request->post['university_id'] == -1) {
       		$this->error['university'] = $this->language->get('error_university');
     	}
-		if ((utf8_strlen($this->request->post['faculty_id']) == '')) {
+		if ((int)$this->request->post['faculty_id'] == -1) {
       		$this->error['faculty'] = $this->language->get('error_faculty');
     	}
-		if (is_null(utf8_strlen($this->request->post['student_id'])) || !$this->checkStudentID($this->request->post['student_id'])) {
+		if ($this->request->post['student_id'] == '' || !$this->checkStudentID($this->request->post['student_id'])) {
       		$this->error['student_id'] = $this->language->get('error_student_id');
     	}
         

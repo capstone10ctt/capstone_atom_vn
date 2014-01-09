@@ -1,6 +1,9 @@
 <?php
 //---------------Võ Lý Minh Nhân – volyminhnhan@gmail.com - 0902 644 077 - Atom Company----------------//
 $_['text_customer_support']                   = 'Hỗ trợ sinh viên';
+$_['text_manage_wie']         = 'Quản lý điện nước';
+$_['text_manage_wie_limit']         = 'Quản lý mức giá điện nước';
+$_['text_manage_email_templates']         = 'Quản lý mẫu email';
 //---------------Võ Lý Minh Nhân – volyminhnhan@gmail.com - 0902 644 077 - Atom Company----------------//
 // Heading
 $_['heading_title']         = 'Ban quản trị';
@@ -16,7 +19,7 @@ $_['text_attribute_group']  = 'Nhóm thuộc tính';
 $_['text_backup']           = 'Sao lưu / Phục hồi';
 $_['text_banner']           = 'Liên kết';
 $_['text_catalog']          = 'Sản phẩm';
-$_['text_category']         = 'Danh mục';
+$_['text_category']         = 'Danh sách trường';
 $_['text_confirm']	    	= 'Xóa rồi sẽ không thể khôi phục lại! Bạn có chắc chắn muốn làm điều này?';
 $_['text_country']          = 'Quốc gia';
 $_['text_coupon']           = 'Mã giảm giá';

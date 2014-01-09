@@ -35,7 +35,7 @@ $_['entry_confirm']        = 'Password Confirm:';
 // start changing: adding new feature and error message
 $_['entry_university']        = 'Your university:';
 $_['entry_date_of_birth']        = 'Date of birth:';
-$_['entry_ethnic']        = 'Ethnic:';
+$_['entry_ethnic']        = 'Religion:';
 $_['entry_faculty']        = 'Your faculty:';
 $_['entry_student_id']        = 'Student ID:';
 $_['error_university']         = 'Warning: Please select your university!';

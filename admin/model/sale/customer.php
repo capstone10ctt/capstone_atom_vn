@@ -91,7 +91,7 @@ class ModelSaleCustomer extends Model {
 	}
 	
 	public function getCustomer($customer_id) {
-		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "customer WHERE customer_id = '" . (int)$customer_id . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group cg ON(c.customer_group_id = cg.customer_group_id) WHERE c.customer_id = '" . (int)$customer_id . "'");
 	
 		return $query->row;
 	}
@@ -109,9 +109,27 @@ class ModelSaleCustomer extends Model {
   // Description: Change update database func, insert database func
   // Date modified: 1/1/2014
   ////////////////////////////////////////////////////////////// 
-	public function getCustomers($data = array()) {
-		$sql = "SELECT *, CONCAT(c.lastname, ' ', c.firstname) AS name, cgd.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+	public function getFloors()
+	{
+		$query = $this->db->query( "SELECT DISTINCT fd.floor_name, fd.floor_id FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group cg ON (c.customer_group_id = cg.customer_group_id) LEFT JOIN ". DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) LEFT JOIN ". DB_PREFIX . "floor_description fd ON (cg.floor_id = fd.floor_id AND fd.language_id = cgd.language_id ) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') ."'");
 
+		return $query->rows;
+	}
+	public function getAllFloors()
+	{
+		$query = $this->db->query( "SELECT * FROM " . DB_PREFIX . "floor_description fd WHERE fd.language_id = '" . (int)$this->config->get('config_language_id') ."'");
+
+		return $query->rows;
+	}
+	public function getCustomerGroupIdFromFloor($parent_id = 0)
+	{
+		$query = $this->db->query( "SELECT cgd.customer_group_id, cgd.name FROM " . DB_PREFIX . "customer_group cg LEFT JOIN ". DB_PREFIX ."customer_group_description cgd ON(cg.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') ."' AND cg.floor_id = '" . (int)$parent_id . "'");
+
+		return $query->rows;
+	}
+	public function getCustomers($data = array()) {
+		$sql = "SELECT *, CONCAT(c.lastname, ' ', c.firstname) AS name, cgd.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group cg ON (c.customer_group_id = cg.customer_group_id) LEFT JOIN ". DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) LEFT JOIN ". DB_PREFIX . "floor_description fd ON (cg.floor_id = fd.floor_id AND fd.language_id = cgd.language_id ) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') ."'";
+		//$sql = "SELECT *, CONCAT(c.firstname, ' ', c.lastname) AS name, cgd.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 		$implode = array();
 		// start LMT
 
@@ -124,6 +142,15 @@ class ModelSaleCustomer extends Model {
 		if (isset($data['filter_bed']) && !is_null($data['filter_bed'])) {
 			$implode[] = "c.bed = '" . (int)$data['filter_bed'] . "'";
 		}
+		/*
+		if (isset($data['filter_floor']) && !is_null($data['filter_floor'])) {
+			$implode[] = "fd.floor_name LIKE '%" .  $this->db->escape($data['filter_floor']) . "%'";
+		}
+		*/
+		if (!empty($data['filter_floor_id']) && !is_null($data['filter_floor_id'])) {
+			$implode[] = "cg.floor_id = '" . (int)$data['filter_floor_id'] . "'";
+		}	
+			
 		if (!empty($data['filter_ethnic'])) {
 			$implode[] = "c.ethnic LIKE '%" . $this->db->escape($data['filter_ethnic']) . "%'";
 		}
@@ -183,7 +210,8 @@ class ModelSaleCustomer extends Model {
 			'faculty',
 			'c.email',
 			'customer_group',
-			'floor',
+			'floor_name',
+			'floor_id',
 			'bed',
 			'ethnic',
 			'address_1',

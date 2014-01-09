@@ -27,7 +27,8 @@
       -->
       <!-- start LMT -->
       <!-- 
-      <a onclick="$('form').attr('action', '<?php echo $approve; ?>'); $('form').submit();" class="button"><?php echo $button_approve; ?></a>-->
+      <a onclick="$('form').attr('action', '<?php echo $approve; ?>'); $('form').submit();" class="button"><?php echo $button_approve; ?></a>
+      -->
       <!-- end LMT -->
       <a href="<?php echo $insert; ?>" class="button"><?php echo $button_insert; ?></a><a onclick="$('form').attr('action', '<?php echo $delete; ?>'); $('form').submit();" class="button"><?php echo $button_delete; ?></a></div>
     </div>
@@ -81,9 +82,9 @@
                 <?php } ?></td>
               <!-- Add column Floor -->
               <td class="left"><?php if ($sort == 'floor') { ?>
-                <?php echo $column_floor; ?></a>
+                <a href="<?php echo $sort_floor; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_floor; ?></a>
                 <?php } else { ?>
-                <?php echo $column_floor; ?></a>
+                 <a href="<?php echo $sort_floor; ?>"><?php echo $column_floor; ?></a>
                 <?php } ?></td>
               <!-- end LMT -->
               
@@ -166,10 +167,21 @@
               <td><select name="filter_faculty">
                     </select>
                     </td>
-               <!-- add filter floor --> 
+               <!-- add filter floor 
               <td><input type="text" name="filter_floor" value="<?php echo $filter_floor; ?>" /></td>
-              <!-- end LMT -->
-              <td><select name="filter_customer_group_id">
+             --> 
+              <td><select name="filter_floor_id">
+                  <option value=""></option>
+                  <?php foreach ($floors as $floor) { ?>
+                  <?php if ($floor['floor_id'] == $filter_floor_id) { ?>
+                  <option value="<?php echo $floor['floor_id']; ?>" selected="selected"><?php echo $floor['floor_name']; ?></option>
+                  <?php } else { ?>
+                  <option value="<?php echo $floor['floor_id']; ?>"><?php echo $floor['floor_name']; ?></option>
+                  <?php } ?>
+                  <?php } ?>
+                </select></td>
+
+                <td><select name="filter_customer_group_id">
                   <option value=""></option>
                   <?php foreach ($customer_groups as $customer_group) { ?>
                   <?php if ($customer_group['customer_group_id'] == $filter_customer_group_id) { ?>
@@ -179,6 +191,7 @@
                   <?php } ?>
                   <?php } ?>
                 </select></td>
+                 <!-- end LMT -->
                 <!-- start LMT -->
                 <!-- add filter bed -->
                  <!--<td><input type="text" name="filter_bed" value="<?php echo $filter_bed; ?>" /></td>-->
@@ -379,6 +392,11 @@ function filter() {
     url += '&filter_address_1=' + encodeURIComponent(filter_address_1); 
   } 
 
+  var filter_floor_id = $('select[name=\'filter_floor_id\']').attr('value');
+  
+  if (filter_floor_id != '') {
+    url += '&filter_floor_id=' + encodeURIComponent(filter_floor_id);
+  }
 	var filter_customer_group_id = $('select[name=\'filter_customer_group_id\']').attr('value');
 	
 	if (filter_customer_group_id != '') {

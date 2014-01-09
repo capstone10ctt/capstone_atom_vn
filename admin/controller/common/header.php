@@ -21,6 +21,10 @@ class ControllerCommonHeader extends Controller {
 
 		$this->data['heading_title'] = $this->language->get('heading_title');
 		
+		$this->data['text_manage_wie_limit'] = $this->language->get('text_manage_wie_limit');
+		$this->data['text_manage_wie'] = $this->language->get('text_manage_wie');
+		$this->data['text_manage_email_templates'] = $this->language->get('text_manage_email_templates');
+		
 		$this->data['text_affiliate'] = $this->language->get('text_affiliate');
 		$this->data['text_attribute'] = $this->language->get('text_attribute');
 		$this->data['text_attribute_group'] = $this->language->get('text_attribute_group');
@@ -124,6 +128,9 @@ class ControllerCommonHeader extends Controller {
 			$this->data['customer'] = $this->url->link('sale/customer', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['customer_fields'] = $this->url->link('sale/customer_field', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['customer_group'] = $this->url->link('sale/customer_group', 'token=' . $this->session->data['token'], 'SSL');
+			$this->data['manage_wie_limit'] = $this->url->link('price/standard', 'token=' . $this->session->data['token'], 'SSL');
+			$this->data['manage_wie'] = $this->url->link('sale/manage_wie', 'token=' . $this->session->data['token'], 'SSL');
+			$this->data['manage_email_templates'] = $this->url->link('catalog/template_email', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['customer_ban_ip'] = $this->url->link('sale/customer_ban_ip', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['custom_field'] = $this->url->link('design/custom_field', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['download'] = $this->url->link('catalog/download', 'token=' . $this->session->data['token'], 'SSL');

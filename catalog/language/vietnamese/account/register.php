@@ -34,7 +34,7 @@ $_['entry_district']        = 'Quận/Huyện:';
 // start changing: adding new feature and error message
 $_['entry_university']        = 'Trường đại học:';
 $_['entry_date_of_birth']        = 'Ngày sinh:';
-$_['entry_ethnic']        = 'Tôn giáo:';
+$_['entry_ethnic']        = 'Dân tộc:';
 $_['entry_faculty']        = 'Khoa:';
 $_['entry_student_id']        = 'MSSV:';
 $_['error_university']         = 'Lỗi: Xin lựa chọn trường!';

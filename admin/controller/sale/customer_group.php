@@ -8,8 +8,11 @@ class ControllerSaleCustomerGroup extends Controller {
 		$this->document->setTitle($this->language->get('heading_title'));
  		
 		$this->load->model('sale/customer_group');
-		
+
+
 		$this->getList();
+
+		
 	}
 
 	public function insert() {
@@ -40,7 +43,11 @@ class ControllerSaleCustomerGroup extends Controller {
 			
 			$this->redirect($this->url->link('sale/customer_group', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 		}
-
+		$floor_name='';
+		if(isset($this->request->get['floor'])){
+			$floor_name = $this->model_sale_customer_group->getFloor($this->request->get['floor']);
+		}
+		$this->data['heading_title'] = $this->language->get('insert_title').' '.$floor_name;
 		$this->getForm();
 	}
 
@@ -57,22 +64,14 @@ class ControllerSaleCustomerGroup extends Controller {
 			$this->session->data['success'] = $this->language->get('text_success');
 			
 			$url = '';
-
-			if (isset($this->request->get['sort'])) {
-				$url .= '&sort=' . $this->request->get['sort'];
-			}
-
-			if (isset($this->request->get['order'])) {
-				$url .= '&order=' . $this->request->get['order'];
-			}
-
-			if (isset($this->request->get['page'])) {
-				$url .= '&page=' . $this->request->get['page'];
-			}
 			
 			$this->redirect($this->url->link('sale/customer_group', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 		}
-
+		$floor_name='';
+		if(isset($this->request->get['customer_group_id'])){
+			$floor_name = $this->model_sale_customer_group->getFloorByRoom($this->request->get['customer_group_id']);
+		}
+		$this->data['heading_title'] = $this->language->get('edit_title').' '.$floor_name;
 		$this->getForm();
 	}
 
@@ -91,26 +90,18 @@ class ControllerSaleCustomerGroup extends Controller {
 			$this->session->data['success'] = $this->language->get('text_success');
 			
 			$url = '';
-
-			if (isset($this->request->get['sort'])) {
-				$url .= '&sort=' . $this->request->get['sort'];
-			}
-
-			if (isset($this->request->get['order'])) {
-				$url .= '&order=' . $this->request->get['order'];
-			}
-
-			if (isset($this->request->get['page'])) {
-				$url .= '&page=' . $this->request->get['page'];
-			}
 			
 			$this->redirect($this->url->link('sale/customer_group', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 		}
 
 		$this->getList();
+
 	}
 
+
 	protected function getList() {
+
+
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
 		} else {
@@ -160,18 +151,10 @@ class ControllerSaleCustomerGroup extends Controller {
 		$this->data['insert'] = $this->url->link('sale/customer_group/insert', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		$this->data['delete'] = $this->url->link('sale/customer_group/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');	
 		
-		/////////////////////// Modification//////////////////////
-		// ID: 1051011
-		// Name: Dinh Hai Nguyen
-		// Class:  10CTT
-		// Date created: 26/12/2013
-		// Description: Add block, floor to controller
-		// Date modified: 30/12/2013
-		//////////////////////////////////////////////////////////////
 		$this->data['blocks'] = array();
 		$this->data['floors'] = array();
 		$this->data['customer_groups'] = array();
-
+			
 		$blocks = $this->model_sale_customer_group->getBlocks();
 
 		foreach ($blocks as $block) {
@@ -184,48 +167,76 @@ class ControllerSaleCustomerGroup extends Controller {
 		
 		if (isset($this->request->get['block'])) {
 		
-			$floors = $this->model_sale_customer_group->getFloors($this->request->get['block']);
-			foreach ($floors as $floor) {
-			
-				$this->data['floors'][] = array(
-					'id' => $floor['floor_id'],
-					'name'  => $floor['floor_name'] 
-				);
-			}
+		$floors = $this->model_sale_customer_group->getFloors($this->request->get['block']);
+		foreach ($floors as $floor) {
+		
+			$this->data['floors'][] = array(
+				'id' => $floor['floor_id'],
+				'name'  => $floor['floor_name'] 
+			);
+		}
 		}
 
-		if (isset($this->request->get['floor'])) {
-		
-				$data = array(
-				'floor' => $this->request->get['floor'],
-				'sort'  => $sort,
-				'order' => $order,
-				'start' => ($page - 1) * $this->config->get('config_admin_limit'),
-				'limit' => $this->config->get('config_admin_limit')
-				);
-			$results = $this->model_sale_customer_group->getCustomerGroups($data);
 
-			foreach ($results as $result) {
-				$action = array();
-				
-				$action[] = array(
-					'text' => $this->language->get('text_edit'),
-					'href' => $this->url->link('sale/customer_group/update', 'token=' . $this->session->data['token'] . '&customer_group_id=' . $result['customer_group_id'] . $url, 'SSL')
-				);		
+
+		if (isset($this->request->get['floor'])) {
+		//$customer_group_total = $this->model_sale_customer_group->getTotalCustomerGroups();
+		
+		
+			$data = array(
+			'floor' => $this->request->get['floor'],
+			'sort'  => $sort,
+			'order' => $order,
+			'start' => ($page - 1) * $this->config->get('config_admin_limit'),
+			'limit' => $this->config->get('config_admin_limit')
+			);
+		$results = $this->model_sale_customer_group->getCustomerGroups($data);
+
+		foreach ($results as $result) {
+			$action = array();
 			
-				$this->data['customer_groups'][] = array(
-					'customer_group_id' => $result['customer_group_id'],
-					'name'              => $result['name'] . (($result['customer_group_id'] == $this->config->get('config_customer_group_id')) ? $this->language->get('text_default') : null),
-					'sort_order'        => $result['sort_order'],
-					'selected'          => isset($this->request->post['selected']) && in_array($result['customer_group_id'], $this->request->post['selected']),
-					'action'            => $action
-				);
-			}	
+			$action[] = array(
+				'href' => $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&customer_group_id=' . $result['customer_group_id'] . $url, 'SSL')
+			);
+
+			$action[] = array(
+				'text' => $this->language->get('text_edit'),
+				'href' => $this->url->link('sale/customer_group/update', 'token=' . $this->session->data['token'] . '&customer_group_id=' . $result['customer_group_id'] . $url, 'SSL')
+			);		
+		
+			$this->data['customer_groups'][] = array(
+				'customer_group_id' => $result['customer_group_id'],
+				'name'              => $result['name'],
+				'max_student'  		=> $result['max_student'],
+				'type'  			=> $result['type_name'],
+				'assigned'  		=> $result['assigned'],
+				'selected'          => isset($this->request->post['selected']) && in_array($result['customer_group_id'], $this->request->post['selected']),
+				'action'            => $action
+			);
+		}	
 		}
 	
 		$this->data['heading_title'] = $this->language->get('heading_title');
 		
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
+		$this->data['text_block'] = $this->language->get('text_block');
+		$this->data['text_floor'] = $this->language->get('text_floor');
+		$this->data['text_room'] = $this->language->get('text_room');
+		$this->data['text_view'] = $this->language->get('text_view');
+		$this->data['text_info'] = $this->language->get('text_info');
+		$this->data['text_numroom'] = $this->language->get('text_numroom');
+		$this->data['text_numassigned'] = $this->language->get('text_numassigned');
+		$this->data['text_numassignedboy'] = $this->language->get('text_numassignedboy');
+		$this->data['text_numassignedgirl'] = $this->language->get('text_numassignedgirl');
+		$this->data['text_numunassignedboy'] = $this->language->get('text_numunassignedboy');
+		$this->data['text_numunassignedgirl'] = $this->language->get('text_numunassignedgirl');
+
+		$this->data['column_type'] = $this->language->get('column_type');
+		$this->data['column_total'] = $this->language->get('column_total');
+		$this->data['column_assigned'] = $this->language->get('column_assigned');
+		$this->data['column_unassigned'] = $this->language->get('column_unassigned');
+		$this->data['column_detail'] = $this->language->get('column_detail');
+		
 
 		$this->data['column_name'] = $this->language->get('column_name');
 		$this->data['column_sort_order'] = $this->language->get('column_sort_order');
@@ -286,7 +297,7 @@ class ControllerSaleCustomerGroup extends Controller {
 		$this->data['order'] = $order;
 
 		$this->data['link'] = $this->url->link('sale/customer_group', 'token=' . $this->session->data['token'] . $url, 'SSL');
-		
+
 		$this->template = 'sale/customer_group_list.tpl';
 		$this->children = array(
 			'common/header',
@@ -297,19 +308,13 @@ class ControllerSaleCustomerGroup extends Controller {
  	}
 
 	protected function getForm() {
-		$this->data['heading_title'] = $this->language->get('heading_title');
 		
-		$this->data['text_yes'] = $this->language->get('text_yes');
-		$this->data['text_no'] = $this->language->get('text_no');
+		$this->data['text_room'] = $this->language->get('text_room');
+		$this->data['column_type'] = $this->language->get('column_type');
+		$this->data['column_total'] = $this->language->get('column_total');
 				
 		$this->data['entry_name'] = $this->language->get('entry_name');
 		$this->data['entry_description'] = $this->language->get('entry_description');
-		$this->data['entry_approval'] = $this->language->get('entry_approval');
-		$this->data['entry_company_id_display'] = $this->language->get('entry_company_id_display');
-		$this->data['entry_company_id_required'] = $this->language->get('entry_company_id_required');
-		$this->data['entry_tax_id_display'] = $this->language->get('entry_tax_id_display');
-		$this->data['entry_tax_id_required'] = $this->language->get('entry_tax_id_required');
-		$this->data['entry_sort_order'] = $this->language->get('entry_sort_order');
 		
 		$this->data['button_save'] = $this->language->get('button_save');
 		$this->data['button_cancel'] = $this->language->get('button_cancel');
@@ -374,6 +379,7 @@ class ControllerSaleCustomerGroup extends Controller {
 			$this->data['customer_group_description'] = $this->request->post['customer_group_description'];
 		} elseif (isset($this->request->get['customer_group_id'])) {
 			$this->data['customer_group_description'] = $this->model_sale_customer_group->getCustomerGroupDescriptions($this->request->get['customer_group_id']);
+			$this->data['customer_group'] = $this->model_sale_customer_group->getCustomerGroup($this->request->get['customer_group_id']);
 		} else {
 			$this->data['customer_group_description'] = array();
 		}	
@@ -431,6 +437,8 @@ class ControllerSaleCustomerGroup extends Controller {
 			'common/header',
 			'common/footer'
 		);
+
+		$this->data['room_types'] = $this->model_sale_customer_group->getTypes();
 				
 		$this->response->setOutput($this->render()); 
 	}

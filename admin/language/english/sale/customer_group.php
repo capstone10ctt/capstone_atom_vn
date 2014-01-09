@@ -1,14 +1,33 @@
 <?php
 // Heading
-$_['heading_title']             = 'Customer Group';
+$_['heading_title']             = 'Rooms List';
+$_['insert_title']             	= 'Add Room';
+$_['insert_title']             	= 'Edit Room';
 
 // Text
-$_['text_success']              = 'Success: You have modified customer groups!';
+$_['text_success']              = 'Success: You have modified rooms list!';
+$_['text_block']    			= 'Block';
+$_['text_floor']     			= 'Floor';
+$_['text_room']     			= 'Cell';
+$_['text_view']     			= 'View';
+$_['text_info']     			= 'Information';
+$_['text_numroom']     			= 'Number of rooms';
+$_['text_numassigned']     		= 'Number of assigned students';
+$_['text_numassignedboy']  		= 'Number of assigned boys';
+$_['text_numassignedgirl']  	= 'Number of assigned girls';
+$_['text_numunassignedboy']  	= 'Number of unassigned boys';
+$_['text_numunassignedgirl']  	= 'Number of unassigned girls';
+
 
 // Column
 $_['column_name']               = 'Customer Group Name';
-$_['column_sort_order']         = 'Sort Order';
-$_['column_action']             = 'Action';
+$_['column_type']    			= 'Type';
+$_['column_total']    			= 'Max number of students';
+$_['column_assigned']    		= 'Assigned';
+$_['column_unassigned']    		= 'Unassigned';
+$_['column_detail']    			= 'Detail';
+
+//A
 
 // Entry
 $_['entry_name']                = 'Customer Group Name:';

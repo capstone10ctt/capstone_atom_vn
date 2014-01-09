@@ -1,13 +1,32 @@
 <?php
 // Heading
-$_['heading_title']    = 'Danh sách phòng';
+$_['heading_title']    = 'Danh Sách Phòng';
+$_['insert_title']             	= 'Thêm Phòng';
+$_['edit_title']             	= 'Sửa Phòng';
 
 // Text
 $_['text_success']     = 'Danh sách phòng đã được thay đổi thành công: ';
+$_['text_block']     = 'Tòa nhà';
+$_['text_floor']     = 'Tầng';
+$_['text_room']     = 'Phòng';
+$_['text_view']     = 'Xem';
+$_['text_info']     			= 'Thông tin';
+$_['text_numroom']     			= 'Số phòng';
+$_['text_numassigned']     		= 'Số sinh viên đã bố trí';
+$_['text_numassignedboy']  		= 'Số sinh viên nam đã bố trí';
+$_['text_numassignedgirl']  	= 'Số sinh viên nữ đã bố trí';
+$_['text_numunassignedboy']  	= 'Số sinh viên nam chưa bố trí';
+$_['text_numunassignedgirl']  	= 'Số sinh viên nữ chưa bố trí';
 
 // Column
 $_['column_name']      = 'Tên phòng';
-$_['column_action']    = 'Hành động';
+$_['column_type']    = 'Loại';
+$_['column_total']    = 'Số sinh viên tối đa';
+$_['column_assigned']    = 'Đã bố trí';
+$_['column_unassigned']    = 'Chưa bố trí';
+$_['column_detail']    = 'Chi tiết';
+
+
 $_['entry_description']    = 'Mô tả';
 $_['entry_approval']    = 'Sinh viên cần được cho phép trước khi sử dụng ?';
 $_['entry_sort_order']    = 'Thứ tự sắp xếp';

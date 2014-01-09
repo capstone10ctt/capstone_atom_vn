@@ -69,6 +69,13 @@ $_['entry_gender']        = 'Gender:';
 $_['entry_male']        = 'Male';
 $_['entry_female']        = 'Female';
 
+$_['entry_floor']		= "Floor";
+$_['text_status']		= "Status";
+
+$_['text_approve']		= "Approved";
+$_['text_not_approve']		= "Unapproved";
+$_['text_receive']		= "Accept";
+$_['text_not_receive']		= "Deny";
 //end LMT
 
 // Text

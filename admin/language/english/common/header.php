@@ -5,6 +5,9 @@ $_['heading_title']                    = 'Administration';
 // Text
 //---------------Võ Lý Minh Nhân – volyminhnhan@gmail.com - 0902 644 077 - Atom Company----------------//
 $_['text_customer_support']                   = 'Customers Support';
+$_['text_manage_wie']         = 'Manage Usage';
+$_['text_manage_wie_limit']         = 'Manage WIE limit';
+$_['text_manage_email_templates']         = 'Manage Email templates';
 //---------------Võ Lý Minh Nhân – volyminhnhan@gmail.com - 0902 644 077 - Atom Company----------------//
 
 $_['text_affiliate']                   = 'Affiliates';

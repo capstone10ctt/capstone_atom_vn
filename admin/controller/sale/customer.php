@@ -300,10 +300,10 @@ class ControllerSaleCustomer extends Controller {
 			} else {
 				$filter_faculty = null;
 			}
-			if (isset($this->request->get['filter_floor'])) {
-				$filter_floor= $this->request->get['filter_floor'];
+			if (isset($this->request->get['filter_floor_id'])) {
+				$filter_floor_id = $this->request->get['filter_floor_id'];
 			} else {
-				$filter_floor = null;
+				$filter_floor_id = null;
 			}
             if (isset($this->request->get['filter_customer_group_id'])) {
 				$filter_customer_group_id = $this->request->get['filter_customer_group_id'];
@@ -431,6 +431,9 @@ class ControllerSaleCustomer extends Controller {
 		if (isset($this->request->get['filter_faculty'])) {
 			$url .= '&filter_faculty=' . $this->request->get['filter_faculty'];
 		}
+		if (isset($this->request->get['filter_floor_id'])) {
+			$url .= '&filter_floor_id=' . $this->request->get['filter_floor_id'];
+		}
 		if (isset($this->request->get['filter_bed'])) {
 			$url .= '&filter_bed=' . $this->request->get['filter_bed'];
 		}
@@ -503,8 +506,9 @@ class ControllerSaleCustomer extends Controller {
             // start LMT
             'filter_university'              => $filter_university,
             'filter_faculty'              => $filter_faculty,
-            'filter_floor'              => $filter_floor,
+            'filter_floor_id'              => $filter_floor_id,
             'filter_date_of_birth' 		=> $filter_date_of_birth,
+
             'filter_bed'              => $filter_bed,
             'filter_ethnic'              => $filter_ethnic,
             'filter_address_1'              => $filter_address_1,
@@ -539,7 +543,6 @@ class ControllerSaleCustomer extends Controller {
 			$this->load->model('catalog/category');
 			$university = $this->model_catalog_category->getCategory($result['university']);
 			$faculty = $this->model_catalog_category->getCategory($result['faculty']);
-
 			$this->load->model('localisation/zone');
 			$zone = $this->model_localisation_zone->getZone($result['id_location']);
 			// $address = get address by id_location
@@ -553,7 +556,7 @@ class ControllerSaleCustomer extends Controller {
 				'date_of_birth' 	=> date("d-m-Y", strtotime($result['date_of_birth'])),
 				'university'          => $university['name'],
 				'faculty'          => $faculty['name'],
-				'floor'          => 'floor_mark',
+				'floor'          => $result['floor_name'],
 				'bed'          => $result['bed'],
 				'ethnic'          => $result['ethnic'],
 				'address_1'          => $zone['name'],
@@ -624,8 +627,8 @@ class ControllerSaleCustomer extends Controller {
 		if (isset($this->request->get['filter_faculty'])) {
 			$url .= '&filter_faculty=' . $this->request->get['filter_faculty'];
 		}
-		if (isset($this->request->get['filter_floor'])) {
-			$url .= '&filter_floor=' . $this->request->get['filter_floor'];
+		if (isset($this->request->get['filter_floor_id'])) {
+			$url .= '&filter_floor_id=' . $this->request->get['filter_floor_id'];
 		}
 		if (isset($this->request->get['filter_bed'])) {
 			$url .= '&filter_bed=' . $this->request->get['filter_bed'];
@@ -637,7 +640,6 @@ class ControllerSaleCustomer extends Controller {
 			$url .= '&filter_address_1=' . $this->request->get['filter_address_1'];
 		}
 		// end LMT
-
 		if (isset($this->request->get['filter_name'])) {
 			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
 		}
@@ -682,6 +684,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['sort_gender'] = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&sort=gender' . $url, 'SSL');
 		$this->data['sort_university'] = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&sort=university' . $url, 'SSL');
 		$this->data['sort_faculty'] = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&sort=faculty' . $url, 'SSL');	
+		$this->data['sort_floor'] = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&sort=floor' . $url, 'SSL');	
 		$this->data['sort_bed'] = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&sort=bed' . $url, 'SSL');	
 		$this->data['sort_ethnic'] = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&sort=ethnic' . $url, 'SSL');	
 		$this->data['sort_address_1'] = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&sort=id_location' . $url, 'SSL');	
@@ -710,8 +713,8 @@ class ControllerSaleCustomer extends Controller {
 		if (isset($this->request->get['filter_faculty'])) {
 			$url .= '&filter_faculty=' . $this->request->get['filter_faculty'];
 		}
-		if (isset($this->request->get['filter_floor'])) {
-			$url .= '&filter_floor=' . $this->request->get['filter_floor'];
+		if (isset($this->request->get['filter_floor_id'])) {
+			$url .= '&filter_floor_id=' . $this->request->get['filter_floor_id'];
 		}
 		if (isset($this->request->get['filter_bed'])) {
 			$url .= '&filter_bed=' . $this->request->get['filter_bed'];
@@ -773,7 +776,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['filter_university'] = $filter_university;
 		$this->data['filter_date_of_birth'] = $filter_date_of_birth;
 		$this->data['filter_faculty'] = $filter_faculty;
-		$this->data['filter_floor'] = $filter_floor;
+		$this->data['filter_floor_id'] = $filter_floor_id;
 		$this->data['filter_customer_group_id'] = $filter_customer_group_id;
 		$this->data['filter_bed'] = $filter_bed;
 		$this->data['filter_ethnic'] = $filter_ethnic;
@@ -796,6 +799,9 @@ class ControllerSaleCustomer extends Controller {
 
 		$id_vn = 230;
         $this->data['regions'] = $this->model_localisation_zone->getZonesByCountryId($id_vn);
+
+        $this->load->model('sale/customer');
+        $this->data['floors'] = $this->model_sale_customer->getFloors();
 		// end LMT
 
 		$this->load->model('setting/store');
@@ -835,13 +841,23 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['entry_idlocation'] = $this->language->get('entry_idlocation');
 		$this->data['text_id'] = $this->language->get('text_id');
 		$this->data['entry_gender'] = $this->language->get('entry_gender');
-		
+
+		$this->data['entry_floor'] = $this->language->get('entry_floor');
+		$this->data['text_status'] = $this->language->get('text_status');
+		$this->data['text_approve'] = $this->language->get('text_approve');
+		$this->data['text_not_approve'] = $this->language->get('text_not_approve');
+		$this->data['text_receive'] = $this->language->get('text_receive');
+		$this->data['text_not_receive'] = $this->language->get('text_not_receive');
+
 		$this->load->model('catalog/category');
 		$universities = $this->model_catalog_category->getUniversityCategories();
 		$this->data['universities'] = $universities;
 
 		$NKUniversity = $this->model_catalog_category->NKUniversity();
 		$this->data['NKUniversity'] = $NKUniversity;
+
+		$this->load->model('sale/customer');
+        $this->data['floors'] = $this->model_sale_customer->getAllFloors();
 		
 		$genders = array(
 					array('gender_id' => '1', 'gender' => $this->language->get('entry_male')),
@@ -900,6 +916,7 @@ class ControllerSaleCustomer extends Controller {
 		} else {
 			$this->data['error_bed'] = '';
 		}
+
 		// end LMT
 
 		if (isset($this->error['id_location'])) {
@@ -1100,6 +1117,9 @@ class ControllerSaleCustomer extends Controller {
 		if (isset($this->request->get['student_id'])) {
 			$url .= '&student_id=' . $this->request->get['student_id'];
 		}
+		if (isset($this->request->get['filter_floor_id'])) {
+			$url .= '&filter_floor_id=' . $this->request->get['filter_floor_id'];
+		}
 		// end LMT
 
 		if (isset($this->request->get['filter_name'])) {
@@ -1209,6 +1229,13 @@ class ControllerSaleCustomer extends Controller {
 			$this->data['faculty_id'] = $customer_info['faculty'];
 		} else {
       		$this->data['faculty_id'] = '';
+    	}
+    	if (isset($this->request->post['floor_id'])) {
+      		$this->data['floor_id'] = $this->request->post['floor_id'];
+		} elseif (!empty($customer_info)) { 
+			$this->data['floor_id'] = $customer_info['floor_id'];
+		} else {
+      		$this->data['floor_id'] = '';
     	}
 		if (isset($this->request->post['student_id'])) {
       		$this->data['student_id'] = $this->request->post['student_id'];
@@ -1831,6 +1858,7 @@ class ControllerSaleCustomer extends Controller {
 					'customer_id'       => $result['customer_id'], 
 					'customer_group_id' => $result['customer_group_id'],
 					'name'              => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),
+					'floor'   			=> $result['floor_name'],
 					'customer_group'    => $result['customer_group'],
 					'firstname'         => $result['firstname'],
 					'lastname'          => $result['lastname'],
@@ -1952,6 +1980,39 @@ class ControllerSaleCustomer extends Controller {
 		}
 		
 		$json = $universities;
+		$this->response->setOutput(json_encode($json));
+	}
+	public function childfloor() {
+		$json = array();
+
+		// start LMT
+		if (isset($this->request->get['floor_id'])) {
+				$floor_id = $this->request->get['floor_id'];
+			} else {
+				$floor_id = null;
+			}
+		
+
+		$this->load->model('sale/customer');
+		$result = '';
+		if ($floor_id){
+			$result = $this->model_sale_customer->getCustomerGroupIdFromFloor($floor_id);
+		}
+		
+    	
+    	// end LMT
+		$customer_groups = array();
+		
+		if ($result) {
+			foreach($result as $customer_group) {
+				$customer_groups[] = array(
+					'customer_group_id'        => $customer_group['customer_group_id'],
+					'name'              => $customer_group['name']
+				);
+			}
+		}
+		
+		$json = $customer_groups;
 		$this->response->setOutput(json_encode($json));
 	}
 	// end LMT
