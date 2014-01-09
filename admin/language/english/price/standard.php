@@ -2,6 +2,7 @@
 $_['text_electricity_from'] = 'Từ kW';
 $_['text_electricity_to'] = 'Đến kW';
 $_['text_electricity_price'] = 'Giá';
+$_['text_edit'] = 'Chỉnh sửa giá điện nước';
 
 $_['text_water_from'] = 'Từ m3';
 $_['text_water_to'] = 'Đến m3';

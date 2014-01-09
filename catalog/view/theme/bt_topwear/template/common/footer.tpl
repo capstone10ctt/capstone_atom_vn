@@ -17,7 +17,7 @@
 	</div>
   </div>
   <?php } ?>
-  <div class="column">
+   <!-- <div class="column">
 	<div class="column_content">
 		<h3><?php echo $text_service; ?></h3>
 		<ul>
@@ -27,7 +27,7 @@
 		</ul>
 	</div>
   </div>
-  <div class="column">
+<div class="column">
 	<div class="column_content">
 		<h3><?php echo $text_extra; ?></h3>
 		<ul>
@@ -48,7 +48,7 @@
 		  <li><a href="<?php echo $newsletter; ?>"><?php echo $text_newsletter; ?></a></li>
 		</ul>
 	</div>
-  </div>
+  </div>-->
  </div>
 
 </div>

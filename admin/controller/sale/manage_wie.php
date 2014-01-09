@@ -171,24 +171,86 @@ class ControllerSaleManageWie extends Controller {
 		
 		$manage_wie_total = $this->model_sale_manage_wie->getTotalCustomerGroups();
 		
+		$billing_types = array(
+			0 => array(
+				'value' => 0,
+				'text' => $this->language->get('text_electric')
+			),
+			1 => array(
+				'value' => 1,
+				'text' => $this->language->get('text_water')
+			),
+		);
+		
+		$allmonths = array();
+		for($i = 1; $i < 13; $i ++) {
+			$allmonths[] = $i;
+		}
+		
+		$allyears = array();
+		for($i = date("Y"); $i >2000; $i --) {
+			$allyears[] = $i;
+		}
+		//get electric and water limit data
+		$this->load->model('price/standard');
+		$w_standard = $this->model_price_standard->getWaterStandardPrice();
+        $e_standard = $this->model_price_standard->getElectricityStandardPrice();
+		/*
+        foreach ($w_standard as $row) {
+            $this->data['w_standard'][] = array(
+                'From' => $row['From'],
+                'To' => $row['To'],
+                'Price' => $row['Price']
+            );
+        }
+
+        foreach ($e_standard as $row) {
+            $this->data['e_standard'][] = array(
+                'From' => $row['From'],
+                'To'       => $row['To'],
+                'Price' => $row['Price']
+            );
+        }*/
+		
 		$billing_wie_classified = array();
+		
 		
 		$results = $this->model_sale_manage_wie->getCustomerGroups($data);
 
 		foreach ($results as $result) {
-			
+			$totalmoney = 0;
 			$months = $this->model_sale_manage_wie->getMonthHasData($result['customer_group_id']);
 			foreach($months as $month) {
-				$elec = $this->model_sale_manage_wie->getElectricLogByRoomId($month['month'], $result['customer_group_id']);
+				$elec = $this->model_sale_manage_wie->getElectricLogByRoomId($month['month'], $month['year'], $result['customer_group_id']);
 				if(isset($elec)) {
-					$billing_wie_classified[$result['customer_group_id']][$month['month']]['elec'] = $elec;
+					$billing_wie_classified[$result['customer_group_id']][$month['month'].'-'.$month['year']]['elec'] = $elec;
+					foreach($elec as $key => $child) {
+						$e_usage = (int)$elec[$key]['End'] - (int)$elec[$key]['Start'];
+						$billing_wie_classified[$result['customer_group_id']][$month['month'].'-'.$month['year']]['elec'][$key]['Usage'] = $e_usage;
+						$money = $this->calculate_money($e_standard, $e_usage);
+						$billing_wie_classified[$result['customer_group_id']][$month['month'].'-'.$month['year']]['elec'][$key]['Money'] = $money;
+						$totalmoney += $money;
+					}
+					
 				}
 				
-				$water = $this->model_sale_manage_wie->getWaterLogByRoomId($month['month'], $result['customer_group_id']);
+				$water = $this->model_sale_manage_wie->getWaterLogByRoomId($month['month'], $month['year'], $result['customer_group_id']);
 				if(isset($water)) {
-					$billing_wie_classified[$result['customer_group_id']][$month['month']]['water'] = $water ;
+					$billing_wie_classified[$result['customer_group_id']][$month['month'].'-'.$month['year']]['water'] = $water ;
+					foreach($water as $key => $child) {
+						$w_usage = (int)$water[$key]['End'] - (int)$water[$key]['Start'];
+						$billing_wie_classified[$result['customer_group_id']][$month['month'].'-'.$month['year']]['water'][$key]['Usage'] = $w_usage;
+						$money = $this->calculate_money($w_standard, $w_usage);
+						$billing_wie_classified[$result['customer_group_id']][$month['month'].'-'.$month['year']]['water'][$key]['Money'] = $money;
+						$totalmoney += $money;
+					}
 				}
+				
+				setlocale(LC_MONETARY, 'en_US');
+				$billing_wie_classified[$result['customer_group_id']][$month['month'].'-'.$month['year']]['totalmoney'] = str_replace('$','',money_format('%.0n',$totalmoney));
+				$billing_wie_classified[$result['customer_group_id']][$month['month'].'-'.$month['year']]['inword'] = $this->convert_number_to_words((int)$totalmoney). ' đồng';
 			}
+			
 			
 			$action = array();
 			
@@ -207,13 +269,21 @@ class ControllerSaleManageWie extends Controller {
 		}	
 		
 		$this->data['billing_wie'] = $billing_wie_classified;
+		$this->data['billing_types'] = $billing_types;
+		$this->data['allmonths'] = $allmonths;
+		$this->data['allyears'] = $allyears;
+		$this->data['token'] = $this->session->data['token'];
 		
+		$this->data['text_totalmoney'] = $this->language->get('text_totalmoney');
+		$this->data['error_input'] = $this->language->get('error_input');
+		$this->data['text_success'] = $this->language->get('text_success');
 		$this->data['text_title'] = $this->language->get('text_title');
 		$this->data['text_start_num'] = $this->language->get('text_start_num');
 		$this->data['text_end_num'] = $this->language->get('text_end_num');
 		$this->data['text_usage'] = $this->language->get('text_usage');
 		$this->data['text_cost'] = $this->language->get('text_cost');
 		$this->data['text_header'] = $this->language->get('text_header');
+		$this->data['text_submit'] = $this->language->get('text_submit');
 		
 		$this->data['text_limit'] = $this->language->get('text_limit');
 		$this->data['text_limit_text'] = $this->language->get('text_limit_text');
@@ -221,11 +291,16 @@ class ControllerSaleManageWie extends Controller {
 		$this->data['text_total'] = $this->language->get('text_total');
 		
 		$this->data['text_view'] = $this->language->get('text_view');
+		$this->data['text_add'] = $this->language->get('text_add');
+		$this->data['text_edit'] = $this->language->get('text_edit');
 		$this->data['text_header_school'] = $this->language->get('text_header_school');
 		$this->data['text_electric'] = $this->language->get('text_electric');
 		$this->data['text_water'] = $this->language->get('text_water');
 		$this->data['text_month'] = $this->language->get('text_month');
-		
+		$this->data['text_year'] = $this->language->get('text_year');
+		$this->data['text_popup_header'] = $this->language->get('text_popup_header');
+		$this->data['text_greeting'] = $this->language->get('text_greeting');
+		$this->data['text_select'] = $this->language->get('text_select');
 
 		$this->data['heading_title'] = $this->language->get('heading_title');
 		
@@ -488,41 +563,41 @@ class ControllerSaleManageWie extends Controller {
 		}
 	}
 	
-	function convert_number_to_words($number) { 
+	protected function convert_number_to_words($number) { 
 		$hyphen      = ' '; 
 		$conjunction = '  '; 
 		$separator   = ' '; 
 		$negative    = 'negative '; 
 		$decimal     = ' point '; 
 		$dictionary  = array( 
-		0                   => 'Không', 
-		1                   => 'Một', 
-		2                   => 'Hai', 
-		3                   => 'Ba', 
-		4                   => 'Bốn', 
-		5                   => 'Năm', 
-		6                   => 'Sáu', 
-		7                   => 'Bảy', 
-		8                   => 'Tám', 
-		9                   => 'Chín', 
-		10                  => 'Mười', 
-		11                  => 'Mười một', 
-		12                  => 'Mười hai', 
-		13                  => 'Mười ba', 
-		14                  => 'Mười bốn', 
-		15                  => 'Mười năm', 
-		16                  => 'Mười sáu', 
-		17                  => 'Mười bảy', 
-		18                  => 'Mười tám', 
-		19                  => 'Mười chín', 
-		20                  => 'Hai mươi', 
-		30                  => 'Ba mươi', 
-		40                  => 'Bốn mươi', 
-		50                  => 'Năm mươi', 
-		60                  => 'Sáu mươi', 
-		70                  => 'Bảy mươi', 
-		80                  => 'Tám mươi', 
-		90                  => 'Chín mươi', 
+		0                   => 'không', 
+		1                   => 'một', 
+		2                   => 'hai', 
+		3                   => 'ba', 
+		4                   => 'bốn', 
+		5                   => 'năm', 
+		6                   => 'sáu', 
+		7                   => 'bảy', 
+		8                   => 'tám', 
+		9                   => 'chín', 
+		10                  => 'mười', 
+		11                  => 'mười một', 
+		12                  => 'mười hai', 
+		13                  => 'mười ba', 
+		14                  => 'mười bốn', 
+		15                  => 'mười năm', 
+		16                  => 'mười sáu', 
+		17                  => 'mười bảy', 
+		18                  => 'mười tám', 
+		19                  => 'mười chín', 
+		20                  => 'hai mươi', 
+		30                  => 'ba mươi', 
+		40                  => 'bốn mươi', 
+		50                  => 'năm mươi', 
+		60                  => 'sáu mươi', 
+		70                  => 'bảy mươi', 
+		80                  => 'tám mươi', 
+		90                  => 'chín mươi', 
 		100                 => 'trăm', 
 		1000                => 'ngàn', 
 		1000000             => 'triệu', 
@@ -544,7 +619,7 @@ class ControllerSaleManageWie extends Controller {
 			return false; 
 		} 
 		if ($number < 0) { 
-			return $negative . convert_number_to_words(abs($number)); 
+			return $negative . $this->convert_number_to_words(abs($number)); 
 		} 
 		
 		$string = $fraction = null; 
@@ -570,17 +645,17 @@ class ControllerSaleManageWie extends Controller {
 			$remainder = $number % 100; 
 			$string = $dictionary[$hundreds] . ' ' . $dictionary[100]; 
 			if ($remainder) { 
-			$string .= $conjunction . convert_number_to_words($remainder); 
+			$string .= $conjunction . $this->convert_number_to_words($remainder); 
 			} 
 			break; 
 		default: 
 			$baseUnit = pow(1000, floor(log($number, 1000))); 
 			$numBaseUnits = (int) ($number / $baseUnit); 
 			$remainder = $number % $baseUnit; 
-			$string = convert_number_to_words($numBaseUnits) . ' ' . $dictionary[$baseUnit]; 
+			$string = $this->convert_number_to_words($numBaseUnits) . ' ' . $dictionary[$baseUnit]; 
 			if ($remainder) { 
 			$string .= $remainder < 100 ? $conjunction : $separator; 
-			$string .= convert_number_to_words($remainder); 
+			$string .= $this->convert_number_to_words($remainder); 
 			} 
 			break; 
 		} 
@@ -596,5 +671,40 @@ class ControllerSaleManageWie extends Controller {
 		
 		return $string; 
 	}
+	
+	//added by Toan
+	function calculate_money($w,$e)
+	{
+		$money = 0;
+		foreach ($w as $z)
+		{
+			if($z['To']!=-1 && $e>$z['To'])
+			{
+				$money += $z['Price']*($z['To']-$z['From']);
+			}
+			else
+			{
+				$money += $z['Price']*($e-$z['From']);
+				return $money;
+			}
+		}
+	}
+	
+	public function inputHistory() {
+		$json = array();
+		
+		$this->load->model('sale/manage_wie');
+		if((int)$this->request->post['type'] == 0) {
+			$this->model_sale_manage_wie->inputElectricHistory($this->request->post);
+		}
+		else if((int)$this->request->post['type'] == 1) {
+			$this->model_sale_manage_wie->inputWaterHistory($this->request->post);
+		}
+		
+				
+		$json['success'] = 'yes';
+		
+		$this->response->setOutput(json_encode($json));
+	}	
 }
 ?>

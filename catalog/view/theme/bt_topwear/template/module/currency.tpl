@@ -1,7 +1,7 @@
 <?php if (count($currencies) > 1) { ?>
 <form  id="formcurrency" action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
    <div id="currency">
-   <div class="title">Tiền tệ<!--<?php echo $text_currency; ?>--></div> 
+   <div class="title">Tiền tệ</div> 
 	<div class="styled-select">                               
 		<select id="currencybox" onchange=" $('input[name=\'currency_code\']').attr('value', this.value).submit(); $('#formcurrency').submit();">
 			  <?php foreach ($currencies as $currency) { ?>

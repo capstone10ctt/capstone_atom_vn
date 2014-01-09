@@ -1710,3 +1710,502 @@
 2014-01-09 17:27:29 - PHP Notice:  Undefined variable: filter_floor in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/customer_list.tpl on line 171
 2014-01-09 17:27:33 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
 2014-01-09 17:27:33 - PHP Notice:  Undefined variable: filter_floor in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/customer_list.tpl on line 171
+2014-01-09 17:46:05 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 17:46:15 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 17:46:55 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 17:47:00 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 17:47:11 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 17:47:11 - PHP Notice:  Undefined variable: filter_floor in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/customer_list.tpl on line 171
+2014-01-09 17:57:49 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 17:57:50 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:00:14 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:02:46 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:02:48 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:05:12 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:05:17 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:05:23 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:05:59 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:06:12 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:09:12 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:09:14 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:09:17 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:10:18 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:10:29 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:10:30 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:10:37 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:10:37 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:10:39 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:10:42 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:10:46 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:10:48 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:10:54 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:11:06 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:11:07 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:12:04 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:12:05 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:12:05 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:12:05 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:12:40 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:12:43 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:13:11 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:14:35 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:15:05 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:15:48 - PHP Notice:  Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SORT BY date_added' at line 1<br />Error No: 1064<br />SELECT * FROM e_record WHERE `RoomID` = '1' AND MONTH(date_added) = '1' SORT BY date_added in /Applications/XAMPP/xamppfiles/htdocs/capstone/system/database/mysql.php on line 50
+2014-01-09 18:16:06 - PHP Notice:  Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SORT BY date_added  desc' at line 1<br />Error No: 1064<br />SELECT * FROM e_record WHERE `RoomID` = '1' AND MONTH(date_added) = '1' SORT BY date_added  desc in /Applications/XAMPP/xamppfiles/htdocs/capstone/system/database/mysql.php on line 50
+2014-01-09 18:16:07 - PHP Notice:  Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SORT BY date_added  desc' at line 1<br />Error No: 1064<br />SELECT * FROM e_record WHERE `RoomID` = '1' AND MONTH(date_added) = '1' SORT BY date_added  desc in /Applications/XAMPP/xamppfiles/htdocs/capstone/system/database/mysql.php on line 50
+2014-01-09 18:16:33 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:16:38 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:17:56 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:21:35 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:22:15 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:24:23 - PHP Notice:  Undefined variable: array in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 187
+2014-01-09 18:24:23 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 610
+2014-01-09 18:24:23 - PHP Notice:  Undefined variable: array in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 195
+2014-01-09 18:24:23 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 610
+2014-01-09 18:24:23 - PHP Notice:  Undefined variable: array in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 187
+2014-01-09 18:24:23 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 610
+2014-01-09 18:24:23 - PHP Notice:  Undefined variable: array in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 195
+2014-01-09 18:24:23 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 610
+2014-01-09 18:24:23 - PHP Notice:  Undefined variable: array in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 187
+2014-01-09 18:24:23 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 610
+2014-01-09 18:24:23 - PHP Notice:  Undefined variable: array in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 195
+2014-01-09 18:24:23 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 610
+2014-01-09 18:24:23 - PHP Notice:  Undefined variable: array in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 187
+2014-01-09 18:24:23 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 610
+2014-01-09 18:24:23 - PHP Notice:  Undefined variable: array in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 195
+2014-01-09 18:24:23 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 610
+2014-01-09 18:24:23 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:24:48 - PHP Notice:  Undefined variable: array in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 187
+2014-01-09 18:24:48 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 610
+2014-01-09 18:24:48 - PHP Notice:  Undefined variable: array in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 195
+2014-01-09 18:24:48 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 610
+2014-01-09 18:24:48 - PHP Notice:  Undefined variable: array in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 187
+2014-01-09 18:24:48 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 610
+2014-01-09 18:24:48 - PHP Notice:  Undefined variable: array in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 195
+2014-01-09 18:24:48 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 610
+2014-01-09 18:24:48 - PHP Notice:  Undefined variable: array in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 187
+2014-01-09 18:24:48 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 610
+2014-01-09 18:24:48 - PHP Notice:  Undefined variable: array in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 195
+2014-01-09 18:24:48 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 610
+2014-01-09 18:24:48 - PHP Notice:  Undefined variable: array in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 187
+2014-01-09 18:24:48 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 610
+2014-01-09 18:24:48 - PHP Notice:  Undefined variable: array in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 195
+2014-01-09 18:24:48 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 610
+2014-01-09 18:24:48 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:24:57 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:25:35 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:28:06 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:34:43 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:36:02 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:36:14 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:36:58 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:39:05 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:39:05 - PHP Notice:  Undefined variable: text_popup_header in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 131
+2014-01-09 18:39:05 - PHP Notice:  Undefined variable: text_greeting in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 135
+2014-01-09 18:39:05 - PHP Notice:  Undefined variable: text_submit_mobile in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 138
+2014-01-09 18:39:06 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:39:06 - PHP Notice:  Undefined variable: text_popup_header in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 131
+2014-01-09 18:39:06 - PHP Notice:  Undefined variable: text_greeting in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 135
+2014-01-09 18:39:06 - PHP Notice:  Undefined variable: text_submit_mobile in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 138
+2014-01-09 18:39:23 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:39:23 - PHP Notice:  Undefined variable: text_popup_header in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 131
+2014-01-09 18:39:23 - PHP Notice:  Undefined variable: text_greeting in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 135
+2014-01-09 18:39:23 - PHP Notice:  Undefined variable: text_submit_mobile in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 138
+2014-01-09 18:40:33 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:40:33 - PHP Notice:  Undefined variable: text_popup_header in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 131
+2014-01-09 18:40:33 - PHP Notice:  Undefined variable: text_greeting in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 135
+2014-01-09 18:40:33 - PHP Notice:  Undefined variable: text_submit_mobile in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 138
+2014-01-09 18:41:42 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:41:42 - PHP Notice:  Undefined variable: text_popup_header in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 131
+2014-01-09 18:41:42 - PHP Notice:  Undefined variable: text_greeting in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 135
+2014-01-09 18:41:42 - PHP Notice:  Undefined variable: text_submit_mobile in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 138
+2014-01-09 18:41:58 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:41:58 - PHP Notice:  Undefined variable: text_popup_header in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 131
+2014-01-09 18:41:58 - PHP Notice:  Undefined variable: text_greeting in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 135
+2014-01-09 18:41:58 - PHP Notice:  Undefined variable: text_submit_mobile in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 138
+2014-01-09 18:42:25 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:42:25 - PHP Notice:  Undefined variable: text_popup_header in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 131
+2014-01-09 18:42:25 - PHP Notice:  Undefined variable: text_greeting in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 135
+2014-01-09 18:42:25 - PHP Notice:  Undefined variable: text_submit_mobile in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 138
+2014-01-09 18:43:46 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:43:47 - PHP Notice:  Undefined variable: text_popup_header in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 131
+2014-01-09 18:43:47 - PHP Notice:  Undefined variable: text_greeting in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 135
+2014-01-09 18:43:47 - PHP Notice:  Undefined variable: text_submit_mobile in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 138
+2014-01-09 18:44:09 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:44:09 - PHP Notice:  Undefined variable: text_popup_header in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 131
+2014-01-09 18:44:09 - PHP Notice:  Undefined variable: text_greeting in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 135
+2014-01-09 18:44:09 - PHP Notice:  Undefined variable: text_submit_mobile in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 138
+2014-01-09 18:45:54 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:45:54 - PHP Notice:  Undefined variable: text_greeting in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 135
+2014-01-09 18:45:54 - PHP Notice:  Undefined variable: text_submit_mobile in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 138
+2014-01-09 18:48:14 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:48:14 - PHP Notice:  Undefined variable: text_greeting in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 135
+2014-01-09 18:48:14 - PHP Notice:  Undefined variable: text_submit_mobile in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 138
+2014-01-09 18:49:49 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:49:49 - PHP Notice:  Undefined variable: text_greeting in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 135
+2014-01-09 18:49:49 - PHP Notice:  Undefined variable: text_submit_mobile in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 138
+2014-01-09 18:50:03 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:50:03 - PHP Notice:  Undefined variable: text_greeting in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 135
+2014-01-09 18:50:03 - PHP Notice:  Undefined variable: text_submit_mobile in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 138
+2014-01-09 18:50:15 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:50:15 - PHP Notice:  Undefined variable: text_greeting in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 135
+2014-01-09 18:50:15 - PHP Notice:  Undefined variable: text_submit_mobile in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 138
+2014-01-09 18:50:56 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:50:56 - PHP Notice:  Undefined variable: text_greeting in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 135
+2014-01-09 18:50:56 - PHP Notice:  Undefined variable: text_submit_mobile in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 138
+2014-01-09 18:51:19 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:51:19 - PHP Notice:  Undefined variable: text_greeting in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 135
+2014-01-09 18:51:19 - PHP Notice:  Undefined variable: text_submit_mobile in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 138
+2014-01-09 18:53:07 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:53:07 - PHP Notice:  Undefined variable: text_submit_mobile in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 138
+2014-01-09 18:54:39 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 18:55:46 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:01:40 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:01:40 - PHP Notice:  Undefined variable: text_year in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 140
+2014-01-09 19:01:40 - PHP Notice:  Undefined variable: text_select in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 147
+2014-01-09 19:01:40 - PHP Notice:  Undefined variable: biling_types in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 148
+2014-01-09 19:01:40 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 148
+2014-01-09 19:02:07 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:02:07 - PHP Notice:  Undefined variable: text_year in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 140
+2014-01-09 19:02:07 - PHP Notice:  Undefined variable: biling_types in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 148
+2014-01-09 19:02:07 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 148
+2014-01-09 19:02:47 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:02:47 - PHP Notice:  Undefined variable: text_year in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 140
+2014-01-09 19:02:47 - PHP Notice:  Undefined variable: biling_types in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 148
+2014-01-09 19:02:47 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 148
+2014-01-09 19:03:27 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:03:27 - PHP Notice:  Undefined variable: text_year in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 140
+2014-01-09 19:03:52 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:03:52 - PHP Notice:  Undefined variable: text_year in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 140
+2014-01-09 19:05:06 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:05:06 - PHP Notice:  Undefined variable: text_year in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 140
+2014-01-09 19:05:41 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:05:57 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:06:06 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:08:11 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:08:37 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:08:37 - PHP Notice:  Array to string conversion in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 149
+2014-01-09 19:08:37 - PHP Notice:  Array to string conversion in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 149
+2014-01-09 19:08:37 - PHP Notice:  Array to string conversion in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 149
+2014-01-09 19:08:37 - PHP Notice:  Array to string conversion in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 149
+2014-01-09 19:09:45 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:09:46 - PHP Notice:  Array to string conversion in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 151
+2014-01-09 19:09:46 - PHP Notice:  Array to string conversion in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 151
+2014-01-09 19:09:46 - PHP Notice:  Array to string conversion in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 151
+2014-01-09 19:09:46 - PHP Notice:  Array to string conversion in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 151
+2014-01-09 19:10:39 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:12:25 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:17:12 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:17:12 - PHP Notice:  Undefined variable: text_thank_you in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 196
+2014-01-09 19:18:04 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:18:04 - PHP Notice:  Undefined variable: text_thank_you in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 196
+2014-01-09 19:18:51 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:18:51 - PHP Notice:  Undefined variable: text_thank_you in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 196
+2014-01-09 19:18:52 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:18:52 - PHP Notice:  Undefined variable: text_thank_you in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 196
+2014-01-09 19:18:52 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:18:52 - PHP Notice:  Undefined variable: text_thank_you in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 196
+2014-01-09 19:20:00 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:20:00 - PHP Notice:  Undefined variable: text_thank_you in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 196
+2014-01-09 19:22:05 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:22:05 - PHP Notice:  Undefined variable: text_success in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 198
+2014-01-09 19:22:35 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:22:35 - PHP Notice:  Undefined variable: text_success in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 198
+2014-01-09 19:23:00 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:23:00 - PHP Notice:  Undefined variable: text_success in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 198
+2014-01-09 19:23:07 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:23:07 - PHP Notice:  Undefined variable: text_success in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 198
+2014-01-09 19:24:00 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:24:00 - PHP Notice:  Undefined variable: text_success in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 198
+2014-01-09 19:24:41 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:24:41 - PHP Notice:  Undefined variable: text_success in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 198
+2014-01-09 19:24:45 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:24:46 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:24:47 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:24:47 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:24:47 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:24:48 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:24:48 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:24:50 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:24:51 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:25:54 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:25:54 - PHP Notice:  Undefined variable: token in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 191
+2014-01-09 19:25:54 - PHP Notice:  Undefined variable: text_success in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 198
+2014-01-09 19:25:59 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:26:00 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:26:00 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:26:02 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:26:03 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:26:43 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:26:43 - PHP Notice:  Undefined variable: token in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 191
+2014-01-09 19:26:43 - PHP Notice:  Undefined variable: text_success in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 198
+2014-01-09 19:26:47 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:26:48 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:26:49 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:26:49 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:26:50 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:26:50 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:26:51 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:26:56 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:26:56 - PHP Notice:  Undefined variable: token in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 191
+2014-01-09 19:26:56 - PHP Notice:  Undefined variable: text_success in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 198
+2014-01-09 19:27:54 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:27:54 - PHP Notice:  Undefined variable: text_success in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 198
+2014-01-09 19:28:19 - PHP Notice:  Undefined index: text_success in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 241
+2014-01-09 19:28:19 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:28:45 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:32:33 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:33:57 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:44:44 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:45:29 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:46:28 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:46:38 - PHP Notice:  Undefined index: sel_type in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 661
+2014-01-09 19:48:42 - PHP Notice:  Undefined index: sel_year in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/model/sale/manage_wie.php on line 33
+2014-01-09 19:48:42 - PHP Notice:  Undefined index: sel_month in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/model/sale/manage_wie.php on line 33
+2014-01-09 19:48:42 - PHP Notice:  Error: Unknown column 'end_num' in 'field list'<br />Error No: 1054<br />INSERT INTO e_record SET date_added = '-0001-12-01', RoomID = '1', Start = '2', end_num = '9', date_modified = NOW() in /Applications/XAMPP/xamppfiles/htdocs/capstone/system/database/mysql.php on line 50
+2014-01-09 19:49:12 - PHP Notice:  Error: Unknown column 'end_num' in 'field list'<br />Error No: 1054<br />INSERT INTO e_record SET date_added = '2014-01-01', RoomID = '1', Start = '2', end_num = '9', date_modified = NOW() in /Applications/XAMPP/xamppfiles/htdocs/capstone/system/database/mysql.php on line 50
+2014-01-09 19:49:44 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 19:51:45 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:07:16 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:07:30 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:09:24 - PHP Notice:  Undefined offset: 0 in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 206
+2014-01-09 20:09:24 - PHP Notice:  Undefined offset: 0 in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 206
+2014-01-09 20:09:24 - PHP Notice:  Undefined offset: 0 in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 214
+2014-01-09 20:09:24 - PHP Notice:  Undefined offset: 0 in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 214
+2014-01-09 20:09:24 - PHP Notice:  Undefined offset: 0 in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 206
+2014-01-09 20:09:24 - PHP Notice:  Undefined offset: 0 in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 206
+2014-01-09 20:09:24 - PHP Notice:  Undefined offset: 0 in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 214
+2014-01-09 20:09:24 - PHP Notice:  Undefined offset: 0 in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 214
+2014-01-09 20:09:24 - PHP Notice:  Undefined offset: 0 in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 206
+2014-01-09 20:09:24 - PHP Notice:  Undefined offset: 0 in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 206
+2014-01-09 20:09:24 - PHP Notice:  Undefined offset: 0 in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 214
+2014-01-09 20:09:24 - PHP Notice:  Undefined offset: 0 in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 214
+2014-01-09 20:09:24 - PHP Notice:  Undefined offset: 0 in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 206
+2014-01-09 20:09:24 - PHP Notice:  Undefined offset: 0 in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 206
+2014-01-09 20:09:24 - PHP Notice:  Undefined offset: 0 in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 214
+2014-01-09 20:09:24 - PHP Notice:  Undefined offset: 0 in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/controller/sale/manage_wie.php on line 214
+2014-01-09 20:09:24 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:09:24 - PHP Notice:  Undefined index: Start in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 80
+2014-01-09 20:09:24 - PHP Notice:  Undefined index: End in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 81
+2014-01-09 20:09:24 - PHP Notice:  Undefined index: Start in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 80
+2014-01-09 20:09:24 - PHP Notice:  Undefined index: End in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 81
+2014-01-09 20:09:24 - PHP Notice:  Undefined index: Start in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 80
+2014-01-09 20:09:24 - PHP Notice:  Undefined index: End in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 81
+2014-01-09 20:09:24 - PHP Notice:  Undefined index: Start in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 80
+2014-01-09 20:09:24 - PHP Notice:  Undefined index: End in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 81
+2014-01-09 20:09:24 - PHP Notice:  Undefined index: Start in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 80
+2014-01-09 20:09:24 - PHP Notice:  Undefined index: End in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 81
+2014-01-09 20:09:24 - PHP Notice:  Undefined index: Start in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 80
+2014-01-09 20:09:24 - PHP Notice:  Undefined index: End in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 81
+2014-01-09 20:09:24 - PHP Notice:  Undefined index: Start in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 80
+2014-01-09 20:09:24 - PHP Notice:  Undefined index: End in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 81
+2014-01-09 20:09:24 - PHP Notice:  Undefined index: Start in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 80
+2014-01-09 20:09:24 - PHP Notice:  Undefined index: End in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 81
+2014-01-09 20:10:37 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:11:29 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:12:34 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:12:50 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:13:37 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:15:19 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:15:19 - PHP Notice:  Undefined index: Usage in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 83
+2014-01-09 20:15:19 - PHP Notice:  Undefined index: Usage in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 83
+2014-01-09 20:18:00 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:20:57 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:21:14 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:21:42 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:22:24 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:23:54 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:25:08 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:25:08 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 77
+2014-01-09 20:25:08 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 77
+2014-01-09 20:25:08 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 77
+2014-01-09 20:25:08 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 77
+2014-01-09 20:25:08 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 77
+2014-01-09 20:25:08 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 77
+2014-01-09 20:26:40 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:26:40 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 77
+2014-01-09 20:26:40 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 77
+2014-01-09 20:26:40 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 77
+2014-01-09 20:26:40 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 77
+2014-01-09 20:26:40 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 77
+2014-01-09 20:26:40 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 77
+2014-01-09 20:27:38 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:27:38 - PHP Notice:  Undefined index: totalmoney in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 89
+2014-01-09 20:27:38 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 77
+2014-01-09 20:27:38 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 77
+2014-01-09 20:27:38 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 77
+2014-01-09 20:27:38 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 77
+2014-01-09 20:27:38 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 77
+2014-01-09 20:27:38 - PHP Notice:  Undefined index: totalmoney in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 89
+2014-01-09 20:27:38 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 77
+2014-01-09 20:28:29 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:28:46 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:28:46 - PHP Notice:  Undefined index: totalmoney in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 92
+2014-01-09 20:28:46 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 80
+2014-01-09 20:28:46 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 80
+2014-01-09 20:28:46 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 80
+2014-01-09 20:28:46 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 80
+2014-01-09 20:28:46 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 80
+2014-01-09 20:28:46 - PHP Notice:  Undefined index: totalmoney in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 92
+2014-01-09 20:28:46 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 80
+2014-01-09 20:29:51 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:29:51 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 80
+2014-01-09 20:29:51 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 80
+2014-01-09 20:29:51 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 80
+2014-01-09 20:29:51 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 80
+2014-01-09 20:31:18 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:31:19 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:31:20 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:31:29 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:32:24 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:32:52 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:33:01 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:33:28 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:34:27 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:34:46 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:37:59 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:38:53 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:39:06 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:39:22 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:40:21 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:42:11 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:45:25 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:45:25 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 78
+2014-01-09 20:45:25 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 78
+2014-01-09 20:45:25 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 78
+2014-01-09 20:45:25 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 78
+2014-01-09 20:45:59 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:45:59 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 78
+2014-01-09 20:45:59 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 78
+2014-01-09 20:45:59 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 78
+2014-01-09 20:45:59 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 78
+2014-01-09 20:47:24 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:47:24 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 78
+2014-01-09 20:47:24 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 78
+2014-01-09 20:47:24 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 78
+2014-01-09 20:47:24 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 78
+2014-01-09 20:48:03 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:48:03 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 78
+2014-01-09 20:48:03 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 78
+2014-01-09 20:48:03 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 78
+2014-01-09 20:48:03 - PHP Warning:  Invalid argument supplied for foreach() in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/sale/manage_wie_list.tpl on line 78
+2014-01-09 20:49:08 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:49:48 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:52:49 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:53:23 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:55:46 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:56:04 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:56:41 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:57:15 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:58:36 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:58:57 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:58:58 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 20:59:11 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:00:28 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:00:39 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:00:47 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:00:57 - PHP Notice:  Undefined index: email_special in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/model/catalog/template_email.php on line 65
+2014-01-09 21:00:57 - PHP Notice:  Undefined index: email_special in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/model/catalog/template_email.php on line 65
+2014-01-09 21:00:57 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:00:59 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:01:04 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:01:11 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:01:13 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:01:21 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:08:46 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:08:48 - PHP Notice:  unserialize(): Error at offset 4493 of 51927 bytes in /Applications/XAMPP/xamppfiles/htdocs/capstone/system/library/cache.php on line 11
+2014-01-09 21:08:48 - PHP Notice:  unserialize(): Error at offset 223 of 953 bytes in /Applications/XAMPP/xamppfiles/htdocs/capstone/system/library/cache.php on line 11
+2014-01-09 21:08:48 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:09:23 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:21:49 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:21:52 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:22:36 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:22:48 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:23:09 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:27:21 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:27:40 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:30:54 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:30:55 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:31:03 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:31:46 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:31:48 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:32:12 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:32:14 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:32:33 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:32:46 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:32:51 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:32:53 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:32:59 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:33:14 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:33:14 - PHP Notice:  Undefined variable: b_General_p_Display in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/module/boss_editorthemes.tpl on line 99
+2014-01-09 21:33:18 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:33:20 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:35:59 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:36:17 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:37:44 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:41:12 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:41:20 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:41:20 - PHP Notice:  Undefined variable: b_General_p_Display in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/module/boss_editorthemes.tpl on line 99
+2014-01-09 21:41:25 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:42:38 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:42:39 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:42:39 - PHP Notice:  Undefined variable: sort_date_added in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 42
+2014-01-09 21:42:39 - PHP Notice:  Undefined variable: sort_date_modified in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 47
+2014-01-09 21:42:39 - PHP Notice:  Undefined variable: sort_sort_oder in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 52
+2014-01-09 21:42:39 - PHP Notice:  Undefined variable: filter_model in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 67
+2014-01-09 21:42:39 - PHP Notice:  Undefined variable: filter_price in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 68
+2014-01-09 21:42:39 - PHP Notice:  Undefined variable: filter_quantity in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 69
+2014-01-09 21:42:41 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:42:42 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:43:05 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:43:24 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:43:24 - PHP Notice:  Undefined variable: sort_date_added in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 42
+2014-01-09 21:43:24 - PHP Notice:  Undefined variable: sort_date_modified in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 47
+2014-01-09 21:43:24 - PHP Notice:  Undefined variable: sort_sort_oder in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 52
+2014-01-09 21:43:24 - PHP Notice:  Undefined variable: filter_model in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 67
+2014-01-09 21:43:24 - PHP Notice:  Undefined variable: filter_price in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 68
+2014-01-09 21:43:24 - PHP Notice:  Undefined variable: filter_quantity in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 69
+2014-01-09 21:44:12 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:44:17 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:44:17 - PHP Notice:  Undefined variable: sort_date_added in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 42
+2014-01-09 21:44:17 - PHP Notice:  Undefined variable: sort_date_modified in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 47
+2014-01-09 21:44:17 - PHP Notice:  Undefined variable: sort_sort_oder in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 52
+2014-01-09 21:44:17 - PHP Notice:  Undefined variable: filter_model in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 67
+2014-01-09 21:44:17 - PHP Notice:  Undefined variable: filter_price in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 68
+2014-01-09 21:44:17 - PHP Notice:  Undefined variable: filter_quantity in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 69
+2014-01-09 21:44:20 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:44:24 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:44:24 - PHP Notice:  Undefined variable: sort_date_added in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 42
+2014-01-09 21:44:24 - PHP Notice:  Undefined variable: sort_date_modified in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 47
+2014-01-09 21:44:24 - PHP Notice:  Undefined variable: sort_sort_oder in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 52
+2014-01-09 21:44:24 - PHP Notice:  Undefined variable: filter_model in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 67
+2014-01-09 21:44:24 - PHP Notice:  Undefined variable: filter_price in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 68
+2014-01-09 21:44:24 - PHP Notice:  Undefined variable: filter_quantity in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 69
+2014-01-09 21:44:25 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:44:28 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:44:28 - PHP Notice:  Undefined variable: sort_date_added in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 42
+2014-01-09 21:44:28 - PHP Notice:  Undefined variable: sort_date_modified in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 47
+2014-01-09 21:44:28 - PHP Notice:  Undefined variable: sort_sort_oder in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 52
+2014-01-09 21:44:28 - PHP Notice:  Undefined variable: filter_model in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 67
+2014-01-09 21:44:28 - PHP Notice:  Undefined variable: filter_price in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 68
+2014-01-09 21:44:28 - PHP Notice:  Undefined variable: filter_quantity in /Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/bossblog/articles_list.tpl on line 69
+2014-01-09 21:44:45 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:44:48 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:44:55 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:48:24 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:48:39 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:48:53 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:48:55 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:49:15 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:50:42 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:50:46 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:52:51 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:53:17 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:53:32 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:53:34 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:53:45 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:53:49 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:53:57 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:54:04 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:54:04 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122
+2014-01-09 21:54:12 - PHP Notice:  Undefined variable: report_customer_order in /Applications/XAMPP/xamppfiles/htdocs/capstone/vqmod/vqcache/vq2-admin_view_template_common_header.tpl on line 122

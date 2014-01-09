@@ -20,6 +20,7 @@
 <?php echo $header; ?>
 <div id="content">
     <div class="standard_price">
+    	<a href="<?php echo $edit; ?>"><?php echo $text_edit; ?></a><br/><br/>
         <?php echo $description_electricity; ?>
         <table class="electricity_standard_price">
             <thead>
@@ -71,9 +72,7 @@
         </table>
     </div>
     <div class="bill">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel leo justo. Ut non dictum dolor, sodales suscipit velit. Etiam ut vestibulum est, ut blandit sem. Vivamus egestas orci feugiat, semper eros sit amet, accumsan metus. Nunc ac purus quis mauris posuere pharetra. Nam tincidunt auctor lobortis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus vel aliquam augue. Vivamus eget ipsum at sapien porta hendrerit. Curabitur porttitor tortor fermentum tortor gravida vehicula. Quisque facilisis bibendum quam in mattis. Aenean vel nisl pellentesque nunc ornare laoreet rutrum eget mi. Aliquam erat volutpat.</p>
-        <p>Etiam molestie sem a turpis sodales facilisis. Integer volutpat vehicula nisi. Ut a est metus. Aliquam ut ante et nisl dapibus adipiscing. Vestibulum mollis turpis dapibus urna pretium euismod. In hac habitasse platea dictumst. Sed id rhoncus tortor, sed viverra augue. Aliquam malesuada hendrerit nibh ac pharetra.</p>
-        <p>Curabitur et pretium mi, non pellentesque arcu. Pellentesque condimentum justo ligula, et ornare turpis pellentesque vitae. Aliquam a nulla tortor. Vestibulum eget sollicitudin lectus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc id risus ac lacus vestibulum malesuada quis at ligula. Nullam a arcu varius, facilisis diam nec, auctor nibh. Quisque convallis lorem vel ligula rutrum vulputate.</p>
+     
     </div>
 </div>
 <?php echo $footer; ?>

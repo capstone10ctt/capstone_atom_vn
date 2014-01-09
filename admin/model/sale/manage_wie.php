@@ -28,20 +28,36 @@ class ModelSaleManageWie extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_reward WHERE customer_group_id = '" . (int)$customer_group_id . "'");
 	}
 	
-	public function getElectricLogByRoomId($month ,$room_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "e_record WHERE `RoomID` = '" . (int)$room_id . "' AND MONTH(date_added) = '" . $month . "'");
+	public function inputElectricHistory($data) {
+		$date = new DateTime();
+		$date->setDate($data['year'], $data['month'], 1);
+		$date_final = $date->format('Y-m-d');
+		
+		$this->db->query("INSERT INTO " . DB_PREFIX . "e_record SET date_added = '" . $date_final . "', RoomID = '" . (int)$data['room_id'] . "', Start = '" . (int)$data['start_num'] . "', End = '" . (int)$data['end_num'] . "', date_modified = NOW()");
+	}
+	
+	public function inputWaterHistory($data) {
+		$date = new DateTime();
+		$date->setDate($data['year'], $data['month'], 1);
+		$date_final = $date->format('Y-m-d');
+		
+		$this->db->query("INSERT INTO " . DB_PREFIX . "w_record SET date_added = '" . $date_final . "', RoomID = '" . (int)$data['room_id'] . "', Start = '" . (int)$data['start_num'] . "', End = '" . (int)$data['end_num'] . "', date_modified = NOW()");
+	}
+	
+	public function getElectricLogByRoomId($month, $year, $room_id) {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "e_record WHERE `RoomID` = '" . (int)$room_id . "' AND MONTH(date_added) = '" . $month . "' AND YEAR(date_added) = '" . $year . "'");
 		
 		return $query->rows;
 	}
 	
-	public function getWaterLogByRoomId($month ,$room_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "w_record WHERE `RoomID` = '" . (int)$room_id . "' AND MONTH(date_added) = '" . $month . "'");
+	public function getWaterLogByRoomId($month, $year,$room_id) {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "w_record WHERE `RoomID` = '" . (int)$room_id . "' AND MONTH(date_added) = '" . $month . "' AND YEAR(date_added) = '" . $year . "'");
 		
 		return $query->rows;
 	}
 	
 	public function getMonthHasData($room_id) {
-		$query = $this->db->query("SELECT MONTH(date_added) as month FROM " . DB_PREFIX . "w_record WHERE `RoomID` = '" . $room_id . "' GROUP BY MONTH(date_added);");
+		$query = $this->db->query("SELECT MONTH(date_added) as month, YEAR(date_added) as year FROM " . DB_PREFIX . "w_record WHERE `RoomID` = '" . $room_id . "' GROUP BY month, year  ORDER BY date_added desc");
 		
 		return $query->rows;
 	}

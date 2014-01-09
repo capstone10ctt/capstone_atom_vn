@@ -37,7 +37,9 @@ class ControllerPriceStandard extends Controller {
         $this->data['note_1'] = $this->language->get('note_1');
         $this->data['description_electricity'] = $this->language->get('description_electricity');
         $this->data['description_water'] = $this->language->get('description_water');
-
+		$this->data['text_edit'] = $this->language->get('text_edit');
+		
+		$this->data['edit'] = $this->url->link('price/edit', 'token=' . $this->session->data['token'], 'SSL');		
         // set default page for view
         $this->template = 'price/standard.tpl';
         $this->children = array(

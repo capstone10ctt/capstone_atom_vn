@@ -1,3 +1,61 @@
+.colorwhite td{
+	color:white!important;
+}
+.news-form-back{
+	z-index: 9995;
+	border: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color:#000;
+	opacity:0.3;
+	display:none;
+}
+.news-form{
+	position:fixed;
+	width:700px;
+	z-index:9999999;
+	background:#FFF;
+	border-radius:7px;
+	border: 5px solid rgba(110, 137, 165, 0.5);
+	-webkit-background-clip: padding-box; /* for Safari */
+	background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+	display:none;
+}
+.news-form .header{
+	width:100%;
+	height:30px;
+	background: #6e89a5;
+}
+.news-form .header p{
+	float:left;
+	margin:7px 0px 0px 10px;
+	padding:0px;
+	color:#FFF;
+	font-size:14px;
+	font-weight:bold;
+}
+.news-form .header img{
+	float:right;
+	margin:11px 11px 0px 0px;
+	cursor:pointer;
+}
+.news-form .body{
+	float:left;
+	width:100%;
+	max-height:500px;
+	position:relative;
+	overflow-y:auto;
+	padding:10px 0px 30px 0px;
+	text-align:center;
+}
+.news-form .body p{
+	margin:0px;
+	padding:0px;
+	margin-top:20px;
+}
 .tblWieDetailRows{
 	position:relative;
 	width:100%;

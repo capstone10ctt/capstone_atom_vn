@@ -165,6 +165,7 @@ $(document).ready(function(){
       </li>-->
       <li id="system"><a class="top"><?php echo $text_system; ?></a>
         <ul>
+        <li><a href="<?php echo $information; ?>"><?php echo $text_information; ?></a></li>
           <li><a href="<?php echo $setting; ?>"><?php echo $text_setting; ?></a></li>
           <li><a class="parent"><?php echo $text_design; ?></a>
             <ul>
