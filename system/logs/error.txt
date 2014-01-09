@@ -2228,3 +2228,15 @@
 2014-01-10 3:16:27 - PHP Notice:  Undefined variable: report_customer_order in C:\AWServer\data\atom\public_html\capstone_atom_vn\vqmod\vqcache\vq2-admin_view_template_common_header.tpl on line 122
 2014-01-10 3:16:30 - PHP Notice:  Undefined variable: report_customer_order in C:\AWServer\data\atom\public_html\capstone_atom_vn\vqmod\vqcache\vq2-admin_view_template_common_header.tpl on line 122
 2014-01-10 3:20:08 - PHP Notice:  Undefined variable: report_customer_order in C:\AWServer\data\atom\public_html\capstone_atom_vn\vqmod\vqcache\vq2-admin_view_template_common_header.tpl on line 122
+2014-01-10 3:22:49 - PHP Notice:  Undefined variable: report_customer_order in C:\AWServer\data\atom\public_html\capstone_atom_vn\vqmod\vqcache\vq2-admin_view_template_common_header.tpl on line 122
+2014-01-10 3:22:56 - PHP Notice:  Undefined variable: report_customer_order in C:\AWServer\data\atom\public_html\capstone_atom_vn\vqmod\vqcache\vq2-admin_view_template_common_header.tpl on line 122
+2014-01-10 3:23:04 - PHP Notice:  Undefined variable: report_customer_order in C:\AWServer\data\atom\public_html\capstone_atom_vn\vqmod\vqcache\vq2-admin_view_template_common_header.tpl on line 122
+2014-01-10 3:23:15 - PHP Notice:  Undefined variable: report_customer_order in C:\AWServer\data\atom\public_html\capstone_atom_vn\vqmod\vqcache\vq2-admin_view_template_common_header.tpl on line 122
+2014-01-10 3:24:06 - PHP Notice:  Undefined variable: report_customer_order in C:\AWServer\data\atom\public_html\capstone_atom_vn\vqmod\vqcache\vq2-admin_view_template_common_header.tpl on line 122
+2014-01-10 3:24:22 - PHP Notice:  Undefined variable: report_customer_order in C:\AWServer\data\atom\public_html\capstone_atom_vn\vqmod\vqcache\vq2-admin_view_template_common_header.tpl on line 122
+2014-01-10 3:26:01 - PHP Notice:  Undefined variable: report_customer_order in C:\AWServer\data\atom\public_html\capstone_atom_vn\vqmod\vqcache\vq2-admin_view_template_common_header.tpl on line 122
+2014-01-10 3:26:06 - PHP Notice:  Undefined variable: report_customer_order in C:\AWServer\data\atom\public_html\capstone_atom_vn\vqmod\vqcache\vq2-admin_view_template_common_header.tpl on line 122
+2014-01-10 3:26:09 - PHP Notice:  Undefined variable: report_customer_order in C:\AWServer\data\atom\public_html\capstone_atom_vn\vqmod\vqcache\vq2-admin_view_template_common_header.tpl on line 122
+2014-01-10 3:26:11 - PHP Notice:  Undefined variable: report_customer_order in C:\AWServer\data\atom\public_html\capstone_atom_vn\vqmod\vqcache\vq2-admin_view_template_common_header.tpl on line 122
+2014-01-10 3:26:12 - PHP Notice:  Undefined variable: report_customer_order in C:\AWServer\data\atom\public_html\capstone_atom_vn\vqmod\vqcache\vq2-admin_view_template_common_header.tpl on line 122
+2014-01-10 3:31:09 - PHP Notice:  Undefined variable: report_customer_order in C:\AWServer\data\atom\public_html\capstone_atom_vn\vqmod\vqcache\vq2-admin_view_template_common_header.tpl on line 122
