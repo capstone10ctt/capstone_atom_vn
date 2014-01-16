@@ -792,7 +792,7 @@ class ControllerSaleCustomer extends Controller {
 		
 		$this->load->model('sale/customer_group');
 		
-    	$this->data['customer_groups'] = $this->model_sale_customer_group->getCustomerGroups();
+    	$this->data['customer_groups'] = $this->model_sale_customer_group->getCustomerGroups(0);
 
     	// start LMT 
 		$this->load->model('localisation/zone');
@@ -1310,7 +1310,7 @@ class ControllerSaleCustomer extends Controller {
 		
 		$this->load->model('sale/customer_group');
 			
-		$this->data['customer_groups'] = $this->model_sale_customer_group->getCustomerGroups();
+		$this->data['customer_groups'] = $this->model_sale_customer_group->getCustomerGroups(0);
 
 		// start LMT 
 		$this->load->model('localisation/zone');
