@@ -152,8 +152,8 @@ class ControllerSaleCustomerGroup extends Controller {
 		$this->data['delete'] = $this->url->link('sale/customer_group/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');	
 		
 		$this->data['blocks'] = array();
-		$this->data['floors'] = array();
-		$this->data['customer_groups'] = array();
+		$this->data['list_floors'] = array();
+		$this->data['rooms'] = array();
 			
 		$blocks = $this->model_sale_customer_group->getBlocks();
 
@@ -164,57 +164,74 @@ class ControllerSaleCustomerGroup extends Controller {
 				'name'  => $block['block_name'] 
 			);
 		}
+
+
+
+		$filter_block=0;
+		$filter_floor=0;
+		$filter_status=0;
+
+
 		
-		if (isset($this->request->get['block'])) {
-		
-		$floors = $this->model_sale_customer_group->getFloors($this->request->get['block']);
+		if (isset($this->request->get['filter_block'])) {
+			$filter_block=$this->request->get['filter_block'];
+		}
+		if (isset($this->request->get['filter_floor'])) {
+			$filter_floor=$this->request->get['filter_floor'];
+		}
+		if (isset($this->request->get['filter_status'])) {
+			$filter_status=$this->request->get['filter_status'];
+		}
+
+		if($filter_block>0)
+		{
+			$this->data['block_info'] = $this->model_sale_customer_group->getBlockInfo($filter_block);
+		}
+
+		$floors = $this->model_sale_customer_group->getFloors($filter_block);
 		foreach ($floors as $floor) {
 		
-			$this->data['floors'][] = array(
-				'id' => $floor['floor_id'],
-				'name'  => $floor['floor_name'] 
-			);
-		}
+			$this->data['list_floors'][$floor['floor_id']] = $floor['floor_name'];
 		}
 
-
-
-		if (isset($this->request->get['floor'])) {
-		//$customer_group_total = $this->model_sale_customer_group->getTotalCustomerGroups();
-		
-		
-			$data = array(
-			'floor' => $this->request->get['floor'],
-			'sort'  => $sort,
-			'order' => $order,
-			'start' => ($page - 1) * $this->config->get('config_admin_limit'),
-			'limit' => $this->config->get('config_admin_limit')
+		$data = array(
+			'filter_floor'  => $filter_floor,
+			'filter_status'  => $filter_status
 			);
+
 		$results = $this->model_sale_customer_group->getCustomerGroups($data);
+		$rooms = array();
+		foreach ($results as $room) {
 
-		foreach ($results as $result) {
-			$action = array();
+				$action = array();
 			
-			$action[] = array(
-				'href' => $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&customer_group_id=' . $result['customer_group_id'] . $url, 'SSL')
-			);
+				$action[] = array(
+				'href' => $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&filter_customer_group_id=' . $room['customer_group_id'] . $url, 'SSL')
+				);
 
-			$action[] = array(
+				$action[] = array(
 				'text' => $this->language->get('text_edit'),
-				'href' => $this->url->link('sale/customer_group/update', 'token=' . $this->session->data['token'] . '&customer_group_id=' . $result['customer_group_id'] . $url, 'SSL')
-			);		
-		
-			$this->data['customer_groups'][] = array(
-				'customer_group_id' => $result['customer_group_id'],
-				'name'              => $result['name'],
-				'max_student'  		=> $result['max_student'],
-				'type'  			=> $result['type_name'],
-				'assigned'  		=> $result['assigned'],
-				'selected'          => isset($this->request->post['selected']) && in_array($result['customer_group_id'], $this->request->post['selected']),
-				'action'            => $action
-			);
-		}	
+				'href' => $this->url->link('sale/customer_group/update', 'token=' . $this->session->data['token'] . '&customer_group_id=' . $room['customer_group_id'] . $url, 'SSL')
+				);		
+				if (!array_key_exists($room['floor_id'], $rooms))
+				{
+
+					$rooms[$room['floor_id']] = array();
+				}
+				$rooms[$room['floor_id']][] = array(
+					'room_id' 			=> $room['customer_group_id'],
+					'name'              => $room['name'],
+					'max_student'  		=> $room['max_student'],
+					'type'  			=> $room['type_name'],
+					'assigned'  		=> $room['assigned'],
+					'selected'          => isset($this->request->post['selected']) && in_array($room['customer_group_id'], $this->request->post['selected']),
+					'action'            => $action
+				);
+			
+
 		}
+
+		$this->data['rooms']= $rooms;
 	
 		$this->data['heading_title'] = $this->language->get('heading_title');
 		
@@ -222,14 +239,21 @@ class ControllerSaleCustomerGroup extends Controller {
 		$this->data['text_block'] = $this->language->get('text_block');
 		$this->data['text_floor'] = $this->language->get('text_floor');
 		$this->data['text_room'] = $this->language->get('text_room');
+		$this->data['text_status'] = $this->language->get('text_status');
 		$this->data['text_view'] = $this->language->get('text_view');
 		$this->data['text_info'] = $this->language->get('text_info');
 		$this->data['text_numroom'] = $this->language->get('text_numroom');
+		$this->data['text_numfloor'] = $this->language->get('text_numfloor');
 		$this->data['text_numassigned'] = $this->language->get('text_numassigned');
+		$this->data['text_numunassigned'] = $this->language->get('text_numunassigned');
 		$this->data['text_numassignedboy'] = $this->language->get('text_numassignedboy');
 		$this->data['text_numassignedgirl'] = $this->language->get('text_numassignedgirl');
 		$this->data['text_numunassignedboy'] = $this->language->get('text_numunassignedboy');
 		$this->data['text_numunassignedgirl'] = $this->language->get('text_numunassignedgirl');
+		$this->data['text_all'] = $this->language->get('text_all');
+		$this->data['text_full'] = $this->language->get('text_full');
+		$this->data['text_notfull'] = $this->language->get('text_notfull');
+		$this->data['text_empty'] = $this->language->get('text_empty');
 
 		$this->data['column_type'] = $this->language->get('column_type');
 		$this->data['column_total'] = $this->language->get('column_total');
@@ -310,6 +334,7 @@ class ControllerSaleCustomerGroup extends Controller {
 	protected function getForm() {
 		
 		$this->data['text_room'] = $this->language->get('text_room');
+		$this->data['text_roomleader'] = $this->language->get('text_roomleader');
 		$this->data['column_type'] = $this->language->get('column_type');
 		$this->data['column_total'] = $this->language->get('column_total');
 				
@@ -392,37 +417,6 @@ class ControllerSaleCustomerGroup extends Controller {
 			$this->data['approval'] = '';
 		}	
 					
-		if (isset($this->request->post['company_id_display'])) {
-			$this->data['company_id_display'] = $this->request->post['company_id_display'];
-		} elseif (!empty($customer_group_info)) {
-			$this->data['company_id_display'] = $customer_group_info['company_id_display'];
-		} else {
-			$this->data['company_id_display'] = '';
-		}			
-			
-		if (isset($this->request->post['company_id_required'])) {
-			$this->data['company_id_required'] = $this->request->post['company_id_required'];
-		} elseif (!empty($customer_group_info)) {
-			$this->data['company_id_required'] = $customer_group_info['company_id_required'];
-		} else {
-			$this->data['company_id_required'] = '';
-		}		
-		
-		if (isset($this->request->post['tax_id_display'])) {
-			$this->data['tax_id_display'] = $this->request->post['tax_id_display'];
-		} elseif (!empty($customer_group_info)) {
-			$this->data['tax_id_display'] = $customer_group_info['tax_id_display'];
-		} else {
-			$this->data['tax_id_display'] = '';
-		}			
-			
-		if (isset($this->request->post['tax_id_required'])) {
-			$this->data['tax_id_required'] = $this->request->post['tax_id_required'];
-		} elseif (!empty($customer_group_info)) {
-			$this->data['tax_id_required'] = $customer_group_info['tax_id_required'];
-		} else {
-			$this->data['tax_id_required'] = '';
-		}	
 		
 		if (isset($this->request->post['sort_order'])) {
 			$this->data['sort_order'] = $this->request->post['sort_order'];
@@ -439,6 +433,8 @@ class ControllerSaleCustomerGroup extends Controller {
 		);
 
 		$this->data['room_types'] = $this->model_sale_customer_group->getTypes();
+		if(isset($this->request->get['customer_group_id']))
+			$this->data['students'] = $this->model_sale_customer_group->getRoomStudents($this->request->get['customer_group_id']);
 				
 		$this->response->setOutput($this->render()); 
 	}

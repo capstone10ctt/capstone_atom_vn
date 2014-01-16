@@ -9,14 +9,22 @@ $_['text_success']     = 'Danh sách phòng đã được thay đổi thành cô
 $_['text_block']     = 'Tòa nhà';
 $_['text_floor']     = 'Tầng';
 $_['text_room']     = 'Phòng';
+$_['text_status']     			= 'Trạng thái';
 $_['text_view']     = 'Xem';
 $_['text_info']     			= 'Thông tin';
+$_['text_numfloor']     			= 'Số tầng';
 $_['text_numroom']     			= 'Số phòng';
 $_['text_numassigned']     		= 'Số sinh viên đã bố trí';
+$_['text_numunassigned']     	= 'Số sinh viên chưa bố trí';
 $_['text_numassignedboy']  		= 'Số sinh viên nam đã bố trí';
 $_['text_numassignedgirl']  	= 'Số sinh viên nữ đã bố trí';
 $_['text_numunassignedboy']  	= 'Số sinh viên nam chưa bố trí';
 $_['text_numunassignedgirl']  	= 'Số sinh viên nữ chưa bố trí';
+$_['text_roomleader']  			= 'Trưởng phòng';
+$_['text_all']  				= 'Tất cả';
+$_['text_full']  				= 'Đã đủ';
+$_['text_notfull']  			= 'Chưa đủ';
+$_['text_empty']  				= 'Trống';
 
 // Column
 $_['column_name']      = 'Tên phòng';

@@ -36,6 +36,22 @@ if(isset($_GET['floor']))
             <td><?php echo $column_total; ?></td>
             <td><input type="text" name="max_student" value="<?php echo isset($customer_group['max_student']) ? $customer_group['max_student'] : ''; ?>"/></td>
           </tr>
+         <?php if(isset($students) && !is_null($students) && !empty($students)) 
+         { ?>
+          <tr>
+            <td><?php echo $text_roomleader; ?></td>
+            <td>
+              <select name="room_leader" >
+                <option value="0"></option>
+              <?php foreach ($students as $student)  {
+                  echo '<option value="'.$student['customer_id'].'" ';
+                  echo (isset($customer_group['room_leader']) && $customer_group['room_leader']==$student['customer_id']) ? 'selected' : '';
+                  echo '>'.$student['student_id'].' - '.$student['firstname'].' '.$student['lastname'].'</option>';
+              }?>
+              </select>
+            </td>
+          </tr>
+        <?php } ?>
           <tr>
             <td><?php echo $column_type; ?></td>
             <td>

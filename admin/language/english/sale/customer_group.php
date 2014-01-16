@@ -8,16 +8,22 @@ $_['insert_title']             	= 'Edit Room';
 $_['text_success']              = 'Success: You have modified rooms list!';
 $_['text_block']    			= 'Block';
 $_['text_floor']     			= 'Floor';
+$_['text_status']     			= 'Status';
 $_['text_room']     			= 'Cell';
 $_['text_view']     			= 'View';
 $_['text_info']     			= 'Information';
+$_['text_numfloor']     		= 'Number of floors';
 $_['text_numroom']     			= 'Number of rooms';
 $_['text_numassigned']     		= 'Number of assigned students';
+$_['text_numunassigned']     	= 'Number of unassigned students';
 $_['text_numassignedboy']  		= 'Number of assigned boys';
 $_['text_numassignedgirl']  	= 'Number of assigned girls';
 $_['text_numunassignedboy']  	= 'Number of unassigned boys';
 $_['text_numunassignedgirl']  	= 'Number of unassigned girls';
-
+$_['text_all']  				= 'All';
+$_['text_full']  				= 'Full';
+$_['text_notfull']  			= 'Not full';
+$_['text_empty']  				= 'Empty';
 
 // Column
 $_['column_name']               = 'Customer Group Name';

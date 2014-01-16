@@ -12,52 +12,17 @@ if(isset($_GET["block"]))
 }
 return;
 }
-if(isset($_GET["floor"]))
+if(isset($_GET["filter_block"]) || isset($_GET["filter_floor"]) || isset($_GET["filter_floor"]))
 {
-	if ($customer_groups) {
 		$data = new StdClass();
-		$rooms = array();
-    $numroom=0;
-    $numassigned=0;
-    $numassignedboy=0;
-    $numassignedgirl=0;
-    $numunassignedboy=0;
-    $numunassignedgirl=0;
-		foreach ($customer_groups as $customer_group)
-   {
-    $room = array();
-    $room['id']= $customer_group['customer_group_id'];
-    $room['name']=$customer_group['name'];
-    $room['type']=$customer_group['type'];
-    $room['max_student']=$customer_group['max_student'];
-    $room['assigned']=$customer_group['assigned'];
-    $room['unassigned']=$customer_group['max_student']-$customer_group['assigned'];
-    $room['action']=$customer_group['action'];
-    $numroom+=1;
-    $numassigned+=$customer_group['assigned'];
-    if($customer_group['type']=='Nam' || $customer_group['type']=='Boy')
-    {
-      $numassignedboy+=$customer_group['assigned'];
-      $numunassignedboy+=$customer_group['max_student']-$customer_group['assigned'];
-    }
-    else
-    {
-      $numassignedgirl+=$customer_group['assigned'];
-      $numunassignedgirl+=$customer_group['max_student']-$customer_group['assigned'];
-    }
-    $rooms[] = $room;
-  }
-  $data->rooms = $rooms;
-  $data->numroom = $numroom;
-  $data->numassigned = $numassigned;
-  $data->numassignedboy = $numassignedboy;
-  $data->numassignedgirl = $numassignedgirl;
-  $data->numunassignedboy = $numunassignedboy;
-  $data->numunassignedgirl = $numunassignedgirl;
+
+		if(isset($block_info))
+      $data->block_info=$block_info;
+  $data->rooms=$rooms;
+  $data->list_floors=$list_floors;
     	//echo json_encode($customer_groups);
   echo json_encode($data);
-}
-return;
+  return;
 }
 echo $header; ?>
 <div id="content">
@@ -76,17 +41,26 @@ echo $header; ?>
   <div class="box" style="padding:30px">
    <div id="leftcol" style="float:left;width:200px;text-alignment:left">
      <div style="margin-bottom:5px"><?php echo $text_block; ?></div>
-     <select id="block_select" style="margin-bottom:30px">
+     <select id="block_select" style="margin-bottom:5px">
+      <option value="0"><?php echo $text_all; ?></option>
       <?php if ($blocks) { ?>
       <?php foreach ($blocks as $block) { ?>
       <option value="<?php echo $block['id']; ?>"><?php echo $block['name']; ?></option>
-      <?php echo $block['name']; ?></div></div>
+      <?php echo $block['name']; ?>
       <?php } }?>
     </select> 
     <div style="margin-bottom:5px"><?php echo $text_floor; ?></div>
     <select id="floor_select" style="margin-bottom:5px">
+      <option value="0"><?php echo $text_all; ?></option>
     </select>
-    <div id="floor_info"></div> 
+    <div style="margin-bottom:5px"><?php echo $text_status; ?></div>
+    <select id="status_select" style="margin-bottom:5px">
+      <option value="0"><?php echo $text_all; ?></option>
+      <option value="1"><?php echo $text_full; ?></option>
+      <option value="2"><?php echo $text_notfull; ?></option>
+      <option value="3"><?php echo $text_empty; ?></option>
+    </select>
+    <div id="block_info"></div> 
   </div>
 
   <div id="rightcol" style="margin-left:200px;text-alignment:left">
@@ -98,104 +72,178 @@ echo $header; ?>
      <table class="list" style="margin-top:10px">
       <thead>
         <tr>
-          <td width="1" style="text-align: center;"><input type="checkbox" onclick="$('input[name*=\'selected\']').attr('checked', this.checked);" /></td>
-          <td class="left"><?php if ($sort == 'cgd.name') { ?>
-            <a href="<?php echo $sort_name; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_name; ?></a>
-            <?php } else { ?>
-            <a href="<?php echo $sort_name; ?>"><?php echo $column_name; ?></a>
-            <?php } ?></td>
-            <td class="right"><?php if ($sort == 'cg.sort_order') { ?>
-              <a href="<?php echo $sort_sort_order; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_type; ?></a>
-              <?php } else { ?>
-              <a href="<?php echo $sort_sort_order; ?>"><?php echo $column_type; ?></a>
-              <?php } ?></td> 
-              <td class="right"><?php if ($sort == 'cg.sort_order') { ?>
-                <a href="<?php echo $sort_sort_order; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_total; ?></a>
-                <?php } else { ?>
-                <a href="<?php echo $sort_sort_order; ?>"><?php echo $column_total; ?></a>
-                <?php } ?></td>               
-                <td class="right"><?php if ($sort == 'cg.sort_order') { ?>
-                  <a href="<?php echo $sort_sort_order; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_assigned; ?></a>
-                  <?php } else { ?>
-                  <a href="<?php echo $sort_sort_order; ?>"><?php echo $column_assigned; ?></a>
-                  <?php } ?></td>               
-                  <td class="right"><?php if ($sort == 'cg.sort_order') { ?>
-                    <a href="<?php echo $sort_sort_order; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_unassigned; ?></a>
-                    <?php } else { ?>
-                    <a href="<?php echo $sort_sort_order; ?>"><?php echo $column_unassigned; ?></a>
-                    <?php } ?></td>               
-                    <td class="right"></td>
-                  </tr>
-                </thead>
-                <tbody id="room_list">
+          <td width="1" style="text-align: center;"><input type="checkbox" /></td>
+          <td class="left"><a href="<?php echo $sort_name; ?>"><?php echo $column_name; ?></a></td>
+          <td class="left"><a href="<?php echo $sort_name; ?>"><?php echo $column_type; ?></a></td>
+          <td class="left"><a href="<?php echo $sort_name; ?>"><?php echo $column_total; ?></a></td>
+          <td class="left"><a href="<?php echo $sort_name; ?>"><?php echo $column_assigned; ?></a></td>
+          <td class="left"><a href="<?php echo $sort_name; ?>"><?php echo $column_unassigned; ?></a></td>       
+          <td class="right"></td>
+        </tr>
+      </thead>
+      <tbody id="room_list">
 
-                </tbody>
-              </table>
-            </form>
-          </div>
-          <script type="text/javascript">
-           $(document).ready(function(){
+      </tbody>
+    </table>
+  </form>
+</div>
+<script type="text/javascript">
+ $(document).ready(function(){
+  function updateList(change)
+  {
+  var blockno = document.getElementById("block_select");
+  var block = blockno.options[blockno.selectedIndex].value;
+  var floorno = document.getElementById("floor_select");
+  var floor = floorno.options[floorno.selectedIndex].value;
+  var statusno = document.getElementById("status_select");
+  var status = statusno.options[statusno.selectedIndex].value;
+  if(change=='block')
+  {
+    floor=0;
+  }
+  $.ajax({    //create an ajax request to load_page.php
+    type: "GET",
+    url: "<?php echo html_entity_decode($link) ?>"+"&filter_block="+block+"&filter_floor="+floor,             
+    dataType: "json",               
+    success: function(data){
 
-            $('#block_select').on('change', function() {
-
-	  			$.ajax({    //create an ajax request to load_page.php
-           type: "GET",
-           url: "<?php echo html_entity_decode($link) ?>"+"&block="+$(this).val(),             
-           dataType: "json",               
-           success: function(data){
-
-            $('#floor_select').empty();
-            $.each(data, function(key, value) {   
-             $('#floor_select')
-             .append($('<option>', { value : key })
-              .text(value)); 
-           });
-            $('#floor_select').change();
-          }
-        })
-       });
-            $('#floor_select').on('change', function() {
-              $("#add_room").attr('href', '<?php echo html_entity_decode($insert) ?>&floor='+$(this).val());
-              $('#room_list').empty();
-              $('#floor_info').empty()  ;
-	  			$.ajax({    //create an ajax request to load_page.php
-           type: "GET",
-           url: "<?php echo html_entity_decode($link) ?>"+"&floor="+$(this).val(),             
-           dataType: "json",               
-           success: function(data){	
-            
-            for (var i in data.rooms) {
-              var room = data.rooms[i];
-              link = room.action;
-              row = '<tr>';
-              row += '<td style="text-align: center;"><input type="checkbox" name="selected[]" value="'+room.id+'" /></td>';
-              row += '<td class="left"><a href="'+link[0].href+'">'+room.name+'</td>';
-              row += '<td class="right">'+room.type+'</td>';
-              row += '<td class="right">'+room.max_student+'</td>';
-              row += '<td class="right">'+room.assigned+'</td>';
-              row += '<td class="right">'+room.unassigned+'</td>';                   
+      
+      $('#rightcol').empty();
+      
+      if(!(change=='floor' || change=='status'))
+      {
+        $('#floor_select').empty();
+        $('#floor_select').append($('<option></option').val(0).text('<?php echo $text_all; ?>'));  
+        $.each(data.list_floors, function(key, value) {   
+          $('#floor_select').append($('<option></option').val(key).text(value));  
+        });
+      }
+      if(floor == 0)
+      {
+      for(var i in data.rooms)
+        {
+          
               
-              row += '<td class="right"><a href="'+link[1].href+'">'+link[1].text+'</a></td>';
-              row += '</tr>'
+          table = '<table class="list" style="margin-top:10px">';
+          table += '<thead>';
+          table += '<tr>';
+          //table += '<td width="1" style="text-align: center;"><input type="checkbox" /></td>';
+          table += ' <td class="left"><a href="<?php echo $sort_name; ?>"><?php echo $column_name; ?></a></td>';
+          table += '<td class="left"><a href="<?php echo $sort_name; ?>"><?php echo $column_type; ?></a></td>';
+          table += '<td class="left"><a href="<?php echo $sort_name; ?>"><?php echo $column_total; ?></a></td>';
+          table += '<td class="left"><a href="<?php echo $sort_name; ?>"><?php echo $column_assigned; ?></a></td>';
+          table += '<td class="left"><a href="<?php echo $sort_name; ?>"><?php echo $column_unassigned; ?></a></td>';      
+          table += '<td class="right"></td>';
+          table += '</tr>';
+          table += '</thead>';
+          table += '<tbody id="room_list">';
+          count = 0;
+          max_total = 0;
+          assigned=0;
+          for (var j in data.rooms[i]) {
+            var room = data.rooms[i][j];
+            if(status=='0' || (status=='1' && room.max_student==room.assigned) ||(status=='2' && room.max_student>room.assigned) || (status=='3' && room.assigned==0))    
+            {
+            
+            link = room.action;
+            table += '<tr>';
+            //table += '<td style="text-align: center;"><input type="checkbox" name="selected[]" value="'+room.id+'" /></td>';
+            table += '<td class="left"><a href="'+link[0].href+'">'+room.name+'</td>';
+            table += '<td class="right">'+room.type+'</td>';
+            table += '<td class="right">'+room.max_student+'</td>';
+            table += '<td class="right">'+room.assigned+'</td>';
+            table += '<td class="right">'+(room.max_student-room.assigned).toString()+'</td>';                   
+            table += '<td class="right"><a href="'+link[1].href+'">'+link[1].text+'</a></td>';
+            table += '</tr>'
+          }
+            count++;
+            max_total=max_total+parseInt(room.max_student);
+            assigned=assigned+parseInt(room.assigned);
+          }
+          table += '</tbody>';
+          table += '</table>';
 
-              $('#room_list:last').append(row);
-            }
-              //info = '<?php echo $text_info; ?><br />';
-              info = '';
-              info += '<?php echo $text_numroom; ?>: '+data.numroom+'<br />';
-              info += '<?php echo $text_numassigned; ?>: '+data.numassigned+'<br />';
-              info += '<?php echo $text_numassignedboy; ?>: '+data.numassignedboy+'<br />';
-              info += '<?php echo $text_numunassignedboy; ?>: '+data.numunassignedboy+'<br />';
-              info += '<?php echo $text_numassignedgirl; ?>: '+data.numassignedgirl+'<br />';
-              info += '<?php echo $text_numunassignedgirl; ?>: '+data.numunassignedgirl+'<br />';
-              $('#floor_info').html(info);
-          }  
-        })
+              info = '<?php echo $text_numroom; ?>: '+count+ ' | <?php echo $column_total; ?>: '+max_total+ ' | <?php echo $text_numassigned; ?>: '+assigned+' | <?php echo $text_numunassigned; ?>: '+(max_total - assigned).toString()+'<br />';
+              table = '<div class="heading"><h2>'+data.list_floors[i]+'</h2>' + info + '</div>'+table;
+          $('#rightcol').append(table);
+        }
 
-});
+              
+      }
+      else 
+      {
+        
+        
+        table = '<table class="list" style="margin-top:10px">';
+        table += '<thead>';
+        table += '<tr>';
+        table += '<td width="1" style="text-align: center;"><input type="checkbox" /></td>';
+        table += ' <td class="left"><a href="<?php echo $sort_name; ?>"><?php echo $column_name; ?></a></td>';
+        table += '<td class="left"><a href="<?php echo $sort_name; ?>"><?php echo $column_type; ?></a></td>';
+        table += '<td class="left"><a href="<?php echo $sort_name; ?>"><?php echo $column_total; ?></a></td>';
+        table += '<td class="left"><a href="<?php echo $sort_name; ?>"><?php echo $column_assigned; ?></a></td>';
+        table += '<td class="left"><a href="<?php echo $sort_name; ?>"><?php echo $column_unassigned; ?></a></td>';      
+        table += '<td class="right"></td>';
+        table += '</tr>';
+        table += '</thead>';
+        table += '<tbody id="room_list">';
+        count = 0;
+          max_total = 0;
+          assigned=0;
+        for (var j in data.rooms[floor]) {
+          var room = data.rooms[floor][j];
+              if(status=='0' || (status=='1' && room.max_student==room.assigned) ||(status=='2' && room.max_student>room.assigned) || (status=='3' && room.assigned==0))    
+            {
+          
+          link = room.action;
+          table += '<tr>';
+          table += '<td style="text-align: center;"><input type="checkbox" name="selected[]" value="'+room.id+'" /></td>';
+          table += '<td class="left"><a href="'+link[0].href+'">'+room.name+'</td>';
+          table += '<td class="right">'+room.type+'</td>';
+          table += '<td class="right">'+room.max_student+'</td>';
+          table += '<td class="right">'+room.assigned+'</td>';
+          table += '<td class="right">'+(room.max_student-room.assigned).toString()+'</td>';                   
+          table += '<td class="right"><a href="'+link[1].href+'">'+link[1].text+'</a></td>';
+          table += '</tr>';
+        }
+          count++;
+            max_total=max_total+parseInt(room.max_student);
+            assigned=assigned+parseInt(room.assigned);
+        }
+        table += '</tbody>';
+        table += '</table>';
+        table += '</form>';
+        info = '<form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form">';
+        info += '<div class="heading">';
+        info += '<h2>'+data.list_floors[floor]+'</h2>';
+        info += '<?php echo $text_numroom; ?>: '+count+ ' | <?php echo $column_total; ?>: '+max_total+ ' | <?php echo $text_numassigned; ?>: '+assigned+' | <?php echo $text_numunassigned; ?>: '+(max_total - assigned).toString()+'<br />';        
+        info += '<div class="buttons" style="margin-top:15px"><a id="add_room" href="<?php echo $insert; ?>" class="button"><?php echo $button_insert; ?></a>  <a onclick="$(\'form\').submit();" class="button"><?php echo $button_delete; ?></a></div>';
+        info += '</div>';
+        table = info+table;
+        $('#rightcol').append(table);
 
-$('#block_select').change();
-});
+      }
+      if(change=='block')
+      {
+          info = '<?php echo $text_info; ?><br />';
+          info += '<?php echo $text_numfloor; ?>: '+data.block_info[0].count+'<br />';
+          info += '<?php echo $column_total ?>: '+data.block_info[0].max_total+'<br />';
+          info += '<?php echo $text_numassigned; ?>: '+data.block_info[0].assigned+'<br />';
+          $('#block_info').html(info);
+      }
+
+    }
+  });
+}
+
+    $('#block_select').on('change', function() {updateList('block')});
+    $('#floor_select').on('change', function() {updateList('floor')});
+    $('#status_select').on('change', function() {updateList('status')});
+    updateList();
+
+
+//$('#block_select').change();
+  });
 </script>
 
 </div>

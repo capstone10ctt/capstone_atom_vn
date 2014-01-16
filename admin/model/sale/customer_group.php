@@ -11,7 +11,16 @@ class ModelSaleCustomerGroup extends Model {
 	}
 	
 	public function editCustomerGroup($customer_group_id, $data) {
-		$this->db->query("UPDATE " . DB_PREFIX . "customer_group SET max_student = '" . (int)$data['max_student'] . "', type_id = '" . (int)$data['type_id'] . "' WHERE customer_group_id = '" . (int)$customer_group_id . "'");
+		$query = "UPDATE " . DB_PREFIX . "customer_group SET max_student = '" . (int)$data['max_student'] . "', type_id = '" . (int)$data['type_id']; 
+		if(isset($data['room_leader']))
+		{
+			if($data['room_leader']=='0')
+				$query .= "', room_leader = NULL";
+			else
+				$query .= "', room_leader = '" . (int)$data['room_leader']."'";
+		}
+		$query .=" WHERE customer_group_id = '" . (int)$customer_group_id . "'";
+		$this->db->query($query);
 	
 		$this->db->query("DELETE FROM " . DB_PREFIX . "customer_group_description WHERE customer_group_id = '" . (int)$customer_group_id . "'");
 
@@ -31,17 +40,29 @@ class ModelSaleCustomerGroup extends Model {
 		return $query->row;
 	}
 
+
+
 	
-	public function getCustomerGroups($data = array()) {
+	public function getCustomerGroups($data) {
 		$sql = "SELECT *, (SELECT COUNT( * ) FROM " . DB_PREFIX . "customer c WHERE c.customer_group_id = cg.customer_group_id) AS assigned FROM " . DB_PREFIX . "customer_group cg LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (cg.customer_group_id = cgd.customer_group_id) LEFT JOIN " . DB_PREFIX . "room_type rt ON ( cg.type_id = rt.type_id AND cgd.language_id = rt.language_id ) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 		
 		$sort_data = array(
 			'cgd.name',
 			'cg.sort_order'
 		);	
-		if (isset($data['floor']))
+		if (isset($data['filter_floor']) && $data['filter_floor']>'0')
 		{
-			$sql .= " AND floor_id=" . $data['floor'];	
+			$sql .= " AND floor_id=".$data['filter_floor'];	
+		}
+
+		if (isset($data['filter_status']) && $data['filter_status']>'0')
+		{
+			if($data['filter_status']=='1')
+				$sql .= " AND (SELECT COUNT( * ) FROM " . DB_PREFIX . "customer c WHERE c.customer_group_id = cg.customer_group_id)=max_student";	
+			else if($data['filter_status']=='2')
+				$sql .= " AND (SELECT COUNT( * ) FROM " . DB_PREFIX . "customer c WHERE c.customer_group_id = cg.customer_group_id)<max_student";	
+			else if($data['filter_status']=='3')
+				$sql .= " AND (SELECT COUNT( * ) FROM " . DB_PREFIX . "customer c WHERE c.customer_group_id = cg.customer_group_id)=0";	
 		}
 			
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
@@ -81,9 +102,27 @@ class ModelSaleCustomerGroup extends Model {
 		return $query->rows;
 	}
 
-	public function getFloors($block) {
-		$sql = "SELECT * FROM " . DB_PREFIX . "floor f LEFT JOIN " . DB_PREFIX . "floor_description fd ON(f.floor_id = fd.floor_id) WHERE fd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND block_id=". $block;
+	public function getRoomStudents($room){
+		$sql = "SELECT * FROM " . DB_PREFIX . "customer c WHERE c.customer_group_id = '".$room."'";
 		
+		$query = $this->db->query($sql);
+		
+		return $query->rows;
+	}
+
+	public function getBlockInfo($block) {
+		$sql = "SELECT SUM(max_student) as max_total, (SELECT COUNT(*) FROM " . DB_PREFIX . "floor WHERE block_id=".$block.") as count, (SELECT COUNT(*) FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group cg2 ON(cg2.customer_group_id = c.customer_group_id) LEFT JOIN " . DB_PREFIX . "floor f2 ON(f2.floor_id=cg2.floor_id) WHERE f2.block_id=".$block.") as assigned FROM " . DB_PREFIX . "customer_group cg LEFT JOIN " . DB_PREFIX . "floor f ON(f.floor_id=cg.floor_id) WHERE f.block_id=".$block;
+		
+		$query = $this->db->query($sql);
+		
+		return $query->rows;
+	}
+
+	public function getFloors($block) {
+		if($block > 0)
+			$sql = "SELECT * FROM " . DB_PREFIX . "floor f LEFT JOIN " . DB_PREFIX . "floor_description fd ON(f.floor_id = fd.floor_id) WHERE fd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND block_id=". $block;
+		else
+			$sql = "SELECT * FROM " . DB_PREFIX . "floor f LEFT JOIN " . DB_PREFIX . "floor_description fd ON(f.floor_id = fd.floor_id) WHERE fd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 		$query = $this->db->query($sql);
 		
 		return $query->rows;
