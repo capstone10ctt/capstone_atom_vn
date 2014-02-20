@@ -3,10 +3,21 @@
 $_['heading_title']             = 'Room';
 
 $_['text_title']             = 'Cost name:';
-$_['text_start_num']             = 'Start number';
-$_['text_end_num']             = 'End number';
+$_['text_start_num_electric']             = 'Electric usage';
+$_['text_start_num_water']             = 'Water usage';
 $_['text_usage']             = 'Usage';
+$_['text_usage_elec']             = 'Electric usage';
+$_['text_usage_water']             = 'Water usage';
 $_['text_cost']             = 'Cost';
+$_['text_floor']             = 'Floor';
+$_['text_room']             = 'Room';
+$_['text_electric_edited']             = 'Last modified';
+$_['text_water_edited']             = 'Last modified';
+$_['text_confirm'] = "Confirm";
+$_['text_start_num'] = "Start num";
+$_['text_end_num'] = "End num";
+$_['text_paid'] = "Paid";
+
 $_['text_header']             = 'The cost of water & electricity in month ';
 
 $_['text_limit']             = 'Rank';
@@ -18,8 +29,11 @@ $_['text_electric']             = 'Electric';
 $_['text_water']             = 'Water';
 $_['text_month']             = 'Month';
 $_['text_year']             = 'Year';
-$_['text_add']             = 'Add';
-$_['text_edit']             = 'Edit';
+$_['text_add']             = 'Input usage';
+$_['text_refresh']             = 'Update new data';
+$_['text_red']             = 'Update new data';
+$_['text_green']             = 'Data change';
+$_['text_red']             = 'Error data';
 $_['text_submit']             = 'Submit';
 $_['text_totalmoney']             = 'Total';
 $_['text_popup_header'] = "Add history usage of electricity and water";
