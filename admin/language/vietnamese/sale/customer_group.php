@@ -14,6 +14,10 @@ $_['text_view']     = 'Xem';
 $_['text_info']     			= 'Thông tin';
 $_['text_numfloor']     			= 'Số tầng';
 $_['text_numroom']     			= 'Số phòng';
+$_['text_numstudent']     			= 'Số sinh viên';
+$_['text_from']     			= 'Từ';
+$_['text_to']     				= 'Đến';
+$_['text_filter']     				= 'Lọc';
 $_['text_numassigned']     		= 'Số sinh viên đã bố trí';
 $_['text_numunassigned']     	= 'Số sinh viên chưa bố trí';
 $_['text_numassignedboy']  		= 'Số sinh viên nam đã bố trí';
@@ -28,7 +32,7 @@ $_['text_empty']  				= 'Trống';
 
 // Column
 $_['column_name']      = 'Tên phòng';
-$_['column_type']    = 'Loại';
+$_['column_type']    = 'Loại phòng';
 $_['column_total']    = 'Số sinh viên tối đa';
 $_['column_assigned']    = 'Đã bố trí';
 $_['column_unassigned']    = 'Chưa bố trí';

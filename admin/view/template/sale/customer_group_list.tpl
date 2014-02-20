@@ -41,7 +41,7 @@ echo $header; ?>
   <div class="box" style="padding:30px">
    <div id="leftcol" style="float:left;width:200px;text-alignment:left">
      <div style="margin-bottom:5px"><?php echo $text_block; ?></div>
-     <select id="block_select" style="margin-bottom:5px">
+     <select id="block_select" style="margin-bottom:5px;width:135px">
       <option value="0"><?php echo $text_all; ?></option>
       <?php if ($blocks) { ?>
       <?php foreach ($blocks as $block) { ?>
@@ -50,16 +50,32 @@ echo $header; ?>
       <?php } }?>
     </select> 
     <div style="margin-bottom:5px"><?php echo $text_floor; ?></div>
-    <select id="floor_select" style="margin-bottom:5px">
+    <select id="floor_select" style="margin-bottom:5px;width:135px">
       <option value="0"><?php echo $text_all; ?></option>
     </select>
     <div style="margin-bottom:5px"><?php echo $text_status; ?></div>
-    <select id="status_select" style="margin-bottom:5px">
+    <select id="status_select" style="margin-bottom:5px;width:135px">
       <option value="0"><?php echo $text_all; ?></option>
       <option value="1"><?php echo $text_full; ?></option>
       <option value="2"><?php echo $text_notfull; ?></option>
       <option value="3"><?php echo $text_empty; ?></option>
     </select>
+    <div style="margin-bottom:5px"><?php echo $column_type; ?></div>
+    <select id="type_select" style="margin-bottom:10px;width:135px">
+    <option value="0"><?php echo $text_all; ?></option>
+    <?php foreach ($room_types as $room_type)  {
+        echo '<option value="'.$room_type['type_id'].'" ';
+        echo (isset($customer_group['type_id']) && $customer_group['type_id']==$room_type['type_id']) ? 'selected' : '';
+        echo '>'.$room_type['type_name'].'</option>';
+    }?>
+    </select>
+    <div style="margin-bottom:5px"><?php echo $text_numstudent; ?></div>
+    <div style="margin-bottom:5px"><?php echo $text_from; ?>
+    <input id="from_text" value="0" size="3"/>
+    <?php echo $text_to; ?>
+    <input id="to_text" value="0" size="3"/></div>
+    <button type="button" style="margin-bottom:5px;width:135px" id="filter_btn"><?php echo $text_filter; ?></button>
+
     <div id="block_info"></div> 
   </div>
 
@@ -97,6 +113,10 @@ echo $header; ?>
   var floor = floorno.options[floorno.selectedIndex].value;
   var statusno = document.getElementById("status_select");
   var status = statusno.options[statusno.selectedIndex].value;
+  var typeno = document.getElementById("type_select");
+  var type = typeno.options[typeno.selectedIndex].value;
+  var from = $('#from_text').val();
+  var to = $('#to_text').val();
   if(change=='block')
   {
     floor=0;
@@ -110,7 +130,7 @@ echo $header; ?>
       
       $('#rightcol').empty();
       
-      if(!(change=='floor' || change=='status'))
+      if(change=='block')
       {
         $('#floor_select').empty();
         $('#floor_select').append($('<option></option').val(0).text('<?php echo $text_all; ?>'));  
@@ -121,8 +141,7 @@ echo $header; ?>
       if(floor == 0)
       {
       for(var i in data.rooms)
-        {
-          
+        {          
               
           table = '<table class="list" style="margin-top:10px">';
           table += '<thead>';
@@ -142,7 +161,7 @@ echo $header; ?>
           assigned=0;
           for (var j in data.rooms[i]) {
             var room = data.rooms[i][j];
-            if(status=='0' || (status=='1' && room.max_student==room.assigned) ||(status=='2' && room.max_student>room.assigned) || (status=='3' && room.assigned==0))    
+            if((from>to || (from == '0' && to == '0') || (from <= room.max_student && to >= room.max_student )) && (type=='0' || type==room.type_id) && (status=='0' || (status=='1' && room.max_student==room.assigned) ||(status=='2' && room.max_student>room.assigned) || (status=='3' && room.assigned==0)))
             {
             
             link = room.action;
@@ -192,7 +211,7 @@ echo $header; ?>
           assigned=0;
         for (var j in data.rooms[floor]) {
           var room = data.rooms[floor][j];
-              if(status=='0' || (status=='1' && room.max_student==room.assigned) ||(status=='2' && room.max_student>room.assigned) || (status=='3' && room.assigned==0))    
+              if((from>to || (from == '0' && to == '0') || (from <= room.max_student && to >= room.max_student )) && (type=='0' || type==room.type_id) && (status=='0' || (status=='1' && room.max_student==room.assigned) ||(status=='2' && room.max_student>room.assigned) || (status=='3' && room.assigned==0)))
             {
           
           link = room.action;
@@ -223,9 +242,9 @@ echo $header; ?>
         $('#rightcol').append(table);
 
       }
-      if(change=='block')
+      if(change=='block' && block!='0')
       {
-          info = '<?php echo $text_info; ?><br />';
+          info = '<h2><?php echo $text_info; ?></h2>';
           info += '<?php echo $text_numfloor; ?>: '+data.block_info[0].count+'<br />';
           info += '<?php echo $column_total ?>: '+data.block_info[0].max_total+'<br />';
           info += '<?php echo $text_numassigned; ?>: '+data.block_info[0].assigned+'<br />';
@@ -239,7 +258,9 @@ echo $header; ?>
     $('#block_select').on('change', function() {updateList('block')});
     $('#floor_select').on('change', function() {updateList('floor')});
     $('#status_select').on('change', function() {updateList('status')});
-    updateList();
+    $('#typeno_select').on('change', function() {updateList('type')});
+    $('#filter_btn').click(function() {updateList('filter')});
+    updateList('block');
 
 
 //$('#block_select').change();

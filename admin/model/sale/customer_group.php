@@ -55,6 +55,11 @@ class ModelSaleCustomerGroup extends Model {
 			$sql .= " AND floor_id=".$data['filter_floor'];	
 		}
 
+		if (isset($data['filter_type']) && $data['filter_type']>'0')
+		{
+			$sql .= " AND type_id=".$data['filter_type'];	
+		}
+
 		if (isset($data['filter_status']) && $data['filter_status']>'0')
 		{
 			if($data['filter_status']=='1')

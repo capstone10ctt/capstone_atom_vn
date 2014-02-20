@@ -34,7 +34,7 @@ if(isset($_GET['floor']))
           </tr>
           <tr>
             <td><?php echo $column_total; ?></td>
-            <td><input type="text" name="max_student" value="<?php echo isset($customer_group['max_student']) ? $customer_group['max_student'] : ''; ?>"/></td>
+            <td><input type="number" name="max_student" value="<?php echo isset($customer_group['max_student']) ? $customer_group['max_student'] : ''; ?>"/></td>
           </tr>
          <?php if(isset($students) && !is_null($students) && !empty($students)) 
          { ?>

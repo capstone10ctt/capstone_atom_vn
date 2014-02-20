@@ -170,6 +170,7 @@ class ControllerSaleCustomerGroup extends Controller {
 		$filter_block=0;
 		$filter_floor=0;
 		$filter_status=0;
+		$filter_type=0;
 
 
 		
@@ -181,6 +182,9 @@ class ControllerSaleCustomerGroup extends Controller {
 		}
 		if (isset($this->request->get['filter_status'])) {
 			$filter_status=$this->request->get['filter_status'];
+		}
+		if (isset($this->request->get['filter_type'])) {
+			$filter_type=$this->request->get['filter_type'];
 		}
 
 		if($filter_block>0)
@@ -196,9 +200,10 @@ class ControllerSaleCustomerGroup extends Controller {
 
 		$data = array(
 			'filter_floor'  => $filter_floor,
-			'filter_status'  => $filter_status
+			'filter_status'  => $filter_status,
+			'filter_type' => $filter_type
 			);
-
+		$this->data['room_types'] = $this->model_sale_customer_group->getTypes();
 		$results = $this->model_sale_customer_group->getCustomerGroups($data);
 		$rooms = array();
 		foreach ($results as $room) {
@@ -222,6 +227,7 @@ class ControllerSaleCustomerGroup extends Controller {
 					'room_id' 			=> $room['customer_group_id'],
 					'name'              => $room['name'],
 					'max_student'  		=> $room['max_student'],
+					'type_id'  			=> $room['type_id'],
 					'type'  			=> $room['type_name'],
 					'assigned'  		=> $room['assigned'],
 					'selected'          => isset($this->request->post['selected']) && in_array($room['customer_group_id'], $this->request->post['selected']),
@@ -243,6 +249,10 @@ class ControllerSaleCustomerGroup extends Controller {
 		$this->data['text_view'] = $this->language->get('text_view');
 		$this->data['text_info'] = $this->language->get('text_info');
 		$this->data['text_numroom'] = $this->language->get('text_numroom');
+		$this->data['text_numstudent'] = $this->language->get('text_numstudent');
+		$this->data['text_from'] = $this->language->get('text_from');
+		$this->data['text_to'] = $this->language->get('text_to');
+		$this->data['text_filter'] = $this->language->get('text_filter');
 		$this->data['text_numfloor'] = $this->language->get('text_numfloor');
 		$this->data['text_numassigned'] = $this->language->get('text_numassigned');
 		$this->data['text_numunassigned'] = $this->language->get('text_numunassigned');

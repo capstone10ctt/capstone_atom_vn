@@ -14,6 +14,10 @@ $_['text_view']     			= 'View';
 $_['text_info']     			= 'Information';
 $_['text_numfloor']     		= 'Number of floors';
 $_['text_numroom']     			= 'Number of rooms';
+$_['text_numstudent']     		= 'Number of students';
+$_['text_from']     			= 'From';
+$_['text_to']     				= 'To';
+$_['text_filter']     			= 'Filter';
 $_['text_numassigned']     		= 'Number of assigned students';
 $_['text_numunassigned']     	= 'Number of unassigned students';
 $_['text_numassignedboy']  		= 'Number of assigned boys';
@@ -27,7 +31,7 @@ $_['text_empty']  				= 'Empty';
 
 // Column
 $_['column_name']               = 'Customer Group Name';
-$_['column_type']    			= 'Type';
+$_['column_type']    			= 'Room type';
 $_['column_total']    			= 'Max number of students';
 $_['column_assigned']    		= 'Assigned';
 $_['column_unassigned']    		= 'Unassigned';
