@@ -6,29 +6,31 @@ class ControllerPriceEdit extends Controller {
         $this->load->model('price/standard');
         $this->data['token'] = $this->session->data['token'];
 
-        $this->loadStandardPrice();
-    }
+        $electricity_last_modified = $this->model_price_standard->getElectricityLastModified();
+        $electricity_last_modified_list = $this->model_price_standard->getElectricityLastModifiedList();
 
-    public function loadStandardPrice() {
-        $w_standard = $this->model_price_standard->getWaterStandardPrice();
-        $e_standard = $this->model_price_standard->getElectricityStandardPrice();
+        $water_last_modified = $this->model_price_standard->getWaterLastModified();
+        $water_last_modified_list = $this->model_price_standard->getWaterLastModifiedList();
 
-        foreach ($w_standard as $row) {
-            $this->data['w_standard'][] = array(
-                'From' => $row['From'],
-                'To' => $row['To'],
-                'Price' => $row['Price']
-            );
+        // put modified date list into variable 'electricity_last_modified_list' & `water_last_modified_list`
+        foreach ($electricity_last_modified_list as $row) {
+            foreach ($row as $r) {
+                $this->data['electricity_last_modified_list'][] = $r;
+            }
+        }
+        foreach ($water_last_modified_list as $row) {
+            foreach ($row as $r) {
+                $this->data['water_last_modified_list'][] = $r;
+            }
         }
 
-        foreach ($e_standard as $row) {
-            $this->data['e_standard'][] = array(
-                'From' => $row['From'],
-                'To'       => $row['To'],
-                'Price' => $row['Price']
-            );
-        }
-
+        // store date_added values for display purpose in View part
+        $this->data['electricity_last_modified'] = $electricity_last_modified['date_added'];
+        $this->data['water_last_modified'] = $water_last_modified['date_added'];
+        // load electricity standard price based on the provided date
+        $this->loadElectricityStandardPrice($electricity_last_modified['date_added']);
+        $this->loadWaterStandardPrice($water_last_modified['date_added']);
+        // store values for display purpose in View part
         $this->data['text_electricity_from'] = $this->language->get('text_electricity_from');
         $this->data['text_electricity_to'] = $this->language->get('text_electricity_to');
         $this->data['text_electricity_price'] = $this->language->get('text_electricity_price');
@@ -38,66 +40,82 @@ class ControllerPriceEdit extends Controller {
         $this->data['note_1'] = $this->language->get('note_1');
         $this->data['description_electricity'] = $this->language->get('description_electricity');
         $this->data['description_water'] = $this->language->get('description_water');
-
+        $this->data['last_modified'] = $this->language->get('last_modified');
         // set default page for view
         $this->template = 'price/edit.tpl';
         $this->children = array(
             'common/header',
             'common/footer'
         );
-
         $this->response->setOutput($this->render());
+    }
+
+    public function loadElectricityStandardPrice($e_date = '') {
+        // remember to put this line or $this->model_price_standard will be NULL when call this function from ajax for the 2nd time
+        $this->load->model('price/standard');
+
+        $json = array();
+        if (!empty($this->request->post['e_date'])) {
+            $e_date = $this->request->post['e_date'];
+        }
+        $e_standard = $this->model_price_standard->getElectricityStandardPrice($e_date);
+        foreach ($e_standard as $row) {
+            $this->data['e_standard'][] = array(
+                'From' => $row['From'],
+                'To'       => $row['To'],
+                'Price' => $row['Price']
+            );
+        }
+        // set 'success' string in order to send back to the View
+        $json['success'] = 'success';
+        $json['data'] = $e_standard;
+        $this->response->setOutput(json_encode($json));
+    }
+
+    public function loadWaterStandardPrice($w_date = '') {
+        // remember to put this line or $this->model_price_standard will be NULL when call this function from ajax for the 2nd time
+        $this->load->model('price/standard');
+
+        $json = array();
+        if (!empty($this->request->post['w_date'])) {
+            $w_date = $this->request->post['w_date'];
+        }
+        $w_standard = $this->model_price_standard->getWaterStandardPrice($w_date);
+        foreach ($w_standard as $row) {
+            $this->data['w_standard'][] = array(
+                'From' => $row['From'],
+                'To' => $row['To'],
+                'Price' => $row['Price']
+            );
+        }
+        // set 'success' string in order to send back to the View
+        $json['success'] = 'success';
+        $json['data'] = $w_standard;
+        $this->response->setOutput(json_encode($json));
     }
 
     public function updateStandardPrice() {
         $json = array();
-        if (!empty($this->request->post['electricity_old_data']) && !empty($this->request->post['electricity_new_data']) && !empty($this->request->post['water_old_data']) && !empty($this->request->post['water_new_data'])) {
+        if (!empty($this->request->post['update_date']) &&
+            !empty($this->request->post['e_modified_date']) &&
+            !empty($this->request->post['electricity_new_data']) &&
+            !empty($this->request->post['w_modified_date']) &&
+            !empty($this->request->post['water_new_data'])) {
             // retrieve passed data from View and stores it in variables
-            $electricity_old_data = $this->request->post['electricity_old_data'];
+            $updateDate = $this->request->post['update_date'];
+            $eModifiedDate = $this->request->post['e_modified_date'];
             $electricity_new_data = $this->request->post['electricity_new_data'];
-            $water_old_data = $this->request->post['water_old_data'];
+            $wModifiedDate = $this->request->post['w_modified_date'];
             $water_new_data = $this->request->post['water_new_data'];
-            $handle = fopen("log.txt","w");
-            fwrite($handle,var_export($water_old_data,true));
-            fclose($handle);
-            // arrays used for storing values of 'From', 'To', 'Price' columns of Electricity and Water tables
-            $fromOldElectricityArr = $fromOldWaterArr = array();
-            $toOldElectricityArr = $toOldWaterArr = array();
-            $priceOldElectricityArr = $priceOldWaterArr = array();
-            $fromNewElectricityArr = $fromNewWaterArr = array();
-            $toNewElectricityArr = $toNewWaterArr = array();
-            $priceNewElectricityArr = $priceNewWaterArr = array();
-            // push column of data into appropriate arrays
-            foreach ($electricity_old_data['electricity_old'] as $data) {
-                array_push($fromOldElectricityArr, $data['from']);
-                array_push($toOldElectricityArr, $data['to']);
-                array_push($priceOldElectricityArr, $data['price']);
-            }
-            foreach ($electricity_new_data['electricity_new'] as $data) {
-                array_push($fromNewElectricityArr, $data['from']);
-                array_push($toNewElectricityArr, $data['to']);
-                array_push($priceNewElectricityArr, $data['price']);
-            }
-            foreach ($water_old_data['water_old'] as $data) {
-                array_push($fromOldWaterArr, $data['from']);
-                array_push($toOldWaterArr, $data['to']);
-                array_push($priceOldWaterArr, $data['price']);
-            }
-            foreach ($water_new_data['water_new'] as $data) {
-                array_push($fromNewWaterArr, $data['from']);
-                array_push($toNewWaterArr, $data['to']);
-                array_push($priceNewWaterArr, $data['price']);
-            }
             // update table
-            for ($i = 0; $i < count($fromOldElectricityArr); ++$i) {
-                $this->db->query("UPDATE e_standard ".
-                    "SET `From` = " . $fromNewElectricityArr[$i] . ", `To` = " . $toNewElectricityArr[$i] . ", Price = " . $priceNewElectricityArr[$i] .
-                    " WHERE `From` = " . $fromOldElectricityArr[$i] . " AND `To` = " . $toOldElectricityArr[$i] . " AND Price = " . $priceOldElectricityArr[$i]);
+            $this->db->query('DELETE FROM e_standard WHERE `date_added` = "' . $eModifiedDate . '"');
+            foreach ($electricity_new_data['electricity_new'] as $data) {
+                $this->db->query('INSERT INTO e_standard (`date_added`, `From`, `To`, `Price`) VALUES ("' . $updateDate . '", "' . $data['from'] . '", "' . $data['to'] . '", "' . $data['price'] .'")');
             }
-            for ($i = 0; $i < count($fromOldWaterArr); ++$i) {
-                $this->db->query("UPDATE w_standard ".
-                    "SET `From` = " . $fromNewWaterArr[$i] . ", `To` = " . $toNewWaterArr[$i] . ", Price = " . $priceNewWaterArr[$i] .
-                    " WHERE `From` = " . $fromOldWaterArr[$i] . " AND `To` = " . $toOldWaterArr[$i] . " AND Price = " . $priceOldWaterArr[$i]);
+
+            $this->db->query('DELETE FROM w_standard WHERE `date_added` = "' . $wModifiedDate . '"');
+            foreach ($water_new_data['water_new'] as $data) {
+                $this->db->query('INSERT INTO w_standard (`date_added`, `From`, `To`, `Price`) VALUES ("' . $updateDate . '", "' . $data['from'] . '", "' . $data['to'] . '", "' . $data['price'] .'")');
             }
             // set 'success' string in order to send back to the View
             $json['success'] = 'success';
