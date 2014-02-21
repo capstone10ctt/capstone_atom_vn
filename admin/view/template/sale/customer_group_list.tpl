@@ -258,7 +258,7 @@ echo $header; ?>
     $('#block_select').on('change', function() {updateList('block')});
     $('#floor_select').on('change', function() {updateList('floor')});
     $('#status_select').on('change', function() {updateList('status')});
-    $('#typeno_select').on('change', function() {updateList('type')});
+    $('#type_select').on('change', function() {updateList('type')});
     $('#filter_btn').click(function() {updateList('filter')});
     updateList('block');
 
