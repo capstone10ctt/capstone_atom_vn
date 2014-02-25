@@ -8,28 +8,28 @@ class ControllerPriceEdit extends Controller {
 
         $electricity_last_modified = $this->model_price_standard->getElectricityLastModified();
         $electricity_last_modified_list = $this->model_price_standard->getElectricityLastModifiedList();
-
+        /*
         $water_last_modified = $this->model_price_standard->getWaterLastModified();
         $water_last_modified_list = $this->model_price_standard->getWaterLastModifiedList();
-
+        */
+        $handle = fopen("log.txt","w");
+        fwrite($handle,var_export($electricity_last_modified,true));
+        fclose($handle);
         // put modified date list into variable 'electricity_last_modified_list' & `water_last_modified_list`
-        foreach ($electricity_last_modified_list as $row) {
-            foreach ($row as $r) {
-                $this->data['electricity_last_modified_list'][] = $r;
-            }
-        }
+        $this->data['electricity_last_modified_list'] = $electricity_last_modified_list;
+        /*
         foreach ($water_last_modified_list as $row) {
             foreach ($row as $r) {
                 $this->data['water_last_modified_list'][] = $r;
             }
         }
-
+        */
         // store date_added values for display purpose in View part
-        $this->data['electricity_last_modified'] = $electricity_last_modified['date_added'];
-        $this->data['water_last_modified'] = $water_last_modified['date_added'];
+
+        //$this->data['water_last_modified'] = $water_last_modified['date_added'];
         // load electricity standard price based on the provided date
-        $this->loadElectricityStandardPrice($electricity_last_modified['date_added']);
-        $this->loadWaterStandardPrice($water_last_modified['date_added']);
+        $this->loadElectricityStandardPrice($electricity_last_modified['id']);
+        //$this->loadWaterStandardPrice($water_last_modified['date_added']);
         // store values for display purpose in View part
         $this->data['text_electricity_from'] = $this->language->get('text_electricity_from');
         $this->data['text_electricity_to'] = $this->language->get('text_electricity_to');
@@ -50,15 +50,34 @@ class ControllerPriceEdit extends Controller {
         $this->response->setOutput($this->render());
     }
 
-    public function loadElectricityStandardPrice($e_date = '') {
+    public function loadNewestElectricityStandardPrice() {
+        // remember to put this line or $this->model_price_standard will be NULL when call this function from ajax for the 2nd time
+        $this->load->model('price/standard');
+        $json = array();
+
+        $electricity_last_modified = $this->model_price_standard->getElectricityLastModified();
+        $json['id'] = $electricity_last_modified['id'];
+        $temp = $this->model_price_standard->getElectricityStandardPrice($electricity_last_modified['id']);
+        foreach ($temp as $row) {
+            $json['newest'][] = array(
+                'From' => $row['From'],
+                'To'       => $row['To'],
+                'Price' => $row['Price']
+            );
+        }
+
+        $json['success'] = 'success';
+        $this->response->setOutput(json_encode($json));
+    }
+    public function loadElectricityStandardPrice($id = '') {
         // remember to put this line or $this->model_price_standard will be NULL when call this function from ajax for the 2nd time
         $this->load->model('price/standard');
 
         $json = array();
-        if (!empty($this->request->post['e_date'])) {
-            $e_date = $this->request->post['e_date'];
+        if (!empty($this->request->post['id'])) {
+            $id = $this->request->post['id'];
         }
-        $e_standard = $this->model_price_standard->getElectricityStandardPrice($e_date);
+        $e_standard = $this->model_price_standard->getElectricityStandardPrice($id);
         foreach ($e_standard as $row) {
             $this->data['e_standard'][] = array(
                 'From' => $row['From'],
@@ -97,25 +116,33 @@ class ControllerPriceEdit extends Controller {
     public function updateStandardPrice() {
         $json = array();
         if (!empty($this->request->post['update_date']) &&
-            !empty($this->request->post['e_modified_date']) &&
             !empty($this->request->post['electricity_new_data']) &&
-            !empty($this->request->post['w_modified_date']) &&
-            !empty($this->request->post['water_new_data'])) {
+            !empty($this->request->post['id'])) {
             // retrieve passed data from View and stores it in variables
             $updateDate = $this->request->post['update_date'];
-            $eModifiedDate = $this->request->post['e_modified_date'];
+            $nextUpdateDate = date('Y-m-d', strtotime('+1 day', strtotime($updateDate)));
             $electricity_new_data = $this->request->post['electricity_new_data'];
-            $wModifiedDate = $this->request->post['w_modified_date'];
-            $water_new_data = $this->request->post['water_new_data'];
+            $id = $this->request->post['id'];
+            // get the last From
+            $temp = $this->db->query('SELECT `from` FROM e_lifetime ORDER BY `id` DESC LIMIT 1')->row;
             // update table
-            $this->db->query('DELETE FROM e_standard WHERE `date_added` = "' . $eModifiedDate . '"');
-            foreach ($electricity_new_data['electricity_new'] as $data) {
-                $this->db->query('INSERT INTO e_standard (`date_added`, `From`, `To`, `Price`) VALUES ("' . $updateDate . '", "' . $data['from'] . '", "' . $data['to'] . '", "' . $data['price'] .'")');
-            }
-
-            $this->db->query('DELETE FROM w_standard WHERE `date_added` = "' . $wModifiedDate . '"');
-            foreach ($water_new_data['water_new'] as $data) {
-                $this->db->query('INSERT INTO w_standard (`date_added`, `From`, `To`, `Price`) VALUES ("' . $updateDate . '", "' . $data['from'] . '", "' . $data['to'] . '", "' . $data['price'] .'")');
+            // check if update in the same day
+            if (strtotime($nextUpdateDate) > strtotime($temp['from'])) { // update in different days
+                $this->db->query('UPDATE e_lifetime SET `to` = "' . $updateDate . '" WHERE `id` = "' . $id . '"');
+                $this->db->query('INSERT INTO e_lifetime (`from`, `to`) VALUES ("'. $nextUpdateDate . '", null)');
+                $newestId = $this->db->query('SELECT id FROM e_lifetime WHERE `from` = "' . $nextUpdateDate . '"')->row;
+                foreach ($electricity_new_data['electricity_new'] as $data) {
+                    $this->db->query('INSERT INTO e_standard (`id`, `From`, `To`, `Price`) VALUES ("' . $newestId['id'] . '", "' . $data['from'] . '", "' . $data['to'] . '", "' . $data['price'] .'")');
+                }
+            } else { // update in the same day
+                // get Id of the day
+                $newestId = $this->db->query('SELECT id FROM e_lifetime WHERE `from` = "' . $nextUpdateDate . '"')->row;
+                // delete previous same-day-inputted data
+                $this->db->query('DELETE FROM e_standard WHERE `id` = "' . $newestId['id'] . '"');
+                // insert updated data
+                foreach ($electricity_new_data['electricity_new'] as $data) {
+                    $this->db->query('INSERT INTO e_standard (`id`, `From`, `To`, `Price`) VALUES ("' . $newestId['id'] . '", "' . $data['from'] . '", "' . $data['to'] . '", "' . $data['price'] .'")');
+                }
             }
             // set 'success' string in order to send back to the View
             $json['success'] = 'success';
