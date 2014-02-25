@@ -87,6 +87,7 @@
             jsonWaterNew = {};
 
             idNewestElectricity = 0;
+            idNewestWater = 0;
 
             $('#dialog-update-electricity-standard').on('click', '.remove', function() {
                 var $this = $(this);
@@ -109,9 +110,11 @@
                     dataType: 'json',
                     type: 'post',
                     success: function(json) {
+                        var $show = $('.standard_price_show').children('.electricity_standard_price').find('tbody');
+                        var $edit = $('.standard_price_edit').find('.electricity_standard_price').find('tbody');
                         // delete all current lines in the table
-                        $('.standard_price_edit .electricity_standard_price .line').remove();
-                        $table = $('.standard_price_edit .electricity_standard_price');
+                        $show.empty();
+                        $edit.empty();
                         // loop all elements in a list of objects
                         for (var index in json['data']) {
                             var price = parseInt(json['data'][index]['Price']);
@@ -120,12 +123,16 @@
                                 to = '';
                             }
                             // add new lines represent the standard price corresponding to the inputted date
-                            $table.append('<tr class="line">' +
+                            $show.append('<tr class="line">' +
                                                 '<td class="from">' + json['data'][index]['From'] + '</td>' +
                                                 '<td class="to">' + to + '</td>' +
                                                 '<td class="price">' + price.format() + '&nbsp₫</td>' + // format function: convert 1234 -> 1,234
-                                                '<td class="remove" style="display: none;"><img src="view/image/price/delete.png" height="16" width="16" /></td>' +
                                             '</tr>');
+                            $edit.append('<tr class="line">' +
+                                    '<td class="from">' + json['data'][index]['From'] + '</td>' +
+                                    '<td class="to">' + to + '</td>' +
+                                    '<td class="price">' + price.format() + '&nbsp₫</td>' + // format function: convert 1234 -> 1,234
+                                    '</tr>');
                         }
                     }, // for debugging purpose
                     error: function(xhr) {
@@ -164,7 +171,7 @@
                             var year = today.getFullYear();
                             var updateDate = year + '-' + month + '-' + day;
                             $.ajax({
-                                url: 'index.php?route=price/edit/updateStandardPrice&token=<?php echo $token; ?>',
+                                url: 'index.php?route=price/edit/updateElectricityStandardPrice&token=<?php echo $token; ?>',
                                 data: {
                                     'electricity_new_data': jsonElectricityNew,
                                     'update_date': updateDate,
@@ -292,6 +299,217 @@
                     }
                 });
             });
+            //==========================================================================================================
+            $('#dialog-update-water-standard').on('click', '.remove', function() {
+                var $this = $(this);
+                console.log($this);
+                if ($this.parent().is(':first-child')) {
+                    alert('Không thể xóa dòng này!');
+                } else {
+                    // the number of elements inside obj object
+                    var $prevRow = $this.parent().prev().children('.to').children();
+                    var $nextRow = $this.parent().next().children('.from').children();
+                    $nextRow.val(parseInt($prevRow.val()) + 1);
+                    $this.parent().remove();
+                }
+            });
+
+            $('#water_modified_date').change(function() {
+                $.ajax({
+                    url: 'index.php?route=price/edit/loadWaterStandardPrice&token=<?php echo $token; ?>',
+                    data: { 'id' : $(this).children('option').filter(':selected').val() },
+                    dataType: 'json',
+                    type: 'post',
+                    success: function(json) {
+                        var $show = $('.standard_price_show').children('.water_standard_price').find('tbody');
+                        var $edit = $('.standard_price_edit').find('.water_standard_price').find('tbody');
+                        // delete all current lines in the table
+                        $show.empty();
+                        $edit.empty();
+                        // loop all elements in a list of objects
+                        for (var index in json['data']) {
+                            var price = parseInt(json['data'][index]['Price']);
+                            var to = json['data'][index]['To'];
+                            if (to == '0') {
+                                to = '';
+                            }
+                            // add new lines represent the standard price corresponding to the inputted date
+                            $show.append('<tr class="line">' +
+                                    '<td class="from">' + json['data'][index]['From'] + '</td>' +
+                                    '<td class="to">' + to + '</td>' +
+                                    '<td class="price">' + price.format() + '&nbsp₫</td>' + // format function: convert 1234 -> 1,234
+                                    '</tr>');
+                            $edit.append('<tr class="line">' +
+                                    '<td class="from">' + json['data'][index]['From'] + '</td>' +
+                                    '<td class="to">' + to + '</td>' +
+                                    '<td class="price">' + price.format() + '&nbsp₫</td>' + // format function: convert 1234 -> 1,234
+                                    '</tr>');
+                        }
+                    }, // for debugging purpose
+                    error: function(xhr) {
+                        console.log(xhr);
+                    }
+                });
+            });
+
+            $('#dialog-update-water-standard').dialog({
+                autoOpen: false,
+                draggable: false,
+                resizable: false,
+                position: 'center',
+                modal: true,
+                show: true,
+                minHeight: 'auto', // auto expand height
+                minWidth: 'auto',
+                dialogClass: 'dlg-no-title',
+                buttons: {
+                    "Cập nhật": function() {
+                        var $this = $(this);
+                        $lastRow = $('#dialog-update-water-standard').find('.line').last();
+                        to = $lastRow.children('.to').children().val();
+                        price = $lastRow.children('.price').children().val();
+                        if (!to) {
+                            jsonWaterNew.water_new = {};
+                            $('#dialog-update-water-standard').find('.line').each(function(index, element) {
+                                jsonWaterNew.water_new[index] = {};
+                                jsonWaterNew.water_new[index].from = $(element).children('.from').children().val();
+                                jsonWaterNew.water_new[index].to = $(element).children('.to').children().val();
+                                jsonWaterNew.water_new[index].price = $(element).children('.price').children().val();
+                            });
+                            var today = new Date();
+                            var day = today.getDate();
+                            var month = today.getMonth() + 1;
+                            var year = today.getFullYear();
+                            var updateDate = year + '-' + month + '-' + day;
+                            $.ajax({
+                                url: 'index.php?route=price/edit/updateWaterStandardPrice&token=<?php echo $token; ?>',
+                                data: {
+                                    'water_new_data': jsonWaterNew,
+                                    'update_date': updateDate,
+                                    'id': idNewestWater
+                                },
+                                dataType: 'json',
+                                type: 'post',
+                                success: function(json) {
+                                    var arr = jsonWaterNew.water_new;
+                                    var $show = $('.standard_price_show').children('.water_standard_price').find('tbody');
+                                    var $edit = $('.standard_price_edit').find('.water_standard_price').find('tbody');
+                                    $show.empty();
+                                    $edit.empty();
+                                    for (var index in arr) {
+                                        var price = parseInt(arr[index].price);
+                                        $show.append('<tr class="line">' +
+                                                '<td class="from">' + arr[index].from + '</td>' +
+                                                '<td class="to">' + arr[index].to + '</td>' +
+                                                '<td class="price">' + price.format() + '&nbsp₫</td>' +
+                                                '</tr>');
+                                        $edit.append('<tr class="line">' +
+                                                '<td class="from">' + arr[index].from + '</td>' +
+                                                '<td class="to">' + arr[index].to + '</td>' +
+                                                '<td class="price">' + price.format() + '&nbsp₫</td>' +
+                                                '</tr>');
+                                    }
+                                    $this.dialog('close');
+                                }, // for debugging purpose
+                                error: function(xhr) {
+                                    console.log(xhr);
+                                }
+                            });
+                        } else {
+                            alert('Bạn chưa nhập đủ dữ liệu');
+                        }
+                    }
+                }
+            });
+
+            $('input[name="createNewWaterStandard"]').click(function() {
+                $tbody = $('#dialog-update-water-standard').find('tbody');
+                $tbody.empty();
+                // jQuery BlockUI (http://malsup.com/jquery/block/)
+                $.blockUI({ message: '<h3><span><img src="view/image/price/preloader.gif" height="16" width="16" /></span> Đang lấy dữ liệu...</h3>' });
+                $.ajax({
+                    url: 'index.php?route=price/edit/loadNewestWaterStandardPrice&token=<?php echo $token; ?>',
+                    dataType: 'json',
+                    type: 'post',
+                    success: function(json) {
+                        // open dialog after loading data successfully
+                        $('#dialog-update-water-standard').dialog('open');
+                        idNewestWater = json['id'];
+                        for (var index in json['newest']) {
+                            var to = json['newest'][index]['To'];
+                            if (to == 0) {
+                                to = '';
+                            }
+                            $tbody.append('<tr class="line">' +
+                                    '<td class="from"><input type="text" style="width: 74px;" disabled="true" value="' + json['newest'][index]['From'] + '"/></td>' +
+                                    '<td class="to"><input type="text" style="width: 74px;" value="' + to + '"/></td>' +
+                                    '<td class="price"><input type="text" style="width: 74px;" value="' + json['newest'][index]['Price'] + '"/></td>' +
+                                    '<td class="remove"><img src="view/image/price/delete.png" height="16" width="16" /></td>' +
+                                    '</tr>');
+                        }
+                        $tbody.append('' +
+                                '<tr class="dummy-line">' +
+                                '<td class="from" style="display: none;"><input style="width: 74px;" disabled="true" /></td>' +
+                                '<td class="to" style="display: none;"><input style="width: 74px;" /></td>' +
+                                '<td class="price" style="display: none;"><input style="width: 74px;" /></td>' +
+                                '<td class="remove" style="display: none;"><img src="view/image/price/delete.png" height="16" width="16" /></td>' +
+                                '</tr>' +
+                                '<tr class="plus">' +
+                                '<td><img src="view/image/price/add.png" height="16" width="16" /></td>' +
+                                '<td></td>' +
+                                '<td></td>' +
+                                '<td></td>' +
+                                '</tr>');
+                        $('.plus').on('click', function() {
+                            $toCell = $('#dialog-update-water-standard').find('.line').last().children('.to').children();
+                            to = parseInt($toCell.val());
+                            if (to) {
+                                // select dummy-line
+                                $dummy = $('.dummy-line');
+                                // get the To value of the last row
+                                console.log(to);
+                                // add a new dummy-line after the default dummy-line, change the default dummy-line into a `line` and make all its children visible
+                                // the new dummy-line become the default dummy-line
+                                $dummy.after($dummy.outerHTML()).removeClass("dummy-line").addClass("line")
+                                        .children().show() // show newly added row
+                                        .end().children('.from').children().val(to + 1); // From = (last To value) + 1
+                                // input check
+                                $('#dialog-update-water-standard').find('.line').focusout(function() {
+                                    var $this = $(this);
+                                    var $from = $this.children('.from').children();
+                                    var $to = $this.children('.to').children();
+                                    var $price = $this.children('.price').children();
+                                    var to = $to.val();
+                                    var from = $from.val();
+                                    var price = $price.val();
+                                    if (to && parseInt(to) <= parseInt(from)) {
+                                        alert ('Giá trị cột Đến kW phải lớn hơn cột Từ kW');
+                                        $to.focus().select();
+                                    } else if (to && (!$.isNumeric(to) || parseInt(to) < 0)) {
+                                        alert('Giá trị nhập vào không hợp lệ');
+                                        $to.focus().select();
+                                    } else if (!$.isNumeric(price) || parseInt(price) < 0) {
+                                        alert('Giá trị nhập vào không hợp lệ');
+                                        $price.focus().select();
+                                    } else {
+                                        // change value of From in the next row. From = (last row's To) + 1
+                                        var $next = $this.next();
+                                        if ($next) {
+                                            $next.children('.from').children().val(parseInt(to) + 1);
+                                        }
+                                    }
+                                });
+                            } else {
+                                // last row in Standard Price table
+                                alert('Nhập giá trị cho cột Đến kW trước khi tạo dòng mới hoặc để trống và bấm Cập nhật');
+                            }
+                        });
+                    }, // for debugging purpose
+                    error: function(xhr) {
+                        console.log(xhr);
+                    }
+                });
+            });
         });
     </script>
 </head>
@@ -337,7 +555,7 @@
                 ?>
             <tr class="line">
                 <td class="from"><?php echo $row['From']; ?></td>
-                <td class="to"><?php echo $row['To']; ?></td>
+                <td class="to"><?php if ($row['To'] != '0') echo $row['To']; ?></td>
                 <td class="price"><?php echo number_format($row['Price']); ?>&nbsp₫</td>
             </tr>
             <?php
@@ -365,11 +583,7 @@
                     </tbody>
                 </table>
             </div>
-            <!--
-            <?php echo $last_modified . " ". $electricity_last_modified ?>
-            <div style="clear: both;"></div>
-            -->
-            Chọn ngày chỉnh sửa
+            Lịch sử chỉnh sửa
             <select id="electricity_modified_date">
                 <?php foreach ($electricity_last_modified_list as $row) {
                 $from = date("F jS, Y", strtotime($row['from']));
@@ -413,21 +627,40 @@
                 <?php echo $note_1; ?>
                 <br /><br />
             </div>
-            <!--
-            <div class="right_electricity_edit">
-                <img src="view/image/price/edit.png" height="16" width="16" />
-            </div>
-            -->
         </div>
 
         <div class="table_water">
             <?php echo $description_water; ?>
-            <?php echo $last_modified . " ". $water_last_modified ?>
-            <div style="clear: both;"></div>
-            Chọn ngày chỉnh sửa
+            <br />
+            <input type="button" value="CẬP NHẬT" name="createNewWaterStandard" />
+            <div id="dialog-update-water-standard" title="Cập nhật">
+                <table>
+                    <thead>
+                    <td><b><?php echo $text_water_from; ?></b></td>
+                    <td><b><?php echo $text_water_to; ?></b></td>
+                    <td><b><?php echo $text_water_price; ?></b</td>
+                    <td></td>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            Lịch sử chỉnh sửa
             <select id="water_modified_date">
-                <?php foreach ($water_last_modified_list as $row) { ?>
-                <option><?php echo $row; ?></option>
+                <?php foreach ($water_last_modified_list as $row) {
+                $from = date("F jS, Y", strtotime($row['from']));
+                if (!empty($row['to'])) {
+                    $to = date("F jS, Y", strtotime($row['to']));
+              ?>
+                <option value="<?php echo $row['id']; ?>"><?php echo $from; ?> - <?php echo $to; ?></option>
+                <?php
+                } else {
+              ?>
+                <option value="<?php echo $row['id']; ?>"><?php echo $from; ?></option>
+                <?php
+                }
+              ?>
+                ?>
                 <?php } ?>
             </select>
             <div class="left_info">
@@ -445,9 +678,8 @@
                         ?>
                     <tr class="line">
                         <td class="from"><?php echo $row['From']; ?></td>
-                        <td class="to"><?php echo $row['To']; ?></td>
+                        <td class="to"><?php if ($row['To'] != '0') echo $row['To']; ?></td>
                         <td class="price"><?php echo number_format($row['Price']); ?>&nbsp₫</td>
-                        <td class="remove" style="display: none;"><img src="view/image/price/delete.png" height="16" width="16" /></td>
                     </tr>
                     <?php
                             }
@@ -456,10 +688,6 @@
                     </tbody>
                 </table>
             </div>
-            <div class="right_water_edit">
-                <img src="view/image/price/edit.png" height="16" width="16" />
-            </div>
-            <div style="clear: both;"></div>
         </div>
     </div>
 </div>

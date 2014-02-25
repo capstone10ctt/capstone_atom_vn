@@ -8,28 +8,14 @@ class ControllerPriceEdit extends Controller {
 
         $electricity_last_modified = $this->model_price_standard->getElectricityLastModified();
         $electricity_last_modified_list = $this->model_price_standard->getElectricityLastModifiedList();
-        /*
         $water_last_modified = $this->model_price_standard->getWaterLastModified();
         $water_last_modified_list = $this->model_price_standard->getWaterLastModifiedList();
-        */
-        $handle = fopen("log.txt","w");
-        fwrite($handle,var_export($electricity_last_modified,true));
-        fclose($handle);
         // put modified date list into variable 'electricity_last_modified_list' & `water_last_modified_list`
         $this->data['electricity_last_modified_list'] = $electricity_last_modified_list;
-        /*
-        foreach ($water_last_modified_list as $row) {
-            foreach ($row as $r) {
-                $this->data['water_last_modified_list'][] = $r;
-            }
-        }
-        */
-        // store date_added values for display purpose in View part
-
-        //$this->data['water_last_modified'] = $water_last_modified['date_added'];
+        $this->data['water_last_modified_list'] = $water_last_modified_list;
         // load electricity standard price based on the provided date
         $this->loadElectricityStandardPrice($electricity_last_modified['id']);
-        //$this->loadWaterStandardPrice($water_last_modified['date_added']);
+        $this->loadWaterStandardPrice($water_last_modified['id']);
         // store values for display purpose in View part
         $this->data['text_electricity_from'] = $this->language->get('text_electricity_from');
         $this->data['text_electricity_to'] = $this->language->get('text_electricity_to');
@@ -69,6 +55,7 @@ class ControllerPriceEdit extends Controller {
         $json['success'] = 'success';
         $this->response->setOutput(json_encode($json));
     }
+
     public function loadElectricityStandardPrice($id = '') {
         // remember to put this line or $this->model_price_standard will be NULL when call this function from ajax for the 2nd time
         $this->load->model('price/standard');
@@ -91,29 +78,7 @@ class ControllerPriceEdit extends Controller {
         $this->response->setOutput(json_encode($json));
     }
 
-    public function loadWaterStandardPrice($w_date = '') {
-        // remember to put this line or $this->model_price_standard will be NULL when call this function from ajax for the 2nd time
-        $this->load->model('price/standard');
-
-        $json = array();
-        if (!empty($this->request->post['w_date'])) {
-            $w_date = $this->request->post['w_date'];
-        }
-        $w_standard = $this->model_price_standard->getWaterStandardPrice($w_date);
-        foreach ($w_standard as $row) {
-            $this->data['w_standard'][] = array(
-                'From' => $row['From'],
-                'To' => $row['To'],
-                'Price' => $row['Price']
-            );
-        }
-        // set 'success' string in order to send back to the View
-        $json['success'] = 'success';
-        $json['data'] = $w_standard;
-        $this->response->setOutput(json_encode($json));
-    }
-
-    public function updateStandardPrice() {
+    public function updateElectricityStandardPrice() {
         $json = array();
         if (!empty($this->request->post['update_date']) &&
             !empty($this->request->post['electricity_new_data']) &&
@@ -142,6 +107,84 @@ class ControllerPriceEdit extends Controller {
                 // insert updated data
                 foreach ($electricity_new_data['electricity_new'] as $data) {
                     $this->db->query('INSERT INTO e_standard (`id`, `From`, `To`, `Price`) VALUES ("' . $newestId['id'] . '", "' . $data['from'] . '", "' . $data['to'] . '", "' . $data['price'] .'")');
+                }
+            }
+            // set 'success' string in order to send back to the View
+            $json['success'] = 'success';
+        }
+        $this->response->setOutput(json_encode($json));
+    }
+
+    public function loadNewestWaterStandardPrice() {
+        // remember to put this line or $this->model_price_standard will be NULL when call this function from ajax for the 2nd time
+        $this->load->model('price/standard');
+        $json = array();
+
+        $water_last_modified = $this->model_price_standard->getWaterLastModified();
+        $json['id'] = $water_last_modified['id'];
+        $temp = $this->model_price_standard->getWaterStandardPrice($water_last_modified['id']);
+        foreach ($temp as $row) {
+            $json['newest'][] = array(
+                'From' => $row['From'],
+                'To'       => $row['To'],
+                'Price' => $row['Price']
+            );
+        }
+        $json['success'] = 'success';
+        $this->response->setOutput(json_encode($json));
+    }
+
+    public function loadWaterStandardPrice($id = '') {
+        // remember to put this line or $this->model_price_standard will be NULL when call this function from ajax for the 2nd time
+        $this->load->model('price/standard');
+
+        $json = array();
+        if (!empty($this->request->post['id'])) {
+            $id = $this->request->post['id'];
+        }
+        $w_standard = $this->model_price_standard->getWaterStandardPrice($id);
+        foreach ($w_standard as $row) {
+            $this->data['w_standard'][] = array(
+                'From' => $row['From'],
+                'To'       => $row['To'],
+                'Price' => $row['Price']
+            );
+        }
+        // set 'success' string in order to send back to the View
+        $json['success'] = 'success';
+        $json['data'] = $w_standard;
+        $this->response->setOutput(json_encode($json));
+    }
+
+    public function updateWaterStandardPrice() {
+        $json = array();
+        if (!empty($this->request->post['update_date']) &&
+            !empty($this->request->post['water_new_data']) &&
+            !empty($this->request->post['id'])) {
+            // retrieve passed data from View and stores it in variables
+            $updateDate = $this->request->post['update_date'];
+            $nextUpdateDate = date('Y-m-d', strtotime('+1 day', strtotime($updateDate)));
+            $water_new_data = $this->request->post['water_new_data'];
+            $id = $this->request->post['id'];
+            // get the last From
+            $temp = $this->db->query('SELECT `from` FROM w_lifetime ORDER BY `id` DESC LIMIT 1')->row;
+            // update table
+            // check if update in the same day
+            if (strtotime($nextUpdateDate) > strtotime($temp['from'])) { // update in different days
+                $this->db->query('UPDATE w_lifetime SET `to` = "' . $updateDate . '" WHERE `id` = "' . $id . '"');
+                $this->db->query('INSERT INTO w_lifetime (`from`, `to`) VALUES ("'. $nextUpdateDate . '", null)');
+                $newestId = $this->db->query('SELECT id FROM w_lifetime WHERE `from` = "' . $nextUpdateDate . '"')->row;
+                foreach ($water_new_data['water_new'] as $data) {
+                    $this->db->query('INSERT INTO w_standard (`id`, `From`, `To`, `Price`) VALUES ("' . $newestId['id'] . '", "' . $data['from'] . '", "' . $data['to'] . '", "' . $data['price'] .'")');
+                }
+            } else { // update in the same day
+                // get Id of the day
+                $newestId = $this->db->query('SELECT id FROM w_lifetime WHERE `from` = "' . $nextUpdateDate . '"')->row;
+                // delete previous same-day-inputted data
+                $this->db->query('DELETE FROM w_standard WHERE `id` = "' . $newestId['id'] . '"');
+                // insert updated data
+                foreach ($water_new_data['water_new'] as $data) {
+                    $this->db->query('INSERT INTO w_standard (`id`, `From`, `To`, `Price`) VALUES ("' . $newestId['id'] . '", "' . $data['from'] . '", "' . $data['to'] . '", "' . $data['price'] .'")');
                 }
             }
             // set 'success' string in order to send back to the View
