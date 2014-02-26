@@ -14,6 +14,7 @@ $_['text_affiliate']                   = 'Affiliates';
 $_['text_attribute']                   = 'Attributes';
 $_['text_attribute_group']             = 'Attribute Groups';
 $_['text_backup']                      = 'Backup / Restore';
+$_['text_import']                      = 'Import';
 $_['text_banner']                      = 'Banners';
 $_['text_catalog']                     = 'Universities';
 $_['text_category']                    = 'Categories';
