@@ -37,8 +37,12 @@ echo $header; ?>
   <?php if ($success) { ?>
   <div class="success"><?php echo $success; ?></div>
   <?php } ?>
+  
+  <div class="box">
+  <div class="heading">
   <h1><img src="view/image/customer.png" alt="" /> <?php echo $heading_title; ?></h1>
-  <div class="box" style="padding:30px">
+  </div>
+  <div class="content">
    <div id="leftcol" style="float:left;width:200px;text-alignment:left">
      <div style="margin-bottom:5px"><?php echo $text_block; ?></div>
      <select id="block_select" style="margin-bottom:5px;width:135px">
@@ -267,6 +271,7 @@ echo $header; ?>
   });
 </script>
 
+</div>
 </div>
 
 </div>

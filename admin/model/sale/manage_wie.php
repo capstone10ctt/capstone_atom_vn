@@ -461,7 +461,7 @@ class ModelSaleManageWie extends Model {
 		$sql = "SELECT *, (SELECT COUNT( * ) FROM " . DB_PREFIX . "customer c WHERE c.customer_group_id = cg.customer_group_id) AS assigned FROM " . DB_PREFIX . "customer_group cg LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (cg.customer_group_id = cgd.customer_group_id) LEFT JOIN " . DB_PREFIX . "room_type rt ON ( cg.type_id = rt.type_id AND cgd.language_id = rt.language_id ) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 		
 		$sort_data = array(
-			'cgd.name',
+			'cg.name',
 			'cg.sort_order'
 		);	
 		if (isset($data['floor']))
@@ -472,7 +472,7 @@ class ModelSaleManageWie extends Model {
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
 			$sql .= " ORDER BY " . $data['sort'];	
 		} else {
-			$sql .= " ORDER BY cgd.name";	
+			$sql .= " ORDER BY cg.name";	
 		}
 			
 		if (isset($data['order']) && ($data['order'] == 'DESC')) {
@@ -491,7 +491,7 @@ class ModelSaleManageWie extends Model {
 		$sql = "SELECT *, (SELECT COUNT( * ) FROM " . DB_PREFIX . "customer c WHERE c.customer_group_id = cg.customer_group_id) AS assigned FROM " . DB_PREFIX . "customer_group cg LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (cg.customer_group_id = cgd.customer_group_id) LEFT JOIN " . DB_PREFIX . "room_type rt ON ( cg.type_id = rt.type_id AND cgd.language_id = rt.language_id ) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 		
 		$sort_data = array(
-			'cgd.name',
+			'cg.name',
 			'cg.sort_order'
 		);	
 		if (isset($data['floor']))
@@ -502,7 +502,7 @@ class ModelSaleManageWie extends Model {
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
 			$sql .= " ORDER BY " . $data['sort'];	
 		} else {
-			$sql .= " ORDER BY cgd.name";	
+			$sql .= " ORDER BY cg.name";	
 		}
 			
 		if (isset($data['order']) && ($data['order'] == 'DESC')) {
