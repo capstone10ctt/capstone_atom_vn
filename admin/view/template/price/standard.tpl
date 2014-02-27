@@ -34,7 +34,7 @@
                 ?>
                 <tr>
                     <td><?php echo $row['From']; ?></td>
-                    <td><?php echo $row['To']; ?></td>
+                    <td><?php if ($row['To'] != '0') echo $row['To']; ?></td>
                     <td><?php echo number_format($row['Price']); ?>&nbsp₫</td>
                 </tr>
                 <?php
@@ -59,7 +59,7 @@
                 ?>
             <tr>
                 <td><?php echo $row['From']; ?></td>
-                <td><?php echo $row['To']; ?></td>
+                <td><?php if ($row['To'] != '0') echo $row['To']; ?></td>
                 <td><?php echo number_format($row['Price']); ?>&nbsp₫</td>
             </tr>
             </tr>
@@ -69,6 +69,7 @@
                 ?>
             </tbody>
         </table>
+        <a href="<?php echo $this->data['price_edit']; ?>">CHỈNH SỬA</a>
     </div>
     <div class="bill">
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel leo justo. Ut non dictum dolor, sodales suscipit velit. Etiam ut vestibulum est, ut blandit sem. Vivamus egestas orci feugiat, semper eros sit amet, accumsan metus. Nunc ac purus quis mauris posuere pharetra. Nam tincidunt auctor lobortis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus vel aliquam augue. Vivamus eget ipsum at sapien porta hendrerit. Curabitur porttitor tortor fermentum tortor gravida vehicula. Quisque facilisis bibendum quam in mattis. Aenean vel nisl pellentesque nunc ornare laoreet rutrum eget mi. Aliquam erat volutpat.</p>
