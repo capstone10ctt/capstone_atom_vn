@@ -8,7 +8,7 @@ class ControllerToolImport extends Controller {
 
 		$this->language->load('tool/import');
 
-		$this->document->setTitle($this->language->get('heading_title'));
+
 		
 		$this->load->model('tool/import');
 		
@@ -18,6 +18,22 @@ class ControllerToolImport extends Controller {
 		$this->data['text_browse'] = $this->language->get('text_browse');
 		$this->data['text_upload'] = $this->language->get('text_upload');
 		
+		$this->data['entry_studentid'] = $this->language->get('entry_studentid');
+		$this->data['entry_name'] = $this->language->get('entry_name');
+		$this->data['entry_faculty'] = $this->language->get('entry_faculty');
+		$this->data['entry_birthday'] = $this->language->get('entry_birthday');
+		$this->data['entry_room'] = $this->language->get('entry_room');
+		$this->data['entry_bed'] = $this->language->get('entry_bed');
+		$this->data['entry_ethnic'] = $this->language->get('entry_ethnic');
+		$this->data['entry_address'] = $this->language->get('entry_address');
+		$this->data['entry_comment'] = $this->language->get('entry_comment');
+		$this->data['entry_estart'] = $this->language->get('entry_estart');
+		$this->data['entry_eend'] = $this->language->get('entry_eend');
+		$this->data['entry_wstart'] = $this->language->get('entry_wstart');
+		$this->data['entry_wend'] = $this->language->get('entry_wend');
+		$this->data['entry_dateadded'] = $this->language->get('entry_dateadded');
+		$this->data['error_roomnotfound'] = $this->language->get('error_roomnotfound');
+
   		$this->data['breadcrumbs'] = array();
 
    		$this->data['breadcrumbs'][] = array(
@@ -40,13 +56,13 @@ class ControllerToolImport extends Controller {
 		$this->data['col_faculty']="";
 		$this->data['col_room']="";
 		$this->data['col_bed']="";
-		$this->data['col_race']="";
+		$this->data['col_ethnic']="";
 		$this->data['col_address']="";
 		$this->data['col_estart']="";
 		$this->data['col_esend']="";
 		$this->data['col_wstart']="";
 		$this->data['col_wend']="";
-		$this->data['col_inputdate']="";
+		$this->data['col_addeddate']="";
 		$this->data['file_type']="";
 		$this->data['sheetData']="";
 
@@ -57,6 +73,8 @@ class ControllerToolImport extends Controller {
 			   $error= $_FILES["file"]["error"] . "<br>";
 			}
 		  	else{
+		  		$this->data['roomList'] =  $this->model_tool_import->getRoomList();
+
 				include 'PHPExcel/IOFactory.php';
 				if (isset($_FILES["file"]["tmp_name"]) && (($_FILES["file"]["type"]=="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") || ($_FILES["file"]["type"]=="application/vnd.ms-excel")))
 				{
@@ -80,7 +98,7 @@ class ControllerToolImport extends Controller {
 									$this->data['col_birthday'] = $key;
 									break;
 								case "nganh": 
-									$this->data['col_$faculty'] = $key;
+									$this->data['col_faculty'] = $key;
 									break;
 								case "phong": 
 									$this->data['col_room'] = $key;
@@ -89,7 +107,7 @@ class ControllerToolImport extends Controller {
 									$this->data['col_bed'] = $key;
 									break;
 								case "dan toc": 
-									$this->data['col_race'] = $key;
+									$this->data['col_ethnic'] = $key;
 									break;
 								case "dia chi": 
 									$this->data['col_address'] = $key;
@@ -107,7 +125,7 @@ class ControllerToolImport extends Controller {
 									$this->data['col_wend'] = $key;
 									break;
 								case "ngay nhap":
-									$this->data['col_inputdate'] = $key;
+									$this->data['col_addeddate'] = $key;
 									break;
 							}
 						}

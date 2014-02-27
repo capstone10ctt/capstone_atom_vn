@@ -123,13 +123,13 @@ class ModelSaleCustomer extends Model {
 	}
 	public function getCustomerGroupIdFromFloor($parent_id = 0)
 	{
-		$query = $this->db->query( "SELECT cgd.customer_group_id, cgd.name FROM " . DB_PREFIX . "customer_group cg LEFT JOIN ". DB_PREFIX ."customer_group_description cgd ON(cg.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') ."' AND cg.floor_id = '" . (int)$parent_id . "'");
+		$query = $this->db->query( "SELECT cgd.customer_group_id, cg.name FROM " . DB_PREFIX . "customer_group cg LEFT JOIN ". DB_PREFIX ."customer_group_description cgd ON(cg.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') ."' AND cg.floor_id = '" . (int)$parent_id . "'");
 
 		return $query->rows;
 	}
 	public function getCustomers($data = array()) {
-		$sql = "SELECT *, CONCAT(c.lastname, ' ', c.firstname) AS name, cgd.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group cg ON (c.customer_group_id = cg.customer_group_id) LEFT JOIN ". DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) LEFT JOIN ". DB_PREFIX . "floor_description fd ON (cg.floor_id = fd.floor_id AND fd.language_id = cgd.language_id ) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') ."'";
-		//$sql = "SELECT *, CONCAT(c.firstname, ' ', c.lastname) AS name, cgd.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+		$sql = "SELECT *, CONCAT(c.lastname, ' ', c.firstname) AS name, cg.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group cg ON (c.customer_group_id = cg.customer_group_id) LEFT JOIN ". DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) LEFT JOIN ". DB_PREFIX . "floor_description fd ON (cg.floor_id = fd.floor_id AND fd.language_id = cgd.language_id ) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') ."'";
+		//$sql = "SELECT *, CONCAT(c.firstname, ' ', c.lastname) AS name, cg.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 		$implode = array();
 		// start LMT
 

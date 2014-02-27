@@ -11,6 +11,7 @@
      
     </div>
     <div class="content">
+
         <form method="post"
           enctype="multipart/form-data">
           <label for="file"><?php echo $text_filedata ?>:</label>
@@ -19,17 +20,26 @@
         </form>
         <?php if($file_type=="student")
     {
-    echo '<table>';
+    echo '<table class="list">';
     echo '<thead>';
     echo '<tr>';
-    echo '<td>MSSV</td>';
-    echo '<td>Tên</td>';
-    echo '<td>Ngày Sinh</td>';
-    echo '<td>Ngành</td>';
-    echo '<td>Phòng</td>';
-    echo '<td>Giường</td>';
-    echo '<td>Dân tộc</td>';
-    echo '<td>Địa chỉ</td>';
+    if($col_id!='')
+      echo '<td>'.$entry_studentid.'</td>';
+    if($col_name!='')
+      echo '<td>'.$entry_name.'</td>';
+    if($col_birthday!='')
+      echo '<td>'.$entry_birthday.'</td>';
+    if($col_faculty!='')
+      echo '<td>'.$entry_faculty.'</td>';
+    if($col_room!='')
+      echo '<td>'.$entry_room.'</td>';
+    if($col_bed!='')
+      echo '<td>'.$entry_bed.'</td>';
+    if($col_ethnic!='')
+      echo '<td>'.$entry_ethnic.'</td>';
+    if($col_address!='')
+        echo '<td>'.$entry_address.'</td>';
+    echo '<td>'.$entry_comment.'</td>';
     echo '</tr>';
     echo '</thead>';
     echo '<tbody>';
@@ -38,36 +48,33 @@
       echo '<tr>';
       if($col_id!='')
         echo '<td>'.$sheetData[$i][$col_id].'</td>';
-      else
-        echo '<td></td>';
+      
       if($col_name!='')
         echo '<td>'.$sheetData[$i][$col_name].'</td>';
-      else
-        echo '<td></td>';
+      
       if($col_birthday!='')
         echo '<td>'.$sheetData[$i][$col_birthday].'</td>';
-      else
-        echo '<td></td>';
+      
       if($col_faculty!='')
         echo '<td>'.$sheetData[$i][$col_faculty].'</td>';
-      else
-        echo '<td></td>';
+      
       if($col_room!='')
         echo '<td>'.$sheetData[$i][$col_room].'</td>';
-      else
-        echo '<td></td>';
+      
       if($col_bed!='')
         echo '<td>'.$sheetData[$i][$col_bed].'</td>';
-      else
-        echo '<td></td>';
-      if($col_race!='')
-        echo '<td>'.$sheetData[$i][$col_race].'</td>';
-      else
-        echo '<td></td>';
+      
+      if($col_ethnic!='')
+        echo '<td>'.$sheetData[$i][$col_ethnic].'</td>';
+      
       if($col_address!='')
         echo '<td>'.$sheetData[$i][$col_address].'</td>';
-      else
+      
+      if (in_array($sheetData[$i][$col_room], $roomList))
         echo '<td></td>';
+      else
+        echo '<td>'.$error_roomnotfound.'</td>';
+
       echo '</tr>';
 
     }
@@ -76,17 +83,24 @@
     }
     else if($file_type=="watere")
     {
+      
       date_default_timezone_set('Asia/Saigon');
       $currentdate = date('m/d/Y h:i:s a', time());
-    echo '<table>';
+    echo '<table class="list">';
     echo '<thead>';
     echo '<tr>';
-    echo '<td>Phòng</td>';
-    echo '<td>Điện cũ</td>';
-    echo '<td>Điện mới</td>';
-    echo '<td>Nước cũ</td>';
-    echo '<td>Nước mới</td>';
-    echo '<td>Ngày nhập</td>';
+    if($col_room!='')
+      echo '<td>'.$entry_room.'</td>';
+    if($col_estart!='')
+      echo '<td>'.$entry_estart.'</td>';
+    if($col_eend!='')
+      echo '<td>'.$entry_eend.'</td>';
+    if($col_wstart!='')
+      echo '<td>'.$entry_wstart.'</td>';
+    if($col_wend!='')
+      echo '<td>'.$entry_wend.'</td>';
+    echo '<td>'.$entry_dateadded.'</td>';
+    echo '<td>'.$entry_comment.'</td>';
     echo '</tr>';
     echo '</thead>';
     echo '<tbody>';
@@ -95,29 +109,28 @@
       echo '<tr>';
       if($col_room!='')
         echo '<td>'.$sheetData[$i][$col_room].'</td>';
-      else
-        echo '<td></td>';
+      
       if($col_estart!='')
         echo '<td>'.$sheetData[$i][$col_estart].'</td>';
-      else
-        echo '<td></td>';
+      
       if($col_eend!='')
         echo '<td>'.$sheetData[$i][$col_eend].'</td>';
-      else
-        echo '<td></td>';
+      
       if($col_wstart!='')
         echo '<td>'.$sheetData[$i][$col_wstart].'</td>';
-      else
-        echo '<td></td>';
+      
       if($col_wend!='')
         echo '<td>'.$sheetData[$i][$col_wend].'</td>';
-      else
-        echo '<td></td>';
-      if($col_inputdate!='' && trim($sheetData[$i][$col_inputdate])!='')
-        echo '<td>'.$sheetData[$i][$col_inputdate].'</td>';
+      
+      if($col_addeddate!='' && trim($sheetData[$i][$col_addeddate])!='')
+        echo '<td>'.$sheetData[$i][$col_addeddate].'</td>';
       else
         echo '<td>'.$currentdate.'</td>';
       
+      if (in_array($sheetData[$i][$col_room], $roomList))
+        echo '<td></td>';
+      else
+        echo '<td>'.$error_roomnotfound.'</td>';
       echo '</tr>';
 
     }

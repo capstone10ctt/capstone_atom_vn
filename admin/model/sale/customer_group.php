@@ -1,18 +1,18 @@
 <?php
 class ModelSaleCustomerGroup extends Model {
 	public function addCustomerGroup($data) {
-		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_group SET floor_id = '" . (int)$data['floor'] . "', max_student = '" . (int)$data['max_student'] . "', type_id = '" . (int)$data['type_id'] . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_group SET floor_id = '" . (int)$data['floor'] . "', name = '" . $this->db->escape($value['name']) . "', max_student = '" . (int)$data['max_student'] . "', type_id = '" . (int)$data['type_id'] . "'");
 	
 		$customer_group_id = $this->db->getLastId();
 		
 		foreach ($data['customer_group_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "customer_group_description SET customer_group_id = '" . (int)$customer_group_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "', description = '" . $this->db->escape($value['description']) . "'");		
+			$this->db->query("INSERT INTO " . DB_PREFIX . "customer_group_description SET customer_group_id = '" . (int)$customer_group_id . "', language_id = '" . (int)$language_id . "', description = '" . $this->db->escape($value['description']) . "'");		
 		}	
 	}
 	
 	public function editCustomerGroup($customer_group_id, $data) {
-		$query = "UPDATE " . DB_PREFIX . "customer_group SET max_student = '" . (int)$data['max_student'] . "', type_id = '" . (int)$data['type_id']; 
-		if(isset($data['room_leader']))
+		$query = "UPDATE " . DB_PREFIX . "customer_group SET max_student = '" . (int)$data['max_student'] . "', name = '" . $this->db->escape($value['name']) . "', type_id = '" . (int)$data['type_id']; 
+		if(isset($data['room_leader']))	
 		{
 			if($data['room_leader']=='0')
 				$query .= "', room_leader = NULL";
@@ -25,7 +25,7 @@ class ModelSaleCustomerGroup extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "customer_group_description WHERE customer_group_id = '" . (int)$customer_group_id . "'");
 
 		foreach ($data['customer_group_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "customer_group_description SET customer_group_id = '" . (int)$customer_group_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "', description = '" . $this->db->escape($value['description']) . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "customer_group_description SET customer_group_id = '" . (int)$customer_group_id . "', language_id = '" . (int)$language_id . "', description = '" . $this->db->escape($value['description']) . "'");
 		}
 	}
 	
@@ -47,7 +47,7 @@ class ModelSaleCustomerGroup extends Model {
 		$sql = "SELECT *, (SELECT COUNT( * ) FROM " . DB_PREFIX . "customer c WHERE c.customer_group_id = cg.customer_group_id) AS assigned FROM " . DB_PREFIX . "customer_group cg LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (cg.customer_group_id = cgd.customer_group_id) LEFT JOIN " . DB_PREFIX . "room_type rt ON ( cg.type_id = rt.type_id AND cgd.language_id = rt.language_id ) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 		
 		$sort_data = array(
-			'cgd.name',
+			'cg.name',
 			'cg.sort_order'
 		);	
 		if (isset($data['filter_floor']) && $data['filter_floor']>'0')
@@ -73,7 +73,7 @@ class ModelSaleCustomerGroup extends Model {
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
 			$sql .= " ORDER BY " . $data['sort'];	
 		} else {
-			$sql .= " ORDER BY cgd.name";	
+			$sql .= " ORDER BY cg.name";	
 		}
 			
 		if (isset($data['order']) && ($data['order'] == 'DESC')) {
