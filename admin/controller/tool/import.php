@@ -41,21 +41,22 @@ class ControllerToolImport extends Controller {
 		$this->data['error_upload'] = $this->language->get('error_upload');
 
 		$this->data['error'] = "";
-   		$this->data['col_id']="";
-		$this->data['col_name']="";
-		$this->data['col_birthday']="";
-		$this->data['col_faculty']="";
-		$this->data['col_room']="";
-		$this->data['col_bed']="";
-		$this->data['col_ethnic']="";
-		$this->data['col_address']="";
-		$this->data['col_estart']="";
-		$this->data['col_esend']="";
-		$this->data['col_wstart']="";
-		$this->data['col_wend']="";
-		$this->data['col_addeddate']="";
-		$this->data['file_type']="";
-		$this->data['sheetData']="";
+   		$this->session->data['col_id']="";
+		$this->session->data['col_name']="";
+		$this->session->data['col_birthday']="";
+		$this->session->data['col_faculty']="";
+		$this->session->data['col_room']="";
+		$this->session->data['col_bed']="";
+		$this->session->data['col_ethnic']="";
+		$this->session->data['col_address']="";
+		$this->session->data['col_estart']="";
+		$this->session->data['col_esend']="";
+		$this->session->data['col_wstart']="";
+		$this->session->data['col_wend']="";
+		$this->session->data['col_addeddate']="";
+		$this->session->data['file_type']="";
+		$this->session->data['sheetData']="";
+		$this->data['uploaded']="";
 		if (isset($this->request->post['upload']))
 		{
 	   		if (!empty($_FILES['file']['name']))
@@ -74,60 +75,65 @@ class ControllerToolImport extends Controller {
 						//echo 'Loading file ',pathinfo($inputFileName,PATHINFO_BASENAME),' using IOFactory to identify the format<br />';
 						try {
 							$objPHPExcel = PHPExcel_IOFactory::load($inputFileName);
-							$this->data['sheetData'] = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
+							$this->session->data['sheetData'] = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
 
 				
-							foreach($this->data['sheetData'][1] as $key => $value)
+							foreach($this->session->data['sheetData'][1] as $key => $value)
 							{	
-								switch(trim(strtolower($this->utf8_to_ascii($this->data['sheetData'][1][$key])))){
+								switch(trim(strtolower($this->utf8_to_ascii($this->session->data['sheetData'][1][$key])))){
 									case "mssv": 
-										$this->data['col_id'] = $key;
+										$this->session->data['col_id'] = $key;
 										break;
 									case "ho va ten": 
-										$this->data['col_name'] = $key;
+										$this->session->data['col_name'] = $key;
 										break;
 									case "ngay sinh": 
-										$this->data['col_birthday'] = $key;
+										$this->session->data['col_birthday'] = $key;
 										break;
 									case "nganh": 
-										$this->data['col_faculty'] = $key;
+										$this->session->data['col_faculty'] = $key;
 										break;
 									case "phong": 
-										$this->data['col_room'] = $key;
+										$this->session->data['col_room'] = $key;
 										break;
 									case "so giuong": 
-										$this->data['col_bed'] = $key;
+										$this->session->data['col_bed'] = $key;
 										break;
 									case "dan toc": 
-										$this->data['col_ethnic'] = $key;
+										$this->session->data['col_ethnic'] = $key;
 										break;
 									case "dia chi": 
-										$this->data['col_address'] = $key;
+										$this->session->data['col_address'] = $key;
 										break;
 									case "dien cu":
-										$this->data['col_estart'] = $key;
+										$this->session->data['col_estart'] = $key;
 										break;
 									case "dien moi":
-										$this->data['col_eend'] = $key;
+										$this->session->data['col_eend'] = $key;
 										break;
 									case "nuoc cu":
-										$this->data['col_wstart'] = $key;
+										$this->session->data['col_wstart'] = $key;
 										break;
 									case "nuoc moi":
-										$this->data['col_wend'] = $key;
+										$this->session->data['col_wend'] = $key;
 										break;
 									case "ngay nhap":
-										$this->data['col_addeddate'] = $key;
+										$this->session->data['col_addeddate'] = $key;
 										break;
 								}
 							}
-							if($this->data['col_id']!='' && $this->data['col_name']!='' && $this->data['col_room']!='0')
+							$this->data['uploaded'] = "yes";
+							if($this->session->data['col_id']!='' && $this->session->data['col_name']!='' && $this->session->data['col_room']!='0')
 							{
-								$this->data['file_type']="student";
-							} else if($this->data['col_room']!='' && ($this->data['col_estart']!='' || $this->data['col_eend']!='' || $this->data['col_wstart']!='' || $this->data['col_wend']!=''))
+								$this->session->data['file_type']="student";
+
+							} else if($this->session->data['col_room']!='' && ($this->session->data['col_estart']!='' || $this->session->data['col_eend']!='' || $this->session->data['col_wstart']!='' || $this->session->data['col_wend']!=''))
 							{
-								$this->data['file_type']="watere";
+								$this->session->data['file_type']="watere";
 							}
+							else
+								$this->session->data['uploaded']="";
+
 
 						} catch(Exception $e) {
 							die('Error loading file "'.pathinfo($inputFileName,PATHINFO_BASENAME).'": '.$e->getMessage());
@@ -140,6 +146,24 @@ class ControllerToolImport extends Controller {
 			}
 		}
 		
+		if($this->data['uploaded']=="")
+		{
+			$this->session->data['col_id']="";
+			$this->session->data['col_name']="";
+			$this->session->data['col_birthday']="";
+			$this->session->data['col_faculty']="";
+			$this->session->data['col_room']="";
+			$this->session->data['col_bed']="";
+			$this->session->data['col_ethnic']="";
+			$this->session->data['col_address']="";
+			$this->session->data['col_estart']="";
+			$this->session->data['col_esend']="";
+			$this->session->data['col_wstart']="";
+			$this->session->data['col_wend']="";
+			$this->session->data['col_addeddate']="";
+			$this->session->data['file_type']="";
+			$this->session->data['sheetData']="";
+		}
 		
 		if (isset($this->session->data['success'])) {
 			$this->data['success'] = $this->session->data['success'];
@@ -166,6 +190,7 @@ class ControllerToolImport extends Controller {
 		//$this->data['restore'] = $this->url->link('tool/import', 'token=' . $this->session->data['token'], 'SSL');
 
 		$this->data['upload'] = $this->url->link('tool/import', 'token=' . $this->session->data['token'], 'SSL');
+		$this->data['import'] = $this->url->link('tool/import', 'token=' . $this->session->data['token'], 'SSL');
 		//$this->data['tables'] = $this->model_tool_import->getTables();
 
 		$this->template = 'tool/import.tpl';

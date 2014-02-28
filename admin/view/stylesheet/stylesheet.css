@@ -530,6 +530,11 @@ a.button, .list a.button {
 	background-color: #ffa094;
 }
 
+.list tbody tr.warning td input {
+	background-color: transparent;
+	border: none;
+}
+
 .list .left {
 	text-align: left;
 	padding: 7px;

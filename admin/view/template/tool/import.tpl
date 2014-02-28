@@ -14,7 +14,10 @@
   <div class="box">
     <div class="heading">
       <h1><img src="view/image/backup.png" alt="" /> <?php echo $heading_title; ?></h1>
-      <div class="buttons"><a onclick="" class="button"><?php echo $button_import; ?></a>
+      <div class="buttons">
+      <?php if($uploaded!='') {?>
+      <a onclick="import();" class="button"><?php echo $button_import; ?></a>
+      <?php } ?>
       <a onclick="$('#upload').submit();" class="button"><?php echo $button_upload; ?></a></div>
     </div>
     <div class="content">
@@ -28,63 +31,67 @@
           </tr>
         </table>
       </form>
-
-        <?php if($file_type=="student")
+      <form action="<?php echo $import; ?>" method="post" enctype="multipart/form-data" id="import">
+        <?php if($this->session->data['file_type']=="student")
     {
-    echo '<table class="list">';
+    echo '<table class="list" id="studentlist">';
     echo '<thead>';
     echo '<tr>';
-    if($col_id!='')
+    if($this->session->data['col_id']!='')
       echo '<td>'.$entry_studentid.'</td>';
-    if($col_name!='')
+    if($this->session->data['col_name']!='')
       echo '<td>'.$entry_name.'</td>';
-    if($col_birthday!='')
+    if($this->session->data['col_birthday']!='')
       echo '<td>'.$entry_birthday.'</td>';
-    if($col_faculty!='')
+    if($this->session->data['col_faculty']!='')
       echo '<td>'.$entry_faculty.'</td>';
-    if($col_room!='')
+    if($this->session->data['col_room']!='')
       echo '<td>'.$entry_room.'</td>';
-    if($col_bed!='')
+    if($this->session->data['col_bed']!='')
       echo '<td>'.$entry_bed.'</td>';
-    if($col_ethnic!='')
+    if($this->session->data['col_ethnic']!='')
       echo '<td>'.$entry_ethnic.'</td>';
-    if($col_address!='')
+    if($this->session->data['col_address']!='')
         echo '<td>'.$entry_address.'</td>';
     echo '<td>'.$entry_comment.'</td>';
     echo '</tr>';
     echo '</thead>';
     echo '<tbody>';
-    for ($i = 2; $i <= count($sheetData); $i++)
+    for ($i = 2; $i <= count($this->session->data['sheetData']); $i++)
     {
-      if (in_array($sheetData[$i][$col_room], $roomList))
+      $warning = false;
+      if (in_array($this->session->data['sheetData'][$i][$this->session->data['col_room']], $roomList))
         echo '<tr>';
       else
+      {
+        $warning = true;
         echo '<tr class="warning">';
-      if($col_id!='')
-        echo '<td>'.$sheetData[$i][$col_id].'</td>';
+      }
+      if($this->session->data['col_id']!='')
+        echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_id']].'"</td>';
       
-      if($col_name!='')
-        echo '<td>'.$sheetData[$i][$col_name].'</td>';
+      if($this->session->data['col_name']!='')
+        echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_name']].'"</td>';
       
-      if($col_birthday!='')
-        echo '<td>'.$sheetData[$i][$col_birthday].'</td>';
+      if($this->session->data['col_birthday']!='')
+        echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_birthday']].'</td>';
       
-      if($col_faculty!='')
-        echo '<td>'.$sheetData[$i][$col_faculty].'</td>';
+      if($this->session->data['col_faculty']!='')
+        echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_faculty']].'</td>';
       
-      if($col_room!='')
-        echo '<td>'.$sheetData[$i][$col_room].'</td>';
+      if($this->session->data['col_room']!='')
+        echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_room']].'</td>';
       
-      if($col_bed!='')
-        echo '<td>'.$sheetData[$i][$col_bed].'</td>';
+      if($this->session->data['col_bed']!='')
+        echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_bed']].'</td>';
       
-      if($col_ethnic!='')
-        echo '<td>'.$sheetData[$i][$col_ethnic].'</td>';
+      if($this->session->data['col_ethnic']!='')
+        echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_ethnic']].'</td>';
       
-      if($col_address!='')
-        echo '<td>'.$sheetData[$i][$col_address].'</td>';
+      if($this->session->data['col_address']!='')
+        echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_address']].'</td>';
       
-      if (in_array($sheetData[$i][$col_room], $roomList))
+      if (!$warning)
         echo '<td></td>';
       else
         echo '<td>'.$error_roomnotfound.'</td>';
@@ -95,56 +102,60 @@
     echo '</tbody>';
     echo '</table>';
     }
-    else if($file_type=="watere")
+    else if($this->session->data['file_type']=="watere")
     {
       
       date_default_timezone_set('Asia/Saigon');
       $currentdate = date('m/d/Y h:i:s a', time());
-    echo '<table class="list">';
+    echo '<table class="list" id="waterelist">';
     echo '<thead>';
     echo '<tr>';
-    if($col_room!='')
+    if($this->session->data['col_room']!='')
       echo '<td>'.$entry_room.'</td>';
-    if($col_estart!='')
+    if($this->session->data['col_estart']!='')
       echo '<td>'.$entry_estart.'</td>';
-    if($col_eend!='')
+    if($this->session->data['col_eend']!='')
       echo '<td>'.$entry_eend.'</td>';
-    if($col_wstart!='')
+    if($this->session->data['col_wstart']!='')
       echo '<td>'.$entry_wstart.'</td>';
-    if($col_wend!='')
+    if($this->session->data['col_wend']!='')
       echo '<td>'.$entry_wend.'</td>';
     echo '<td>'.$entry_dateadded.'</td>';
     echo '<td>'.$entry_comment.'</td>';
     echo '</tr>';
     echo '</thead>';
     echo '<tbody>';
-    for ($i = 2; $i <= count($sheetData); $i++)
+    for ($i = 2; $i <= count($this->session->data['sheetData']); $i++)
     {
-      if (in_array($sheetData[$i][$col_room], $roomList))
+      $warning = false;
+      if (in_array($this->session->data['sheetData'][$i][$this->session->data['col_room']], $roomList))
         echo '<tr>';
       else
+      {
         echo '<tr class="warning">';
-      if($col_room!='')
-        echo '<td>'.$sheetData[$i][$col_room].'</td>';
+        $warning = true;
+      }
+      if($this->session->data['col_room']!='')
+        echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_room']].'</td>';
       
-      if($col_estart!='')
-        echo '<td>'.$sheetData[$i][$col_estart].'</td>';
+      if($this->session->data['col_estart']!='')
+        echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_estart']].'</td>';
       
-      if($col_eend!='')
-        echo '<td>'.$sheetData[$i][$col_eend].'</td>';
+      if($this->session->data['col_eend']!='')
+        echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_eend']].'</td>';
       
-      if($col_wstart!='')
-        echo '<td>'.$sheetData[$i][$col_wstart].'</td>';
+      if($this->session->data['col_wstart']!='')
+        echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_wstart']].'</td>';
       
-      if($col_wend!='')
-        echo '<td>'.$sheetData[$i][$col_wend].'</td>';
+      if($this->session->data['col_wend']!='')
+        echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_wend']].'</td>';
       
-      if($col_addeddate!='' && trim($sheetData[$i][$col_addeddate])!='')
-        echo '<td>'.$sheetData[$i][$col_addeddate].'</td>';
+      if($this->session->data['col_addeddate']!='' && trim($this->session->data['sheetData'][$i][$this->session->data['col_addeddate']])!='')
+        echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_addeddate']].'</td>';
       else
         echo '<td>'.$currentdate.'</td>';
       
-      if (in_array($sheetData[$i][$col_room], $roomList))
+      if (!$warning)
         echo '<td></td>';
       else
         echo '<td>'.$error_roomnotfound.'</td>';
@@ -158,4 +169,5 @@
     </div>
   </div>
 </div>
+
 <?php echo $footer; ?>
