@@ -32,24 +32,15 @@ class ControllerToolImport extends Controller {
 		$this->data['entry_wstart'] = $this->language->get('entry_wstart');
 		$this->data['entry_wend'] = $this->language->get('entry_wend');
 		$this->data['entry_dateadded'] = $this->language->get('entry_dateadded');
+		$this->data['entry_uploaddata'] = $this->language->get('entry_uploaddata');
+
+		$this->data['button_upload'] = $this->language->get('button_upload');
+		$this->data['button_import'] = $this->language->get('button_import');
+
 		$this->data['error_roomnotfound'] = $this->language->get('error_roomnotfound');
+		$this->data['error_upload'] = $this->language->get('error_upload');
 
-  		$this->data['breadcrumbs'] = array();
-
-   		$this->data['breadcrumbs'][] = array(
-       		'text'      => $this->language->get('text_home'),
-			'href'      => $this->url->link('common/home', 'token=' . $this->session->data['token'], 'SSL'),     		
-      		'separator' => false
-   		);
-
-   		$this->data['breadcrumbs'][] = array(
-       		'text'      => $this->language->get('heading_title'),
-			'href'      => $this->url->link('tool/import', 'token=' . $this->session->data['token'], 'SSL'),
-      		'separator' => ' :: '
-   		);
-
-   		$this->data['error'] = "";
-   		$this->data['error'] = "";
+		$this->data['error'] = "";
    		$this->data['col_id']="";
 		$this->data['col_name']="";
 		$this->data['col_birthday']="";
@@ -65,92 +56,116 @@ class ControllerToolImport extends Controller {
 		$this->data['col_addeddate']="";
 		$this->data['file_type']="";
 		$this->data['sheetData']="";
-
-   		if (isset($_FILES["file"]))
+		if (isset($this->request->post['upload']))
 		{
-			if($_FILES["file"]["error"] > 0)
+	   		if (!empty($_FILES['file']['name']))
 			{
-			   $error= $_FILES["file"]["error"] . "<br>";
-			}
-		  	else{
-		  		$this->data['roomList'] =  $this->model_tool_import->getRoomList();
-
-				include 'PHPExcel/IOFactory.php';
-				if (isset($_FILES["file"]["tmp_name"]) && (($_FILES["file"]["type"]=="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") || ($_FILES["file"]["type"]=="application/vnd.ms-excel")))
+				if($_FILES["file"]["error"] > 0)
 				{
-					$inputFileName = $_FILES["file"]["tmp_name"];  // File to read
-					//echo 'Loading file ',pathinfo($inputFileName,PATHINFO_BASENAME),' using IOFactory to identify the format<br />';
-					try {
-						$objPHPExcel = PHPExcel_IOFactory::load($inputFileName);
-						$this->data['sheetData'] = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
+				   $error= $_FILES["file"]["error"] . "<br>";
+				}
+			  	else{
+			  		$this->data['roomList'] =  $this->model_tool_import->getRoomList();
 
-			
-						foreach($this->data['sheetData'][1] as $key => $value)
-						{	
-							switch(trim(strtolower($this->utf8_to_ascii($this->data['sheetData'][1][$key])))){
-								case "mssv": 
-									$this->data['col_id'] = $key;
-									break;
-								case "ho va ten": 
-									$this->data['col_name'] = $key;
-									break;
-								case "ngay sinh": 
-									$this->data['col_birthday'] = $key;
-									break;
-								case "nganh": 
-									$this->data['col_faculty'] = $key;
-									break;
-								case "phong": 
-									$this->data['col_room'] = $key;
-									break;
-								case "so giuong": 
-									$this->data['col_bed'] = $key;
-									break;
-								case "dan toc": 
-									$this->data['col_ethnic'] = $key;
-									break;
-								case "dia chi": 
-									$this->data['col_address'] = $key;
-									break;
-								case "dien cu":
-									$this->data['col_estart'] = $key;
-									break;
-								case "dien moi":
-									$this->data['col_eend'] = $key;
-									break;
-								case "nuoc cu":
-									$this->data['col_wstart'] = $key;
-									break;
-								case "nuoc moi":
-									$this->data['col_wend'] = $key;
-									break;
-								case "ngay nhap":
-									$this->data['col_addeddate'] = $key;
-									break;
+					include 'PHPExcel/IOFactory.php';
+					if (isset($_FILES["file"]["tmp_name"]) && (($_FILES["file"]["type"]=="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") || ($_FILES["file"]["type"]=="application/vnd.ms-excel")))
+					{
+						$inputFileName = $_FILES["file"]["tmp_name"];  // File to read
+						//echo 'Loading file ',pathinfo($inputFileName,PATHINFO_BASENAME),' using IOFactory to identify the format<br />';
+						try {
+							$objPHPExcel = PHPExcel_IOFactory::load($inputFileName);
+							$this->data['sheetData'] = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
+
+				
+							foreach($this->data['sheetData'][1] as $key => $value)
+							{	
+								switch(trim(strtolower($this->utf8_to_ascii($this->data['sheetData'][1][$key])))){
+									case "mssv": 
+										$this->data['col_id'] = $key;
+										break;
+									case "ho va ten": 
+										$this->data['col_name'] = $key;
+										break;
+									case "ngay sinh": 
+										$this->data['col_birthday'] = $key;
+										break;
+									case "nganh": 
+										$this->data['col_faculty'] = $key;
+										break;
+									case "phong": 
+										$this->data['col_room'] = $key;
+										break;
+									case "so giuong": 
+										$this->data['col_bed'] = $key;
+										break;
+									case "dan toc": 
+										$this->data['col_ethnic'] = $key;
+										break;
+									case "dia chi": 
+										$this->data['col_address'] = $key;
+										break;
+									case "dien cu":
+										$this->data['col_estart'] = $key;
+										break;
+									case "dien moi":
+										$this->data['col_eend'] = $key;
+										break;
+									case "nuoc cu":
+										$this->data['col_wstart'] = $key;
+										break;
+									case "nuoc moi":
+										$this->data['col_wend'] = $key;
+										break;
+									case "ngay nhap":
+										$this->data['col_addeddate'] = $key;
+										break;
+								}
 							}
-						}
-						if($this->data['col_id']!='' && $this->data['col_name']!='' && $this->data['col_room']!='0')
-						{
-							$this->data['file_type']="student";
-						} else if($this->data['col_room']!='' && ($this->data['col_estart']!='' || $this->data['col_eend']!='' || $this->data['col_wstart']!='' || $this->data['col_wend']!=''))
-						{
-							$this->data['file_type']="watere";
-						}
+							if($this->data['col_id']!='' && $this->data['col_name']!='' && $this->data['col_room']!='0')
+							{
+								$this->data['file_type']="student";
+							} else if($this->data['col_room']!='' && ($this->data['col_estart']!='' || $this->data['col_eend']!='' || $this->data['col_wstart']!='' || $this->data['col_wend']!=''))
+							{
+								$this->data['file_type']="watere";
+							}
 
-					} catch(Exception $e) {
-						die('Error loading file "'.pathinfo($inputFileName,PATHINFO_BASENAME).'": '.$e->getMessage());
+						} catch(Exception $e) {
+							die('Error loading file "'.pathinfo($inputFileName,PATHINFO_BASENAME).'": '.$e->getMessage());
+						}
 					}
 				}
 			}
+			else {
+				$this->data['error'] = $this->data['error_upload'];
+			}
 		}
+		
+		
+		if (isset($this->session->data['success'])) {
+			$this->data['success'] = $this->session->data['success'];
+		
+			unset($this->session->data['success']);
+		} else {
+			$this->data['success'] = '';
+		}
+  		$this->data['breadcrumbs'] = array();
 
+   		$this->data['breadcrumbs'][] = array(
+       		'text'      => $this->language->get('text_home'),
+			'href'      => $this->url->link('common/home', 'token=' . $this->session->data['token'], 'SSL'),     		
+      		'separator' => false
+   		);
 
+   		$this->data['breadcrumbs'][] = array(
+       		'text'      => $this->language->get('heading_title'),
+			'href'      => $this->url->link('tool/import', 'token=' . $this->session->data['token'], 'SSL'),
+      		'separator' => ' :: '
+   		);
 		
 		
 		//$this->data['restore'] = $this->url->link('tool/import', 'token=' . $this->session->data['token'], 'SSL');
 
-		$this->data['import'] = $this->url->link('tool/import/import', 'token=' . $this->session->data['token'], 'SSL');
-
+		$this->data['upload'] = $this->url->link('tool/import', 'token=' . $this->session->data['token'], 'SSL');
 		//$this->data['tables'] = $this->model_tool_import->getTables();
 
 		$this->template = 'tool/import.tpl';
@@ -196,20 +211,16 @@ class ControllerToolImport extends Controller {
 		return $str;
 	}
 	
-	public function import() {
+	public function upload() {
 		$this->language->load('tool/import');
-		
-		if (!isset($this->request->post['import'])) {
-			$this->session->data['error'] = $this->language->get('error_import');
+
+
+		if (!isset($this->request->post['upload'])) {
+			$this->session->data['error'] = $this->language->get('error_upload');
 			
 			$this->redirect($this->url->link('tool/import', 'token=' . $this->session->data['token'], 'SSL'));
 		} elseif ($this->user->hasPermission('modify', 'tool/import')) {
-			$this->response->addheader('Pragma: public');
-			$this->response->addheader('Expires: 0');
-			$this->response->addheader('Content-Description: File Transfer');
-			$this->response->addheader('Content-Type: application/octet-stream');
-			$this->response->addheader('Content-Disposition: attachment; filename=' . date('Y-m-d_H-i-s', time()).'_import.sql');
-			$this->response->addheader('Content-Transfer-Encoding: binary');
+			
 			
 			$this->load->model('tool/import');
 			

@@ -454,7 +454,7 @@ class ControllerSaleCustomerGroup extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		
-		foreach ($this->request->post['customer_group_description'] as $language_id => $value) {
+		foreach ($this->request->post['customer_group'] as $language_id => $value) {
 			if ((utf8_strlen($value['name']) < 3) || (utf8_strlen($value['name']) > 32)) {
 				$this->error['name'][$language_id] = $this->language->get('error_name');
 			}

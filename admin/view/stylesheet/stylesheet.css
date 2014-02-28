@@ -525,6 +525,11 @@ a.button, .list a.button {
 .list tbody tr:hover td {
 	background-color: #FFFFCB;
 }
+
+.list tbody tr.warning td {
+	background-color: #ffa094;
+}
+
 .list .left {
 	text-align: left;
 	padding: 7px;

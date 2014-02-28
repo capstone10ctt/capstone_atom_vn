@@ -240,7 +240,7 @@ echo $header; ?>
         info += '<div class="heading">';
         info += '<h2>'+data.list_floors[floor]+'</h2>';
         info += '<?php echo $text_numroom; ?>: '+count+ ' | <?php echo $column_total; ?>: '+max_total+ ' | <?php echo $text_numassigned; ?>: '+assigned+' | <?php echo $text_numunassigned; ?>: '+(max_total - assigned).toString()+'<br />';        
-        info += '<div class="buttons" style="margin-top:15px"><a id="add_room" href="<?php echo $insert; ?>" class="button"><?php echo $button_insert; ?></a>  <a onclick="$(\'form\').submit();" class="button"><?php echo $button_delete; ?></a></div>';
+        info += '<div class="buttons" style="margin-top:15px"><a id="add_room" href="<?php echo $insert; ?>&floor='+floor+'" class="button"><?php echo $button_insert; ?></a>  <a onclick="$(\'form\').submit();" class="button"><?php echo $button_delete; ?></a></div>';
         info += '</div>';
         table = info+table;
         $('#rightcol').append(table);

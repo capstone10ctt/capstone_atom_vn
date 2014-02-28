@@ -23,10 +23,14 @@ $_['entry_eend']			= 'Số điện mới';
 $_['entry_wstart']			= 'Số nước cũ';
 $_['entry_wend']			= 'Số nước mới';
 $_['entry_dateadded']		= 'Ngày nhập';
+$_['entry_uploaddata']      = 'Tải dữ liệu lên:';
+// Button
+$_['button_import']		= 'Nhập';
+$_['button_upload']		= 'Tải lên';
 
 // Error
 $_['error_roomnotfound'] = 'Phòng không tồn tại';
 $_['error_permission'] = 'Cảnh báo: Bạn không được phép sao lưu dữ liệu!';
-$_['error_backup']     = 'Warning: You must select at least one table to backup!';
+$_['error_upload']     = 'Cảnh báo: Bạn phải chọn ít nhất 1 file để tải lên!';
 $_['error_empty']      = 'Cảnh báo: tập tin bạn tải lên trống rỗng!';
 ?>

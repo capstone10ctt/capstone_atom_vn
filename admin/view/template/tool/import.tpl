@@ -5,19 +5,30 @@
     <?php echo $breadcrumb['separator']; ?><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a>
     <?php } ?>
   </div>
+  <?php if ($error!='') { ?>
+  <div class="warning"><?php echo $error; ?></div>
+  <?php } ?>
+  <?php if ($success) { ?>
+  <div class="success"><?php echo $success; ?></div>
+  <?php } ?>
   <div class="box">
     <div class="heading">
       <h1><img src="view/image/backup.png" alt="" /> <?php echo $heading_title; ?></h1>
-     
+      <div class="buttons"><a onclick="" class="button"><?php echo $button_import; ?></a>
+      <a onclick="$('#upload').submit();" class="button"><?php echo $button_upload; ?></a></div>
     </div>
     <div class="content">
 
-        <form method="post"
-          enctype="multipart/form-data">
-          <label for="file"><?php echo $text_filedata ?>:</label>
-          <input type="file" name="file" id="file" value="<?php echo $text_browse ?>">
-          <input type="submit" name="submit" value="<?php echo $text_upload ?>">
-        </form>
+      <form action="<?php echo $upload; ?>" method="post" enctype="multipart/form-data" id="upload">
+        <table class="form">
+          <tr>
+            <td><?php echo $entry_uploaddata; ?></td>
+            <td><input type="file" name="file" /></td>
+            <input type="hidden" name="upload">
+          </tr>
+        </table>
+      </form>
+
         <?php if($file_type=="student")
     {
     echo '<table class="list">';
@@ -45,7 +56,10 @@
     echo '<tbody>';
     for ($i = 2; $i <= count($sheetData); $i++)
     {
-      echo '<tr>';
+      if (in_array($sheetData[$i][$col_room], $roomList))
+        echo '<tr>';
+      else
+        echo '<tr class="warning">';
       if($col_id!='')
         echo '<td>'.$sheetData[$i][$col_id].'</td>';
       
@@ -106,7 +120,10 @@
     echo '<tbody>';
     for ($i = 2; $i <= count($sheetData); $i++)
     {
-      echo '<tr>';
+      if (in_array($sheetData[$i][$col_room], $roomList))
+        echo '<tr>';
+      else
+        echo '<tr class="warning">';
       if($col_room!='')
         echo '<td>'.$sheetData[$i][$col_room].'</td>';
       

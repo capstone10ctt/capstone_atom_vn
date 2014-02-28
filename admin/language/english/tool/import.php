@@ -23,10 +23,14 @@ $_['entry_eend']			= 'New electric number';
 $_['entry_wstart']			= 'Old water number';
 $_['entry_wend']			= 'New water number';
 $_['entry_dateadded']		= 'Added date';
+$_['entry_uploaddata']      = 'Upload data:';
+// Button
+$_['button_import']		= 'Import';
+$_['button_upload']		= 'Upload';
 
 // Error
 $_['error_roomnotfound'] = 'Room does not exist';
-$_['error_permission'] = 'Warning: You do not have permission to modify backups!';
-$_['error_backup']     = 'Warning: You must select at least one table to backup!';
+$_['error_permission'] = 'Warning: You do not have permission to import!';
+$_['error_upload']     = 'Warning: You must select at least one table to import!';
 $_['error_empty']      = 'Warning: The file you uploaded was empty!';
 ?>

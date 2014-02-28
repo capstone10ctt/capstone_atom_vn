@@ -1,7 +1,7 @@
 <?php
 class ModelSaleCustomerGroup extends Model {
 	public function addCustomerGroup($data) {
-		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_group SET floor_id = '" . (int)$data['floor'] . "', name = '" . $this->db->escape($value['name']) . "', max_student = '" . (int)$data['max_student'] . "', type_id = '" . (int)$data['type_id'] . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_group SET floor_id = '" . (int)$data['floor'] . "', name = '" . $this->db->escape($data['name']) . "', max_student = '" . (int)$data['max_student'] . "', type_id = '" . (int)$data['type_id'] . "'");
 	
 		$customer_group_id = $this->db->getLastId();
 		
@@ -11,7 +11,7 @@ class ModelSaleCustomerGroup extends Model {
 	}
 	
 	public function editCustomerGroup($customer_group_id, $data) {
-		$query = "UPDATE " . DB_PREFIX . "customer_group SET max_student = '" . (int)$data['max_student'] . "', name = '" . $this->db->escape($value['name']) . "', type_id = '" . (int)$data['type_id']; 
+		$query = "UPDATE " . DB_PREFIX . "customer_group SET max_student = '" . (int)$data['max_student'] . "', name = '" . $this->db->escape($data['name']) . "', type_id = '" . (int)$data['type_id']; 
 		if(isset($data['room_leader']))	
 		{
 			if($data['room_leader']=='0')
@@ -162,7 +162,7 @@ class ModelSaleCustomerGroup extends Model {
 	public function getCustomerGroupDescriptions($customer_group_id) {
 		$customer_group_data = array();
 		
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_group_description WHERE customer_group_id = '" . (int)$customer_group_id . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_group_description cgd LEFT JOIN " . DB_PREFIX . "customer_group cg ON(cgd.customer_group_id = cg.customer_group_id) WHERE '" . (int)$customer_group_id . "'");
 				
 		foreach ($query->rows as $result) {
 			$customer_group_data[$result['language_id']] = array(

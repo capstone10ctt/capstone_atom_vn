@@ -14,5 +14,6 @@ $_['text_unselect_all']   = 'Bỏ chọn tất cả';
 
 // Error
 $_['error_permission'] = 'Cảnh báo: Bạn không được phép sao lưu dữ liệu!';
+$_['error_permission'] = 'Cảnh báo: Bạn phải chọn ít nhất 1 file để phục hồi dữ liệu!';
 $_['error_empty']      = 'Cảnh báo: tập tin bạn tải lên trống rỗng!';
 ?>
