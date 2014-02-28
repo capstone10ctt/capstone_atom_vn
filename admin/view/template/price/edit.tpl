@@ -118,19 +118,15 @@
                         // loop all elements in a list of objects
                         for (var index in json['data']) {
                             var price = parseInt(json['data'][index]['Price']);
-                            var to = json['data'][index]['To'];
-                            if (to == '0') {
-                                to = '';
-                            }
                             // add new lines represent the standard price corresponding to the inputted date
                             $show.append('<tr class="line">' +
                                                 '<td class="from">' + json['data'][index]['From'] + '</td>' +
-                                                '<td class="to">' + to + '</td>' +
+                                                '<td class="to">' + json['data'][index]['To'] + '</td>' +
                                                 '<td class="price">' + price.format() + '&nbsp₫</td>' + // format function: convert 1234 -> 1,234
                                             '</tr>');
                             $edit.append('<tr class="line">' +
                                     '<td class="from">' + json['data'][index]['From'] + '</td>' +
-                                    '<td class="to">' + to + '</td>' +
+                                    '<td class="to">' + json['data'][index]['To'] + '</td>' +
                                     '<td class="price">' + price.format() + '&nbsp₫</td>' + // format function: convert 1234 -> 1,234
                                     '</tr>');
                         }
@@ -154,10 +150,21 @@
                 buttons: {
                     "Cập nhật": function() {
                         var $this = $(this);
-                        $lastRow = $('#dialog-update-electricity-standard').find('.line').last();
-                        to = $lastRow.children('.to').children().val();
-                        price = $lastRow.children('.price').children().val();
-                        if (!to) {
+                        // check that all cells are inputted
+                        var checkFill = true;
+                        $('#dialog-update-electricity-standard input').each(function(i, e) {
+                            if ($(e).parent().parent().hasClass('line') && $(e).val() == '') {
+                                checkFill = false;
+                                return false;
+                            }
+                        });
+                        var $lastRow = $('#dialog-update-electricity-standard').find('.line').last();
+                        var to = $lastRow.children('.to').children().val();
+                        var price = $lastRow.children('.price').children().val();
+                        // In order to submit data, the last row must satisfy 2 conditions:
+                        // - To = -1
+                        // - There is no empty cell in the table
+                        if (to == -1 && checkFill) {
                             jsonElectricityNew.electricity_new = {};
                             $('#dialog-update-electricity-standard').find('.line').each(function(index, element) {
                                 jsonElectricityNew.electricity_new[index] = {};
@@ -187,14 +194,18 @@
                                     $edit.empty();
                                     for (var index in arr) {
                                         var price = parseInt(arr[index].price);
+                                        var to = parseInt(arr[index].to);
+                                        if (to == -1) {
+                                            to = '';
+                                        }
                                         $show.append('<tr class="line">' +
                                                         '<td class="from">' + arr[index].from + '</td>' +
-                                                        '<td class="to">' + arr[index].to + '</td>' +
+                                                        '<td class="to">' + to + '</td>' +
                                                         '<td class="price">' + price.format() + '&nbsp₫</td>' +
                                                     '</tr>');
                                         $edit.append('<tr class="line">' +
                                                 '<td class="from">' + arr[index].from + '</td>' +
-                                                '<td class="to">' + arr[index].to + '</td>' +
+                                                '<td class="to">' + to + '</td>' +
                                                 '<td class="price">' + price.format() + '&nbsp₫</td>' +
                                                 '</tr>');
                                     }
@@ -226,9 +237,6 @@
                         idNewestElectricity = json['id'];
                         for (var index in json['newest']) {
                             var to = json['newest'][index]['To'];
-                            if (to == 0) {
-                                to = '';
-                            }
                             $tbody.append('<tr class="line">' +
                                                 '<td class="from"><input type="text" style="width: 74px;" disabled="true" value="' + json['newest'][index]['From'] + '"/></td>' +
                                                 '<td class="to"><input type="text" style="width: 74px;" value="' + to + '"/></td>' +
@@ -249,48 +257,48 @@
                                     '<td></td>' +
                                     '<td></td>' +
                                 '</tr>');
+                        // input check
+                        $('#dialog-update-electricity-standard').find('tbody').focusout(function(e) { // e: event object
+                            var $this = $(e.target).closest('.line'); // e.target points to the focus-lost element
+                            var $from = $this.children('.from').children();
+                            var $to = $this.children('.to').children();
+                            var $price = $this.children('.price').children();
+                            var to = $to.val();
+                            var from = $from.val();
+                            var price = $price.val();
+                            var isLastRow = $this.parent().is(':last-child');
+                            if (to == -1 && isLastRow) {
+
+                            } else if (to && parseInt(to) <= parseInt(from)) {
+                                alert ('Giá trị cột Đến kW phải lớn hơn cột Từ kW');
+                                $to.focus().select();
+                            } else if (to && (!$.isNumeric(to) || parseInt(to) < 0)) {
+                                alert('Giá trị nhập vào không hợp lệ');
+                                $to.focus().select();
+                            } else if (price && (!$.isNumeric(price) || parseInt(price) < 0)) {
+                                alert('Giá trị nhập vào không hợp lệ');
+                                $price.focus().select();
+                            } else {
+                                // change value of From in the next row. From = (last row's To) + 1
+                                var $next = $this.next();
+                                if ($next) {
+                                    $next.children('.from').children().val(parseInt(to) + 1);
+                                }
+                            }
+                        });
                         $('.plus').on('click', function() {
                             $toCell = $('#dialog-update-electricity-standard').find('.line').last().children('.to').children();
                             to = parseInt($toCell.val());
-                            if (to) {
+                            if (to == -1) {
+                                alert('Bạn phải nhập giá trị khác -1 cho cột Đến kW ở dòng cuối cùng trước khi thêm dòng mới')
+                            } else {
                                 // select dummy-line
                                 $dummy = $('.dummy-line');
-                                // get the To value of the last row
-                                console.log(to);
                                 // add a new dummy-line after the default dummy-line, change the default dummy-line into a `line` and make all its children visible
                                 // the new dummy-line become the default dummy-line
                                 $dummy.after($dummy.outerHTML()).removeClass("dummy-line").addClass("line")
                                         .children().show() // show newly added row
                                         .end().children('.from').children().val(to + 1); // From = (last To value) + 1
-                                // input check
-                                $('#dialog-update-electricity-standard').find('.line').focusout(function() {
-                                    var $this = $(this);
-                                    var $from = $this.children('.from').children();
-                                    var $to = $this.children('.to').children();
-                                    var $price = $this.children('.price').children();
-                                    var to = $to.val();
-                                    var from = $from.val();
-                                    var price = $price.val();
-                                    if (to && parseInt(to) <= parseInt(from)) {
-                                        alert ('Giá trị cột Đến kW phải lớn hơn cột Từ kW');
-                                        $to.focus().select();
-                                    } else if (to && (!$.isNumeric(to) || parseInt(to) < 0)) {
-                                        alert('Giá trị nhập vào không hợp lệ');
-                                        $to.focus().select();
-                                    } else if (!$.isNumeric(price) || parseInt(price) < 0) {
-                                        alert('Giá trị nhập vào không hợp lệ');
-                                         $price.focus().select();
-                                    } else {
-                                        // change value of From in the next row. From = (last row's To) + 1
-                                        var $next = $this.next();
-                                        if ($next) {
-                                            $next.children('.from').children().val(parseInt(to) + 1);
-                                        }
-                                    }
-                                });
-                            } else {
-                                // last row in Standard Price table
-                                alert('Nhập giá trị cho cột Đến kW trước khi tạo dòng mới hoặc để trống và bấm Cập nhật');
                             }
                         });
                     }, // for debugging purpose
@@ -329,19 +337,15 @@
                         // loop all elements in a list of objects
                         for (var index in json['data']) {
                             var price = parseInt(json['data'][index]['Price']);
-                            var to = json['data'][index]['To'];
-                            if (to == '0') {
-                                to = '';
-                            }
                             // add new lines represent the standard price corresponding to the inputted date
                             $show.append('<tr class="line">' +
                                     '<td class="from">' + json['data'][index]['From'] + '</td>' +
-                                    '<td class="to">' + to + '</td>' +
+                                    '<td class="to">' + json['data'][index]['To'] + '</td>' +
                                     '<td class="price">' + price.format() + '&nbsp₫</td>' + // format function: convert 1234 -> 1,234
                                     '</tr>');
                             $edit.append('<tr class="line">' +
                                     '<td class="from">' + json['data'][index]['From'] + '</td>' +
-                                    '<td class="to">' + to + '</td>' +
+                                    '<td class="to">' + json['data'][index]['To'] + '</td>' +
                                     '<td class="price">' + price.format() + '&nbsp₫</td>' + // format function: convert 1234 -> 1,234
                                     '</tr>');
                         }
@@ -365,10 +369,21 @@
                 buttons: {
                     "Cập nhật": function() {
                         var $this = $(this);
-                        $lastRow = $('#dialog-update-water-standard').find('.line').last();
-                        to = $lastRow.children('.to').children().val();
-                        price = $lastRow.children('.price').children().val();
-                        if (!to) {
+                        // check that all cells are inputted
+                        var checkFill = true;
+                        $('#dialog-update-water-standard input').each(function(i, e) {
+                            if ($(e).parent().parent().hasClass('line') && $(e).val() == '') {
+                                checkFill = false;
+                                return false;
+                            }
+                        });
+                        var $lastRow = $('#dialog-update-water-standard').find('.line').last();
+                        var to = $lastRow.children('.to').children().val();
+                        var price = $lastRow.children('.price').children().val();
+                        // In order to submit data, the last row must satisfy 2 conditions:
+                        // - To = -1
+                        // - There is no empty cells in the table
+                        if (to == -1 && checkFill) {
                             jsonWaterNew.water_new = {};
                             $('#dialog-update-water-standard').find('.line').each(function(index, element) {
                                 jsonWaterNew.water_new[index] = {};
@@ -398,14 +413,18 @@
                                     $edit.empty();
                                     for (var index in arr) {
                                         var price = parseInt(arr[index].price);
+                                        var to = parseInt(arr[index].to);
+                                        if (to == -1) {
+                                            to = '';
+                                        }
                                         $show.append('<tr class="line">' +
                                                 '<td class="from">' + arr[index].from + '</td>' +
-                                                '<td class="to">' + arr[index].to + '</td>' +
+                                                '<td class="to">' + to + '</td>' +
                                                 '<td class="price">' + price.format() + '&nbsp₫</td>' +
                                                 '</tr>');
                                         $edit.append('<tr class="line">' +
                                                 '<td class="from">' + arr[index].from + '</td>' +
-                                                '<td class="to">' + arr[index].to + '</td>' +
+                                                '<td class="to">' + to + '</td>' +
                                                 '<td class="price">' + price.format() + '&nbsp₫</td>' +
                                                 '</tr>');
                                     }
@@ -437,9 +456,6 @@
                         idNewestWater = json['id'];
                         for (var index in json['newest']) {
                             var to = json['newest'][index]['To'];
-                            if (to == 0) {
-                                to = '';
-                            }
                             $tbody.append('<tr class="line">' +
                                     '<td class="from"><input type="text" style="width: 74px;" disabled="true" value="' + json['newest'][index]['From'] + '"/></td>' +
                                     '<td class="to"><input type="text" style="width: 74px;" value="' + to + '"/></td>' +
@@ -460,48 +476,48 @@
                                 '<td></td>' +
                                 '<td></td>' +
                                 '</tr>');
+                        // input check
+                        $('#dialog-update-water-standard').find('tbody').focusout(function(e) { // e: event object
+                            var $this = $(e.target).closest('.line'); // e.target points to the focus-lost element
+                            var $from = $this.children('.from').children();
+                            var $to = $this.children('.to').children();
+                            var $price = $this.children('.price').children();
+                            var to = $to.val();
+                            var from = $from.val();
+                            var price = $price.val();
+                            var isLastRow = $this.parent().is(':last-child');
+                            if (to == -1 && isLastRow) {
+
+                            } else if (to && parseInt(to) <= parseInt(from)) {
+                                alert ('Giá trị cột Đến kW phải lớn hơn cột Từ kW');
+                                $to.focus().select();
+                            } else if (to && (!$.isNumeric(to) || parseInt(to) < 0)) {
+                                alert('Giá trị nhập vào không hợp lệ');
+                                $to.focus().select();
+                            } else if (price && (!$.isNumeric(price) || parseInt(price) < 0)) {
+                                alert('Giá trị nhập vào không hợp lệ');
+                                $price.focus().select();
+                            } else {
+                                // change value of From in the next row. From = (last row's To) + 1
+                                var $next = $this.next();
+                                if ($next) {
+                                    $next.children('.from').children().val(parseInt(to) + 1);
+                                }
+                            }
+                        });
                         $('.plus').on('click', function() {
                             $toCell = $('#dialog-update-water-standard').find('.line').last().children('.to').children();
                             to = parseInt($toCell.val());
-                            if (to) {
+                            if (to == -1) {
+                                alert('Bạn phải nhập giá trị khác -1 cho cột Đến kW ở dòng cuối cùng trước khi thêm dòng mới')
+                            } else {
                                 // select dummy-line
                                 $dummy = $('.dummy-line');
-                                // get the To value of the last row
-                                console.log(to);
                                 // add a new dummy-line after the default dummy-line, change the default dummy-line into a `line` and make all its children visible
                                 // the new dummy-line become the default dummy-line
                                 $dummy.after($dummy.outerHTML()).removeClass("dummy-line").addClass("line")
                                         .children().show() // show newly added row
                                         .end().children('.from').children().val(to + 1); // From = (last To value) + 1
-                                // input check
-                                $('#dialog-update-water-standard').find('.line').focusout(function() {
-                                    var $this = $(this);
-                                    var $from = $this.children('.from').children();
-                                    var $to = $this.children('.to').children();
-                                    var $price = $this.children('.price').children();
-                                    var to = $to.val();
-                                    var from = $from.val();
-                                    var price = $price.val();
-                                    if (to && parseInt(to) <= parseInt(from)) {
-                                        alert ('Giá trị cột Đến kW phải lớn hơn cột Từ kW');
-                                        $to.focus().select();
-                                    } else if (to && (!$.isNumeric(to) || parseInt(to) < 0)) {
-                                        alert('Giá trị nhập vào không hợp lệ');
-                                        $to.focus().select();
-                                    } else if (!$.isNumeric(price) || parseInt(price) < 0) {
-                                        alert('Giá trị nhập vào không hợp lệ');
-                                        $price.focus().select();
-                                    } else {
-                                        // change value of From in the next row. From = (last row's To) + 1
-                                        var $next = $this.next();
-                                        if ($next) {
-                                            $next.children('.from').children().val(parseInt(to) + 1);
-                                        }
-                                    }
-                                });
-                            } else {
-                                // last row in Standard Price table
-                                alert('Nhập giá trị cho cột Đến kW trước khi tạo dòng mới hoặc để trống và bấm Cập nhật');
                             }
                         });
                     }, // for debugging purpose
@@ -572,6 +588,7 @@
             <br />
             <input type="button" value="CẬP NHẬT" name="createNewElectricityStandard" />
             <div id="dialog-update-electricity-standard" title="Cập nhật">
+                <p><span style="color: red; font-weight: bold;">(*)</span> Nhập -1 vào cột Đến kW để kết thúc bảng định mức</p>
                 <table>
                     <thead>
                         <td><b><?php echo $text_electricity_from; ?></b></td>
@@ -634,6 +651,7 @@
             <br />
             <input type="button" value="CẬP NHẬT" name="createNewWaterStandard" />
             <div id="dialog-update-water-standard" title="Cập nhật">
+                <p><span style="color: red; font-weight: bold;">(*)</span> Nhập -1 vào cột Đến m3 để kết thúc bảng định mức</p>
                 <table>
                     <thead>
                     <td><b><?php echo $text_water_from; ?></b></td>
