@@ -10,7 +10,7 @@ class ControllerToolImport extends Controller {
 
 
 		
-		$this->load->model('tool/import');
+		$this->load->model('sale/customer_group');
 		
 
 		$this->data['heading_title'] = $this->language->get('heading_title');
@@ -57,6 +57,7 @@ class ControllerToolImport extends Controller {
 		$this->session->data['file_type']="";
 		$this->session->data['sheetData']="";
 		$this->data['uploaded']="";
+
 		if (isset($this->request->post['upload']))
 		{
 	   		if (!empty($_FILES['file']['name']))
@@ -66,7 +67,7 @@ class ControllerToolImport extends Controller {
 				   $error= $_FILES["file"]["error"] . "<br>";
 				}
 			  	else{
-			  		$this->data['roomList'] =  $this->model_tool_import->getRoomList();
+			  		$this->data['roomList'] =  $this->model_sale_customer_group->getRoomList();
 
 					include 'PHPExcel/IOFactory.php';
 					if (isset($_FILES["file"]["tmp_name"]) && (($_FILES["file"]["type"]=="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") || ($_FILES["file"]["type"]=="application/vnd.ms-excel")))
@@ -164,6 +165,12 @@ class ControllerToolImport extends Controller {
 			$this->session->data['file_type']="";
 			$this->session->data['sheetData']="";
 		}
+
+		if (isset($this->session->data['error'])) {
+			$this->data['error'] = $this->session->data['error'];
+		
+			unset($this->session->data['error']);
+		} 
 		
 		if (isset($this->session->data['success'])) {
 			$this->data['success'] = $this->session->data['success'];
@@ -190,7 +197,7 @@ class ControllerToolImport extends Controller {
 		//$this->data['restore'] = $this->url->link('tool/import', 'token=' . $this->session->data['token'], 'SSL');
 
 		$this->data['upload'] = $this->url->link('tool/import', 'token=' . $this->session->data['token'], 'SSL');
-		$this->data['import'] = $this->url->link('tool/import', 'token=' . $this->session->data['token'], 'SSL');
+		$this->data['import'] = $this->url->link('tool/import/import', 'token=' . $this->session->data['token'], 'SSL');
 		//$this->data['tables'] = $this->model_tool_import->getTables();
 
 		$this->template = 'tool/import.tpl';
@@ -236,20 +243,132 @@ class ControllerToolImport extends Controller {
 		return $str;
 	}
 	
-	public function upload() {
+	public function import() {
 		$this->language->load('tool/import');
 
 
-		if (!isset($this->request->post['upload'])) {
+		if (!isset($this->request->post['import'])) {
 			$this->session->data['error'] = $this->language->get('error_upload');
 			
 			$this->redirect($this->url->link('tool/import', 'token=' . $this->session->data['token'], 'SSL'));
 		} elseif ($this->user->hasPermission('modify', 'tool/import')) {
 			
-			
-			$this->load->model('tool/import');
-			
-			$this->response->setOutput($this->model_tool_import->import($this->request->post['import']));
+			$this->load->model('sale/customer_group');
+			$roomList =  $this->model_sale_customer_group->getRoomList();
+			$count = 0;
+			if($this->session->data['file_type'] == 'student')
+			{
+				$this->load->model('sale/customer');
+				for ($i = 2; $i <= count($this->session->data['sheetData']); $i++)
+			    {
+			      
+			      if (in_array($this->session->data['sheetData'][$i][$this->session->data['col_room']], $roomList))
+			      {
+			      	$student = array(
+			      		'firstname' 	=> '',
+			      		'approved'     => '1',
+			      		'lastname' 	=> '',
+			      		'address' 	=> '',
+			      		'id_location' 	=> '',
+			      		'email' 	=> '',
+			      		'gender' 	=> '',
+			      		'id_num' 	=> '',
+			      		'university_id' 	=> '',
+			      		'faculty_id' 	=> '',
+			      		'id_num' 	=> '',
+			      		'student_id' 	=> '',
+			      		'telephone' 	=> '',
+			      		'newsletter' 	=> '',
+			      		'customer_group_id' 	=> '',
+			      		'bed_id' 	=> '',
+			      		'password' 	=> '',
+			      		'status' 	=> '',
+			      		'iddate' 	=> '',
+			      		'date_of_birth' 	=> '',
+			      		'customer_group_id' 	=> ''
+			      	);
+			      	
+			      	if($this->session->data['col_name']!='')
+			      	{
+			      		
+			      		$name = trim($this->session->data['sheetData'][$i][$this->session->data['col_name']]);
+			      		$student['firstname'] = substr($name, 0, strrpos($name, " "));  
+			      		$student['lastname'] = substr($name, strrpos($name, " ")+1); 
+			      	}
+
+			      	if($this->session->data['col_id']!='')
+			        	$student['student_id'] = $this->session->data['sheetData'][$i][$this->session->data['col_id']];
+			      
+			      	if($this->session->data['col_birthday']!='')
+			        	$student['date_of_birth'] = $this->session->data['sheetData'][$i][$this->session->data['col_birthday']];
+			      
+			      	if($this->session->data['col_faculty']!='')
+			        	$student['faculty_id'] = $this->session->data['sheetData'][$i][$this->session->data['col_faculty']];
+			      
+			      	if($this->session->data['col_room']!='')
+			      	{
+			        	$student['customer_group_id'] = $this->model_sale_customer_group->getRoomId($this->session->data['sheetData'][$i][$this->session->data['col_room']]);
+			      	}
+			      
+			      	if($this->session->data['col_bed']!='')
+			        	$student['bed_id'] = $this->session->data['sheetData'][$i][$this->session->data['col_bed']];
+			      
+			      	if($this->session->data['col_ethnic']!='')
+			        	$student['ethnic'] = $this->session->data['sheetData'][$i][$this->session->data['col_ethnic']];
+			      
+			      	if($this->session->data['col_address']!='')
+			        	$student['address'] = $this->session->data['sheetData'][$i][$this->session->data['col_address']];
+			        $this->model_sale_customer->addCustomer($student);
+			      	$count++;
+			      }
+			    } 
+			} else if($this->session->data['file_type'] == 'watere');
+			{
+				$this->load->model('sale/manage_wie');
+				for ($i = 2; $i <= count($this->session->data['sheetData']); $i++)
+			    {
+			      
+			      if (in_array($this->session->data['sheetData'][$i][$this->session->data['col_room']], $roomList))
+			      {
+			      	$record = array(
+			      		'??' 	=> '',
+			      		'???'     => '1',
+			      		'????' 	=> ''
+			      		
+			      	);
+			      	
+
+
+			      	if($this->session->data['col_room']!='')
+			        	$record['???'] = $this->session->data['sheetData'][$i][$this->session->data['col_room']];
+			      
+			      	if($this->session->data['col_estart']!='')
+			        	$record['????'] = $this->session->data['sheetData'][$i][$this->session->data['col_estart']];
+			      
+			      	if($this->session->data['col_eend']!='')
+			        	$record['???'] = $this->session->data['sheetData'][$i][$this->session->data['col_eend']];
+			      
+			      	if($this->session->data['col_wstart']!='')
+			      	{
+			        	$record['????'] = $this->session->data['sheetData'][$i][$this->session->data['col_wstart']];
+			      	}
+			      
+			      	if($this->session->data['col_wend']!='')
+			        	$record['????'] = $this->session->data['sheetData'][$i][$this->session->data['col_wend']];
+			      
+			      	if($this->session->data['col_ethnic']!='')
+			        	$record['????'] = $this->session->data['sheetData'][$i][$this->session->data['col_addeddate']];
+
+			        $this->model_sale_manage_wie->inputUsage($record);
+			      	$count++;
+			      }
+			    } 
+			}
+
+
+			$this->session->data['success'] = $count." has been imported!";
+			$this->redirect($this->url->link('tool/import', 'token=' . $this->session->data['token'], 'SSL'));
+			//$this->response->setOutput($this->model_tool_import->import($this->request->post['import']));
 		} else {
 			$this->session->data['error'] = $this->language->get('error_permission');
 			

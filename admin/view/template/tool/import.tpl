@@ -16,7 +16,7 @@
       <h1><img src="view/image/backup.png" alt="" /> <?php echo $heading_title; ?></h1>
       <div class="buttons">
       <?php if($uploaded!='') {?>
-      <a onclick="import();" class="button"><?php echo $button_import; ?></a>
+      <a onclick="$('#import').submit();" class="button"><?php echo $button_import; ?></a>
       <?php } ?>
       <a onclick="$('#upload').submit();" class="button"><?php echo $button_upload; ?></a></div>
     </div>
@@ -31,7 +31,8 @@
           </tr>
         </table>
       </form>
-      <form action="<?php echo $import; ?>" method="post" enctype="multipart/form-data" id="import">
+      <form action="<?php echo $import; ?>" method="post" id="import">
+      <input type="hidden" name="import">
         <?php if($this->session->data['file_type']=="student")
     {
     echo '<table class="list" id="studentlist">';
@@ -68,10 +69,10 @@
         echo '<tr class="warning">';
       }
       if($this->session->data['col_id']!='')
-        echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_id']].'"</td>';
+        echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_id']].'</td>';
       
       if($this->session->data['col_name']!='')
-        echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_name']].'"</td>';
+        echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_name']].'</td>';
       
       if($this->session->data['col_birthday']!='')
         echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_birthday']].'</td>';
@@ -166,6 +167,7 @@
     echo '</table>';
     }
     ?>
+    </form>
     </div>
   </div>
 </div>

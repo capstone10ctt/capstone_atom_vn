@@ -179,5 +179,20 @@ class ModelSaleCustomerGroup extends Model {
 		
 		return $query->row['total'];
 	}
+
+	public function getRoomList() {
+		$query = $this->db->query("SELECT DISTINCT name FROM " . DB_PREFIX . "customer_group");
+		$list = array();
+		foreach($query->rows as $row) {
+    		$list[] =  $row['name'];  
+		}
+
+		return $list;
+	}
+	public function getRoomId($name) {
+		$query = $this->db->query("SELECT customer_group_id FROM " . DB_PREFIX . "customer_group WHERE  name='".$this->db->escape($name)."' LIMIT 1");
+		
+		return $query->row['customer_group_id'];
+	}
 }
 ?>
