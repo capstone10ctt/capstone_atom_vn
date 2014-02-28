@@ -530,7 +530,7 @@
                 ?>
             <tr class="line">
                 <td class="from"><?php echo $row['From']; ?></td>
-                <td class="to"><?php if ($row['To'] != '0') echo $row['To']; ?></td>
+                <td class="to"><?php if ($row['To'] != '-1') echo $row['To']; ?></td>
                 <td class="price"><?php echo number_format($row['Price']); ?>&nbsp₫</td>
             </tr>
             <?php
@@ -555,7 +555,7 @@
                 ?>
             <tr class="line">
                 <td class="from"><?php echo $row['From']; ?></td>
-                <td class="to"><?php if ($row['To'] != '0') echo $row['To']; ?></td>
+                <td class="to"><?php if ($row['To'] != '-1') echo $row['To']; ?></td>
                 <td class="price"><?php echo number_format($row['Price']); ?>&nbsp₫</td>
             </tr>
             <?php
@@ -615,7 +615,7 @@
                         ?>
                     <tr class="line">
                         <td class="from"><?php echo $row['From']; ?></td>
-                        <td class="to"><?php if ($row['To'] != 0) echo $row['To']; ?></td>
+                        <td class="to"><?php if ($row['To'] != -1) echo $row['To']; ?></td>
                         <td class="price"><?php echo number_format($row['Price']); ?>&nbsp₫</td>
                     </tr>
                     <?php
@@ -678,7 +678,7 @@
                         ?>
                     <tr class="line">
                         <td class="from"><?php echo $row['From']; ?></td>
-                        <td class="to"><?php if ($row['To'] != '0') echo $row['To']; ?></td>
+                        <td class="to"><?php if ($row['To'] != '-1') echo $row['To']; ?></td>
                         <td class="price"><?php echo number_format($row['Price']); ?>&nbsp₫</td>
                     </tr>
                     <?php
