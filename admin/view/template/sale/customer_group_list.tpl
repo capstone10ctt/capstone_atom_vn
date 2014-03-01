@@ -220,7 +220,7 @@ echo $header; ?>
           
           link = room.action;
           table += '<tr>';
-          table += '<td style="text-align: center;"><input type="checkbox" name="selected[]" value="'+room.id+'" /></td>';
+          table += '<td style="text-align: center;"><input type="checkbox" name="selected[]" value="'+room.room_id+'" /></td>';
           table += '<td class="left"><a href="'+link[0].href+'">'+room.name+'</td>';
           table += '<td class="right">'+room.type+'</td>';
           table += '<td class="right">'+room.max_student+'</td>';
