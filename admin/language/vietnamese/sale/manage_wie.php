@@ -2,6 +2,8 @@
 // Heading
 $_['heading_title']    = 'Phòng';
 
+$_['text_mail_monthly'] = "Gửi mail thống kê tháng";
+$_['text_import_from_file'] = "Nhập từ file Excel";
 
 $_['text_title']             = 'Nội dung tiêu thụ:';
 $_['text_start_num_electric']             = 'Số công tơ điện';
@@ -34,6 +36,7 @@ $_['text_limit_text']             = 'Phạm vi';
 $_['text_price']             = 'Đơn giá';
 $_['text_total']             = 'Thành tiền';
 $_['text_add']             = 'Nhập tiêu thụ điện/nước';
+$_['text_mail']             = 'Gửi mail';
 $_['text_refresh']             = ' Cập nhập dữ liệu mới';
 $_['text_green']             = 'Dữ liệu có thay đổi';
 $_['text_red']             = 'Dữ liệu lỗi';
@@ -44,7 +47,9 @@ $_['text_totalmoney']             = 'Tổng cộng';
 $_['text_popup_header'] = "Thêm lịch sử sử dụng điện & nước";
 $_['text_greeting'] = "Vui lòng nhập đầy đủ thông tin bên dưới";
 $_['text_header_school']               = '<h1>TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN</h1><br /><h1>PHÒNG CÔNG TÁC SINH VIÊN</h1>';
-
+$_['text_reason']               = 'Xin nhập vào lý do thực hiện thao tác này !';
+$_['text_warning']               = 'Cảnh báo !';
+$_['text_error_log']               = 'Lý do nhập phải dài hơn 20 ký tự !';
 // Text
 $_['text_success']     = 'Nhập dữ liệu thành công!';
 

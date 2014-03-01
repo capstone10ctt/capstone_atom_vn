@@ -1,68 +1,70 @@
 <?php
 // Heading
-$_['heading_title']             = 'Room';
+$_['heading_title']    = 'Phòng';
 
-$_['text_title']             = 'Cost name:';
-$_['text_start_num_electric']             = 'Electric usage';
-$_['text_start_num_water']             = 'Water usage';
-$_['text_usage']             = 'Usage';
-$_['text_usage_elec']             = 'Electric usage';
-$_['text_usage_water']             = 'Water usage';
-$_['text_cost']             = 'Cost';
-$_['text_floor']             = 'Floor';
-$_['text_room']             = 'Room';
-$_['text_electric_edited']             = 'Last modified';
-$_['text_water_edited']             = 'Last modified';
-$_['text_confirm'] = "Confirm";
-$_['text_start_num'] = "Start num";
-$_['text_end_num'] = "End num";
-$_['text_paid'] = "Paid";
+$_['text_mail_monthly'] = "Gửi mail thống kê tháng";
+$_['text_import_from_file'] = "Nhập từ file Excel";
 
-$_['text_header']             = 'The cost of water & electricity in month ';
+$_['text_title']             = 'Nội dung tiêu thụ:';
+$_['text_start_num_electric']             = 'Số công tơ điện';
+$_['text_start_num_water']             = 'Số công tơ nước';
+$_['text_floor']             = 'Tầng';
+$_['text_room']             = 'Phòng';
+$_['text_electric_start']             = 'Số điện đầu';
+$_['text_water_start']             = 'Số nước đầu';
+$_['text_confirm'] = "Xác nhận";
+$_['text_start_num'] = "Số công tơ đầu";
+$_['text_end_num'] = "Số công tơ cuối";
+$_['text_paid'] = "Đã nộp";
+$_['text_late'] = "Nộp trễ";
+$_['text_edit'] = "Sửa";
+$_['text_tool'] = "Công cụ";
 
-$_['text_limit']             = 'Rank';
-$_['text_limit_text']             = 'Range';
-$_['text_price']             = 'Price';
-$_['text_total']             = 'Money';
-$_['text_view']             = 'View';
-$_['text_electric']             = 'Electric';
-$_['text_water']             = 'Water';
-$_['text_month']             = 'Month';
-$_['text_year']             = 'Year';
-$_['text_add']             = 'Input usage';
-$_['text_refresh']             = 'Update new data';
-$_['text_red']             = 'Update new data';
-$_['text_green']             = 'Data change';
-$_['text_red']             = 'Error data';
-$_['text_submit']             = 'Submit';
-$_['text_totalmoney']             = 'Total';
-$_['text_popup_header'] = "Add history usage of electricity and water";
-$_['text_greeting'] = "Please input the information below !";
-$_['text_header_school']               = '<h1>University of Science</h1><br /><h1>Student affair</h1>';
+$_['text_usage_elec']             = 'Tổng số điện tiêu thụ';
+$_['text_usage_water']             = 'Tổng số nước tiêu thụ';
+$_['text_cost']             = 'Thành tiền';
+$_['text_deadline']             = 'Hạn chót';
+$_['text_save']             = 'Lưu';
+$_['text_electric']             = 'Điện';
+$_['text_water']             = 'Nước';
+$_['text_month']             = 'Tháng';
+$_['text_year']             = 'Năm';
+$_['text_header']             = 'Phí điện & nước tháng ';
 
+$_['text_limit']             = 'Mức';
+$_['text_limit_text']             = 'Phạm vi';
+$_['text_price']             = 'Đơn giá';
+$_['text_total']             = 'Thành tiền';
+$_['text_add']             = 'Nhập tiêu thụ điện/nước';
+$_['text_mail']             = 'Gửi mail';
+$_['text_refresh']             = ' Cập nhập dữ liệu mới';
+$_['text_green']             = 'Dữ liệu có thay đổi';
+$_['text_red']             = 'Dữ liệu lỗi';
+$_['text_edit']             = 'Sửa';
+$_['text_view']             = 'Xem';
+$_['text_submit']             = 'Nhập';
+$_['text_totalmoney']             = 'Tổng cộng';
+$_['text_popup_header'] = "Thêm lịch sử sử dụng điện & nước";
+$_['text_greeting'] = "Vui lòng nhập đầy đủ thông tin bên dưới";
+$_['text_header_school']               = '<h1>TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN</h1><br /><h1>PHÒNG CÔNG TÁC SINH VIÊN</h1>';
+$_['text_reason']               = 'Xin nhập vào lý do thực hiện thao tác này !';
+$_['text_warning']               = 'Cảnh báo !';
+$_['text_error_log']               = 'Lý do nhập phải dài hơn 20 ký tự !';
 // Text
-$_['text_success']              = 'Input success!';
+$_['text_success']     = 'Nhập dữ liệu thành công!';
 
 // Column
-$_['column_name']               = 'Room Name';
-$_['column_sort_order']         = 'Sort Order';
-$_['column_action']             = 'Action';
+$_['column_name']      = 'Phòng';
+$_['column_action']    = 'Hành động';
 
 // Entry
-$_['entry_name']                = 'Room Name:';
-$_['entry_description']         = 'Description:';
-$_['entry_approval']            = 'Approve New Students:<br /><span class="help">Students must be approved by and administrator before they can login.</span>';
-$_['entry_company_id_display']  = 'Display Company No.:<br /><span class="help">Display a company no. field.</span>';
-$_['entry_company_id_required'] = 'Company No. Required:<br /><span class="help">Select which rooms must enter their company no. for billing addresses before checkout.</span>';
-$_['entry_tax_id_display']      = 'Display Tax ID.:<br /><span class="help">Display a Tax ID. field for billing addresses.</span>';
-$_['entry_tax_id_required']     = 'Tax ID Required:<br /><span class="help">Select which rooms must enter their Tax ID for billing addresses before checkout.</span>';
-$_['entry_sort_order']          = 'Sort Order:';
+$_['entry_name']       = 'Phòng:';
 
 // Error
-$_['error_input']          = 'Warning: You must full fill the form!';
-$_['error_permission']          = 'Warning: You do not have permission to modify rooms!';
-$_['error_name']                = 'Room Name must be between 3 and 32 characters!';
-$_['error_default']             = 'Warning: This room cannot be deleted as it is currently assigned as the default store room!';
-$_['error_store']               = 'Warning: This room cannot be deleted as it is currently assigned to %s stores!';
-$_['error_customer']            = 'Warning: This room cannot be deleted as it is currently assigned to %s customers!';
+$_['error_input']          = 'Lỗi: Bạn phải điền đầy đủ thông tin!';
+$_['error_permission'] = 'Cảnh báo: Bạn không có quyền thay đổi phòng!';
+$_['error_name']       = 'Tên phòng phải từ 3 đến 64 ký tự!';
+$_['error_default']    = 'Cảnh báo: Phòng này không thể bị xóa vì nó đang được thiết lập mặc định!';
+$_['error_store']      = 'Cảnh báo: Phòng này không thể bị xóa vì nó đang được sử dụng cho cửa hàng %s!';
+$_['error_customer']   = 'Cảnh báo: Phòng này không thể bị xóa vì nó đang được sử dụng cho khách hàng %s!';
 ?>
