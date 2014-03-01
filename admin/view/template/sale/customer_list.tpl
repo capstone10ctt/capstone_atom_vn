@@ -167,9 +167,7 @@
               <td><select name="filter_faculty">
                     </select>
                     </td>
-               <!-- add filter floor 
-              <td><input type="text" name="filter_floor" value="<?php echo $filter_floor; ?>" /></td>
-             --> 
+           
               <td><select name="filter_floor_id">
                   <option value=""></option>
                   <?php foreach ($floors as $floor) { ?>
