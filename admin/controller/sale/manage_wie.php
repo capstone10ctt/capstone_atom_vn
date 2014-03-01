@@ -29,7 +29,7 @@ class ControllerSaleManageWie extends Controller {
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
 		} else {
-			$sort = 'cgd.name';
+			$sort = 'cg.name';
 		}
 		 
 		if (isset($this->request->get['order'])) {
@@ -350,7 +350,7 @@ class ControllerSaleManageWie extends Controller {
 			$url .= '&page=' . $this->request->get['page'];
 		}
 
-		$this->data['sort_name'] = $this->url->link('sale/manage_wie', 'token=' . $this->session->data['token'] . '&sort=cgd.name' . $url, 'SSL');
+		$this->data['sort_name'] = $this->url->link('sale/manage_wie', 'token=' . $this->session->data['token'] . '&sort=cg.name' . $url, 'SSL');
 		$this->data['sort_sort_order'] = $this->url->link('sale/manage_wie', 'token=' . $this->session->data['token'] . '&sort=cg.sort_order' . $url, 'SSL');
 		
 		$url = '';

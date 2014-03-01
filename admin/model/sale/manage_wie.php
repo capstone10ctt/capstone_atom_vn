@@ -1,28 +1,12 @@
 <?php
 class ModelSaleManageWie extends Model {
-	public function addCustomerGroup($data) {
-		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_group SET approval = '" . (int)$data['approval'] . "', company_id_display = '" . (int)$data['company_id_display'] . "', company_id_required = '" . (int)$data['company_id_required'] . "', tax_id_display = '" . (int)$data['tax_id_display'] . "', tax_id_required = '" . (int)$data['tax_id_required'] . "', sort_order = '" . (int)$data['sort_order'] . "'");
 	
-		$customer_group_id = $this->db->getLastId();
-		
-		foreach ($data['customer_group_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "customer_group_description SET customer_group_id = '" . (int)$customer_group_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "', description = '" . $this->db->escape($value['description']) . "'");
-		}	
-	}
 	
 	public function savelog($data){
 		$this->db->query("INSERT INTO " . DB_PREFIX . "logs SET `action` = '" . $this->db->escape($data['action']) . "', `reason` = '" . $this->db->escape($data['reason']) . "', `date_added` = NOW(), `factor` = '" . $this->db->escape($data['factor']) . "'");
 	}
 	
-	public function editCustomerGroup($customer_group_id, $data) {
-		$this->db->query("UPDATE " . DB_PREFIX . "customer_group SET approval = '" . (int)$data['approval'] . "', company_id_display = '" . (int)$data['company_id_display'] . "', company_id_required = '" . (int)$data['company_id_required'] . "', tax_id_display = '" . (int)$data['tax_id_display'] . "', tax_id_required = '" . (int)$data['tax_id_required'] . "', sort_order = '" . (int)$data['sort_order'] . "' WHERE customer_group_id = '" . (int)$customer_group_id . "'");
 	
-		$this->db->query("DELETE FROM " . DB_PREFIX . "customer_group_description WHERE customer_group_id = '" . (int)$customer_group_id . "'");
-
-		foreach ($data['customer_group_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "customer_group_description SET customer_group_id = '" . (int)$customer_group_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "', description = '" . $this->db->escape($value['description']) . "'");
-		}
-	}
 	
 	public function deleteCustomerGroup($customer_group_id) {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "customer_group WHERE customer_group_id = '" . (int)$customer_group_id . "'");
@@ -497,7 +481,7 @@ class ModelSaleManageWie extends Model {
 		$sql = "SELECT *, (SELECT COUNT( * ) FROM " . DB_PREFIX . "customer c WHERE c.customer_group_id = cg.customer_group_id) AS assigned FROM " . DB_PREFIX . "customer_group cg LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (cg.customer_group_id = cgd.customer_group_id) LEFT JOIN " . DB_PREFIX . "room_type rt ON ( cg.type_id = rt.type_id AND cgd.language_id = rt.language_id ) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 		
 		$sort_data = array(
-			'cgd.name',
+			'cg.name',
 			'cg.sort_order'
 		);	
 		if (isset($data['floor']))
@@ -508,7 +492,7 @@ class ModelSaleManageWie extends Model {
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
 			$sql .= " ORDER BY " . $data['sort'];	
 		} else {
-			$sql .= " ORDER BY cgd.name";	
+			$sql .= " ORDER BY cg.name";	
 		}
 			
 		if (isset($data['order']) && ($data['order'] == 'DESC')) {
@@ -527,7 +511,7 @@ class ModelSaleManageWie extends Model {
 		$sql = "SELECT *, (SELECT COUNT( * ) FROM " . DB_PREFIX . "customer c WHERE c.customer_group_id = cg.customer_group_id) AS assigned FROM " . DB_PREFIX . "customer_group cg LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (cg.customer_group_id = cgd.customer_group_id) LEFT JOIN " . DB_PREFIX . "room_type rt ON ( cg.type_id = rt.type_id AND cgd.language_id = rt.language_id ) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 		
 		$sort_data = array(
-			'cgd.name',
+			'cg.name',
 			'cg.sort_order'
 		);	
 		if (isset($data['floor']))
@@ -538,7 +522,7 @@ class ModelSaleManageWie extends Model {
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
 			$sql .= " ORDER BY " . $data['sort'];	
 		} else {
-			$sql .= " ORDER BY cgd.name";	
+			$sql .= " ORDER BY cg.name";	
 		}
 			
 		if (isset($data['order']) && ($data['order'] == 'DESC')) {
@@ -742,7 +726,7 @@ class ModelSaleManageWie extends Model {
 	public function getCustomerGroupDescriptions($customer_group_id) {
 		$customer_group_data = array();
 		
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_group_description WHERE customer_group_id = '" . (int)$customer_group_id . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_group_description cgd LEFT JOIN customer_group ON(cgd.customer_group_id = cg.customer_group_id) WHERE cgd.customer_group_id = '" . (int)$customer_group_id . "'");
 				
 		foreach ($query->rows as $result) {
 			$customer_group_data[$result['language_id']] = array(
