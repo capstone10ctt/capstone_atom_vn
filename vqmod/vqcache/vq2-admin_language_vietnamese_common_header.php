@@ -17,7 +17,6 @@ $_['text_affiliate']        = 'Chia sẻ doanh thu';
 $_['text_attribute']        = 'Thuộc tính';
 $_['text_attribute_group']  = 'Nhóm thuộc tính';
 $_['text_backup']           = 'Sao lưu / Phục hồi';
-$_['text_import']           = 'Nhập';
 $_['text_banner']           = 'Liên kết';
 $_['text_catalog']          = 'Sản phẩm';
 $_['text_category']         = 'Danh sách trường';
