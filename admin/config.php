@@ -25,6 +25,6 @@ define('DB_DRIVER', 'mysql');
 define('DB_HOSTNAME', 'localhost');
 define('DB_USERNAME', 'atomvietnam');
 define('DB_PASSWORD', 'ugy5yquna');
-define('DB_DATABASE', 'atom_atomvietnam');
+define('DB_DATABASE', 'atom_capstone');
 define('DB_PREFIX', '');
 ?>
