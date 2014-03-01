@@ -268,14 +268,14 @@ class ControllerToolImport extends Controller {
 			      		'firstname' 	=> '',
 			      		'approved'     => '1',
 			      		'lastname' 	=> '',
-			      		'address' 	=> '',
-			      		'id_location' 	=> '',
+			      		'address' 	=> array(),
+			      		'id_location' 	=> '3761',
 			      		'email' 	=> '',
-			      		'gender' 	=> '',
+			      		'gender_id' 	=> '0',
 			      		'id_num' 	=> '',
-			      		'university_id' 	=> '',
-			      		'faculty_id' 	=> '',
-			      		'id_num' 	=> '',
+			      		'university_id' 	=> '33',
+			      		'faculty_id' 	=> '59',
+			      		'idnum' 	=> '',
 			      		'student_id' 	=> '',
 			      		'telephone' 	=> '',
 			      		'newsletter' 	=> '',
@@ -302,8 +302,8 @@ class ControllerToolImport extends Controller {
 			      	if($this->session->data['col_birthday']!='')
 			        	$student['date_of_birth'] = $this->session->data['sheetData'][$i][$this->session->data['col_birthday']];
 			      
-			      	if($this->session->data['col_faculty']!='')
-			        	$student['faculty_id'] = $this->session->data['sheetData'][$i][$this->session->data['col_faculty']];
+			      	//if($this->session->data['col_faculty']!='')
+			        //	$student['faculty_id'] = $this->session->data['sheetData'][$i][$this->session->data['col_faculty']];
 			      
 			      	if($this->session->data['col_room']!='')
 			      	{
@@ -316,13 +316,13 @@ class ControllerToolImport extends Controller {
 			      	if($this->session->data['col_ethnic']!='')
 			        	$student['ethnic'] = $this->session->data['sheetData'][$i][$this->session->data['col_ethnic']];
 			      
-			      	if($this->session->data['col_address']!='')
-			        	$student['address'] = $this->session->data['sheetData'][$i][$this->session->data['col_address']];
+			      	//if($this->session->data['col_address']!='')
+			        //	$student['address'] = $this->session->data['sheetData'][$i][$this->session->data['col_address']];
 			        $this->model_sale_customer->addCustomer($student);
 			      	$count++;
 			      }
 			    } 
-			} else if($this->session->data['file_type'] == 'watere');
+			} /*else if($this->session->data['file_type'] == 'watere');
 			{
 				$this->load->model('sale/manage_wie');
 				for ($i = 2; $i <= count($this->session->data['sheetData']); $i++)
@@ -363,7 +363,7 @@ class ControllerToolImport extends Controller {
 			      	$count++;
 			      }
 			    } 
-			}
+			}*/
 
 
 			$this->session->data['success'] = $count." has been imported!";
