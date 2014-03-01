@@ -23,6 +23,41 @@
                 <a href="#language<?php echo $language['language_id']; ?>"><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /> <?php echo $language['name']; ?></a>
               <?php } ?>
               </div>
+              <!-- Nguyen Tan Phu code
+              Id: 1051014 -->
+              <div class="replacementBlock">
+                <table class="replacementTable">
+                  <colgroup>
+                    <col style="width:200px;"></col>
+                    <col style="width:400px;"></col>
+                  </colgroup>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nội dung</th>
+                  </tr>
+                  <tr>
+                    <td>{1}</td>
+                    <td>Chi tiết hóa đơn</td>
+                  </tr>
+                  <tr>
+                    <td>{2}</td>
+                    <td>Phòng</td>
+                  </tr>
+                  <tr>
+                    <td>{3}</td>
+                    <td>Số người</td>
+                  </tr>
+                  <tr>
+                    <td>{4}</td>
+                    <td>Tên sinh viên</td>
+                  </tr>
+                  <tr>
+                    <td>{5}</td>
+                    <td>Mã số sinh viên</td>
+                  </tr>
+                </table>
+              </div>
+              <!-- ****************end Nguyen Tan Phu code*************** -->
               <?php foreach ($languages as $language) { ?>
               <div id="language<?php echo $language['language_id']; ?>">
                 <table class="form">

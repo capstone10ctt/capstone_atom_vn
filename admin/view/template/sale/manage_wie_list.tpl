@@ -14,7 +14,7 @@
   <div class="box">
     <div class="heading">
       <h1><img src="view/image/customer.png" alt="" /> <?php echo $heading_title; ?></h1>
-      <div class="buttons"><a onclick="newsToggle(true);" class="button"><?php echo $text_add; ?></a><a onclick="location.reload();" class="button"><?php echo $text_refresh; ?></a></div>
+      <div class="buttons"><a onclick="newsToggle(true);" class="button"><?php echo $text_add; ?></a><a href="<?php echo $import_data; ?>" class="button"><?php echo $text_import_from_file; ?></a><a onclick="mailForm(true);" class="button"><?php echo $text_mail; ?></a><a onclick="sendMailToMinistry();" class="button"><?php echo $text_mail_monthly; ?></a><!--<a onclick="location.reload();" class="button"><?php echo $text_refresh; ?></a>--></div>
       <div class="buttons"></div>
     </div>
     <div class="content">
@@ -32,6 +32,7 @@
                             <?php }?>
                         <?php } ?>
                     </select></td>
+
                 </tr>
                 <tr>
                 	<td><?php echo $text_room?></td>
@@ -48,11 +49,11 @@
                 </tr>
             </table>
             
-            <table style="float:left;width:300px; margin-left:40px;">
+            <table style="float:left;width:600px; margin-left:40px;">
                 <tr>
                 	<td><?php echo $text_deadline?></td>
                      <td><select name="default_deadline_wie">
-            	 <option value=""><?php echo $text_select; ?></option>
+                  <option value=""><?php echo $text_select; ?></option>
             		<?php foreach($alldays as $eachday) { ?> 
                     	<?php if($eachday == $default_deadline_wie) {?>
                     		<option value="<?php echo $eachday ?>" selected="selected"><?php echo $eachday; ?></option>
@@ -62,7 +63,9 @@
             		<?php } ?>
             	</select></td>
                 <td>/<?php echo $cur_month; ?>/<?php echo $cur_year; ?></td>
-                <td><input type="submit" value="<?php echo $text_save ?>"/></td>
+                <td>Ministry e-Mail Address: </td>
+                <td><input id="ministryMail" name="ministryMail" value="<?php echo $ministryMail ?>" type="text"/></td>
+                <td><input type="submit" value="<?php echo $text_save ?>"/></td>            
                 </tr>
             </table>
         <table class="viewWie">
@@ -166,23 +169,74 @@
     </div>
 </div>
 
-<div id="confirmbox-form-back" class="news-form-back"></div>
-<div id="confirmbox-form" class="news-form">
+<div id="mail-form-back" class="mail-form-back"></div>
+<div id="mail-form" class="news-form">
     <div class="header">
         <p id='lblpopupheader'><?php echo $text_popup_header ?></p>
-        <img src="../admin/view/image/remove-small.png" alt="Close" title="Close" onclick="editWieToggle(false);">
+        <img src="../admin/view/image/remove-small.png" alt="Close" title="Close" onclick="mailForm(false);">
     </div>
     <div class="fbody">
        <table class="editWie">
           <tbody id="tbEditWie">
-          	
+            <fieldset style="border:0;">
+    <input id="ra_all" type="radio" name="print" checked value="1">Gửi tất cả các phòng<br/>
+
+    <input id="ra_partial" type="radio" name="print" value="2">Tùy chọn<br/>
+    <br/>
+    <select id="mailFloor" onchange="filterFloorMailInput();">
+    <option value="-1"><?php echo $text_select; ?></option>
+                        <?php foreach($floors_input as $floor) { ?> 
+                            <option value="<?php echo $floor['floor_id'] ?>" ><?php echo $floor['floor_name']; ?></option>
+                        <?php } ?>
+    </select>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label>Phòng được chọn</label>
+    <br/><br/>
+    <div class="selectBlock">
+    <div>
+        <select id="leftValues" size="8" multiple>
+        </select>
+    </div>
+    <div>
+        <input type="button" id="btnLeft" value="&lt;" /><br/>
+        <input type="button" id="btnLeftAll" value="&lt;&lt;" /><br/>
+        <input type="button" id="btnRight" value="&gt;" /><br/>
+        <input type="button" id="btnRightAll" value="&gt;&gt;" /><br/>
+    </div>
+    <div>
+        <select id="rightValues" size="8" multiple>
+        </select>
+
+    </div>
+  </div>
+  <br/>
+  <div class="bottomButton">
+    <a onclick="sendMailToEachRoom();" class="button"/>Gửi mail</a>
+  </div>
+  </fieldset>
           </tbody>
         </table>
-    <a onclick="return saveLog();" class="button"/><?php echo $text_submit ?></a>
+    </div>
+</div>
+
+<div id="confirmbox-form" class="confirmbox-form">
+    <div class="header">
+        <p id='lblpopupheader'><?php echo $text_warning ?></p>
+        <img src="../admin/view/image/remove-small.png" alt="Close" title="Close" onclick="confirmBoxToggle(false);">
+    </div>
+    <div class="fbody">
+       <table class="editWie">
+          <tbody>
+          	<tr><td><p><?php echo $text_reason; ?></p></td></tr>
+            <tr><td><textarea id="logContent" cols="80" rows="20" ></textarea></td></tr>
+          </tbody>
+        </table>
+    <a id="confirmBoxSubmit" class="button"/><?php echo $text_submit ?></a>
     </div>
 </div>
 
 <script type="text/javascript"><!--
+
 	filterRoomByFloorView();
 	function viewRoomWieDetail(id) {
 		$('tr[id^=\'detail_wie_' + id + '\']').slideToggle(500);
@@ -250,6 +304,26 @@
 			}
 		});
 	}
+
+  function filterFloorMailInput() {
+    var floor_id = $('#mailFloor').val();
+    $.ajax({
+      url: 'index.php?route=sale/manage_wie/filterRoomByFloorView&token=<?php echo $token; ?>',
+      type: 'post',
+      data: 'floor_id=' + floor_id,
+      dataType: 'json',
+      success: function(json) {
+		//console.log(json['floors_filtered']);
+		if(json['floors_filtered']) {
+			renderOptionRooms(json['floors_filtered'][0]['rooms']);
+		}
+      },
+      error : function(error) {
+        console.log(error);
+      }
+    });
+  }
+
 	function loadOldValues() {
 		var floor_id = $('#sel_floor').val();
 		var room_id = $('#sel_room').val();
@@ -287,7 +361,14 @@
 		});
 		
 	}
-	
+	function renderOptionRooms(input) {
+    $('#leftValues').empty();
+    for(var i=0; i < input.length; i++) {
+      $('#leftValues')
+          .append($('<option>', { value : input[i]['customer_group_id'] })
+          .text(input[i]['name']));
+    } 
+  }
 	function renderRooms(input) {
 		strHTML = "";
 		for(var i=0; i < input.length; i++) {
@@ -415,10 +496,18 @@
 	}
 	
 	function saveEditWie() {
+		
 		var end_elec = $("#end_num_elec_edit_" + cur_room).val();
 		var end_water = $("#end_num_water_edit_" + cur_room).val();
 		var sel_elec = $("#checkpaid_elec_edit_" + cur_room).attr("checked") ? 1 : 0;
 		var sel_water = $("#checkpaid_water_edit_" + cur_room).attr("checked") ? 1 : 0;
+		
+		if(!confirmResult)
+		{
+			if($('#confirmbox-form').css('display') == 'none')
+				confirmBoxToggle(true,'Sửa điện nước phòng ' + cur_room,saveEditWie);
+			return;
+		}
 		
 		/*alert(end_elec);
 		alert(end_water);
@@ -445,6 +534,8 @@
 				console.log(error);
 			}
 		});
+		
+		confirmResult = false;
 	}
 	
 	function renderRoomsSelectBox(input) {
@@ -462,8 +553,16 @@
 		}
 		$("#sel_room_wie").html(strHTML);
 	}
-	
+	var confirmResult = false;
 	function inputHistory() {
+		
+		if(!confirmResult)
+		{
+			if($('#confirmbox-form').css('display') == 'none')
+				confirmBoxToggle(true,'Nhập điện nước',inputHistory);
+			return;
+		}
+		
 		clearAllStyles();
 		var month = $('#sel_month').val();
 		var year = $('#sel_year').val();
@@ -503,6 +602,8 @@
 				console.log(error);
 			}
 		});
+		
+		confirmResult = false;
 	}
 	function clearAllStyles(){
 		$('input[id^=\'usage_electric_\']').css("background-color","#FFFFFF");
@@ -644,6 +745,55 @@
 		}
 	}
 	
+	function confirmBoxToggle(show,action,callback) {
+		//toggle show
+		if(show)
+		{
+			$("#confirmBoxSubmit").val('');
+			//show box
+			var left = ($(window).width() - $('#confirmbox-form').width()) / 2;
+			var top = ($(window).height() - $('#confirmbox-form').height()) / 2;
+			$('#confirmbox-form').css('left',left + 'px');
+			$('#confirmbox-form').css('top',top + 'px');
+			//$('#confirmbox-form-back').fadeIn(400);
+			$('#confirmbox-form').fadeIn(400);
+			
+			$('#confirmBoxSubmit').unbind("click");
+			$('#confirmBoxSubmit').click(function () {
+				var content = $.trim($("#logContent").val());
+				
+				if(content.length < 20) {
+					alert('<?php echo $text_error_log ?>')
+					return;
+				}
+				else {
+					$.ajax({
+						url: 'index.php?route=sale/manage_wie/savelog&token=<?php echo $token; ?>',
+						type: 'post',
+						data: 'action=' + action + '&reason=' + content,
+						dataType: 'json',
+						success: function(json) {
+							if(json['success']) {
+								confirmBoxToggle(false);
+								confirmResult = true;
+								callback();
+							}
+						},
+						error : function(error) {
+							console.log(error);
+						}
+					});
+				}
+			});
+		}
+		else
+		{
+			document.getElementById('lblpopupheader').innerHTML = "<?php echo $text_popup_header ?>";
+			$('#confirmbox-form-back').fadeOut(400);
+			$('#confirmbox-form').fadeOut(400);
+		}
+	}
+	
 	function editWieToggle(show) {
 		//toggle show
 		if(show)
@@ -664,6 +814,69 @@
 		}
 	}
 	
+	function sendMailToEachRoom() {
+		var selected_rooms = Array();
+		var ra_all = $("#ra_all:checked").val();
+		$("#rightValues option").each(function(){
+			//alert($(this).val());
+			selected_rooms.push($(this).val());
+		  
+		});
+	
+		$.ajax({
+				url: 'index.php?route=sale/manage_wie/sendMailSelectedRooms&token=<?php echo $token; ?>',
+				type: 'post',
+				data: 'rooms=' + selected_rooms + '&all=' + ((ra_all == 1) ? 1: 0),
+				dataType: 'json',
+				success: function(json) {
+				  console.log(json);
+				  if(json['success']) {
+					alert("Mail đã được chuyển tới các phòng !");
+				  }
+				},
+				error : function(error) {
+				  console.log(error);
+				}
+			  });
+  }
+  function sendMailToMinistry() {
+    var ministryMail = $("#ministryMail").val();
+
+    $.ajax({
+            url: 'index.php?route=sale/manage_wie/sendMailMinistry&token=<?php echo $token; ?>',
+            type: 'post',
+            data: 'mail_to=' + ministryMail,
+            dataType: 'json',
+            success: function(json) {
+              if(json['success']) {
+                alert("Mail đã được chuyển tới giáo vụ thành công !");
+              }
+            },
+            error : function(error) {
+              console.log(error);
+            }
+          });
+  }
+  function mailForm(show) {
+    //toggle show
+    if(show)
+    {
+      //show box
+      var left = ($(window).width() - $('#mail-form').width()) / 2;
+      var top = ($(window).height() - $('#mail-form').height()) / 2;
+      $('#mail-form').css('left',left + 'px');
+      $('#mail-form').css('top',top + 'px');
+      $('#mail-form-back').fadeIn(400);
+      $('#mail-form').fadeIn(400);
+    }
+    else
+    {
+      document.getElementById('lblpopupheader').innerHTML = "<?php echo $text_popup_header ?>";
+      $('#mail-form-back').fadeOut(400);
+      $('#mail-form').fadeOut(400);
+    }
+  }
+
 	function formatCurrency(num)
 	{
 		num = num.toString().replace(/\$|\,/g, '');
@@ -706,6 +919,32 @@
 //	
 //		location = url;
 //	}
-//--></script> 
+//-->
+$(document).ready(function() {
+  $("#btnLeft").click(function () {
+      var selectedItem = $("#rightValues option:selected");
+      $("#leftValues").append(selectedItem);
+  });
+
+  $("#btnRight").click(function () {
+      var selectedItem = $("#leftValues option:selected");
+      $("#rightValues").append(selectedItem);
+  });
+  $("#btnLeftAll").click(function () {
+      var selectedItem = $("#rightValues option");
+      $("#leftValues").append(selectedItem);
+  });
+
+  $("#btnRightAll").click(function () {
+      var selectedItem = $("#leftValues option");
+      $("#rightValues").append(selectedItem);
+  });
+});
+</script> 
 
 <?php echo $footer; ?> 
+
+<?php 
+// function works like String.Format in C#
+
+?>

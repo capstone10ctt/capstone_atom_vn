@@ -1,30 +1,30 @@
 <?php
 // HTTP
-define('HTTP_SERVER', 'http://capstone.atom.vn/admin/');
-define('HTTP_CATALOG', 'http://capstone.atom.vn/');
+define('HTTP_SERVER', 'http://localhost/capstone/admin/');
+define('HTTP_CATALOG', 'http://localhost/capstone/');
 
 // HTTPS
-define('HTTPS_SERVER', 'http://capstone.atom.vn/admin/');
-define('HTTPS_CATALOG', 'http://capstone.atom.vn/');
+define('HTTPS_SERVER', 'http://localhost/capstone/admin/');
+define('HTTPS_CATALOG', 'http://localhost/capstone/');
 
 // DIR
-define('DIR_APPLICATION', 'C:\AWServer\data\atom\public_html\capstone_atom_vn/admin/');
-define('DIR_SYSTEM', 'C:\AWServer\data\atom\public_html\capstone_atom_vn/system/');
-define('DIR_DATABASE', 'C:\AWServer\data\atom\public_html\capstone_atom_vn/system/database/');
-define('DIR_LANGUAGE', 'C:\AWServer\data\atom\public_html\capstone_atom_vn/admin/language/');
-define('DIR_TEMPLATE', 'C:\AWServer\data\atom\public_html\capstone_atom_vn/admin/view/template/');
-define('DIR_CONFIG', 'C:\AWServer\data\atom\public_html\capstone_atom_vn/system/config/');
-define('DIR_IMAGE', 'C:\AWServer\data\atom\public_html\capstone_atom_vn/image/');
-define('DIR_CACHE', 'C:\AWServer\data\atom\public_html\capstone_atom_vn/system/cache/');
-define('DIR_DOWNLOAD', 'C:\AWServer\data\atom\public_html\capstone_atom_vn/download/');
-define('DIR_LOGS', 'C:\AWServer\data\atom\public_html\capstone_atom_vn/system/logs/');
-define('DIR_CATALOG', 'C:\AWServer\data\atom\public_html\capstone_atom_vn/catalog/');
+define('DIR_APPLICATION', '/Applications/XAMPP/xamppfiles/htdocs/capstone/admin/');
+define('DIR_SYSTEM', '/Applications/XAMPP/xamppfiles/htdocs/capstone/system/');
+define('DIR_DATABASE', '/Applications/XAMPP/xamppfiles/htdocs/capstone/system/database/');
+define('DIR_LANGUAGE', '/Applications/XAMPP/xamppfiles/htdocs/capstone/admin/language/');
+define('DIR_TEMPLATE', '/Applications/XAMPP/xamppfiles/htdocs/capstone/admin/view/template/');
+define('DIR_CONFIG', '/Applications/XAMPP/xamppfiles/htdocs/capstone/system/config/');
+define('DIR_IMAGE', '/Applications/XAMPP/xamppfiles/htdocs/capstone/image/');
+define('DIR_CACHE', '/Applications/XAMPP/xamppfiles/htdocs/capstone/system/cache/');
+define('DIR_DOWNLOAD', '/Applications/XAMPP/xamppfiles/htdocs/capstone/download/');
+define('DIR_LOGS', '/Applications/XAMPP/xamppfiles/htdocs/capstone/system/logs/');
+define('DIR_CATALOG', '/Applications/XAMPP/xamppfiles/htdocs/capstone/catalog/');
 
 // DB
 define('DB_DRIVER', 'mysql');
 define('DB_HOSTNAME', 'localhost');
-define('DB_USERNAME', 'atomvietnam');
-define('DB_PASSWORD', 'ugy5yquna');
-define('DB_DATABASE', 'atom_capstone');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', '');
+define('DB_DATABASE', 'capstonefinal');
 define('DB_PREFIX', '');
 ?>
