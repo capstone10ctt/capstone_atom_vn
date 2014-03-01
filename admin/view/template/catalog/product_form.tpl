@@ -567,6 +567,9 @@
             <thead>
               <tr>
                 <td class="left"><?php echo $entry_customer_group; ?></td>
+                <!--//start vlmn modification for product special-->
+                 <td class="left"><?php echo $entry_quantity; ?></td>
+                 <!--//end vlmn modification for product special-->
                 <td class="right"><?php echo $entry_priority; ?></td>
                 <td class="right"><?php echo $entry_price; ?></td>
                 <td class="left"><?php echo $entry_date_start; ?></td>
@@ -587,6 +590,9 @@
                     <?php } ?>
                     <?php } ?>
                   </select></td>
+                  <!--//start vlmn modification for product special-->
+                  <td class="right"><input type="text" name="product_special[<?php echo $special_row; ?>][quantity]" value="<?php echo $product_special['quantity']; ?>" size="2" /></td>
+                  <!--//end vlmn modification for product special-->
                 <td class="right"><input type="text" name="product_special[<?php echo $special_row; ?>][priority]" value="<?php echo $product_special['priority']; ?>" size="2" /></td>
                 <td class="right"><input type="text" name="product_special[<?php echo $special_row; ?>][price]" value="<?php echo $product_special['price']; ?>" /></td>
                 <td class="left"><input type="text" name="product_special[<?php echo $special_row; ?>][date_start]" value="<?php echo $product_special['date_start']; ?>" class="date" /></td>
@@ -1187,7 +1193,10 @@ function addSpecial() {
     <?php foreach ($customer_groups as $customer_group) { ?>
     html += '      <option value="<?php echo $customer_group['customer_group_id']; ?>"><?php echo $customer_group['name']; ?></option>';
     <?php } ?>
-    html += '    </select></td>';		
+    html += '    </select></td>';
+	 //start vlmn modification for product special
+	html += '    <td class="right"><input type="text" name="product_special[' + special_row + '][quantity]" value="" size="2" /></td>';
+	//start vlmn modification for product special
     html += '    <td class="right"><input type="text" name="product_special[' + special_row + '][priority]" value="" size="2" /></td>';
 	html += '    <td class="right"><input type="text" name="product_special[' + special_row + '][price]" value="" /></td>';
     html += '    <td class="left"><input type="text" name="product_special[' + special_row + '][date_start]" value="" class="date" /></td>';

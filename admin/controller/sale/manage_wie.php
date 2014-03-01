@@ -3,13 +3,14 @@ class ControllerSaleManageWie extends Controller {
 	private $error = array();
  
 	public function index() {
+		//$this->replaceEachRoomData(5);
 		$this->language->load('sale/manage_wie');
  
 		$this->document->setTitle($this->language->get('heading_title'));
 		
  		$this->load->model('setting/setting');
-		
 		$this->data['action'] = $this->url->link('sale/manage_wie', 'token=' . $this->session->data['token'], 'SSL');
+		$this->data['import_data'] = $this->url->link('tool/import', 'token=' . $this->session->data['token'], 'SSL');
 		
 		if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
 			$this->model_setting_setting->editSetting('manage_wie', $this->request->post);		
@@ -28,7 +29,7 @@ class ControllerSaleManageWie extends Controller {
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
 		} else {
-			$sort = 'cg.name';
+			$sort = 'cgd.name';
 		}
 		 
 		if (isset($this->request->get['order'])) {
@@ -110,6 +111,12 @@ class ControllerSaleManageWie extends Controller {
 			$this->data['default_deadline_wie'] = $this->config->get('default_deadline_wie');
 		} else {
 			$this->data['default_deadline_wie'] = 15;
+		}
+		
+		if ($this->config->get('ministryMail')) {
+			$this->data['ministryMail'] = $this->config->get('ministryMail');
+		} else {
+			$this->data['ministryMail'] = 'congtacsinhvien@hcmus.edu.vn';
 		}
 		
 		$allyears = array();
@@ -253,12 +260,18 @@ class ControllerSaleManageWie extends Controller {
 		$this->data['cur_month'] = $cur_month;
 		$this->data['token'] = $this->session->data['token'];
 		
+		$this->data['text_import_from_file'] = $this->language->get('text_import_from_file');
 		$this->data['text_electric_start'] = $this->language->get('text_electric_start');
 		$this->data['text_water_start'] = $this->language->get('text_water_start');
 		$this->data['text_deadline'] = $this->language->get('text_deadline');
 		$this->data['text_save'] = $this->language->get('text_save');
 		$this->data['text_edit'] = $this->language->get('text_edit');
 		$this->data['text_tool'] = $this->language->get('text_tool');
+		$this->data['text_reason'] = $this->language->get('text_reason');
+		$this->data['text_warning'] = $this->language->get('text_warning');
+		$this->data['text_error_log'] = $this->language->get('text_error_log');
+		$this->data['text_mail'] = $this->language->get('text_mail');
+		$this->data['text_mail_monthly'] = $this->language->get('text_mail_monthly');
 		
 		$this->data['text_green'] = $this->language->get('text_green');
 		$this->data['text_red'] = $this->language->get('text_red');
@@ -337,7 +350,7 @@ class ControllerSaleManageWie extends Controller {
 			$url .= '&page=' . $this->request->get['page'];
 		}
 
-		$this->data['sort_name'] = $this->url->link('sale/manage_wie', 'token=' . $this->session->data['token'] . '&sort=cg.name' . $url, 'SSL');
+		$this->data['sort_name'] = $this->url->link('sale/manage_wie', 'token=' . $this->session->data['token'] . '&sort=cgd.name' . $url, 'SSL');
 		$this->data['sort_sort_order'] = $this->url->link('sale/manage_wie', 'token=' . $this->session->data['token'] . '&sort=cg.sort_order' . $url, 'SSL');
 		
 		$url = '';
@@ -388,7 +401,196 @@ class ControllerSaleManageWie extends Controller {
 		
 		$this->response->setOutput(json_encode($json));
 	}
+
+
+	// Nguyen Tan Phu code
+	// 1051014
+/***********************************************************************************************/
+	public function getWieStatOneRoom($roomId) {
+		
+		$this->load->model('sale/manage_wie');
+		$data = array();
+		$room = null;
+		$data['filter_room'] = $roomId;
+		$theFloor = $this->model_sale_manage_wie->getCustomerGroupsView($data);
+
+		if(isset($theFloor[1]["rooms"])) {
+			$room = $theFloor[1]["rooms"][0];
+			$room["count"] = (int)$this->model_sale_manage_wie->countStudentInRoom($roomId); 
+		}
+		
+
+		return $room;
+	}
 	
+	public function replaceEachRoomData($roomId) {
+		$this->load->model('catalog/template_email');
+		$templateMailData = $this->model_catalog_template_email->getTemplateEmail("mail_1")['description'][1];
+
+		$templateMail = $templateMailData['description'];
+		$mailTitle = $templateMailData['name'];
+		
+		$mailRoom = array();
+
+		$wie_stat = $this->getWieStatOneRoom($roomId);
+		if(isset($wie_stat)) {
+			$room_data_w = $wie_stat["room_data"]["water"];
+			$room_data_e = $wie_stat["room_data"]["elec"];
+	
+			$completeMailTitle = $this->format($mailTitle, $wie_stat["name"]);
+			$completeMailBody = $this->format($templateMail, 
+				$wie_stat["name"],				//0
+				$wie_stat["count"],				//1 so nguoi 
+				// Dien
+				$room_data_e["Start"],			//2 dau
+				$room_data_e["End"],			//3 cuoi
+				$room_data_e["Usage"],			//4 tieu thu
+				$room_data_e["Money"],			//5 thanh tien
+				// Nuoc
+				$room_data_w["Start"],			//6 dau
+				$room_data_w["End"],			//7 cuoi
+				$room_data_w["Usage"],			//8 tieu thu
+				$room_data_w["Money"],			//9 thanh tien
+	
+	
+				// Tong tien
+				
+				$room_data_e["Money"] + $room_data_w["Money"],		//10
+				$wie_stat["room_data"]["inword"],					//11
+	
+				date("m"),									//12
+				date("d"),									//13
+				date("m"),									//14
+				date("Y"),									//15
+	
+				"",											// room leader info ?
+				""											// deadline ?
+			);
+
+			$mailRoom = array("title" => $mailTitle, "body" => $completeMailBody);
+		}
+		
+
+		return $mailRoom;
+	}
+
+
+	public function getWieStats() {		
+		$this->load->model('sale/manage_wie');
+		//$json['filter_floor'] = (int)$this->request->post['floor_id'];
+		$all_data = $this->model_sale_manage_wie->getCustomerGroupsView(null);
+		return $this->filterbyElecWater($all_data);
+	}
+
+	public function filterbyElecWater($data = array()) {
+		$paidRooms_e = array();
+		$unpaidRooms_e = array();
+		$latePaidRooms_e = array();
+		$paidRooms_w = array();
+		$unpaidRooms_w = array();
+		$latePaidRooms_w = array();
+
+		for ($i=0; $i<count($data); $i++) {
+			$eachFloor = $data[$i];
+			if (array_key_exists("rooms", $eachFloor)) {
+				$roomList = $eachFloor["rooms"];
+			} else {
+				$roomList = null;
+			}
+			
+			for ($k=0; $k<count($roomList); $k++) {
+				$room = $roomList[$k];
+				$roomDataCharged_e = $room["room_data"]["elec"]["Charged"];
+				$roomDataCharged_w = $room["room_data"]["water"]["Charged"];
+				
+				if ($roomDataCharged_e == "yes") {
+					$paidRooms_e[] = $room["name"];
+				} else if ($roomDataCharged_e == "no") {
+					$unpaidRooms_e[] = $room["name"];
+				} else if ($roomDataCharged_e == "late") {
+					$latePaidRooms_e[] = $room["name"];
+				}
+
+				if ($roomDataCharged_w == "yes") {
+					$paidRooms_w[] = $room["name"];
+				} else if ($roomDataCharged_w == "no") {
+					$unpaidRooms_w[] = $room["name"];
+				} else if ($roomDataCharged_w == "late") {
+					$latePaidRooms_w[] = $room["name"];
+				}
+			}
+		}
+
+		// echo "<pre>";
+		// print_r($paidRooms_e);
+		// print_r($unpaidRooms_e);
+		// print_r($latePaidRooms_e);
+		// print_r($paidRooms_w);
+		// print_r($unpaidRooms_w);
+		// print_r($latePaidRooms_w);
+		// echo "</pre>";
+
+		$return_data = array();
+		$return_data["paid_e"] = $paidRooms_e;
+		$return_data["unpaid_e"] = $unpaidRooms_e;
+		$return_data["late_paid_e"] = $latePaidRooms_e;
+		$return_data["paid_w"] = $paidRooms_w;
+		$return_data["unpaid_w"] = $unpaidRooms_w;
+		$return_data["late_paid_w"] = $paidRooms_w;
+
+		return $return_data;
+
+	}
+
+	public function replaceMonthlyMailData() {
+		$this->load->model('catalog/template_email');
+		$templateMailData = $this->model_catalog_template_email->getTemplateEmail("mail_2")['description'][1];
+		$templateMail = $templateMailData['description'];
+		$mailTitle = $templateMailData['name'];
+		$wie_stats = $this->getWieStats();
+
+		$completeMailTitle = $this->format($mailTitle, date("m"));
+		$completeMailBody = $this->format($templateMail, 
+			count($wie_stats["paid_e"]),				//0
+			implode(", ", $wie_stats["paid_e"]),		//1
+			count($wie_stats["unpaid_e"]),				//2
+			implode(", ", $wie_stats["unpaid_e"]),		//3
+			count($wie_stats["late_paid_e"]),			//4
+			implode(", ", $wie_stats["late_paid_e"]),	//5
+
+			count($wie_stats["paid_w"]),				//6
+			implode(", ", $wie_stats["paid_w"]),		//7
+			count($wie_stats["unpaid_w"]),				//8
+			implode(", ", $wie_stats["unpaid_w"]),		//9
+			count($wie_stats["late_paid_w"]),			//10
+			implode(", ", $wie_stats["late_paid_w"]),	//11
+
+			date("m"),									//12
+			date("d"),									//13
+			date("m"),									//14
+			date("Y")									//15
+			);
+
+
+		$mailMinistry = array("title" => $completeMailTitle, "body" => $completeMailBody);
+		return $mailMinistry;
+	}
+
+	function format() {
+	    $args = func_get_args();
+	    if (count($args) == 0) {
+	        return;
+	    }
+	    if (count($args) == 1) {
+	        return $args[0];
+	    }
+	    
+	    $str = array_shift($args);
+	    $str = preg_replace_callback('/\\{(0|[1-9]\\d*)\\}/', create_function('$match', '$args = '.var_export($args, true).'; return isset($args[$match[1]]) ? $args[$match[1]] : $match[0];'), $str);
+	    return $str;
+	}
+/*****************end Nguyen Tan Phu code*****************************************************************/
+
 	public function filterRoomByFloorInput() {
 		$json = array();
 		
@@ -494,6 +696,122 @@ class ControllerSaleManageWie extends Controller {
 		$this->load->model('sale/manage_wie');
 		$this->model_sale_manage_wie->saveEditWie($this->request->post);
 		
+		$json['success'] = 'yes';
+		
+		$this->response->setOutput(json_encode($json));
+	}
+	
+	public function savelog() {
+		$json = array();
+		
+		$this->load->model('sale/manage_wie');
+		$data = array('action' => $this->request->post['action'],
+						'reason' => $this->request->post['reason'],
+						'factor' => $this->user->getUserName());
+						
+		$this->model_sale_manage_wie->savelog($data);
+		
+		$json['success'] = 'yes';
+		
+		$this->response->setOutput(json_encode($json));
+	}
+	
+	public function sendMailSelectedRooms() {
+		$json = array();
+		
+		$this->load->model('sale/manage_wie');
+		$all = $this->request->post['all'];
+		if($all == 1) {
+			$rooms = $this->model_sale_manage_wie->getCustomerGroups();
+		}
+		else {
+			$rooms = explode(',',$this->request->post['rooms']);
+		}
+		
+		//$json['test'] =  $rooms;
+		
+		foreach($rooms as $room) {
+			$room_id = 0;
+			if($all == 1) {
+				$room_id = $room['customer_group_id'];
+			}
+			else {
+				$room_id = $room;
+			}
+			
+			$mail_to = $this->model_sale_manage_wie->getRoomLeaderEmail($room_id);
+			$mailMinistry = $this->replaceEachRoomData($room_id);
+			
+			if($mail_to != '' && isset($mailMinistry["title"])) {
+				$mail = new Mail();
+				$mail->protocol = $this->config->get('config_mail_protocol');
+				$mail->parameter = $this->config->get('config_mail_parameter');
+				$mail->hostname = $this->config->get('config_smtp_host');
+				$mail->username = $this->config->get('config_smtp_username');
+				$mail->password = $this->config->get('config_smtp_password');
+				$mail->port = $this->config->get('config_smtp_port');
+				$mail->timeout = $this->config->get('config_smtp_timeout');
+				$mail->setTo($mail_to);
+				$mail->setFrom($this->config->get('config_email'));
+				$mail->setSender($this->config->get('config_name'));
+				$mail->setSubject($mailMinistry["title"]);
+				$mail->setHTML($mailMinistry["body"]);
+				$mail->send();
+			}
+		}
+		
+		$json['success'] = 'yes';
+		
+		$this->response->setOutput(json_encode($json));
+	}
+
+	public function sendMailMinistry() {
+		$json = array();
+		
+		$data = array('mail_to' => $this->request->post['mail_to']);
+		$mailMinistry = $this->replaceMonthlyMailData();
+
+		$mail = new Mail();
+		$mail->protocol = $this->config->get('config_mail_protocol');
+		$mail->parameter = $this->config->get('config_mail_parameter');
+		$mail->hostname = $this->config->get('config_smtp_host');
+		$mail->username = $this->config->get('config_smtp_username');
+		$mail->password = $this->config->get('config_smtp_password');
+		$mail->port = $this->config->get('config_smtp_port');
+		$mail->timeout = $this->config->get('config_smtp_timeout');
+		$mail->setTo($data["mail_to"]);
+		$mail->setFrom($this->config->get('config_email'));
+		$mail->setSender($this->config->get('config_name'));
+		$mail->setSubject($mailMinistry["title"]);
+		$mail->setHTML($mailMinistry["body"]);
+		$mail->send();
+
+		$json['success'] = 'yes';
+		
+		$this->response->setOutput(json_encode($json));
+	}
+
+	public function sendMailOneRoom() {
+		$json = array();
+		
+		$data = array('mail_to' => $this->request->post['mail_to']);
+		$mailMinistry = $this->replaceMonthlyMailData();
+
+		$mail = new Mail();
+		$mail->protocol = $this->config->get('config_mail_protocol');
+		$mail->parameter = $this->config->get('config_mail_parameter');
+		$mail->hostname = $this->config->get('config_smtp_host');
+		$mail->username = $this->config->get('config_smtp_username');
+		$mail->password = $this->config->get('config_smtp_password');
+		$mail->port = $this->config->get('config_smtp_port');
+		$mail->timeout = $this->config->get('config_smtp_timeout');
+		$mail->setTo($data["mail_to"]);
+		$mail->setFrom($this->config->get('config_email'));
+		$mail->setSender($this->config->get('config_name'));
+		$mail->setSubject($mailMinistry["title"]);
+		$mail->setHTML($mailMinistry["body"]);
+		$mail->send();
+
 		$json['success'] = 'yes';
 		
 		$this->response->setOutput(json_encode($json));
