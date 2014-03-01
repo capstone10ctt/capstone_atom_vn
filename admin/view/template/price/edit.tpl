@@ -537,7 +537,7 @@
             <thead>
             <td><b><?php echo $text_electricity_from; ?></b></td>
             <td><b><?php echo $text_electricity_to; ?></b></td>
-            <td><b><?php echo $text_electricity_price; ?></b</td>
+            <td><b><?php echo $text_electricity_price; ?></b></td>
             </thead>
             <tbody>
             <?php
@@ -581,7 +581,7 @@
             </tbody>
         </table>
     </div>
-    <div class="standard_price_edit">
+    <div class="standard_price_edit" style="overflow: hidden;">
         <h2>CHỈNH SỬA ĐỊNH MỨC GIÁ ĐIỆN - NƯỚC</h2>
         <div class="table_electricity">
             <?php echo $description_electricity; ?>
@@ -593,7 +593,7 @@
                     <thead>
                         <td><b><?php echo $text_electricity_from; ?></b></td>
                         <td><b><?php echo $text_electricity_to; ?></b></td>
-                        <td><b><?php echo $text_electricity_price; ?></b</td>
+                        <td><b><?php echo $text_electricity_price; ?></b></td>
                         <td></td>
                     </thead>
                     <tbody>
@@ -623,7 +623,7 @@
                     <thead>
                         <td><b><?php echo $text_electricity_from; ?></b></td>
                         <td><b><?php echo $text_electricity_to; ?></b></td>
-                        <td><b><?php echo $text_electricity_price; ?></b</td>
+                        <td><b><?php echo $text_electricity_price; ?></b></td>
                     </thead>
                     <tbody>
                     <?php
@@ -656,7 +656,7 @@
                     <thead>
                     <td><b><?php echo $text_water_from; ?></b></td>
                     <td><b><?php echo $text_water_to; ?></b></td>
-                    <td><b><?php echo $text_water_price; ?></b</td>
+                    <td><b><?php echo $text_water_price; ?></b></td>
                     <td></td>
                     </thead>
                     <tbody>
