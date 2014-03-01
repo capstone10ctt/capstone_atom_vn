@@ -341,12 +341,15 @@ class ModelSaleManageWie extends Model {
 	public function getRoomLeaderEmail($room_id) {
 		$query = $this->db->query("SELECT room_leader FROM " . DB_PREFIX . "customer_group WHERE customer_group_id = '" . (int)$room_id . "'");
 		
-		if(isset($query->row['room_leader'])) {
+		if($query->num_rows) {
 			$query2 = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer WHERE customer_id = '" . (int)$query->row['room_leader'] . "'");
 			if($query2->num_rows) {
 				return $query2->row['email'];
 			}
-			return '';
+			else {
+				return '';
+			}
+			
 		}
 		else {
 			return '';
@@ -444,10 +447,10 @@ class ModelSaleManageWie extends Model {
 		
 		//get electric and water limit data
 		$this->load->model('price/standard');
-		$e_standard_idx = $this->model_price_standard->getElectricityLastestLiftTime();
+		$e_standard_idx = $this->model_price_standard->getElectricityLastestLifeTime();
 		$e_standard = $this->model_price_standard->getElectricityStandardPrice((int)$e_standard_idx['id']);
 		
-		$w_standard_idx = $this->model_price_standard->getWaterLastestLiftTime();
+		$w_standard_idx = $this->model_price_standard->getWaterLastestLifeTime();
 		$w_standard = $this->model_price_standard->getWaterStandardPrice((int)$w_standard_idx['id']);
 		
 		//get data also
@@ -536,10 +539,10 @@ class ModelSaleManageWie extends Model {
 		
 		//get electric and water limit data
 		$this->load->model('price/standard');
-		$e_standard_idx = $this->model_price_standard->getElectricityLastestLiftTime();
+		$e_standard_idx = $this->model_price_standard->getElectricityLastestLifeTime();
 		$e_standard = $this->model_price_standard->getElectricityStandardPrice((int)$e_standard_idx['id']);
 		
-		$w_standard_idx = $this->model_price_standard->getWaterLastestLiftTime();
+		$w_standard_idx = $this->model_price_standard->getWaterLastestLifeTime();
 		$w_standard = $this->model_price_standard->getWaterStandardPrice((int)$w_standard_idx['id']);
 		
 		//get data also

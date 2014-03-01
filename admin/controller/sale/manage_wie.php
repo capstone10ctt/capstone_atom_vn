@@ -433,7 +433,7 @@ class ControllerSaleManageWie extends Controller {
 		$mailRoom = array();
 
 		$wie_stat = $this->getWieStatOneRoom($roomId);
-		if(isset($wie_stat)) {
+		if(!is_null($wie_stat)) {
 			$room_data_w = $wie_stat["room_data"]["water"];
 			$room_data_e = $wie_stat["room_data"]["elec"];
 	
@@ -743,6 +743,7 @@ class ControllerSaleManageWie extends Controller {
 			$mailMinistry = $this->replaceEachRoomData($room_id);
 			
 			if($mail_to != '' && isset($mailMinistry["title"])) {
+				$json['mailed'][] = $mail_to;
 				$mail = new Mail();
 				$mail->protocol = $this->config->get('config_mail_protocol');
 				$mail->parameter = $this->config->get('config_mail_parameter');

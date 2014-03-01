@@ -314,8 +314,11 @@
       dataType: 'json',
       success: function(json) {
 		//console.log(json['floors_filtered']);
+		input = $.map(json['floors_filtered'], function(value, index) {
+			return [value];
+		});		
 		if(json['floors_filtered']) {
-			renderOptionRooms(json['floors_filtered'][0]['rooms']);
+			renderOptionRooms(input[0]['rooms']);
 		}
       },
       error : function(error) {
@@ -596,6 +599,7 @@
 					//newsToggle(false);
 					checkOutputAndHighlight(json['success']);
 					alert('<?php echo $text_success?>');
+					filterRoomByFloorView();					
 				}
 			},
 			error : function(error) {
