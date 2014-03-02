@@ -268,14 +268,14 @@ class ControllerToolImport extends Controller {
 			      		'firstname' 	=> '',
 			      		'approved'     => '1',
 			      		'lastname' 	=> '',
-			      		'address' 	=> '',
-			      		'id_location' 	=> '',
+			      		'address' 	=> array(),
+			      		'id_location' 	=> '3761',
 			      		'email' 	=> '',
-			      		'gender' 	=> '',
+			      		'gender_id' 	=> '0',
 			      		'id_num' 	=> '',
-			      		'university_id' 	=> '',
-			      		'faculty_id' 	=> '',
-			      		'id_num' 	=> '',
+			      		'university_id' 	=> '33',
+			      		'faculty_id' 	=> '59',
+			      		'idnum' 	=> '',
 			      		'student_id' 	=> '',
 			      		'telephone' 	=> '',
 			      		'newsletter' 	=> '',
@@ -292,18 +292,35 @@ class ControllerToolImport extends Controller {
 			      	{
 			      		
 			      		$name = trim($this->session->data['sheetData'][$i][$this->session->data['col_name']]);
-			      		$student['firstname'] = substr($name, 0, strrpos($name, " "));  
-			      		$student['lastname'] = substr($name, strrpos($name, " ")+1); 
+			      		$student['lastname'] = substr($name, 0, strpos($name, " "));  
+			      		$student['firstname'] = substr($name, strpos($name, " ")+1); 
 			      	}
 
 			      	if($this->session->data['col_id']!='')
 			        	$student['student_id'] = $this->session->data['sheetData'][$i][$this->session->data['col_id']];
 			      
 			      	if($this->session->data['col_birthday']!='')
-			        	$student['date_of_birth'] = $this->session->data['sheetData'][$i][$this->session->data['col_birthday']];
+			      	{
+			      		$input = $this->session->data['sheetData'][$i][$this->session->data['col_birthday']];
+				        if(strpos($input, '/'))
+				          $a = explode('/',$input);
+				        else if(strpos($input, '-'))
+				          $a = explode('-',$input);
+				        else if(strpos($input, '.'))
+				          $a = explode('.',$input);
+				        if(isset($a[2]))
+				          $result = $a[1].'/'.$a[0].'/'.$a[2];
+				        else if(isset($a[1]))
+				            $result = $a[0].'/1/'.$a[1].'/'.$a[2];
+				        else if(isset($a[0]))
+				          $result = '1/1/'.$a[0];
+				        else
+				          $result='';
+			        	$student['date_of_birth'] = $result;
+			      	}
 			      
-			      	if($this->session->data['col_faculty']!='')
-			        	$student['faculty_id'] = $this->session->data['sheetData'][$i][$this->session->data['col_faculty']];
+			      	//if($this->session->data['col_faculty']!='')
+			        //	$student['faculty_id'] = $this->session->data['sheetData'][$i][$this->session->data['col_faculty']];
 			      
 			      	if($this->session->data['col_room']!='')
 			      	{
@@ -316,13 +333,13 @@ class ControllerToolImport extends Controller {
 			      	if($this->session->data['col_ethnic']!='')
 			        	$student['ethnic'] = $this->session->data['sheetData'][$i][$this->session->data['col_ethnic']];
 			      
-			      	if($this->session->data['col_address']!='')
-			        	$student['address'] = $this->session->data['sheetData'][$i][$this->session->data['col_address']];
+			      	//if($this->session->data['col_address']!='')
+			        //	$student['address'] = $this->session->data['sheetData'][$i][$this->session->data['col_address']];
 			        $this->model_sale_customer->addCustomer($student);
 			      	$count++;
 			      }
 			    } 
-			} else if($this->session->data['file_type'] == 'watere');
+			} else if($this->session->data['file_type'] == 'watere')
 			{
 				$this->load->model('sale/manage_wie');
 				$data['electric_usage'] = array();

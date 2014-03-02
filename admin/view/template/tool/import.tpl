@@ -75,7 +75,24 @@
         echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_name']].'</td>';
       
       if($this->session->data['col_birthday']!='')
-        echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_birthday']].'</td>';
+      {
+        $input = $this->session->data['sheetData'][$i][$this->session->data['col_birthday']];
+        if(strpos($input, '/'))
+          $a = explode('/',$input);
+        else if(strpos($input, '-'))
+          $a = explode('-',$input);
+        else if(strpos($input, '.'))
+          $a = explode('.',$input);
+        if(isset($a[2]))
+          $result = $a[0].'/'.$a[1].'/'.$a[2];
+        else if(isset($a[1]))
+            $result = '1/'.$a[0].'/'.$a[1];
+        else if(isset($a[0]))
+          $result = '1/1/'.$a[0];
+        else
+          $result='';
+        echo '<td>'.$result.'</td>';
+      }
       
       if($this->session->data['col_faculty']!='')
         echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_faculty']].'</td>';
