@@ -325,48 +325,58 @@ class ControllerToolImport extends Controller {
 			} else if($this->session->data['file_type'] == 'watere');
 			{
 				$this->load->model('sale/manage_wie');
+				$data['electric_usage'] = array();
+				$data['water_usage'] = array();
+				
+				$data['year'] = date('Y');
+				$data['month'] = date('m');
+		
 				for ($i = 2; $i <= count($this->session->data['sheetData']); $i++)
 			    {
 			      
 			      if (in_array($this->session->data['sheetData'][$i][$this->session->data['col_room']], $roomList))
 			      {
-			      	$record = array(
-			      		'??' 	=> '',
-			      		'???'     => '1',
-			      		'????' 	=> ''
-			      		
-			      	);
-			      	
-
-
+					$temp_elec = array();
+					$temp_water = array();
+					
+					$temp_elec['input'] = 0;
+					
+					$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_group WHERE name = '" . $this->session->data['sheetData'][$i][$this->session->data['col_room']] . "'");
+					
 			      	if($this->session->data['col_room']!='')
-			        	$record['???'] = $this->session->data['sheetData'][$i][$this->session->data['col_room']];
+			        	$temp_elec['room_id'] = $query->row['customer_group_id'];
+						$temp_water['room_id'] = $query->row['customer_group_id'];
 			      
 			      	if($this->session->data['col_estart']!='')
-			        	$record['????'] = $this->session->data['sheetData'][$i][$this->session->data['col_estart']];
+			        	$temp_elec['Start'] = $this->session->data['sheetData'][$i][$this->session->data['col_estart']];
 			      
 			      	if($this->session->data['col_eend']!='')
-			        	$record['???'] = $this->session->data['sheetData'][$i][$this->session->data['col_eend']];
-			      
+			        	$temp_elec['usage'] = $this->session->data['sheetData'][$i][$this->session->data['col_eend']];
+				  	
+					$temp_water['input'] = 0;
+					
 			      	if($this->session->data['col_wstart']!='')
 			      	{
-			        	$record['????'] = $this->session->data['sheetData'][$i][$this->session->data['col_wstart']];
+			        	$temp_water['Start'] = $this->session->data['sheetData'][$i][$this->session->data['col_wstart']];
 			      	}
 			      
 			      	if($this->session->data['col_wend']!='')
-			        	$record['????'] = $this->session->data['sheetData'][$i][$this->session->data['col_wend']];
-			      
-			      	if($this->session->data['col_ethnic']!='')
-			        	$record['????'] = $this->session->data['sheetData'][$i][$this->session->data['col_addeddate']];
-
-			        $this->model_sale_manage_wie->inputUsage($record);
+			        	$temp_water['usage'] = $this->session->data['sheetData'][$i][$this->session->data['col_wend']];
+						
+					
+					$data['electric_usage'][] = $temp_elec;
+					$data['water_usage'][] = $temp_water;
+				
+			        
 			      	$count++;
 			      }
 			    } 
+				
+				$this->model_sale_manage_wie->inputUsage($data);
 			}
 
 
-			$this->session->data['success'] = $count." has been imported!";
+			$this->session->data['success'] = $count." " . $this->session->data['file_type'] . " has been imported!";
 			$this->redirect($this->url->link('tool/import', 'token=' . $this->session->data['token'], 'SSL'));
 			//$this->response->setOutput($this->model_tool_import->import($this->request->post['import']));
 		} else {
