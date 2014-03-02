@@ -328,7 +328,13 @@ class ControllerToolImport extends Controller {
 			      	}
 			      
 			      	if($this->session->data['col_bed']!='')
-			        	$student['bed_id'] = $this->session->data['sheetData'][$i][$this->session->data['col_bed']];
+			      	{
+			      		$bed = $this->session->data['sheetData'][$i][$this->session->data['col_bed']];
+				        if(strpos($bed, '.'))
+				          $bed = substr($bed, strrpos($bed, ".")+1);  
+
+			        	$student['bed_id'] = $bed;;
+			      	}
 			      
 			      	if($this->session->data['col_ethnic']!='')
 			        	$student['ethnic'] = $this->session->data['sheetData'][$i][$this->session->data['col_ethnic']];

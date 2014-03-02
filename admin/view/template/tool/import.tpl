@@ -101,7 +101,12 @@
         echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_room']].'</td>';
       
       if($this->session->data['col_bed']!='')
-        echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_bed']].'</td>';
+      {
+        $bed = $this->session->data['sheetData'][$i][$this->session->data['col_bed']];
+        if(strpos($bed, '.'))
+          $bed = substr($bed, strrpos($bed, ".")+1);  
+        echo '<td>'.$bed.'</td>';
+      }
       
       if($this->session->data['col_ethnic']!='')
         echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_ethnic']].'</td>';
