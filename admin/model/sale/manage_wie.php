@@ -75,11 +75,11 @@ class ModelSaleManageWie extends Model {
 						$charge = 'no';
 					}
 					
-					$billing_wie_classified[$result['customer_group_id']]['elec']['Usage'] = number_format($e_usage,0);
+					$billing_wie_classified[$result['customer_group_id']]['elec']['Usage'] = $e_usage;
 					$money = $this->calculate_money_elec($e_standard, $e_usage);
 					$billing_wie_classified[$result['customer_group_id']]['elec']['Money'] = number_format($money,0);
-					$billing_wie_classified[$result['customer_group_id']]['elec']['End'] = (isset($elec['End']) ? number_format($elec['End'],0) : 0);
-					$billing_wie_classified[$result['customer_group_id']]['elec']['Start'] = (isset($elec['Start']) ? number_format($elec['Start'],0) : 0);
+					$billing_wie_classified[$result['customer_group_id']]['elec']['End'] = (isset($elec['End']) ? $elec['End'] : 0);
+					$billing_wie_classified[$result['customer_group_id']]['elec']['Start'] = (isset($elec['Start']) ? $elec['Start'] : 0);
 					$billing_wie_classified[$result['customer_group_id']]['elec']['Charged'] = $charge;
 					$billing_wie_classified[$result['customer_group_id']]['elec']['ok'] = (($e_usage == 0) ? 'no' : 'yes');
 					$totalmoney += $money;
@@ -117,13 +117,13 @@ class ModelSaleManageWie extends Model {
 						$charge = 'no';
 					}
 					
-					$billing_wie_classified[$result['customer_group_id']]['water']['Usage'] = number_format($w_usage,0);
+					$billing_wie_classified[$result['customer_group_id']]['water']['Usage'] = $w_usage;
 					//$billing_wie_classified[$result['customer_group_id']]['water']['w_standard'] = $w_standard;
 					$billing_wie_classified[$result['customer_group_id']]['water']['lifetime'] = $this->model_price_standard->getWaterLastestLifeTime();
 					$money = $this->calculate_money_water($w_standard, $w_usage, $result['customer_group_id']);
 					$billing_wie_classified[$result['customer_group_id']]['water']['Money'] = number_format($money,0);
-					$billing_wie_classified[$result['customer_group_id']]['water']['End'] = (isset($water['End']) ? number_format($water['End'],0) : 0);
-					$billing_wie_classified[$result['customer_group_id']]['water']['Start'] = (isset($water['Start']) ? number_format($water['Start'],0) : 0);
+					$billing_wie_classified[$result['customer_group_id']]['water']['End'] = (isset($water['End']) ? $water['End'] : 0);
+					$billing_wie_classified[$result['customer_group_id']]['water']['Start'] = (isset($water['Start']) ? $water['Start'] : 0);
 					$billing_wie_classified[$result['customer_group_id']]['water']['Charged'] = $charge;
 					$billing_wie_classified[$result['customer_group_id']]['water']['ok'] = (($w_usage == 0) ? 'no' : 'yes');
 					$totalmoney += $money;
