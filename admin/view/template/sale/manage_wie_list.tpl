@@ -79,10 +79,11 @@
   </div>
 </div>
 <div id="news-form-back" class="news-form-back"></div>
-<div id="news-form" class="news-form">
+<div id="news-form" class="news-form" style="max-height:400px;overflow-y:auto;">
     <div class="header">
         <p id='lblpopupheader'><?php echo $text_popup_header ?></p>
-        <img src="../admin/view/image/remove-small.png" alt="Close" title="Close" onclick="newsToggle(false);">
+        <!--<img src="../admin/view/image/remove-small.png" alt="Close" title="Close" onclick="newsToggle(false);">-->
+        <a onclick="newsToggle(false);" style="float:right;margin:8px 10px 0px 0px;font-weight:bold;color:#fff;text-decoration:none;">Thoát</a>
     </div>
     <div class="fbody">
     	<div class="colorboxOuter">
@@ -157,7 +158,8 @@
 <div id="editwie-form" class="news-form">
     <div class="header">
         <p id='lblpopupheader'><?php echo $text_popup_header ?></p>
-        <img src="../admin/view/image/remove-small.png" alt="Close" title="Close" onclick="editWieToggle(false);">
+        <!--<img src="../admin/view/image/remove-small.png" alt="Close" title="Close" onclick="editWieToggle(false);">-->
+        <a onclick="editWieToggle(false);" style="float:right;margin:8px 10px 0px 0px;font-weight:bold;color:#fff;text-decoration:none;">Thoát</a>
     </div>
     <div class="fbody">
        <table class="editWie">
@@ -173,7 +175,8 @@
 <div id="mail-form" class="news-form">
     <div class="header">
         <p id='lblpopupheader'><?php echo $text_popup_header ?></p>
-        <img src="../admin/view/image/remove-small.png" alt="Close" title="Close" onclick="mailForm(false);">
+        <!--<img src="../admin/view/image/remove-small.png" alt="Close" title="Close" onclick="mailForm(false);">-->
+        <a onclick="mailForm(false);" style="float:right;margin:8px 10px 0px 0px;font-weight:bold;color:#fff;text-decoration:none;">Thoát</a>
     </div>
     <div class="fbody">
        <table class="editWie">
@@ -222,7 +225,8 @@
 <div id="confirmbox-form" class="confirmbox-form">
     <div class="header">
         <p id='lblpopupheader'><?php echo $text_warning ?></p>
-        <img src="../admin/view/image/remove-small.png" alt="Close" title="Close" onclick="confirmBoxToggle(false);">
+        <!--<img src="../admin/view/image/remove-small.png" alt="Close" title="Close" onclick="confirmBoxToggle(false);">-->
+        <a onclick="confirmBoxToggle(false);" style="float:right;margin:8px 10px 0px 0px;font-weight:bold;color:#fff;text-decoration:none;">Thoát</a>
     </div>
     <div class="fbody">
        <table class="editWie">
@@ -430,46 +434,16 @@
 		if(flag == 1) {
 			$("#viewWie").html(strHTML);
 		
-			$("input[name^='checkpaid_elec_']").click(function () {
+			$("input[name^='checkpaid_elec_']").click(function() {
 				var id = $(this).attr('name').replace('checkpaid_elec_','');
-				//update charged data
-				$.ajax({
-					url: 'index.php?route=sale/manage_wie/elec_charged&token=<?php echo $token; ?>',
-					type: 'post',
-					data: {'room_id' : id},
-					dataType: 'json',
-					success: function(json) {
-						if(json['success']) {
-							filterRoomByFloorView();
-							//disabled the checkbox
-							//$("#checkpaid_elec_td_" + id).html('<?php echo $text_paid;?>');
-						}
-					},
-					error : function(error) {
-						console.log(error);
-					}
-				});
+				temp_room = id;
+				checkpaid_elec(id);	
 			});
 			
-			$("input[name^='checkpaid_water_']").click(function () {
+			$("input[name^='checkpaid_water_']").click(function() {
 				var id = $(this).attr('name').replace('checkpaid_water_','');
-				//update charged data
-				$.ajax({
-					url: 'index.php?route=sale/manage_wie/water_charged&token=<?php echo $token; ?>',
-					type: 'post',
-					data: {'room_id' : id},
-					dataType: 'json',
-					success: function(json) {
-						if(json['success']) {
-							filterRoomByFloorView();
-							//disabled the checkbox
-							//$("#checkpaid_water_td_" + id).html('<?php echo $text_paid;?>');
-						}
-					},
-					error : function(error) {
-						console.log(error);
-					}
-				});
+				temp_room = id;
+				checkpaid_water();	
 			});
 		}
 		else {
@@ -477,6 +451,65 @@
 		}
 	}
 	
+	var temp_room = 0;
+	function checkpaid_elec() {
+		if(!confirmResult)
+		{
+			if($('#confirmbox-form').css('display') == 'none')
+				confirmBoxToggle(true,'Check đóng tiền điện phòng ' + temp_room,checkpaid_elec);
+			return;
+		}
+		
+		//update charged data
+		$.ajax({
+			url: 'index.php?route=sale/manage_wie/elec_charged&token=<?php echo $token; ?>',
+			type: 'post',
+			data: {'room_id' : temp_room},
+			dataType: 'json',
+			success: function(json) {
+				if(json['success']) {
+					filterRoomByFloorView();
+					//disabled the checkbox
+					//$("#checkpaid_elec_td_" + id).html('<?php echo $text_paid;?>');
+				}
+			},
+			error : function(error) {
+				console.log(error);
+			}
+		});
+		
+		confirmResult = false;
+	}
+	
+	function checkpaid_water() {
+		if(!confirmResult)
+		{
+			if($('#confirmbox-form').css('display') == 'none')
+				confirmBoxToggle(true,'Check đóng tiền nước phòng ' + temp_room,checkpaid_water);
+			return;
+		}
+		
+		//update charged data
+		$.ajax({
+			url: 'index.php?route=sale/manage_wie/water_charged&token=<?php echo $token; ?>',
+			type: 'post',
+			data: {'room_id' : temp_room},
+			dataType: 'json',
+			success: function(json) {
+				if(json['success']) {
+					filterRoomByFloorView();
+					//disabled the checkbox
+					//$("#checkpaid_water_td_" + id).html('<?php echo $text_paid;?>');
+				}
+			},
+			error : function(error) {
+				console.log(error);
+			}
+		});
+		
+		confirmResult = false;
+	}
+			
 	var cur_room=0;
 	function editElecWater(room_id) {
 		$.ajax({

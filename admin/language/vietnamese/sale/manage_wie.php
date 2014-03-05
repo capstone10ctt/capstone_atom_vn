@@ -5,7 +5,7 @@ $_['heading_title']    = 'Phòng';
 $_['text_mail_monthly'] = "Gửi mail thống kê tháng";
 $_['text_import_from_file'] = "Nhập từ file Excel";
 
-$_['text_title']             = 'Nội dung tiêu thụ:';
+$_['text_title']             = 'Phòng/Hộ gia đình';
 $_['text_start_num_electric']             = 'Số công tơ điện';
 $_['text_start_num_water']             = 'Số công tơ nước';
 $_['text_floor']             = 'Tầng';
