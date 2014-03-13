@@ -5,6 +5,8 @@ class ControllerPriceEdit extends Controller {
         $this->language->load('price/standard');
         $this->load->model('price/standard');
         $this->data['token'] = $this->session->data['token'];
+        // add CSS
+        $this->document->addStyle('view/stylesheet/price/style.css');
 
         $electricity_last_modified = $this->model_price_standard->getElectricityLastModified();
         $electricity_last_modified_list = $this->model_price_standard->getElectricityLastModifiedList();

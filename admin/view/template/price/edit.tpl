@@ -1,70 +1,3 @@
-<head>
-    <style type="text/css">
-        #content {
-            width: inherit;
-        }
-        .standard_price_show {
-            width: 238px;
-            position: absolute;
-            padding: 6px;
-        }
-        .standard_price_edit {
-            margin-left: 260px;
-            padding: 6px;
-            width: auto;
-        }
-        .standard_price_show, .standard_price_edit{
-            margin-top: 15px;
-            -webkit-box-shadow: 1px 0px 1px 1px rgba(232,232,232,1);
-            -moz-box-shadow: 1px 0px 1px 1px rgba(232,232,232,1);
-            box-shadow: 1px 0px 1px 1px rgba(232,232,232,1);
-        }
-        .electricity_standard_price, .water_standard_price  {
-            width: 224px;
-        }
-        h2 {
-            color: #0000ff;
-        }
-        input {
-            float: right;
-        }
-        .table_electricity, .table_water {
-            width: 250px;
-        }
-        .left_info {
-            float: left;
-            width: 230px;
-        }
-        .right_electricity_edit, .right_water_edit {
-            margin-left: 235px;
-        }
-        img:hover {
-            cursor: hand;
-        }
-
-        input[type=text]:focus, textarea:focus {
-            box-shadow: 0 0 5px rgba(81, 203, 238, 1);
-            padding: 3px 0px 3px 3px;
-            margin: 5px 1px 3px 0px;
-            border: 1px solid rgba(81, 203, 238, 1);
-        }
-
-        input[type=text] {
-            -webkit-transition: all 0.30s ease-in-out;
-            -moz-transition: all 0.30s ease-in-out;
-            -ms-transition: all 0.30s ease-in-out;
-            -o-transition: all 0.30s ease-in-out;
-            outline: none;
-            padding: 3px 0px 3px 3px;
-            margin: 5px 1px 3px 0px;
-            border: 1px solid #DDDDDD;
-        }
-
-        .dlg-no-title .ui-dialog-titlebar {
-            display: none;
-        }
-    </style>
-</head>
 <?php echo $header; ?>
 <head>
     <script src="view/javascript/jquery.blockUI.js"></script>
@@ -120,10 +53,10 @@
                             var price = parseInt(json['data'][index]['Price']);
                             // add new lines represent the standard price corresponding to the inputted date
                             $show.append('<tr class="line">' +
-                                                '<td class="from">' + json['data'][index]['From'] + '</td>' +
-                                                '<td class="to">' + json['data'][index]['To'] + '</td>' +
-                                                '<td class="price">' + price.format() + '&nbsp₫</td>' + // format function: convert 1234 -> 1,234
-                                            '</tr>');
+                                    '<td class="from">' + json['data'][index]['From'] + '</td>' +
+                                    '<td class="to">' + json['data'][index]['To'] + '</td>' +
+                                    '<td class="price">' + price.format() + '&nbsp₫</td>' + // format function: convert 1234 -> 1,234
+                                    '</tr>');
                             $edit.append('<tr class="line">' +
                                     '<td class="from">' + json['data'][index]['From'] + '</td>' +
                                     '<td class="to">' + json['data'][index]['To'] + '</td>' +
@@ -199,10 +132,10 @@
                                             to = '';
                                         }
                                         $show.append('<tr class="line">' +
-                                                        '<td class="from">' + arr[index].from + '</td>' +
-                                                        '<td class="to">' + to + '</td>' +
-                                                        '<td class="price">' + price.format() + '&nbsp₫</td>' +
-                                                    '</tr>');
+                                                '<td class="from">' + arr[index].from + '</td>' +
+                                                '<td class="to">' + to + '</td>' +
+                                                '<td class="price">' + price.format() + '&nbsp₫</td>' +
+                                                '</tr>');
                                         $edit.append('<tr class="line">' +
                                                 '<td class="from">' + arr[index].from + '</td>' +
                                                 '<td class="to">' + to + '</td>' +
@@ -223,7 +156,7 @@
             });
 
             $('input[name="createNewElectricityStandard"]').click(function() {
-                $tbody = $('#dialog-update-electricity-standard').find('tbody');
+                var $tbody = $('#dialog-update-electricity-standard').find('tbody');
                 $tbody.empty();
                 // jQuery BlockUI (http://malsup.com/jquery/block/)
                 $.blockUI({ message: '<h3><span><img src="view/image/price/preloader.gif" height="16" width="16" /></span> Đang lấy dữ liệu...</h3>' });
@@ -238,24 +171,24 @@
                         for (var index in json['newest']) {
                             var to = json['newest'][index]['To'];
                             $tbody.append('<tr class="line">' +
-                                                '<td class="from"><input type="text" style="width: 74px;" disabled="true" value="' + json['newest'][index]['From'] + '"/></td>' +
-                                                '<td class="to"><input type="text" style="width: 74px;" value="' + to + '"/></td>' +
-                                                '<td class="price"><input type="text" style="width: 74px;" value="' + json['newest'][index]['Price'] + '"/></td>' +
-                                                '<td class="remove"><img src="view/image/price/delete.png" height="16" width="16" /></td>' +
-                                            '</tr>');
+                                    '<td class="from"><input type="text" style="width: 74px;" disabled="true" value="' + json['newest'][index]['From'] + '"/></td>' +
+                                    '<td class="to"><input type="text" style="width: 74px;" value="' + to + '"/></td>' +
+                                    '<td class="price"><input type="text" style="width: 74px;" value="' + json['newest'][index]['Price'] + '"/></td>' +
+                                    '<td class="remove"><img src="view/image/price/delete.png" height="16" width="16" /></td>' +
+                                    '</tr>');
                         }
                         $tbody.append('' +
                                 '<tr class="dummy-line">' +
-                                    '<td class="from" style="display: none;"><input style="width: 74px;" disabled="true" /></td>' +
-                                    '<td class="to" style="display: none;"><input style="width: 74px;" /></td>' +
-                                    '<td class="price" style="display: none;"><input style="width: 74px;" /></td>' +
-                                    '<td class="remove" style="display: none;"><img src="view/image/price/delete.png" height="16" width="16" /></td>' +
+                                '<td class="from" style="display: none;"><input style="width: 74px;" disabled="true" /></td>' +
+                                '<td class="to" style="display: none;"><input style="width: 74px;" /></td>' +
+                                '<td class="price" style="display: none;"><input style="width: 74px;" /></td>' +
+                                '<td class="remove" style="display: none;"><img src="view/image/price/delete.png" height="16" width="16" /></td>' +
                                 '</tr>' +
                                 '<tr class="plus">' +
-                                    '<td><img src="view/image/price/add.png" height="16" width="16" /></td>' +
-                                    '<td></td>' +
-                                    '<td></td>' +
-                                    '<td></td>' +
+                                '<td><img src="view/image/price/add.png" height="16" width="16" /></td>' +
+                                '<td></td>' +
+                                '<td></td>' +
+                                '<td></td>' +
                                 '</tr>');
                         // input check
                         $('#dialog-update-electricity-standard').find('tbody').focusout(function(e) { // e: event object
@@ -535,9 +468,9 @@
         <?php echo $description_electricity; ?>
         <table class="electricity_standard_price">
             <thead>
-            <td><b><?php echo $text_electricity_from; ?></b></td>
-            <td><b><?php echo $text_electricity_to; ?></b></td>
-            <td><b><?php echo $text_electricity_price; ?></b></td>
+                <td><b><?php echo $text_electricity_from; ?></b></td>
+                <td><b><?php echo $text_electricity_to; ?></b></td>
+                <td><b><?php echo $text_electricity_price; ?></b</td>
             </thead>
             <tbody>
             <?php
@@ -581,49 +514,53 @@
             </tbody>
         </table>
     </div>
-    <div class="standard_price_edit" style="overflow: hidden;">
+    <div class="standard_price_edit" style="overflow: auto;">
         <h2>CHỈNH SỬA ĐỊNH MỨC GIÁ ĐIỆN - NƯỚC</h2>
         <div class="table_electricity">
             <?php echo $description_electricity; ?>
             <br />
-            <input type="button" value="CẬP NHẬT" name="createNewElectricityStandard" />
+            <input type="button" value="CẬP NHẬT" name="createNewElectricityStandard" style="float: none;" />
+            <br />
             <div id="dialog-update-electricity-standard" title="Cập nhật">
                 <p><span style="color: red; font-weight: bold;">(*)</span> Nhập -1 vào cột Đến kW để kết thúc bảng định mức</p>
                 <table>
                     <thead>
                         <td><b><?php echo $text_electricity_from; ?></b></td>
                         <td><b><?php echo $text_electricity_to; ?></b></td>
-                        <td><b><?php echo $text_electricity_price; ?></b></td>
+                        <td><b><?php echo $text_electricity_price; ?></b</td>
                         <td></td>
                     </thead>
                     <tbody>
                     </tbody>
                 </table>
             </div>
-            Lịch sử chỉnh sửa
-            <select id="electricity_modified_date">
-                <?php foreach ($electricity_last_modified_list as $row) {
-                $from = date("F jS, Y", strtotime($row['from']));
-                if (!empty($row['to'])) {
-                    $to = date("F jS, Y", strtotime($row['to']));
-              ?>
-                <option value="<?php echo $row['id']; ?>"><?php echo $from; ?> - <?php echo $to; ?></option>
-                <?php
-                } else {
-              ?>
-                <option value="<?php echo $row['id']; ?>"><?php echo $from; ?></option>
-                <?php
-                }
-              ?>
-                ?>
-                <?php } ?>
-            </select>
+            <div>
+                Lịch sử chỉnh sửa
+                <select id="electricity_modified_date">
+                    <?php
+                    foreach ($electricity_last_modified_list as $row) {
+                    $from = date("F jS, Y", strtotime($row['from']));
+                    if (!empty($row['to'])) {
+                        $to = date("F jS, Y", strtotime($row['to']));
+                  ?>
+                    <option value="<?php echo $row['id']; ?>"><?php echo $from; ?> - <?php echo $to; ?></option>
+                    <?php
+                    } else {
+                  ?>
+                    <option value="<?php echo $row['id']; ?>"><?php echo $from; ?></option>
+                    <?php
+                    }
+                  ?>
+                    ?>
+                    <?php } ?>
+                </select>
+            </div>
             <div class="left_info">
                 <table class="electricity_standard_price">
                     <thead>
                         <td><b><?php echo $text_electricity_from; ?></b></td>
                         <td><b><?php echo $text_electricity_to; ?></b></td>
-                        <td><b><?php echo $text_electricity_price; ?></b></td>
+                        <td><b><?php echo $text_electricity_price; ?></b</td>
                     </thead>
                     <tbody>
                     <?php
@@ -645,42 +582,44 @@
                 <br /><br />
             </div>
         </div>
-
+        <div class="vertical-line"></div>
         <div class="table_water">
             <?php echo $description_water; ?>
             <br />
-            <input type="button" value="CẬP NHẬT" name="createNewWaterStandard" />
+            <input type="button" value="CẬP NHẬT" name="createNewWaterStandard" style="float: none;" />
             <div id="dialog-update-water-standard" title="Cập nhật">
                 <p><span style="color: red; font-weight: bold;">(*)</span> Nhập -1 vào cột Đến m3 để kết thúc bảng định mức</p>
                 <table>
                     <thead>
                     <td><b><?php echo $text_water_from; ?></b></td>
                     <td><b><?php echo $text_water_to; ?></b></td>
-                    <td><b><?php echo $text_water_price; ?></b></td>
+                    <td><b><?php echo $text_water_price; ?></b</td>
                     <td></td>
                     </thead>
                     <tbody>
                     </tbody>
                 </table>
             </div>
-            Lịch sử chỉnh sửa
-            <select id="water_modified_date">
-                <?php foreach ($water_last_modified_list as $row) {
-                $from = date("F jS, Y", strtotime($row['from']));
-                if (!empty($row['to'])) {
-                    $to = date("F jS, Y", strtotime($row['to']));
-              ?>
-                <option value="<?php echo $row['id']; ?>"><?php echo $from; ?> - <?php echo $to; ?></option>
-                <?php
-                } else {
-              ?>
-                <option value="<?php echo $row['id']; ?>"><?php echo $from; ?></option>
-                <?php
-                }
-              ?>
-                ?>
-                <?php } ?>
-            </select>
+            <div>
+                Lịch sử chỉnh sửa
+                <select id="water_modified_date">
+                    <?php foreach ($water_last_modified_list as $row) {
+                    $from = date("F jS, Y", strtotime($row['from']));
+                    if (!empty($row['to'])) {
+                        $to = date("F jS, Y", strtotime($row['to']));
+                  ?>
+                    <option value="<?php echo $row['id']; ?>"><?php echo $from; ?> - <?php echo $to; ?></option>
+                    <?php
+                    } else {
+                  ?>
+                    <option value="<?php echo $row['id']; ?>"><?php echo $from; ?></option>
+                    <?php
+                    }
+                  ?>
+                    ?>
+                    <?php } ?>
+                </select>
+            </div>
             <div class="left_info">
                 <table class="water_standard_price">
                     <thead>
