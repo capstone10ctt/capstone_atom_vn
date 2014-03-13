@@ -29,6 +29,9 @@ $_['button_import']		= 'Nhập';
 $_['button_upload']		= 'Tải lên';
 
 // Error
+$_['error_namenotvalid'] = 'Tên không hợp lệ';
+$_['error_facultynotvalid'] = 'Ngành không hợp lệ';
+$_['error_locationnotvalid'] = 'Địa chỉ không hợp lệ';
 $_['error_roomnotfound'] = 'Phòng không tồn tại';
 $_['error_permission'] = 'Cảnh báo: Bạn không được phép sao lưu dữ liệu!';
 $_['error_upload']     = 'Cảnh báo: Bạn phải chọn ít nhất 1 file để tải lên!';

@@ -37,6 +37,9 @@ class ControllerToolImport extends Controller {
 		$this->data['button_upload'] = $this->language->get('button_upload');
 		$this->data['button_import'] = $this->language->get('button_import');
 
+		$this->data['error_namenotvalid'] = $this->language->get('error_namenotvalid');
+		$this->data['error_facultynotvalid'] = $this->language->get('error_facultynotvalid');
+		$this->data['error_locationnotvalid'] = $this->language->get('error_locationnotvalid');
 		$this->data['error_roomnotfound'] = $this->language->get('error_roomnotfound');
 		$this->data['error_upload'] = $this->language->get('error_upload');
 
@@ -81,7 +84,7 @@ class ControllerToolImport extends Controller {
 				
 							foreach($this->session->data['sheetData'][1] as $key => $value)
 							{	
-								switch(trim(strtolower($this->utf8_to_ascii($this->session->data['sheetData'][1][$key])))){
+								switch($this->cleanString($this->session->data['sheetData'][1][$key])){
 									case "mssv": 
 										$this->session->data['col_id'] = $key;
 										break;
@@ -193,7 +196,9 @@ class ControllerToolImport extends Controller {
       		'separator' => ' :: '
    		);
 		
-		
+		$this->load->model('sale/customer');
+		$this->data['facultyList'] = $this->model_sale_customer->getFacultyList();
+		$this->data['locationList'] = $this->model_sale_customer->getLocationList();
 		//$this->data['restore'] = $this->url->link('tool/import', 'token=' . $this->session->data['token'], 'SSL');
 
 		$this->data['upload'] = $this->url->link('tool/import', 'token=' . $this->session->data['token'], 'SSL');
@@ -209,7 +214,7 @@ class ControllerToolImport extends Controller {
 		$this->response->setOutput($this->render());
 	}
 
-	private function utf8_to_ascii($str){
+	public function cleanString($str){
         if(!$str) return false;
         $unicode = array(
 		'a' => 'A|Á|À|Ả|Ã|Ạ|Ă|Ắ|Ằ|Ẳ|Ẵ|Ặ|Â|Ấ|Ầ|Ẩ|Ẫ|Ậ|á|à|ả|ã|ạ|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ',
@@ -240,7 +245,7 @@ class ControllerToolImport extends Controller {
 		'z' => 'Z'
 		        );
 		foreach($unicode as $nonUnicode=>$uni) $str = preg_replace("/($uni)/i",$nonUnicode,$str);
-		return $str;
+		return trim(strtolower($str));
 	}
 	
 	public function import() {
@@ -254,6 +259,11 @@ class ControllerToolImport extends Controller {
 		} elseif ($this->user->hasPermission('modify', 'tool/import')) {
 			
 			$this->load->model('sale/customer_group');
+			$this->load->model('sale/customer');
+			$facultyList = $this->model_sale_customer->getFacultyList();
+			$locationList = $this->model_sale_customer->getLocationList();
+
+
 			$roomList =  $this->model_sale_customer_group->getRoomList();
 			$count = 0;
 			if($this->session->data['file_type'] == 'student')
@@ -261,20 +271,43 @@ class ControllerToolImport extends Controller {
 				$this->load->model('sale/customer');
 				for ($i = 2; $i <= count($this->session->data['sheetData']); $i++)
 			    {
-			      
-			      if (in_array($this->session->data['sheetData'][$i][$this->session->data['col_room']], $roomList))
+			      //check condition
+			    	$id_location=-1;
+			    	$id_faculty=-1;
+			    	if($this->session->data['col_address']!='')
+			    	{
+				    	foreach($locationList as $location){
+						  if($this->cleanString($location['name'])==$this->cleanString($this->session->data['sheetData'][$i][$this->session->data['col_address']])){
+						   $id_location=$location['zone_id'];
+						   break;
+						  }
+						}
+					}
+
+					if($this->session->data['col_faculty']!='')
+					{
+						foreach($facultyList as $faculty){
+						  if($this->cleanString($faculty['name'])==$this->cleanString($this->session->data['sheetData'][$i][$this->session->data['col_faculty']])){
+						   $id_faculty=$faculty['category_id'];
+						   echo $id_faculty;
+						   break;
+						  }
+						}
+					}
+
+			      if (in_array($this->session->data['sheetData'][$i][$this->session->data['col_room']], $roomList) && ($id_location!=-1) && ($id_faculty!=-1))
 			      {
 			      	$student = array(
 			      		'firstname' 	=> '',
 			      		'approved'     => '1',
 			      		'lastname' 	=> '',
 			      		'address' 	=> array(),
-			      		'id_location' 	=> '3761',
+			      		'id_location' 	=> $id_location,
 			      		'email' 	=> '',
 			      		'gender_id' 	=> '0',
 			      		'id_num' 	=> '',
 			      		'university_id' 	=> '33',
-			      		'faculty_id' 	=> '59',
+			      		'faculty_id' 	=> $id_faculty,
 			      		'idnum' 	=> '',
 			      		'student_id' 	=> '',
 			      		'telephone' 	=> '',

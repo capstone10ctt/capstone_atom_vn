@@ -636,5 +636,16 @@ class ModelSaleCustomer extends Model {
 				 
 		return $query->row['total'];
 	}	
+	public function getLocationList(){
+		$query = $this->db->query("SELECT z.zone_id, z.name FROM " . DB_PREFIX . "zone z WHERE country_id = '230'");
+		
+		return $query->rows;
+		}
+
+	public function getFacultyList(){
+		$query = $this->db->query("SELECT cd.category_id, cd.name FROM " . DB_PREFIX . "category_description cd");
+
+		return $query->rows;
+	}
 }
 ?>

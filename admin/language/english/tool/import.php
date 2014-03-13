@@ -29,6 +29,9 @@ $_['button_import']		= 'Import';
 $_['button_upload']		= 'Upload';
 
 // Error
+$_['error_namenotvalid'] = 'Invalid name';
+$_['error_facultynotvalid'] = 'Invalid faculty';
+$_['error_locationnotvalid'] = 'Invalid location';
 $_['error_roomnotfound'] = 'Room does not exist';
 $_['error_permission'] = 'Warning: You do not have permission to import!';
 $_['error_upload']     = 'Warning: You must select at least one table to import!';

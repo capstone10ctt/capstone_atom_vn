@@ -58,14 +58,45 @@
     echo '</tr>';
     echo '</thead>';
     echo '<tbody>';
+    
     for ($i = 2; $i <= count($this->session->data['sheetData']); $i++)
     {
-      $warning = false;
-      if (in_array($this->session->data['sheetData'][$i][$this->session->data['col_room']], $roomList))
+      $warning='';
+      if(!(in_array($this->session->data['sheetData'][$i][$this->session->data['col_room']], $roomList)))
+        $warning=$error_roomnotfound.'<br />';
+        $id_location=-1;
+           $id_faculty=-1;
+            if($this->session->data['col_address']!='')
+            {
+              foreach($locationList as $location){
+              
+              if($this->cleanString($location['name'])==$this->cleanString($this->session->data['sheetData'][$i][$this->session->data['col_address']])){
+               $id_location=$location['zone_id'];
+               break;
+              }
+            }
+          }
+          if($id_location==-1)
+            $warning=$warning.$error_locationnotvalid.'<br />';
+
+          if($this->session->data['col_faculty']!='')
+          {
+            foreach($facultyList as $faculty){
+              
+              if($this->cleanString($faculty['name'])==$this->cleanString($this->session->data['sheetData'][$i][$this->session->data['col_faculty']])){
+               $id_faculty=$faculty['category_id'];
+             
+               break;
+              }
+            }
+          }
+          if($id_faculty==-1)
+            $warning=$warning.$error_facultynotvalid.'<br />';
+
+      if ($warning=='')
         echo '<tr>';
       else
       {
-        $warning = true;
         echo '<tr class="warning">';
       }
       if($this->session->data['col_id']!='')
@@ -114,10 +145,10 @@
       if($this->session->data['col_address']!='')
         echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_address']].'</td>';
       
-      if (!$warning)
+      if ($warning=='')
         echo '<td></td>';
       else
-        echo '<td>'.$error_roomnotfound.'</td>';
+        echo '<td>'.$warning.'</td>';
 
       echo '</tr>';
 
