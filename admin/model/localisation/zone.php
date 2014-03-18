@@ -51,7 +51,7 @@ class ModelLocalisationZone extends Model {
 			}		
 			
 			if ($data['limit'] < 1) {
-				$data['limit'] = 20;
+				$data['limit'] = 70;
 			}	
 			
 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
@@ -66,6 +66,8 @@ class ModelLocalisationZone extends Model {
 		$zone_data = $this->cache->get('zone.' . (int)$country_id);
 	
 		if (!$zone_data) {
+			
+			// LMT EDIT 11:13 18/03/2014
 			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone WHERE country_id = '" . (int)$country_id . "' AND status = '1' ORDER BY name");
 	
 			$zone_data = $query->rows;

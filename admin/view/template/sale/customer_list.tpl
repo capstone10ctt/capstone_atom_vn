@@ -7,7 +7,7 @@
   </div>
   <?php if ($error_warning) { ?>
   <div class="warning"><?php echo $error_warning; ?></div>
-  <?php } ?>
+  <?php } ?
   <?php if ($success) { ?>
   <div class="success"><?php echo $success; ?></div>
   <?php } ?>
