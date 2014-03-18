@@ -41,13 +41,13 @@
           <?php foreach ($floors as $floor) { ?>
           <tr>
             <td class="left"><?php echo $floor['name']; ?></td>
-            <td class="left"><?php echo $floor['wpay']; ?></td>
-            <td class="left"><?php echo $floor['epay']; ?></td>
-            <td class="left"><?php echo $floor['epay'] + $floor['wpay']; ?></td>
-            <td class="left"><?php echo $floor['wpaid']; ?></td>
-            <td class="left"><?php echo $floor['epaid']; ?></td>
-            <td class="left"><?php echo $floor['wpaid'] + $floor['epaid']; ?></td>
-            <td class="left"><?php echo ($floor['epay'] + $floor['wpay'])-($floor['wpaid'] + $floor['epaid']); ?></td>
+            <td class="left"><?php echo number_format($floor['wpay'],0); ?></td>
+            <td class="left"><?php echo number_format($floor['epay'],0); ?></td>
+            <td class="left"><?php echo number_format($floor['epay'] + $floor['wpay'],0); ?></td>
+            <td class="left"><?php echo number_format($floor['wpaid'],0); ?></td>
+            <td class="left"><?php echo number_format($floor['epaid'],0); ?></td>
+            <td class="left"><?php echo number_format(($floor['wpaid'] + $floor['epaid']),0); ?></td>
+            <td class="left"><?php echo number_format((($floor['epay'] + $floor['wpay'])-($floor['wpaid'] + $floor['epaid'])),0); ?></td>
           </tr>
           <?php } ?>
           <?php } else { ?>
