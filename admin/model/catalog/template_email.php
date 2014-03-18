@@ -62,7 +62,7 @@ class ModelCatalogTemplateEmail extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "template_email WHERE id = '" . $this->db->escape($id) . "'");
 
 		foreach ($data['email_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "template_email SET id = '" . $this->db->escape($id) . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape(trim(strip_tags(html_entity_decode($value['name'], ENT_QUOTES, 'UTF-8')))) . "', description = '" . $this->db->escape(html_entity_decode($value['description'])) . "', status = '" . (isset($data['email_status']) ? 1 : 0) . "', special = '" . (int)$data['email_special'] . "', track = '" . (isset($data['email_track']) ? 1 : 0) . "', promo = '" . (isset($promo[$language_id]) ? $this->db->escape($promo[$language_id]['description']) : '') . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "template_email SET id = '" . $this->db->escape($id) . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape(trim(strip_tags(html_entity_decode($value['name'], ENT_QUOTES, 'UTF-8')))) . "', description = '" . $this->db->escape(html_entity_decode($value['description'])) . "', status = '" . (isset($data['email_status']) ? 1 : 0) . "', track = '" . (isset($data['email_track']) ? 1 : 0) . "', promo = '" . (isset($promo[$language_id]) ? $this->db->escape($promo[$language_id]['description']) : '') . "'");
 		}
 	}
 
