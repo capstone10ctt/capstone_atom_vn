@@ -749,7 +749,7 @@ class ControllerSaleManageWie extends Controller {
 		
 		$this->load->model('sale/manage_wie');
 		
-		$student_info = $this->model_sale_manage_wie->getStudentIDFromCardID((int)$this->request->post['card_id']);
+		$student_info = $this->model_sale_manage_wie->getStudentIDFromCardID($this->request->post['card_id']);
 		
 		if(!is_null($student_info)) {
 			$json['student_info'] = $student_info;

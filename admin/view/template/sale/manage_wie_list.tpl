@@ -16,7 +16,7 @@
     <div class="heading">
       <h1><img src="view/image/customer.png" alt="" /> <?php echo $heading_title; ?></h1>
       <div class="buttons">
-      <input id="temp_id" value="123456789" /><a onclick="previewElecWaterCard();" class="button">test card</a>
+      <!--<input id="temp_id" value="123456789" /><a onclick="previewElecWaterCard();" class="button">test card</a>-->
       <a onclick="newsToggle(true);" class="button"><?php echo $text_add; ?></a><a href="<?php echo $import_data; ?>" class="button"><?php echo $text_import_from_file; ?></a><a onclick="mailForm(true);" class="button"><?php echo $text_mail; ?></a><a onclick="sendMailToMinistry();" class="button"><?php echo $text_mail_monthly; ?></a><!--<a onclick="location.reload();" class="button"><?php echo $text_refresh; ?></a>--></div>
       <div class="buttons"></div>
     </div>
