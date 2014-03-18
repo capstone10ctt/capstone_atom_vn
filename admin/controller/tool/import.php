@@ -289,7 +289,7 @@ class ControllerToolImport extends Controller {
 						foreach($facultyList as $faculty){
 						  if($this->cleanString($faculty['name'])==$this->cleanString($this->session->data['sheetData'][$i][$this->session->data['col_faculty']])){
 						   $id_faculty=$faculty['category_id'];
-						   echo $id_faculty;
+						   
 						   break;
 						  }
 						}
