@@ -1,4 +1,5 @@
 <?php echo $header; ?>
+<script type="text/javascript" src="view/javascript/jquery.printElement.min.js"></script>
 <div id="content">
   <div class="breadcrumb">
     <?php foreach ($breadcrumbs as $breadcrumb) { ?>
@@ -14,7 +15,9 @@
   <div class="box">
     <div class="heading">
       <h1><img src="view/image/customer.png" alt="" /> <?php echo $heading_title; ?></h1>
-      <div class="buttons"><a onclick="newsToggle(true);" class="button"><?php echo $text_add; ?></a><a href="<?php echo $import_data; ?>" class="button"><?php echo $text_import_from_file; ?></a><a onclick="mailForm(true);" class="button"><?php echo $text_mail; ?></a><a onclick="sendMailToMinistry();" class="button"><?php echo $text_mail_monthly; ?></a><!--<a onclick="location.reload();" class="button"><?php echo $text_refresh; ?></a>--></div>
+      <div class="buttons">
+      <input id="temp_id" value="123456789" /><a onclick="previewElecWaterCard();" class="button">test card</a>
+      <a onclick="newsToggle(true);" class="button"><?php echo $text_add; ?></a><a href="<?php echo $import_data; ?>" class="button"><?php echo $text_import_from_file; ?></a><a onclick="mailForm(true);" class="button"><?php echo $text_mail; ?></a><a onclick="sendMailToMinistry();" class="button"><?php echo $text_mail_monthly; ?></a><!--<a onclick="location.reload();" class="button"><?php echo $text_refresh; ?></a>--></div>
       <div class="buttons"></div>
     </div>
     <div class="content">
@@ -153,6 +156,7 @@
     <a onclick="inputHistory();" class="button"/><?php echo $text_submit ?></a>
     </div>
 </div>
+<div id="printDiv"></div>
 
 <div id="editwie-form-back" class="news-form-back"></div>
 <div id="editwie-form" class="news-form">
@@ -170,6 +174,53 @@
     <a onclick="saveEditWie();" class="button"/><?php echo $text_submit ?></a>
     </div>
 </div>
+<style type="text/css">
+	.student_info {
+		position:relative;
+		width:300px;
+		margin:0px auto 0px;
+		border:solid 1px #CCC;
+	}
+	.student_info div{
+		position:relative;
+		width:100%;
+	}
+	.student_info div p{
+		position:relative;
+		display:inline-block;
+		width:35%;
+		margin:7px 0px 0px 10px;
+		text-align:left;
+	}
+	.student_info div span{
+		position:relative;
+		display:inline-block;
+		margin-left:5px;
+		width:60%;
+		text-align:left;
+	}
+</style>
+<div id="editwiepreview-form-back" class="news-form-back"></div>
+<div id="editwiepreview-form" class="news-form">
+    <div class="header">
+        <p id='lblpopupheader'><?php echo $text_popup_preview_header ?></p>
+        <!--<img src="../admin/view/image/remove-small.png" alt="Close" title="Close" onclick="editWieToggle(false);">-->
+        <a onclick="previewWieToggle(false);" style="float:right;margin:8px 10px 0px 0px;font-weight:bold;color:#fff;text-decoration:none;">Thoát</a>
+    </div>
+    <div class="fbody">
+    	<div id="student_info" class="student_info">
+        	<div><p id="txtHeaderMSSV"></p><span id="txtMSSV"></span></div>
+            <div><p id="txtHeaderSName"></p><span id="txtSName"></span></div>
+            <div style="margin-bottom:7px;"><p id="txtHeaderRoomLead"></p><span id="txtRoomLead"></span></div>
+        </div>
+       <div id="tbpreviewWie" align="center">
+       </div>
+       <a id="confirmPreview" onclick="checkpaid();" class="button" style="display:none;margin:0px auto 0px;"/><?php echo $text_confirm ?></a>
+    </div>
+    
+    </div>
+</div>
+
 
 <div id="mail-form-back" class="mail-form-back"></div>
 <div id="mail-form" class="news-form">
@@ -241,7 +292,14 @@
 
 <script type="text/javascript"><!--
 
+	$( document ).ready(function() {
+		  $("body").bind("keyup", function(e){
+				console.log(String.fromCharCode(e.which));  
+		  });
+	});
+
 	filterRoomByFloorView();
+	
 	function viewRoomWieDetail(id) {
 		$('tr[id^=\'detail_wie_' + id + '\']').slideToggle(500);
 	}
@@ -262,7 +320,7 @@
 			data: 'floor_id=' + floor_id + '&room_id=' + room_id,
 			dataType: 'json',
 			success: function(json) {
-				console.log(json['floors_filtered']);
+				//console.log(json['floors_filtered']);
 				if(json['floors_filtered']) {
 					renderRoomsView(json['floors_filtered'],1);
 					filterRoomByFloorSelView();
@@ -390,6 +448,7 @@
 		$("#room_list").html(strHTML);
 	}
 	
+	var editstate = "";
 	function renderRoomsView(input, flag) {
 		strHTML = "";
 		
@@ -408,7 +467,7 @@
 							'<td><?php echo $text_month?></td>' +
 							((flag == 1) ? '<td><?php echo $text_usage_elec?></td>' : '<td><?php echo $text_start_num_electric?></td>') +
 							((flag == 1) ? '<td><?php echo $text_cost?></td>' : '') +
-							'<td><?php echo $text_paid?></td>' +
+							//'<td><?php echo $text_paid?></td>' +
 							((flag == 1) ? '<td><?php echo $text_usage_water?></td>' : '<td><?php echo $text_start_num_water?></td>') +
 							 ((flag == 1) ? '<td><?php echo $text_cost?></td>' : '')+
 							'<td><?php echo $text_paid?></td>' +
@@ -419,32 +478,48 @@
 					strHTML += '<tr class="body" >' +
 								'<td>' + input[i]['rooms'][j]['name'] + '</td>' +
 								'<td>' + input[i]['rooms'][j]['pay_month'] + '</td>' +
-								'<td style="text-align:center;">' + ((flag == 1) ?  input[i]['rooms'][j]['room_data']['elec']['Usage']: '<input type="text" id="end_num_elec_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" value ="' + input[i]['rooms'][j]['room_data']['elec']['End'] + '" />') + '</td>' +
+								'<td style="text-align:center;">' + ((flag == 1 || flag == 2) ?  input[i]['rooms'][j]['room_data']['elec']['Usage']: '<input type="text" id="end_num_elec_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" value ="' + input[i]['rooms'][j]['room_data']['elec']['End'] + '" />') + '</td>' +
 								((flag == 1) ? '<td>' + input[i]['rooms'][j]['room_data']['elec']['Money'] + '</td>' : '') +
-								'<td align="center" id="checkpaid_elec_td_' + input[i]['rooms'][j]['customer_group_id'] + '" style="' + ((input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'yes') ? "background:#FFF;" : ((input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'no') ? "background:#ff0433;" : "background:#ff7a04;" )) + '">' + ((flag == 1) ? ((input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['elec']['ok'] == 'yes') ? '<input type="checkbox" name="checkpaid_elec_' + input[i]['rooms'][j]['customer_group_id'] + '" />' : '') : '<?php echo $text_late; ?>' )) : '<input type="checkbox" ' + ((input[i]['rooms'][j]['room_data']['elec']['Charged'] != 'no') ? 'checked' : '') + ' id="checkpaid_elec_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" />') + '</td>' +
-								'<td style="text-align:center;">' + ((flag == 1) ? input[i]['rooms'][j]['room_data']['water']['Usage'] : '<input type="text" id="end_num_water_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" value ="' + input[i]['rooms'][j]['room_data']['water']['End'] + '" />') + '</td>'  +
+								'<td style="text-align:center;">' + ((flag == 1 || flag == 2) ? input[i]['rooms'][j]['room_data']['water']['Usage'] : '<input type="text" id="end_num_water_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" value ="' + input[i]['rooms'][j]['room_data']['water']['End'] + '" />') + '</td>'  +
 								((flag == 1) ? '<td>' + input[i]['rooms'][j]['room_data']['water']['Money'] + '</td>' : '') +
-								'<td align="center" id="checkpaid_water_td_' + input[i]['rooms'][j]['customer_group_id'] + '" style="' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? "background:#FFF;" : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? "background:#ff0433;" : "background:#ff7a04;" )) + '">' + ((flag == 1) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? '<input type="checkbox" name="checkpaid_water_' + input[i]['rooms'][j]['customer_group_id'] + '" />' : '') : '<?php echo $text_late; ?>' )) : '<input type="checkbox" ' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] != 'no') ? 'checked' : '') + ' id="checkpaid_water_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" />') + '</td>' +
+								'<td align="center" id="checkpaid_water_td_' + input[i]['rooms'][j]['customer_group_id'] + '" style="' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? "background:#FFF;" : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? "background:#ff0433;" : "background:#ff7a04;" )) + '">' + ((flag == 2) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? '' : '') : '<?php echo $text_late; ?>' )) : ((flag == 1) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? '<input type="checkbox" id="checkpaid_' + input[i]['rooms'][j]['customer_group_id'] + '" name="checkpaid_' + input[i]['rooms'][j]['customer_group_id'] + '" />' : '') : '<?php echo $text_late; ?>' )) : '<input type="checkbox" ' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] != 'no') ? 'checked' : '') + ' id="checkpaid_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" />')) + '</td>' +
 								((flag == 1) ? '<td><a style="float:right;color:blue;" onclick="editElecWater(' + input[i]['rooms'][j]['customer_group_id']  +');"><?php echo $text_edit; ?></a></td>' : '') +
 							'</tr>';
 				}
+				
+				//for(var j=0; j < input[i]['rooms'].length; j++) {
+//					strHTML += '<tr class="body" >' +
+//								'<td>' + input[i]['rooms'][j]['name'] + '</td>' +
+//								'<td>' + input[i]['rooms'][j]['pay_month'] + '</td>' +
+//								'<td style="text-align:center;">' + ((flag == 1 || flag == 2) ?  input[i]['rooms'][j]['room_data']['elec']['Usage']: '<input type="text" id="end_num_elec_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" value ="' + input[i]['rooms'][j]['room_data']['elec']['End'] + '" />') + '</td>' +
+//								((flag == 1) ? '<td>' + input[i]['rooms'][j]['room_data']['elec']['Money'] + '</td>' : '') +
+//								'<td align="center" id="checkpaid_elec_td_' + input[i]['rooms'][j]['customer_group_id'] + '" style="' + ((input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'yes') ? "background:#FFF;" : ((input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'no') ? "background:#ff0433;" : "background:#ff7a04;" )) + '">' + ((flag == 2) ? ((input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['elec']['ok'] == 'yes') ? '' : '') : '<?php echo $text_late; ?>' )) : ((flag == 1) ? ((input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['elec']['ok'] == 'yes') ? '<input type="checkbox" name="checkpaid_elec_' + input[i]['rooms'][j]['customer_group_id'] + '" />' : '') : '<?php echo $text_late; ?>' )) : '<input type="checkbox" ' + ((input[i]['rooms'][j]['room_data']['elec']['Charged'] != 'no') ? 'checked' : '') + ' id="checkpaid_elec_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" />')) + '</td>' +
+//								'<td style="text-align:center;">' + ((flag == 1 || flag == 2) ? input[i]['rooms'][j]['room_data']['water']['Usage'] : '<input type="text" id="end_num_water_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" value ="' + input[i]['rooms'][j]['room_data']['water']['End'] + '" />') + '</td>'  +
+//								((flag == 1) ? '<td>' + input[i]['rooms'][j]['room_data']['water']['Money'] + '</td>' : '') +
+//								'<td align="center" id="checkpaid_water_td_' + input[i]['rooms'][j]['customer_group_id'] + '" style="' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? "background:#FFF;" : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? "background:#ff0433;" : "background:#ff7a04;" )) + '">' + ((flag == 2) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? '' : '') : '<?php echo $text_late; ?>' )) : ((flag == 1) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? '<input type="checkbox" name="checkpaid_water_' + input[i]['rooms'][j]['customer_group_id'] + '" />' : '') : '<?php echo $text_late; ?>' )) : '<input type="checkbox" ' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] != 'no') ? 'checked' : '') + ' id="checkpaid_water_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" />')) + '</td>' +
+//								((flag == 1) ? '<td><a style="float:right;color:blue;" onclick="editElecWater(' + input[i]['rooms'][j]['customer_group_id']  +');"><?php echo $text_edit; ?></a></td>' : '') +
+//							'</tr>';
+//				}
 			}
 		}
 		
 		if(flag == 1) {
 			$("#viewWie").html(strHTML);
 		
-			$("input[name^='checkpaid_elec_']").click(function() {
-				var id = $(this).attr('name').replace('checkpaid_elec_','');
+			$("input[name^='checkpaid_']").click(function() {
+				var id = $(this).attr('name').replace('checkpaid_','');
 				temp_room = id;
-				checkpaid_elec(id);	
+				previewElecWater(id);
+				//checkpaid_elec(id);	
 			});
 			
-			$("input[name^='checkpaid_water_']").click(function() {
-				var id = $(this).attr('name').replace('checkpaid_water_','');
-				temp_room = id;
-				checkpaid_water();	
-			});
+			//$("input[name^='checkpaid_water_']").click(function() {
+//				var id = $(this).attr('name').replace('checkpaid_water_','');
+//				temp_room = id;
+//				editstate = "water";
+//				previewElecWater(id);
+//				//checkpaid_water();	
+//			});
 		}
 		else {
 			$("#tbEditWie").html(strHTML);
@@ -452,23 +527,161 @@
 	}
 	
 	var temp_room = 0;
-	function checkpaid_elec() {
+	
+	var txtidx = 0;
+	var ref_typewritter = null;
+	function typeWritter(field, value, callback){
+		if(txtidx < value.length) {
+			$("#" + field).html($("#" + field).html() + value[txtidx]);
+			txtidx ++;
+		}
+		else {
+			txtidx = 0;
+			clearInterval(ref_typewritter);
+			ref_typewritter = null;
+			
+			//execute next function after done
+			callback();
+		}
+	}
+	
+	function previewElecWaterCard() {
+		var card_id = $("#temp_id").val();
+		
+		$.ajax({
+			url: 'index.php?route=sale/manage_wie/getStudentIDFromCardID&token=<?php echo $token; ?>',
+			type: 'post',
+			data: 'card_id=' + card_id,
+			dataType: 'json',
+			success: function(json) {
+				//console.log(json['student_info']);
+				//clear data first
+				$("#txtHeaderMSSV").html('');
+				$("#txtHeaderSName").html('');
+				$("#txtHeaderRoomLead").html('');
+				$("#txtMSSV").html('');
+				$("#txtSName").html('');
+				$("#txtRoomLead").html('');
+				$("#tbpreviewWie").html('');
+				
+				previewWieToggle(true);
+				
+				if(json['student_info']) {
+					var student = json['student_info'];
+					
+					var student_id = student['student_id'];
+					var name = student['firstname'] + ' ' + student['lastname'];
+					var roomname = 'Phòng ' + student['room_lead']['name'];
+					
+					ref_typewritter = setInterval(typeWritter, 20, "txtHeaderMSSV",'<?php echo $text_mssv; ?>', function () { ref_typewritter = setInterval(typeWritter, 20, "txtHeaderSName",'<?php echo $text_sname; ?>',function () { ref_typewritter = setInterval(typeWritter, 20, "txtHeaderRoomLead",'<?php echo $text_roomlead; ?>',function () { ref_typewritter = setInterval(typeWritter, 20, "txtMSSV",student_id,function () { ref_typewritter = setInterval(typeWritter, 20, "txtSName",name,function () { ref_typewritter = setInterval(typeWritter, 20, "txtRoomLead",roomname, function() { $("#student_info").append('<div id="checkOkImg" style="display:none;margin:5px 0px 5px 0px;"><img src="view/image/check_ok.png" style="width:32px;height:32px;" alt =""/><p style="top:-10px;"><?php echo $text_confirm_student; ?></p></div><div id="loadingData" style="display:none;margin:5px 0px 5px 0px;"><img src="view/image/loading.gif" style="width:10px;height:10px;" alt =""/><p style="with:60%!important;"><?php echo $text_loading_info; ?></p></div>');$("#checkOkImg").fadeIn(1000, function() {$("#loadingData").fadeIn(1000, function(){
+							$.ajax({
+								url: 'index.php?route=sale/manage_wie/getBillInfo&token=<?php echo $token; ?>',
+								type: 'post',
+								data: 'room_id=' + student['room_lead']['customer_group_id'],
+								dataType: 'json',
+								success: function(json) {
+									//console.log(json['bill']);
+									if(json['bill']) {
+										cur_room = student['room_lead']['customer_group_id'];
+										$("#tbpreviewWie").hide();
+										$("#tbpreviewWie").html(json['bill']);
+										$("#tbpreviewWie").fadeIn(500);
+										$("#confirmPreview").fadeIn(300);
+										$("#loadingData").fadeOut();
+										
+										var left = ($(window).width() - $('#editwiepreview-form').width()) / 2;
+										var top = ($(window).height() - $('#editwiepreview-form').height()) / 2;
+										$('#editwiepreview-form').css('left',left + 'px');
+										$('#editwiepreview-form').css('top',top + 'px');
+									}
+								},
+								error : function(error) {
+									console.log(error);
+								}
+							});
+							
+					 });}); });});});});});});
+					
+					
+					
+				
+			
+					
+					//ref_typewritter = setInterval(typeWritter, 20, "txtHeaderMSSV",'<?php echo $text_mssv; ?>');
+//					
+//					ref_typewritter = setInterval(typeWritter, 20, "txtHeaderSName",'<?php echo $text_sname; ?>');
+//					
+//					ref_typewritter = setInterval(typeWritter, 20, "txtHeaderSName",'<?php echo $text_sname; ?>');
+//					
+//					ref_typewritter = setInterval(typeWritter, 20, "txtHeaderRoomLead",'<?php echo $text_roomlead; ?>');
+//					
+//					ref_typewritter = setInterval(typeWritter, 20, "txtMSSV",student_id);
+//					
+//					ref_typewritter = setInterval(typeWritter, 20, "txtSName",name);
+//					
+//					ref_typewritter = setInterval(typeWritter, 20, "txtRoomLead",roomname);
+					
+					
+					
+					
+					//alert('student_id: '+ student_id);
+//					alert('name: '+ name);
+//					alert('roomname: '+ roomname);
+				}
+				else {
+					$("#student_info").html('');
+					$("#student_info").append('<div id="checkOkImg" style="display:none;margin:5px 0px 5px 0px;"><img src="view/image/check_fail.png" style="width:32px;height:32px;" alt =""/><p style="top:-10px;width:70%!important"><?php echo $text_no_student; ?></span></p>'); 
+					$("#checkOkImg").fadeIn(1000);
+				}
+			},
+			error : function(error) {
+				console.log(error);
+			}
+		});
+	}
+	
+	function previewElecWater(room_id) {
+		$.ajax({
+			url: 'index.php?route=sale/manage_wie/getBillInfo&token=<?php echo $token; ?>',
+			type: 'post',
+			data: 'room_id=' + room_id,
+			dataType: 'json',
+			success: function(json) {
+				//console.log(json['bill']);
+				if(json['bill']) {
+					cur_room = room_id;
+					$("#tbpreviewWie").html(json['bill']);
+					previewWieToggle(true);
+				}
+			},
+			error : function(error) {
+				console.log(error);
+			}
+		});
+	}
+	
+	function checkpaid() {
 		if(!confirmResult)
 		{
 			if($('#confirmbox-form').css('display') == 'none')
-				confirmBoxToggle(true,'Check đóng tiền điện phòng ' + temp_room,checkpaid_elec);
+				confirmBoxToggle(true,'Check đóng tiền điện phòng ' + temp_room,checkpaid);
 			return;
 		}
 		
 		//update charged data
 		$.ajax({
-			url: 'index.php?route=sale/manage_wie/elec_charged&token=<?php echo $token; ?>',
+			url: 'index.php?route=sale/manage_wie/charged&token=<?php echo $token; ?>',
 			type: 'post',
 			data: {'room_id' : temp_room},
 			dataType: 'json',
 			success: function(json) {
 				if(json['success']) {
+					previewWieToggle(false);
 					filterRoomByFloorView();
+					alert('<?php echo $text_success_charged?>');
+					$('#printDiv').html(json['bill'] + '<br /><br /><br /><br /><br /><br />' + json['bill']);
+					//$('#printDiv').printThis();
+					$("#printDiv").printElement({ printBodyOptions:{styleToAdd:'padding:10px;margin:10px;display:block'}})
 					//disabled the checkbox
 					//$("#checkpaid_elec_td_" + id).html('<?php echo $text_paid;?>');
 				}
@@ -481,34 +694,35 @@
 		confirmResult = false;
 	}
 	
-	function checkpaid_water() {
-		if(!confirmResult)
-		{
-			if($('#confirmbox-form').css('display') == 'none')
-				confirmBoxToggle(true,'Check đóng tiền nước phòng ' + temp_room,checkpaid_water);
-			return;
-		}
-		
-		//update charged data
-		$.ajax({
-			url: 'index.php?route=sale/manage_wie/water_charged&token=<?php echo $token; ?>',
-			type: 'post',
-			data: {'room_id' : temp_room},
-			dataType: 'json',
-			success: function(json) {
-				if(json['success']) {
-					filterRoomByFloorView();
-					//disabled the checkbox
-					//$("#checkpaid_water_td_" + id).html('<?php echo $text_paid;?>');
-				}
-			},
-			error : function(error) {
-				console.log(error);
-			}
-		});
-		
-		confirmResult = false;
-	}
+	//function checkpaid_water() {
+//		if(!confirmResult)
+//		{
+//			if($('#confirmbox-form').css('display') == 'none')
+//				confirmBoxToggle(true,'Check đóng tiền nước phòng ' + temp_room,checkpaid_water);
+//			return;
+//		}
+//		
+//		//update charged data
+//		$.ajax({
+//			url: 'index.php?route=sale/manage_wie/water_charged&token=<?php echo $token; ?>',
+//			type: 'post',
+//			data: {'room_id' : temp_room},
+//			dataType: 'json',
+//			success: function(json) {
+//				if(json['success']) {
+//					previewWieToggle(false);
+//					filterRoomByFloorView();
+//					//disabled the checkbox
+//					//$("#checkpaid_water_td_" + id).html('<?php echo $text_paid;?>');
+//				}
+//			},
+//			error : function(error) {
+//				console.log(error);
+//			}
+//		});
+//		
+//		confirmResult = false;
+//	}
 			
 	var cur_room=0;
 	function editElecWater(room_id) {
@@ -535,8 +749,8 @@
 		
 		var end_elec = $("#end_num_elec_edit_" + cur_room).val();
 		var end_water = $("#end_num_water_edit_" + cur_room).val();
-		var sel_elec = $("#checkpaid_elec_edit_" + cur_room).attr("checked") ? 1 : 0;
-		var sel_water = $("#checkpaid_water_edit_" + cur_room).attr("checked") ? 1 : 0;
+		var check_paid = $("#checkpaid_edit_" + cur_room).attr("checked") ? 1 : 0;
+		//var sel_water = $("#checkpaid_water_edit_" + cur_room).attr("checked") ? 1 : 0;
 		
 		if(!confirmResult)
 		{
@@ -553,7 +767,7 @@
 		$.ajax({
 			url: 'index.php?route=sale/manage_wie/saveEditWie&token=<?php echo $token; ?>',
 			type: 'post',
-			data: 'room_id=' + cur_room + '&end_elec=' + end_elec + '&end_water=' + end_water + '&sel_elec=' + sel_elec + '&sel_water=' + sel_water,
+			data: 'room_id=' + cur_room + '&end_elec=' + end_elec + '&end_water=' + end_water + '&check_paid=' + check_paid,
 			dataType: 'json',
 			success: function(json) {
 				//console.log(json['floors_filtered']);
@@ -761,6 +975,7 @@
 				}
 			});
 	}
+	
 	function newsToggle(show) {
 		//toggle show
 		if(show)
@@ -786,7 +1001,7 @@
 		//toggle show
 		if(show)
 		{
-			$("#confirmBoxSubmit").val('');
+			$("#logContent").val('');
 			//show box
 			var left = ($(window).width() - $('#confirmbox-form').width()) / 2;
 			var top = ($(window).height() - $('#confirmbox-form').height()) / 2;
@@ -799,7 +1014,7 @@
 			$('#confirmBoxSubmit').click(function () {
 				var content = $.trim($("#logContent").val());
 				
-				if(content.length < 20) {
+				if(content.length < 10) {
 					alert('<?php echo $text_error_log ?>')
 					return;
 				}
@@ -848,6 +1063,29 @@
 			document.getElementById('lblpopupheader').innerHTML = "<?php echo $text_popup_header ?>";
 			$('#editwie-form-back').fadeOut(400);
 			$('#editwie-form').fadeOut(400);
+		}
+	}
+	
+	function previewWieToggle(show) {
+		//toggle show
+		if(show)
+		{
+			//show box
+			var left = ($(window).width() - $('#editwiepreview-form').width()) / 2;
+			var top = ($(window).height() - $('#editwiepreview-form').height()) / 2;
+			$('#editwiepreview-form').css('left',left + 'px');
+			$('#editwiepreview-form').css('top',top + 'px');
+			$('#editwiepreview-form-back').fadeIn(400);
+			$('#editwiepreview-form').fadeIn(700);
+			
+		}
+		else
+		{
+			document.getElementById('lblpopupheader').innerHTML = "<?php echo $text_popup_header ?>";
+			//checked false
+			$("#checkpaid_" + cur_room).removeAttr('checked');
+			$('#editwiepreview-form-back').fadeOut(400);
+			$('#editwiepreview-form').fadeOut(400);
 		}
 	}
 	

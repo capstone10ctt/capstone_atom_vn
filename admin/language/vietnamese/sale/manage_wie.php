@@ -4,8 +4,15 @@ $_['heading_title']    = 'Phòng';
 
 $_['text_mail_monthly'] = "Gửi mail thống kê tháng";
 $_['text_import_from_file'] = "Nhập từ file Excel";
+$_['text_confirm'] = "Xác nhận";
 
 $_['text_title']             = 'Phòng/Hộ gia đình';
+$_['text_mssv']             = 'MSSV:';
+$_['text_sname']             = 'Họ và tên:';
+$_['text_roomlead']             = 'Trưởng phòng:';
+$_['text_confirm_student']             = 'Xác nhận';
+$_['text_no_student']             = 'Không có sinh viên này trong hệ thống oặc sinh viên không phải trưởng phòng!';
+$_['text_loading_info']             = 'Đang lấy dữ liệu...';
 $_['text_start_num_electric']             = 'Số công tơ điện';
 $_['text_start_num_water']             = 'Số công tơ nước';
 $_['text_floor']             = 'Tầng';
@@ -45,13 +52,15 @@ $_['text_view']             = 'Xem';
 $_['text_submit']             = 'Nhập';
 $_['text_totalmoney']             = 'Tổng cộng';
 $_['text_popup_header'] = "Thêm lịch sử sử dụng điện & nước";
+$_['text_popup_preview_header'] = "Xác nhận thông tin thanh toán điện nước";
 $_['text_greeting'] = "Vui lòng nhập đầy đủ thông tin bên dưới";
 $_['text_header_school']               = '<h1>TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN</h1><br /><h1>PHÒNG CÔNG TÁC SINH VIÊN</h1>';
 $_['text_reason']               = 'Xin nhập vào lý do thực hiện thao tác này !';
 $_['text_warning']               = 'Cảnh báo !';
-$_['text_error_log']               = 'Lý do nhập phải dài hơn 20 ký tự !';
+$_['text_error_log']               = 'Lý do nhập phải dài hơn 10 ký tự !';
 // Text
 $_['text_success']     = 'Nhập dữ liệu thành công!';
+$_['text_success_charged']     = 'Đã nộp tiền!';
 
 // Column
 $_['column_name']      = 'Phòng';

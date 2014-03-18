@@ -263,7 +263,16 @@ class ControllerSaleManageWie extends Controller {
 		$this->data['cur_month'] = $cur_month;
 		$this->data['token'] = $this->session->data['token'];
 		
+		$this->data['text_popup_preview_header'] = $this->language->get('text_popup_preview_header');
 		$this->data['text_import_from_file'] = $this->language->get('text_import_from_file');
+		$this->data['text_mssv'] = $this->language->get('text_mssv');
+		$this->data['text_sname'] = $this->language->get('text_sname');
+		$this->data['text_roomlead'] = $this->language->get('text_roomlead');
+		$this->data['text_confirm_student'] = $this->language->get('text_confirm_student');
+		$this->data['text_no_student'] = $this->language->get('text_no_student');
+		$this->data['text_loading_info'] = $this->language->get('text_loading_info');
+		$this->data['text_success_charged'] = $this->language->get('text_success_charged');
+		$this->data['text_confirm'] = $this->language->get('text_confirm');
 		$this->data['text_electric_start'] = $this->language->get('text_electric_start');
 		$this->data['text_water_start'] = $this->language->get('text_water_start');
 		$this->data['text_deadline'] = $this->language->get('text_deadline');
@@ -417,13 +426,66 @@ class ControllerSaleManageWie extends Controller {
 		$data['filter_room'] = $roomId;
 		$theFloor = $this->model_sale_manage_wie->getCustomerGroupsView($data);
 
-		if(isset($theFloor[1]["rooms"])) {
-			$room = $theFloor[1]["rooms"][0];
+		$theFloor = array_values($theFloor);
+		
+		if(isset($theFloor[0]["rooms"])) {
+			$room = $theFloor[0]["rooms"][0];
 			$room["count"] = (int)$this->model_sale_manage_wie->countStudentInRoom($roomId); 
 		}
 		
 
 		return $room;
+	}
+	
+	public function replaceEachRoomDataForBill($roomId) {
+		$this->load->model('catalog/template_email');
+		$templateMailData = $this->model_catalog_template_email->getTemplateEmail("mail_3")['description'][1];
+
+		$templateMail = $templateMailData['description'];
+		$mailTitle = $templateMailData['name'];
+		
+		$mailRoom = array();
+
+		$wie_stat = $this->getWieStatOneRoom($roomId);
+		if(!is_null($wie_stat)) {
+			$room_data_w = $wie_stat["room_data"]["water"];
+			$room_data_e = $wie_stat["room_data"]["elec"];
+	
+			$completeMailTitle = $this->format($mailTitle, $wie_stat["name"]);
+			$completeMailBody = $this->format($templateMail, 
+				$wie_stat["name"],				//0
+				$wie_stat["count"],				//1 so nguoi 
+				// Dien
+				$room_data_e["Start"],			//2 dau
+				$room_data_e["End"],			//3 cuoi
+				$room_data_e["Usage"],			//4 tieu thu
+				number_format($room_data_e["Money"],0),			//5 thanh tien
+				// Nuoc
+				$room_data_w["Start"],			//6 dau
+				$room_data_w["End"],			//7 cuoi
+				$room_data_w["Usage"],			//8 tieu thu
+				number_format($room_data_w["Money"],0),			//9 thanh tien
+	
+	
+				// Tong tien
+				
+				number_format($room_data_e["Money"] + $room_data_w["Money"],0),		//10
+				$wie_stat["room_data"]["inword"],					//11
+	
+				date("m"),									//12
+				date("d"),									//13
+				date("m"),									//14
+				date("Y"),									//15
+	
+				"",											// room leader info ?
+				""											// deadline ?
+			);
+
+			$mailRoom = array("title" => $mailTitle, "body" => $completeMailBody);
+		}
+		
+
+		return $mailRoom;
 	}
 	
 	public function replaceEachRoomData($roomId) {
@@ -448,17 +510,17 @@ class ControllerSaleManageWie extends Controller {
 				$room_data_e["Start"],			//2 dau
 				$room_data_e["End"],			//3 cuoi
 				$room_data_e["Usage"],			//4 tieu thu
-				$room_data_e["Money"],			//5 thanh tien
+				number_format($room_data_e["Money"],0),			//5 thanh tien
 				// Nuoc
 				$room_data_w["Start"],			//6 dau
 				$room_data_w["End"],			//7 cuoi
 				$room_data_w["Usage"],			//8 tieu thu
-				$room_data_w["Money"],			//9 thanh tien
+				number_format($room_data_w["Money"],0),			//9 thanh tien
 	
 	
 				// Tong tien
 				
-				$room_data_e["Money"] + $room_data_w["Money"],		//10
+				number_format($room_data_e["Money"] + $room_data_w["Money"],0),		//10
 				$wie_stat["room_data"]["inword"],					//11
 	
 				date("m"),									//12
@@ -671,18 +733,67 @@ class ControllerSaleManageWie extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}	
 	
-	public function elec_charged() {
+	public function getBillInfo() {
 		$json = array();
 		
 		$this->load->model('sale/manage_wie');
-		$this->model_sale_manage_wie->elec_charged((int)$this->request->post['room_id']);
+		$mailroom = $this->replaceEachRoomDataForBill((int)$this->request->post['room_id']);
 		
+		$json['bill'] = $mailroom["body"];
+		
+		$this->response->setOutput(json_encode($json));
+	}
+	
+	public function getStudentIDFromCardID() {
+		$json = array();
+		
+		$this->load->model('sale/manage_wie');
+		
+		$student_info = $this->model_sale_manage_wie->getStudentIDFromCardID((int)$this->request->post['card_id']);
+		
+		if(!is_null($student_info)) {
+			$json['student_info'] = $student_info;
+		}
+		
+		$this->response->setOutput(json_encode($json));
+	}
+	
+	public function charged() {
+		$json = array();
+		
+		$this->load->model('sale/manage_wie');
+		$this->model_sale_manage_wie->elec_charged((int)$this->request->post['room_id']);//charge elec
+		$this->model_sale_manage_wie->water_charged((int)$this->request->post['room_id']);//charge water
+		
+		$mail_to = $this->model_sale_manage_wie->getRoomLeaderEmail((int)$this->request->post['room_id']);
+		$mailroom = $this->replaceEachRoomDataForBill((int)$this->request->post['room_id']);
+		
+		if($mail_to != '' && isset($mailroom["title"])) {
+			$mail = new Mail();
+			$mail->protocol = $this->config->get('config_mail_protocol');
+			$mail->parameter = $this->config->get('config_mail_parameter');
+			$mail->hostname = $this->config->get('config_smtp_host');
+			$mail->username = $this->config->get('config_smtp_username');
+			$mail->password = $this->config->get('config_smtp_password');
+			$mail->port = $this->config->get('config_smtp_port');
+			$mail->timeout = $this->config->get('config_smtp_timeout');
+			$mail->setTo($mail_to);
+			$mail->setFrom($this->config->get('config_email'));
+			$mail->setSender($this->config->get('config_name'));
+			$mail->setSubject($mailroom["title"]);
+			$mail->setHTML($mailroom["body"]);
+			$mail->send();
+			
+			
+		}
+		
+		$json['bill'] = $mailroom["body"];
 		$json['success'] = 'yes';
 		
 		$this->response->setOutput(json_encode($json));
 	}
 	
-	public function water_charged() {
+	/*public function water_charged() {
 		$json = array();
 		
 		$this->load->model('sale/manage_wie');
@@ -691,7 +802,7 @@ class ControllerSaleManageWie extends Controller {
 		$json['success'] = 'yes';
 		
 		$this->response->setOutput(json_encode($json));
-	}
+	}*/
 	
 	public function saveEditWie() {
 		$json = array();

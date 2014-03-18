@@ -77,7 +77,7 @@ class ModelSaleManageWie extends Model {
 					
 					$billing_wie_classified[$result['customer_group_id']]['elec']['Usage'] = $e_usage;
 					$money = $this->calculate_money_elec($e_standard, $e_usage);
-					$billing_wie_classified[$result['customer_group_id']]['elec']['Money'] = number_format($money,0);
+					$billing_wie_classified[$result['customer_group_id']]['elec']['Money'] = $money;
 					$billing_wie_classified[$result['customer_group_id']]['elec']['End'] = (isset($elec['End']) ? $elec['End'] : 0);
 					$billing_wie_classified[$result['customer_group_id']]['elec']['Start'] = (isset($elec['Start']) ? $elec['Start'] : 0);
 					$billing_wie_classified[$result['customer_group_id']]['elec']['Charged'] = $charge;
@@ -121,7 +121,7 @@ class ModelSaleManageWie extends Model {
 					//$billing_wie_classified[$result['customer_group_id']]['water']['w_standard'] = $w_standard;
 					$billing_wie_classified[$result['customer_group_id']]['water']['lifetime'] = $this->model_price_standard->getWaterLastestLifeTime();
 					$money = $this->calculate_money_water($w_standard, $w_usage, $result['customer_group_id']);
-					$billing_wie_classified[$result['customer_group_id']]['water']['Money'] = number_format($money,0);
+					$billing_wie_classified[$result['customer_group_id']]['water']['Money'] = $money;
 					$billing_wie_classified[$result['customer_group_id']]['water']['End'] = (isset($water['End']) ? $water['End'] : 0);
 					$billing_wie_classified[$result['customer_group_id']]['water']['Start'] = (isset($water['Start']) ? $water['Start'] : 0);
 					$billing_wie_classified[$result['customer_group_id']]['water']['Charged'] = $charge;
@@ -256,8 +256,8 @@ class ModelSaleManageWie extends Model {
 	}
 	
 	public function saveEditWie($data){
-		$this->db->query("UPDATE " . DB_PREFIX . "e_record SET End = '" . (int)$data['end_elec'] . "', charged = " . (int)$data['sel_elec'] . (((int)$data['sel_water'] == 1) ? " , charged_date = NOW() " : "") ." where RoomID = " . (int)$data['room_id']);
-		$this->db->query("UPDATE " . DB_PREFIX . "w_record SET End = '" . (int)$data['end_water'] . "', charged = " . (int)$data['sel_water'] . (((int)$data['sel_water'] == 1) ? " , charged_date = NOW() " : "") . " where RoomID = " . (int)$data['room_id']);
+		$this->db->query("UPDATE " . DB_PREFIX . "e_record SET End = '" . (int)$data['end_elec'] . "', charged = " . (int)$data['check_paid'] . (((int)$data['check_paid'] == 1) ? " , charged_date = NOW() " : "") ." where RoomID = " . (int)$data['room_id']);
+		$this->db->query("UPDATE " . DB_PREFIX . "w_record SET End = '" . (int)$data['end_water'] . "', charged = " . (int)$data['check_paid'] . (((int)$data['check_paid'] == 1) ? " , charged_date = NOW() " : "") . " where RoomID = " . (int)$data['room_id']);
 	}
 	
 	public function elec_charged($room_id){
@@ -335,6 +335,33 @@ class ModelSaleManageWie extends Model {
 		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer WHERE customer_group_id = '" . (int)$room_id . "'");
 		
 		return $query->row['total'];
+	}
+	
+	public function getStudentIDFromCardID($card_id) {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "card_id_to_student_id WHERE card_id = '" . trim($card_id) . "'");
+		
+		if($query->num_rows) {
+			$student_id =  $query->row['student_id'];
+			
+			$query2 = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer WHERE student_id = '" . (int)$student_id . "'");
+			
+			if($query2->num_rows) {
+				$query3 = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_group WHERE room_leader = '" . trim($query2->row['customer_id']) . "'");
+				
+				if($query3->num_rows) {
+					$query4 = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_group WHERE customer_group_id = '" . (int)$query3->row['customer_group_id'] . "'");
+					
+					if($query4->num_rows) {
+						$temp = $query2->row;
+						$temp['room_lead'] = $query4->row;
+					}
+					
+					return $temp;
+				}
+			}
+		}
+		
+		return null;
 	}
 	
 	public function getRoomLeaderEmail($room_id) {
