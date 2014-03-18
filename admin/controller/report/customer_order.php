@@ -57,38 +57,16 @@ class ControllerReportCustomerOrder extends Controller {
 		$this->data['floors'] = array();
 		if($filter_date_start=='' || $filter_date_end=='')
 		{
-			$floors = $this->model_sale_manage_wie->getCustomerGroupsView(0); 
-			//print_r($floors);
-			//$this->data['floor'] = $floors;
-			foreach ($floors as $floor) {
-				$wpay=0;
-				$wpaid=0;
-				$epay=0;
-				$epaid=0;
-				if(isset($floor['rooms']))
-				{
-					foreach ($floor['rooms'] as $room)
-					{
-						if(isset($room['room_data']) && isset($room['room_data'])!=null)
-						{
-							$wpay=$wpay+$room['room_data']['water']['Money'];
-							if($wpay=$wpay+$room['room_data']['water']['Charged'] != 'no')
-								$wpay=$wpaid+$room['room_data']['water']['Money'];
+			$data = array(
+				'month_start' => date('n'),
+				'year_start' => date('Y'),
+				'month_end' => date('n'),
+				'year_end' => date('Y')
+			);
+			$floors = $this->model_sale_manage_wie->getFloorView($data); 
 
-							$epay=$epay+$room['room_data']['elec']['Money'];
-							if($epay=$epay+$room['room_data']['elec']['Charged'] != 'no')
-								$epay=$epaid+$room['room_data']['elec']['Money'];
-						}
-					}
-				}
-				$this->data['floors'][] = array(
-					'name' => $floor['floor_name'],
-					'wpay' => $wpay,
-					'wpaid' => $wpaid,
-					'epay' => $epay,
-					'epaid' => $epaid,
-				);
-			}
+			
+			$this->data['floors'] = $floors;
 		} else
 		{
 			$data = array(
