@@ -5,15 +5,17 @@ $_['heading_title']         = 'Báo cáo tình hình sử dụng điện nước
 // Text
 $_['text_all_status']       = 'Tất cả trạng thái';
 
+
 // Column
-$_['column_customer']       = 'Tên sinh viên';
-$_['column_email']          = 'Email';
-$_['column_customer_group'] = 'Nhóm sinh viên';
-$_['column_status']         = 'Trạng thái';
-$_['column_orders']         = 'Số đơn hàng';
-$_['column_products']       = 'Số sản phẩm';
-$_['column_total']          = 'Tổng';
-$_['column_action']         = 'Hành động';
+$_['column_floor']       = 'Tầng';
+$_['column_paymoney']          = 'Số tiền phải trả';
+$_['column_receivedmoney'] = 'Số tiền thu được';
+$_['column_total']         = 'Tổng cộng';
+$_['column_diff']         = 'Chênh lệch';
+$_['column_all']       = 'Tất cả';
+$_['column_water']         = 'Nước';
+$_['column_electric']       = 'Điện';
+
 
 // Entry
 $_['entry_date_start']      = 'Từ ngày:';
