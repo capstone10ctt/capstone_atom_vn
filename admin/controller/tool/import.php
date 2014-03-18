@@ -344,7 +344,7 @@ class ControllerToolImport extends Controller {
 				        if(isset($a[2]))
 				          $result = $a[1].'/'.$a[0].'/'.$a[2];
 				        else if(isset($a[1]))
-				            $result = $a[0].'/1/'.$a[1].'/'.$a[2];
+				            $result = $a[0].'/1/'.$a[1];
 				        else if(isset($a[0]))
 				          $result = '1/1/'.$a[0];
 				        else
@@ -374,8 +374,8 @@ class ControllerToolImport extends Controller {
 			      
 			      	//if($this->session->data['col_address']!='')
 			        //	$student['address'] = $this->session->data['sheetData'][$i][$this->session->data['col_address']];
-			        $this->model_sale_customer->addCustomer($student);
-			      	$count++;
+			        $check = $this->model_sale_customer->addCustomer($student);
+			      	$count = $count+$check;
 			      }
 			    } 
 			} else if($this->session->data['file_type'] == 'watere')
