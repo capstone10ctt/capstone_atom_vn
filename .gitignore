@@ -4,6 +4,8 @@
 
 config.php
 admin/config.php
+system/cache/*
+system/logs/*
 
 
 *.pydevproject
