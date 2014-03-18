@@ -912,7 +912,7 @@ class ControllerSaleManageWie extends Controller {
 			
 			$bill = $this->replaceEachRoomDataForBill($room_id);
 			if($bill) {
-				$json['bills'] .= $bill["body"].'<br /><br /><br />' ;
+				$json['bills'] .= $bill["body"];
 			}
 		}
 		
