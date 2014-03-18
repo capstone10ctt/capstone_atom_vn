@@ -388,7 +388,7 @@ class ModelSaleManageWie extends Model {
 								
 								
 								$money = $this->calculate_money_elec($e_standard, $e_usage);
-								print_r($elec);
+								
 								$floors_input[$floor_idx]['wpay'] += $money;
 								if($charge!='no')
 								{
