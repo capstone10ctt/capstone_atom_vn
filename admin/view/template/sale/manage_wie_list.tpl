@@ -292,11 +292,25 @@
 
 <script type="text/javascript"><!--
 
-	$( document ).ready(function() {
-		  $("body").bind("keyup", function(e){
-				console.log(String.fromCharCode(e.which));  
-		  });
-	});
+	var card_code = '';
+    $( document ).ready(function() {
+          $("body").bind("keyup", function(e){
+                e.preventDefault();
+                //console.log(String.fromCharCode(e.which));  
+                if(e.keyCode != 13) {
+                    card_code += String.fromCharCode(e.which);
+                }
+                else {
+                    if(card_code.length >= 10) {
+                        var card_code_ori = card_code.substr(card_code.length - 10, 10);
+						card_code = '';
+						previewElecWaterCard(card_code_ori);
+                        //console.log(card_code_ori);
+                        
+                    }
+                }
+          });
+    });
 
 	filterRoomByFloorView();
 	
@@ -545,8 +559,8 @@
 		}
 	}
 	
-	function previewElecWaterCard() {
-		var card_id = $("#temp_id").val();
+	function previewElecWaterCard(card_id) {
+		//var card_id = $("#temp_id").val();
 		
 		$.ajax({
 			url: 'index.php?route=sale/manage_wie/getStudentIDFromCardID&token=<?php echo $token; ?>',
