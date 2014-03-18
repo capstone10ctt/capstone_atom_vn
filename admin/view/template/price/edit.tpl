@@ -838,10 +838,10 @@
                         var $lastRow = $('#dialog-update-garbage-standard').find('.line').last();
                         var price = $lastRow.children('.price').children().val();
                         if (price) {
-                            jsonWaterNew.garbage_new = {};
+                            jsonGarbageNew.garbage_new = {};
                             $('#dialog-update-garbage-standard').find('.line').each(function(index, element) {
-                                jsonWaterNew.garbage_new[index] = {};
-                                jsonWaterNew.garbage_new[index].price = $(element).children('.price').children().val();
+                                jsonGarbageNew.garbage_new[index] = {};
+                                jsonGarbageNew.garbage_new[index].price = $(element).children('.price').children().val();
                             });
                             var updateDateTo = '';
                             var frDate = $('#from-date-garbage').val();
@@ -1308,7 +1308,7 @@
                 <p id="applyingGarbageStandardPrice" style="display: none;"><span style="color: #ff0000;">(*)</span> Định mức đang áp dụng</p>
                 <table class="garbage_standard_price">
                     <thead>
-                    <td><b><?php echo $text_water_price; ?></b</td>
+                    <td><b><?php echo $text_garbage_price; ?></b</td>
                     </thead>
                     <tbody>
                     <?php

@@ -16,12 +16,6 @@ class ControllerReportCustomerOrder extends Controller {
 		} else {
 			$filter_date_end = '';
 		}
-		
-		if (isset($this->request->get['filter_order_status_id'])) {
-			$filter_order_status_id = $this->request->get['filter_order_status_id'];
-		} else {
-			$filter_order_status_id = 0;
-		}	
 				
 		if (isset($this->request->get['page'])) {
 			$page = $this->request->get['page'];
@@ -39,10 +33,6 @@ class ControllerReportCustomerOrder extends Controller {
 			$url .= '&filter_date_end=' . $this->request->get['filter_date_end'];
 		}
 
-		if (isset($this->request->get['filter_order_status_id'])) {
-			$url .= '&filter_order_status_id=' . $this->request->get['filter_order_status_id'];
-		}
-		
 		if (isset($this->request->get['page'])) {
 			$url .= '&page=' . $this->request->get['page'];
 		}
@@ -61,55 +51,73 @@ class ControllerReportCustomerOrder extends Controller {
       		'separator' => ' :: '
    		);		
 		
-		$this->load->model('report/customer');
+		$this->load->model('sale/manage_wie');
+		$this->load->model('sale/customer_group');
 		
-		$this->data['customers'] = array();
-		
-		$data = array(
-			'filter_date_start'	     => $filter_date_start, 
-			'filter_date_end'	     => $filter_date_end, 
-			'filter_order_status_id' => $filter_order_status_id,
-			'start'                  => ($page - 1) * $this->config->get('config_admin_limit'),
-			'limit'                  => $this->config->get('config_admin_limit')
-		);
-				
-		$customer_total = $this->model_report_customer->getTotalOrders($data); 
-		
-		$results = $this->model_report_customer->getOrders($data);
-		
-		foreach ($results as $result) {
-			$action = array();
-		
-			$action[] = array(
-				'text' => $this->language->get('text_edit'),
-				'href' => $this->url->link('sale/customer/update', 'token=' . $this->session->data['token'] . '&customer_id=' . $result['customer_id'] . $url, 'SSL')
+		$this->data['floors'] = array();
+		if($filter_date_start=='' || $filter_date_end=='')
+		{
+			$floors = $this->model_sale_manage_wie->getCustomerGroupsView(0); 
+			//print_r($floors);
+			//$this->data['floor'] = $floors;
+			foreach ($floors as $floor) {
+				$wpay=0;
+				$wpaid=0;
+				$epay=0;
+				$epaid=0;
+				if(isset($floor['rooms']))
+				{
+					foreach ($floor['rooms'] as $room)
+					{
+						if(isset($room['room_data']) && isset($room['room_data'])!=null)
+						{
+							$wpay=$wpay+$room['room_data']['water']['Money'];
+							if($wpay=$wpay+$room['room_data']['water']['Charged'] != 'no')
+								$wpay=$wpaid+$room['room_data']['water']['Money'];
+
+							$epay=$epay+$room['room_data']['elec']['Money'];
+							if($epay=$epay+$room['room_data']['elec']['Charged'] != 'no')
+								$epay=$epaid+$room['room_data']['elec']['Money'];
+						}
+					}
+				}
+				$this->data['floors'][] = array(
+					'name' => $floor['floor_name'],
+					'wpay' => $wpay,
+					'wpaid' => $wpaid,
+					'epay' => $epay,
+					'epaid' => $epaid,
+				);
+			}
+		} else
+		{
+			$data = array(
+				'month_start' => date('n', strtotime($filter_date_start)),
+				'year_start' => date('Y', strtotime($filter_date_start)),
+				'month_end' => date('n', strtotime($filter_date_end)),
+				'year_end' => date('Y', strtotime($filter_date_end))
 			);
-						
-			$this->data['customers'][] = array(
-				'customer'       => $result['customer'],
-				'email'          => $result['email'],
-				'customer_group' => $result['customer_group'],
-				'status'         => ($result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
-				'orders'         => $result['orders'],
-				'products'       => $result['products'],
-				'total'          => $this->currency->format($result['total'], $this->config->get('config_currency')),
-				'action'         => $action
-			);
+			$floors = $this->model_sale_manage_wie->getFloorView($data); 
+
+			
+			$this->data['floors'] = $floors;
 		}
+
+
+		
 		 
  		$this->data['heading_title'] = $this->language->get('heading_title');
 		 
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
 		$this->data['text_all_status'] = $this->language->get('text_all_status');
 		
-		$this->data['column_customer'] = $this->language->get('column_customer');
-		$this->data['column_email'] = $this->language->get('column_email');
-		$this->data['column_customer_group'] = $this->language->get('column_customer_group');
-		$this->data['column_status'] = $this->language->get('column_status');
-		$this->data['column_orders'] = $this->language->get('column_orders');
-		$this->data['column_products'] = $this->language->get('column_products');
+		$this->data['column_floor'] = $this->language->get('column_floor');
+		$this->data['column_paymoney'] = $this->language->get('column_paymoney');
+		$this->data['column_receivedmoney'] = $this->language->get('column_receivedmoney');
 		$this->data['column_total'] = $this->language->get('column_total');
-		$this->data['column_action'] = $this->language->get('column_action');
+		$this->data['column_water'] = $this->language->get('column_water');
+		$this->data['column_electric'] = $this->language->get('column_electric');
+		$this->data['column_diff'] = $this->language->get('column_diff');
 		
 		$this->data['entry_date_start'] = $this->language->get('entry_date_start');
 		$this->data['entry_date_end'] = $this->language->get('entry_date_end');
@@ -138,7 +146,7 @@ class ControllerReportCustomerOrder extends Controller {
 		}
 				
 		$pagination = new Pagination();
-		$pagination->total = $customer_total;
+		
 		$pagination->page = $page;
 		$pagination->limit = $this->config->get('config_admin_limit');
 		$pagination->text = $this->language->get('text_pagination');
@@ -148,7 +156,7 @@ class ControllerReportCustomerOrder extends Controller {
 		
 		$this->data['filter_date_start'] = $filter_date_start;
 		$this->data['filter_date_end'] = $filter_date_end;		
-		$this->data['filter_order_status_id'] = $filter_order_status_id;
+		//$this->data['filter_order_status_id'] = $filter_order_status_id;
 				 
 		$this->template = 'report/customer_order.tpl';
 		$this->children = array(

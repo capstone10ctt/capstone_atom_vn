@@ -16,47 +16,38 @@
             <input type="text" name="filter_date_start" value="<?php echo $filter_date_start; ?>" id="date-start" size="12" /></td>
           <td><?php echo $entry_date_end; ?>
             <input type="text" name="filter_date_end" value="<?php echo $filter_date_end; ?>" id="date-end" size="12" /></td>
-          <td><?php echo $entry_status; ?>
-            <select name="filter_order_status_id">
-              <option value="0"><?php echo $text_all_status; ?></option>
-              <?php foreach ($order_statuses as $order_status) { ?>
-              <?php if ($order_status['order_status_id'] == $filter_order_status_id) { ?>
-              <option value="<?php echo $order_status['order_status_id']; ?>" selected="selected"><?php echo $order_status['name']; ?></option>
-              <?php } else { ?>
-              <option value="<?php echo $order_status['order_status_id']; ?>"><?php echo $order_status['name']; ?></option>
-              <?php } ?>
-              <?php } ?>
-            </select></td>
           <td style="text-align: right;"><a onclick="filter();" class="button"><?php echo $button_filter; ?></a></td>
         </tr>
       </table>
       <table class="list">
         <thead>
           <tr>
-            <td class="left"><?php echo $column_customer; ?></td>
-            <td class="left"><?php echo $column_email; ?></td>
-            <td class="left"><?php echo $column_customer_group; ?></td>
-            <td class="left"><?php echo $column_status; ?></td>
-            <td class="right"><?php echo $column_orders; ?></td>
-            <td class="right"><?php echo $column_products; ?></td>
-            <td class="right"><?php echo $column_total; ?></td>
-            <td class="right"><?php echo $column_action; ?></td>
+            <td class="center" rowspan="2"><?php echo $column_floor; ?></td>
+            <td class="center" colspan="2"><?php echo $column_paymoney; ?></td>
+            <td class="center" rowspan="2"><?php echo $column_total; ?></td>
+            <td class="center" colspan="2"><?php echo $column_receivedmoney; ?></td>
+            <td class="center" rowspan="2"><?php echo $column_total; ?></td>
+            <td class="center" rowspan="2"><?php echo $column_diff; ?></td>
+          </tr>
+          <tr>
+            <td class="center"><?php echo $column_water; ?></td>
+            <td class="center"><?php echo $column_electric; ?></td>
+            <td class="center"><?php echo $column_water; ?></td>
+            <td class="center"><?php echo $column_electric; ?></td>
           </tr>
         </thead>
         <tbody>
-          <?php if ($customers) { ?>
-          <?php foreach ($customers as $customer) { ?>
+          <?php if ($floors) { ?>
+          <?php foreach ($floors as $floor) { ?>
           <tr>
-            <td class="left"><?php echo $customer['customer']; ?></td>
-            <td class="left"><?php echo $customer['email']; ?></td>
-            <td class="left"><?php echo $customer['customer_group']; ?></td>
-            <td class="left"><?php echo $customer['status']; ?></td>
-            <td class="right"><?php echo $customer['orders']; ?></td>
-            <td class="right"><?php echo $customer['products']; ?></td>
-            <td class="right"><?php echo $customer['total']; ?></td>
-            <td class="right"><?php foreach ($customer['action'] as $action) { ?>
-              [ <a href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> ]
-              <?php } ?></td>
+            <td class="left"><?php echo $floor['name']; ?></td>
+            <td class="left"><?php echo number_format($floor['wpay'],0); ?></td>
+            <td class="left"><?php echo number_format($floor['epay'],0); ?></td>
+            <td class="left"><?php echo number_format($floor['epay'] + $floor['wpay'],0); ?></td>
+            <td class="left"><?php echo number_format($floor['wpaid'],0); ?></td>
+            <td class="left"><?php echo number_format($floor['epaid'],0); ?></td>
+            <td class="left"><?php echo number_format(($floor['wpaid'] + $floor['epaid']),0); ?></td>
+            <td class="left"><?php echo number_format((($floor['epay'] + $floor['wpay'])-($floor['wpaid'] + $floor['epaid'])),0); ?></td>
           </tr>
           <?php } ?>
           <?php } else { ?>

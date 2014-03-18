@@ -7,9 +7,12 @@ $_['text_water_from'] = 'Từ m3';
 $_['text_water_to'] = 'Đến m3';
 $_['text_water_price'] = 'Giá';
 
-$_['description_electricity'] = 'Điện:<br />
-        Giá điện tiêu dùng sinh hoạt bậc thang';
-$_['description_water'] = 'Nước';
-$_['last_modified'] = 'Chỉnh sửa lần cuối:';
-$_['note_1'] = '<em>* Giá chưa bao gồm VAT 10%</em>';
+$_['text_garbage_price'] = 'Giá';
+
+$_['description_electricity'] = 'ĐIỆN';
+$_['description_water'] = 'NƯỚC';
+$_['description_garbage'] = 'RÁC';
+$_['last_modified'] = 'Lịch sử cập nhật';
+$_['from_date'] = 'Từ ngày';
+$_['to_date'] = 'Đến ngày';
 ?>

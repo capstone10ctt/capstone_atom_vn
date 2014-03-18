@@ -6,14 +6,14 @@ $_['heading_title']         = 'Customer Orders Report';
 $_['text_all_status']       = 'All Statuses';
 
 // Column
-$_['column_customer']       = 'Customer Name';
-$_['column_email']          = 'E-Mail';
-$_['column_customer_group'] = 'Customer Group';
-$_['column_status']         = 'Status';
-$_['column_orders']         = 'No. Orders';
-$_['column_products']       = 'No. Products';
-$_['column_total']          = 'Total';
-$_['column_action']         = 'Action';
+$_['column_floor']       = 'Floor';
+$_['column_paymoney']          = 'Paying money';
+$_['column_receivedmoney'] = 'Paid money';
+$_['column_total']         = 'Total';
+$_['column_diff']         = 'Difference';
+$_['column_all']       = 'All';
+$_['column_water']         = 'Water';
+$_['column_electric']       = 'Electric';
 
 // Entry
 $_['entry_date_start']      = 'Date Start:';
