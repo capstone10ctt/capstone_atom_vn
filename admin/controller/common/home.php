@@ -1,6 +1,10 @@
 <?php   
 class ControllerCommonHome extends Controller {   
 	public function index() {
+		if($this->user->getUserGroup() == INPUT_IDX) {
+			$this->redirect($this->url->link('sale/manage_wie', 'token=' . $this->session->data['token'], 'SSL'));
+		}
+		
     	$this->language->load('common/home');
 	 
 		$this->document->setTitle($this->language->get('heading_title'));

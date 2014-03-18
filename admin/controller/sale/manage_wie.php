@@ -4,7 +4,7 @@ ini_set('display_errors', '1');
 
 class ControllerSaleManageWie extends Controller {
 	private $error = array();
- 
+ 	
 	public function index() {
 		//$this->replaceEachRoomData(5);
 		$this->language->load('sale/manage_wie');
@@ -263,6 +263,11 @@ class ControllerSaleManageWie extends Controller {
 		$this->data['cur_month'] = $cur_month;
 		$this->data['token'] = $this->session->data['token'];
 		
+		$this->data['text_print'] = $this->language->get('text_print');
+		$this->data['text_popup_mail_header'] = $this->language->get('text_popup_mail_header');
+		$this->data['text_popup_print_header'] = $this->language->get('text_popup_print_header');
+		$this->data['text_print'] = $this->language->get('text_print');
+		$this->data['text_garbage'] = $this->language->get('text_garbage');
 		$this->data['text_popup_preview_header'] = $this->language->get('text_popup_preview_header');
 		$this->data['text_import_from_file'] = $this->language->get('text_import_from_file');
 		$this->data['text_mssv'] = $this->language->get('text_mssv');
@@ -469,14 +474,15 @@ class ControllerSaleManageWie extends Controller {
 	
 				// Tong tien
 				
-				number_format($room_data_e["Money"] + $room_data_w["Money"],0),		//10
+				number_format($room_data_e["Money"] + $room_data_w["Money"] + (($wie_stat["room_data"]["garbage"]) ? $wie_stat["room_data"]["garbage"] : 0),0),		//10
 				$wie_stat["room_data"]["inword"],					//11
 	
 				date("m"),									//12
 				date("d"),									//13
 				date("m"),									//14
 				date("Y"),									//15
-	
+				((!is_null($wie_stat["room_data"]["garbage"])) ? number_format($wie_stat["room_data"]["garbage"],0) : ''),			//16
+				
 				"",											// room leader info ?
 				""											// deadline ?
 			);
@@ -520,14 +526,15 @@ class ControllerSaleManageWie extends Controller {
 	
 				// Tong tien
 				
-				number_format($room_data_e["Money"] + $room_data_w["Money"],0),		//10
+				number_format($room_data_e["Money"] + $room_data_w["Money"] + (($wie_stat["room_data"]["garbage"]) ? $wie_stat["room_data"]["garbage"] : 0),0),		//10
 				$wie_stat["room_data"]["inword"],					//11
 	
 				date("m"),									//12
 				date("d"),									//13
 				date("m"),									//14
 				date("Y"),									//15
-	
+				((!is_null($wie_stat["room_data"]["garbage"])) ? number_format($wie_stat["room_data"]["garbage"],0) : ''),			//16
+				
 				"",											// room leader info ?
 				""											// deadline ?
 			);
@@ -876,6 +883,38 @@ class ControllerSaleManageWie extends Controller {
 		}
 		
 		$json['success'] = 'yes';
+		
+		$this->response->setOutput(json_encode($json));
+	}
+	
+	public function printSelectedRooms() {
+		$json = array();
+		
+		$this->load->model('sale/manage_wie');
+		$all = $this->request->post['all'];
+		if($all == 1) {
+			$rooms = $this->model_sale_manage_wie->getCustomerGroups();
+		}
+		else {
+			$rooms = explode(',',$this->request->post['rooms']);
+		}
+		
+		//$json['test'] =  $rooms;
+		$json['bills'] = '';
+		foreach($rooms as $room) {
+			$room_id = 0;
+			if($all == 1) {
+				$room_id = $room['customer_group_id'];
+			}
+			else {
+				$room_id = $room;
+			}
+			
+			$bill = $this->replaceEachRoomDataForBill($room_id);
+			if($bill) {
+				$json['bills'] .= $bill["body"].'<br /><br /><br /><br />' ;
+			}
+		}
 		
 		$this->response->setOutput(json_encode($json));
 	}

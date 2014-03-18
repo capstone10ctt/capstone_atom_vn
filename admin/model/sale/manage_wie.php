@@ -19,9 +19,8 @@ class ModelSaleManageWie extends Model {
 	public function getCustomerGroupsView($filter){
 		//floors and room
 		$block_id = 1;
-		$this->load->model('sale/manage_wie');
-		$rooms_input = $this->model_sale_manage_wie->getCustomerGroups();
-		$floors_input = $this->model_sale_manage_wie->getFloors($block_id);
+		$rooms_input = $this->getCustomerGroups();
+		$floors_input = $this->getFloors($block_id);
 		
 		//get electric and water limit data
 		$this->load->model('price/standard');
@@ -39,11 +38,11 @@ class ModelSaleManageWie extends Model {
 		
 		foreach($floors_input as $floor_idx => $floor) {
 			$data = array('floor' => $floor['floor_id']);
-			$results = $this->model_sale_manage_wie->getCustomerGroups($data);
+			$results = $this->getCustomerGroups($data);
 			
 			foreach ($results as $result) {
 				$totalmoney = 0;
-				$elec = $this->model_sale_manage_wie->getElectricLogByRoomId($result['customer_group_id']);
+				$elec = $this->getElectricLogByRoomId($result['customer_group_id']);
 				//echo '<br/>dien:<br/>'.print_r($elec);
 				if(isset($elec)) {
 					//$billing_wie_classified[$result['customer_group_id']]['elec'] = $elec;
@@ -85,7 +84,7 @@ class ModelSaleManageWie extends Model {
 					$totalmoney += $money;
 				}
 				
-				$water = $this->model_sale_manage_wie->getWaterLogByRoomId($result['customer_group_id']);					
+				$water = $this->getWaterLogByRoomId($result['customer_group_id']);					
 				//echo '<br/>nuoc:<br/>'.print_r($water);
 				if(isset($water)) {
 					//$billing_wie_classified[$result['customer_group_id']]['water'] = $water ;
@@ -119,18 +118,22 @@ class ModelSaleManageWie extends Model {
 					
 					$billing_wie_classified[$result['customer_group_id']]['water']['Usage'] = $w_usage;
 					//$billing_wie_classified[$result['customer_group_id']]['water']['w_standard'] = $w_standard;
-					$billing_wie_classified[$result['customer_group_id']]['water']['lifetime'] = $this->model_price_standard->getWaterLastestLifeTime();
+					//$billing_wie_classified[$result['customer_group_id']]['water']['lifetime'] = $this->model_price_standard->getWaterLastestLifeTime();
 					$money = $this->calculate_money_water($w_standard, $w_usage, $result['customer_group_id']);
 					$billing_wie_classified[$result['customer_group_id']]['water']['Money'] = $money;
 					$billing_wie_classified[$result['customer_group_id']]['water']['End'] = (isset($water['End']) ? $water['End'] : 0);
 					$billing_wie_classified[$result['customer_group_id']]['water']['Start'] = (isset($water['Start']) ? $water['Start'] : 0);
 					$billing_wie_classified[$result['customer_group_id']]['water']['Charged'] = $charge;
 					$billing_wie_classified[$result['customer_group_id']]['water']['ok'] = (($w_usage == 0) ? 'no' : 'yes');
+					
+					//garbage
+					$billing_wie_classified[$result['customer_group_id']]['garbage'] = (((int)$result['type_id'] == 3) ? $this->model_price_standard->getGarbageStandardPrice($this->model_price_standard->getGarbageLastModified()['id'])[0]['Price']: null);
+					
 					$totalmoney += $money;
 				}
 				
 				$billing_wie_classified[$result['customer_group_id']]['totalmoney'] = number_format($totalmoney,0);
-				$billing_wie_classified[$result['customer_group_id']]['inword'] = $this->model_sale_manage_wie->convert_number_to_words((int)$totalmoney). ' đồng';
+				$billing_wie_classified[$result['customer_group_id']]['inword'] = $this->convert_number_to_words((int)$totalmoney). ' đồng';
 				
 				if($elec && $water) {
 					$floors_input[$floor_idx]['rooms'][] = array(
