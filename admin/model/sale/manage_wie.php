@@ -196,8 +196,6 @@ class ModelSaleManageWie extends Model {
 			return $floors_input;
 		}
 	}
-<<<<<<< HEAD
-=======
 
 	public function getFloorView($filter){
 		//floors and room
@@ -285,10 +283,10 @@ class ModelSaleManageWie extends Model {
 							
 							$money = $this->calculate_money_elec($e_standard, $e_usage);
 							
-							$floors_input[$floor_idx]['wpay'] += $money;
+							$floors_input[$floor_idx]['epay'] += $money;
 							if($charge!='no')
 							{
-								$floors_input[$floor_idx]['wpaid'] += $money;
+								$floors_input[$floor_idx]['epaid'] += $money;
 							}
 						}
 						
@@ -340,7 +338,6 @@ class ModelSaleManageWie extends Model {
 			return $floors_input;
 		
 	}
->>>>>>> 96510e586c64a92cf1b1a9f6a16f5851bcccf85d
 	
 	public function inputUsage($data) {
 		$date = new DateTime();
@@ -601,6 +598,19 @@ class ModelSaleManageWie extends Model {
 		}
 		return $query->row;
 	}
+
+	public function getElectricLogByRoomIdDate($room_id, $month, $year) {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "e_record WHERE `RoomID` = '" . (int)$room_id . "' AND MONTH(date_added) = '" . (int)$month . "' AND YEAR(date_added) = '" . (int)$year . "'");
+		
+		return $query->row;
+	}
+	
+	public function getWaterLogByRoomIdDate($room_id, $month, $year) {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "w_record WHERE `RoomID` = '" . (int)$room_id . "' AND MONTH(date_added) = '" . (int)$month . "' AND YEAR(date_added) = '" . (int)$year . "'");
+		
+		return $query->row;
+	}
+
 	
 	public function getElectricLogByRoomId($room_id) {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "e_record WHERE `RoomID` = '" . (int)$room_id . "' AND MONTH(date_added) = '" . date('m') . "' AND YEAR(date_added) = '" . date('Y') . "'");
