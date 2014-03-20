@@ -357,7 +357,7 @@
                     card_code += String.fromCharCode(e.which);
                 }
                 else {
-                    if(card_code.length >= 10 && hasNumber(card_code)) {
+                    if(card_code.length >= 10) {
                         var card_code_ori = card_code.substr(card_code.length - 10, 10);
 						card_code = '';
 						if($('#editwiepreview-form').css("display") == 'none') {
@@ -698,7 +698,7 @@
 								success: function(json) {
 									//console.log(json['bill']);
 									if(json['bill']) {
-										cur_room = student['room_lead']['customer_group_id'];
+										temp_room = student['room_lead']['customer_group_id'];
 										$("#tbpreviewWie").hide();
 										$("#tbpreviewWie").html(json['bill']);
 										$("#tbpreviewWie").fadeIn(500);
