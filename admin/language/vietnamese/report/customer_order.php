@@ -20,5 +20,7 @@ $_['column_electric']       = 'Điện';
 // Entry
 $_['entry_date_start']      = 'Từ ngày:';
 $_['entry_date_end']        = 'Đến ngày:';
+$_['entry_floor']        = 'Tầng';
+$_['entry_room']        = 'Phòng';
 $_['entry_status']          = 'Trạng thái:';
 ?>

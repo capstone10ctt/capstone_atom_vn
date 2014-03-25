@@ -10,11 +10,14 @@
       <h1><img src="view/image/report.png" alt="" /> <?php echo $heading_title; ?></h1>
     </div>
     <div class="content">
+    	<?php if(isset($this->request->get['filter_floor'])) echo '<h1>'.$floor_name.'</h1>'; ?>
       <table class="form">
         <tr>
           <td><?php echo $entry_date_start; ?>
             <input type="text" name="filter_date_start" value="<?php echo $filter_date_start; ?>" id="date-start" size="12" /></td>
           <td><?php echo $entry_date_end; ?>
+            <input type="text" name="filter_date_end" value="<?php echo $filter_date_end; ?>" id="date-end" size="12" /></td>
+          <td><?php echo $entry_room; ?>
             <input type="text" name="filter_date_end" value="<?php echo $filter_date_end; ?>" id="date-end" size="12" /></td>
           <td style="text-align: right;"><a onclick="filter();" class="button"><?php echo $button_filter; ?></a></td>
         </tr>
@@ -22,7 +25,7 @@
       <table class="list">
         <thead>
           <tr>
-            <td class="center" rowspan="2"><?php echo $column_floor; ?></td>
+            <td class="center" rowspan="2"><?php if(isset($this->request->get['filter_floor'])) echo $column_floor; else echo $entry_room; ?></td>
             <td class="center" colspan="2"><?php echo $column_paymoney; ?></td>
             <td class="center" rowspan="2"><?php echo $column_total; ?></td>
             <td class="center" colspan="2"><?php echo $column_receivedmoney; ?></td>
@@ -77,10 +80,10 @@ function filter() {
 		url += '&filter_date_end=' + encodeURIComponent(filter_date_end);
 	}
 	
-	var filter_order_status_id = $('select[name=\'filter_order_status_id\']').attr('value');
+	var filter_floor = $('select[name=\'filter_floor\']').attr('value');
 	
-	if (filter_order_status_id != 0) {
-		url += '&filter_order_status_id=' + encodeURIComponent(filter_order_status_id);
+	if (filter_floor != 0) {
+		url += '&filter_floor=' + encodeURIComponent(filter_floor);
 	}	
 
 	location = url;

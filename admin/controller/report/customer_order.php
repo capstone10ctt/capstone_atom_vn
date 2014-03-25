@@ -55,34 +55,64 @@ class ControllerReportCustomerOrder extends Controller {
 		$this->load->model('sale/customer_group');
 		
 		$this->data['floors'] = array();
+		$this->data['rooms'] = array();
 		if($filter_date_start=='' || $filter_date_end=='')
 		{
-			$data = array(
-				'month_start' => date('n'),
-				'year_start' => date('Y'),
-				'month_end' => date('n'),
-				'year_end' => date('Y')
-			);
-			$floors = $this->model_sale_manage_wie->getFloorView($data); 
+			if (isset($this->request->get['filter_floor'])) {
+				$data = array(
+					'floor' => $this->request->get['filter_floor'],
+					'month_start' => date('n'),
+					'year_start' => date('Y'),
+					'month_end' => date('n'),
+					'year_end' => date('Y')
+				);
+				
+				$rooms = $this->model_sale_manage_wie->getRoomViewById($data); 
+				$this->data['rooms'] = $rooms;
+			}
+			else
+			{
+				$data = array(
+					'month_start' => date('n'),
+					'year_start' => date('Y'),
+					'month_end' => date('n'),
+					'year_end' => date('Y')
+				);
+				
+				$floors = $this->model_sale_manage_wie->getFloorView($data); 
+				$this->data['floors'] = $floors;
+			}
 
 			
-			$this->data['floors'] = $floors;
+			
 		} else
 		{
-			$data = array(
-				'month_start' => date('n', strtotime($filter_date_start)),
-				'year_start' => date('Y', strtotime($filter_date_start)),
-				'month_end' => date('n', strtotime($filter_date_end)),
-				'year_end' => date('Y', strtotime($filter_date_end))
-			);
-			$floors = $this->model_sale_manage_wie->getFloorView($data); 
+			if (isset($this->request->get['filter_floor'])) {
+				$data = array(
+					'floor' => $this->request->get['filter_floor'],
+					'month_start' => date('n', strtotime($filter_date_start)),
+					'year_start' => date('Y', strtotime($filter_date_start)),
+					'month_end' => date('n', strtotime($filter_date_end)),
+					'year_end' => date('Y', strtotime($filter_date_end))
+				);
+				
+				$rooms = $this->model_sale_manage_wie->getRoomViewById($data); 
+				$this->data['rooms'] = $rooms;
+			}
+			else
+			{
+				$data = array(
+					'month_start' => date('n', strtotime($filter_date_start)),
+					'year_start' => date('Y', strtotime($filter_date_start)),
+					'month_end' => date('n', strtotime($filter_date_end)),
+					'year_end' => date('Y', strtotime($filter_date_end))
+				);
+				$floors = $this->model_sale_manage_wie->getFloorView($data); 
 
-			
-			$this->data['floors'] = $floors;
+				
+				$this->data['floors'] = $floors;
+			}
 		}
-
-
-		
 		 
  		$this->data['heading_title'] = $this->language->get('heading_title');
 		 
@@ -99,10 +129,12 @@ class ControllerReportCustomerOrder extends Controller {
 		
 		$this->data['entry_date_start'] = $this->language->get('entry_date_start');
 		$this->data['entry_date_end'] = $this->language->get('entry_date_end');
+		$this->data['entry_floor'] = $this->language->get('entry_floor');
+		$this->data['entry_room'] = $this->language->get('entry_floor');
 		$this->data['entry_status'] = $this->language->get('entry_status');
 
 		$this->data['button_filter'] = $this->language->get('button_filter');
-		
+				
 		$this->data['token'] = $this->session->data['token'];
 		
 		$this->load->model('localisation/order_status');
@@ -118,9 +150,11 @@ class ControllerReportCustomerOrder extends Controller {
 		if (isset($this->request->get['filter_date_end'])) {
 			$url .= '&filter_date_end=' . $this->request->get['filter_date_end'];
 		}
-
-		if (isset($this->request->get['filter_order_status_id'])) {
-			$url .= '&filter_order_status_id=' . $this->request->get['filter_order_status_id'];
+		$this->data['floor_name'] = "";
+		if (isset($this->request->get['filter_floor'])) {
+			$url .= '&filter_floor=' . $this->request->get['filter_floor']; 
+			$room_info = $this->model_sale_manage_wie->getCustomerGroup($this->request->get['filter_floor']);
+			$this->data['floor_name'] = $room['name'];
 		}
 				
 		$pagination = new Pagination();
@@ -134,7 +168,6 @@ class ControllerReportCustomerOrder extends Controller {
 		
 		$this->data['filter_date_start'] = $filter_date_start;
 		$this->data['filter_date_end'] = $filter_date_end;		
-		//$this->data['filter_order_status_id'] = $filter_order_status_id;
 				 
 		$this->template = 'report/customer_order.tpl';
 		$this->children = array(

@@ -18,5 +18,7 @@ $_['column_electric']       = 'Electric';
 // Entry
 $_['entry_date_start']      = 'Date Start:';
 $_['entry_date_end']        = 'Date End:';
+$_['entry_floor']        = 'Floor:';
+$_['entry_room']        = 'Room';
 $_['entry_status']          = 'Order Status:';
 ?>
