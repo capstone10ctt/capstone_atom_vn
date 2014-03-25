@@ -220,6 +220,7 @@ class ModelSaleManageWie extends Model {
 			$floors_input[$floor_idx]['wpaid'] = 0;
 			$floors_input[$floor_idx]['epay'] = 0;
 			$floors_input[$floor_idx]['epaid'] = 0;
+			$floors_input[$floor_idx]['delay'] = 0;
 
 
 			for($yy = $filter['year_start']; $yy <= $filter['year_end']; $yy++)
@@ -475,7 +476,7 @@ class ModelSaleManageWie extends Model {
 				}
 			}	
 		}		
-			return $floors_input;
+		return $floors_input;
 		
 	}
 
@@ -610,8 +611,149 @@ class ModelSaleManageWie extends Model {
 			}	
 		}
 		
+		return $rooms_input;
 		
-			return $rooms_input;
+	}
+
+	public function getRoomStat($filter){
+		//floors and room
+		
+		$this->load->model('sale/manage_wie');
+		
+		$rooms_input = $this->model_sale_manage_wie->getCustomerGroups($filter);
+		
+		//get electric and water limit data
+		$roomstat=array();
+		$roomstat[0]['wcount']=0;
+		$roomstat[0]['wlist']='';
+		$roomstat[0]['ecount']=0;
+		$roomstat[0]['elist']='';
+		$roomstat[1]['wcount']=0;
+		$roomstat[1]['wlist']='';
+		$roomstat[1]['ecount']=0;
+		$roomstat[1]['elist']='';
+		$roomstat[2]['wcount']=0;
+		$roomstat[2]['wlist']='';
+		$roomstat[2]['ecount']=0;
+		$roomstat[2]['elist']='';
+
+		foreach($rooms_input as $room_idx => $room) {
+			$wcount=0;
+			$ecount=0;
+
+
+			for($yy = $filter['year_start']; $yy <= $filter['year_end']; $yy++)
+			{
+
+				if($yy<$filter['year_end'] && $yy==$filter['year_start'])
+				{
+					$mstart=$filter['month_start'];
+					$mend=12;
+				}
+				else if($yy<$filter['year_end'] && $yy>$filter['year_start'])
+				{
+					$mstart=1;
+					$mend=12;
+				}
+				else 
+				{
+					$mstart=$filter['month_start'];
+					$mend=$filter['month_end'];
+				}
+				for($mm = $mstart; $mm <= $mend; $mm++)
+				{					
+
+						
+						$elec = $this->model_sale_manage_wie->getElectricLogByRoomIdDate($rooms_input[$room_idx]['customer_group_id'],$mm, $yy);
+						//echo '<br/>dien:<br/>'.print_r($elec);
+						if(isset($elec)) {
+							//$billing_wie_classified[$result['customer_group_id']]['elec'] = $elec;
+							
+							if ($this->config->get('default_deadline_wie')) {
+								$dead_line = $this->config->get('default_deadline_wie');
+							} else {
+								$dead_line = 15;
+							}
+							if(isset($elec['charged']) && (int)$elec['charged'] == 1) {
+								$day = date('d', strtotime($elec['charged_date']));
+								
+								if((int)$day <= (int)$dead_line) {
+									
+								}
+								else {
+									$ecount++;
+								}
+							}
+							else {
+								$ecount++;
+							}
+							
+							
+							
+						}
+						
+						$water = $this->model_sale_manage_wie->getWaterLogByRoomIdDate($rooms_input[$room_idx]['customer_group_id'],$mm, $yy);					
+						//echo '<br/>nuoc:<br/>'.print_r($water);
+						if(isset($water)) {
+							if ($this->config->get('default_deadline_wie')) {
+								$dead_line = $this->config->get('default_deadline_wie');
+							} else {
+								$dead_line = 15;
+							}
+							if(isset($water['charged']) && (int)$water['charged'] == 1) {
+								$day = date('d', strtotime($water['charged_date']));
+								
+								if((int)$day <= (int)$dead_line) {
+									
+								}
+								else {
+									$wcount++;
+								}
+							}
+							else {
+								$wcount++;
+							}
+						}
+									
+				}
+			}
+			if($wcount==0)	
+				$roomstat[0]['wcount']++;
+			else if($wcount==1)	
+			{
+				$roomstat[1]['wcount']++;
+				$roomstat[1]['wlist']=$roomstat[1]['wlist'].', '.$room['name'];
+			}
+			else
+			{
+				$roomstat[2]['wcount']++;
+				$roomstat[2]['wlist']=$roomstat[2]['wlist'].', '.$room['name'];
+			}
+
+			if($ecount==0)	
+				$roomstat[0]['ecount']++;
+			else if($wcount==1)	
+			{
+				$roomstat[1]['ecount']++;
+				$roomstat[1]['elist']=$roomstat[1]['elist'].', '.$room['name'];
+			}
+			else
+			{
+				$roomstat[2]['ecount']++;
+				$roomstat[2]['elist']=$roomstat[2]['elist'].', '.$room['name'];
+			}
+
+		}
+		if(strlen($roomstat[1]['wlist'])>0)
+			$roomstat[1]['wlist'] = substr($roomstat[1]['wlist'], 2);
+		if(strlen($roomstat[1]['elist'])>0)
+			$roomstat[1]['elist'] = substr($roomstat[1]['elist'], 2);
+		if(strlen($roomstat[2]['wlist'])>0)
+			$roomstat[2]['wlist'] = substr($roomstat[2]['wlist'], 2);
+		if(strlen($roomstat[2]['elist'])>0)
+			$roomstat[2]['elist'] = substr($roomstat[2]['elist'], 2);
+
+		return $roomstat;
 		
 	}
 	

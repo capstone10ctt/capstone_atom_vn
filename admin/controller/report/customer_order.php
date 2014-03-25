@@ -56,6 +56,7 @@ class ControllerReportCustomerOrder extends Controller {
 		
 		$this->data['floors'] = array();
 		$this->data['rooms'] = array();
+		$this->data['roomstat'] = array();
 		if($filter_date_start=='' || $filter_date_end=='')
 		{
 			if (isset($this->request->get['filter_floor'])) {
@@ -69,6 +70,7 @@ class ControllerReportCustomerOrder extends Controller {
 				
 				$rooms = $this->model_sale_manage_wie->getRoomViewById($data); 
 				$this->data['rooms'] = $rooms;
+				$this->data['roomstat'] = $this->model_sale_manage_wie->getRoomStat($data);
 			}
 			else
 			{
@@ -81,6 +83,7 @@ class ControllerReportCustomerOrder extends Controller {
 				
 				$floors = $this->model_sale_manage_wie->getFloorView($data); 
 				$this->data['floors'] = $floors;
+				$this->data['roomstat'] = $this->model_sale_manage_wie->getRoomStat($data);
 			}
 
 			
@@ -98,6 +101,7 @@ class ControllerReportCustomerOrder extends Controller {
 				
 				$rooms = $this->model_sale_manage_wie->getRoomViewById($data); 
 				$this->data['rooms'] = $rooms;
+				$this->data['roomstat'] = $this->model_sale_manage_wie->getRoomStat($data);
 			}
 			else
 			{
@@ -108,16 +112,15 @@ class ControllerReportCustomerOrder extends Controller {
 					'year_end' => date('Y', strtotime($filter_date_end))
 				);
 				$floors = $this->model_sale_manage_wie->getFloorView($data); 
-
-				
 				$this->data['floors'] = $floors;
+				$this->data['roomstat'] = $this->model_sale_manage_wie->getRoomStat($data);
 			}
 		}
 		 
  		$this->data['heading_title'] = $this->language->get('heading_title');
 		 
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
-		$this->data['text_all_status'] = $this->language->get('text_all_status');
+		$this->data['text_all'] = $this->language->get('text_all');
 		
 		$this->data['column_floor'] = $this->language->get('column_floor');
 		$this->data['column_paymoney'] = $this->language->get('column_paymoney');
@@ -126,12 +129,17 @@ class ControllerReportCustomerOrder extends Controller {
 		$this->data['column_water'] = $this->language->get('column_water');
 		$this->data['column_electric'] = $this->language->get('column_electric');
 		$this->data['column_diff'] = $this->language->get('column_diff');
+		$this->data['column_count'] = $this->language->get('column_count');
+		$this->data['column_roomdetail'] = $this->language->get('column_roomdetail');
 		
 		$this->data['entry_date_start'] = $this->language->get('entry_date_start');
 		$this->data['entry_date_end'] = $this->language->get('entry_date_end');
 		$this->data['entry_floor'] = $this->language->get('entry_floor');
-		$this->data['entry_room'] = $this->language->get('entry_floor');
+		$this->data['entry_room'] = $this->language->get('entry_room');
 		$this->data['entry_status'] = $this->language->get('entry_status');
+		$this->data['entry_ontime'] = $this->language->get('entry_ontime');
+		$this->data['entry_late1'] = $this->language->get('entry_late1');
+		$this->data['entry_late2'] = $this->language->get('entry_late2');
 
 		$this->data['button_filter'] = $this->language->get('button_filter');
 				
@@ -151,10 +159,10 @@ class ControllerReportCustomerOrder extends Controller {
 			$url .= '&filter_date_end=' . $this->request->get['filter_date_end'];
 		}
 		$this->data['floor_name'] = "";
+		$this->data['floorlist'] = $this->model_sale_customer_group->getFloors(0);
 		if (isset($this->request->get['filter_floor'])) {
 			$url .= '&filter_floor=' . $this->request->get['filter_floor']; 
-			$room_info = $this->model_sale_manage_wie->getCustomerGroup($this->request->get['filter_floor']);
-			$this->data['floor_name'] = $room['name'];
+			
 		}
 				
 		$pagination = new Pagination();
