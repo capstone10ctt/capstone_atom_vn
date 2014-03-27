@@ -54,9 +54,9 @@
             </table>
             
             <?php if($this->user->getUserGroup() == ADMIN_IDX) { ?>
-            <table style="float:left;width:600px; margin-left:40px;">
+            <table style="float:left;width:400px; margin-left:40px;">
                 <tr>
-                	<td><?php echo $text_deadline?></td>
+                	<!--<td><?php echo $text_deadline?></td>
                      <td><select name="default_deadline_wie">
                   <option value=""><?php echo $text_select; ?></option>
             		<?php foreach($alldays as $eachday) { ?> 
@@ -67,8 +67,8 @@
                         <?php }?>
             		<?php } ?>
             	</select></td>
-                <td>/<?php echo $cur_month; ?>/<?php echo $cur_year; ?></td>
-                <td>Ministry e-Mail Address: </td>
+                <td>/<?php echo $cur_month; ?>/<?php echo $cur_year; ?></td>-->
+                <td>eMail Phòng công tác sinh viên: </td>
                 <td><input id="ministryMail" name="ministryMail" value="<?php echo $ministryMail ?>" type="text"/></td>
                 <td><input type="submit" value="<?php echo $text_save ?>"/></td>            
                 </tr>
@@ -347,7 +347,7 @@
 </div>
 
 <div id="deadline-form-back" class="news-form-back"></div>
-<div id="deadline-form" class="confirmbox-form">
+<div id="deadline-form" class="confirmbox-form" style="z-index:9995!important;">
     <div class="header">
         <p id='lblpopupheader'><?php echo $text_set_deadline ?></p>
         <!--<img src="../admin/view/image/remove-small.png" alt="Close" title="Close" onclick="confirmBoxToggle(false);">-->
@@ -356,10 +356,14 @@
     <div class="fbody">
     	<div style="float:left;width:100%;height:40px;" align="left">
         	<p style="float:left;margin:0px 0px 0px 20px;padding:0px;line-height:40px;">Lịch sử </p>
-        	<select id="period" style="float:left;width:100px;height:40px;margin: 11px 0px 0px 15px;">
+        	<select id="period" style="float:left;width:100px;height:40px;margin: 11px 0px 0px 15px;" onchange="getDeadlineByPeriod();">
               <option value=""><?php echo $text_select; ?></option>
-                <?php foreach($alldeadlineperiod as $period) { ?> 
-                   <option value="<?php echo $eachday ?>"><?php echo $eachday; ?></option>
+                <?php foreach($alldeadlineperiod as $period) { ?>
+                   <?php if($period == $cur_period) {?>
+                        <option value="<?php echo $period ?>" selected="selected"><?php echo $period; ?></option>
+                    <?php } else { ?>
+                        <option value="<?php echo $period ?>"><?php echo $period; ?></option>
+                    <?php }?>
                 <?php } ?>
             </select>
         </div>
@@ -623,6 +627,13 @@
 		return;
 	  }
 	  
+	  if(!confirmResult)
+		{
+			if($('#confirmbox-form').css('display') == 'none')
+				confirmBoxToggle(true,'Sửa hạn chót & tổng tiền ', saveDeadline);
+			return;
+		}
+	  
 		$.ajax({
 			url: 'index.php?route=sale/manage_wie/saveDeadline&token=<?php echo $token; ?>',
 			type: 'post',
@@ -630,6 +641,8 @@
 			dataType: 'json',
 			success: function(json) {
 				if(json['success']) {
+					filterRoomByFloorView();
+					$("#period").val(json['period']);
 					alert('<?php echo $text_update_deadline; ?>');
 					deadlineForm(false);
 				}
@@ -638,6 +651,9 @@
 				console.log(error);
 			}
 		});
+		
+		
+		confirmResult = false;
   }
   
 
@@ -740,15 +756,15 @@
 						
 				for(var j=0; j < input[i]['rooms'].length; j++) {
 					strHTML += '<tr class="body" >' +
-								'<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3) ? 'style="background:#ff7a04;"' : "") + '>' + input[i]['rooms'][j]['name'] + '</td>' +
-								'<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3) ? 'style="background:#ff7a04;"' : "") + '>' + input[i]['rooms'][j]['pay_month'] + '</td>' +
-								'<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3) ? 'style="background:#ff7a04;text-align:center;"' : 'style="text-align:center;"') + '>' + ((flag == 1 || flag == 2) ?  input[i]['rooms'][j]['room_data']['elec']['Usage']: '<input type="text" id="end_num_elec_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" value ="' + input[i]['rooms'][j]['room_data']['elec']['End'] + '" />') + '</td>' +
-								((flag == 1) ? '<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3) ? 'style="background:#ff7a04;"' : "") + '>' + input[i]['rooms'][j]['room_data']['elec']['Money'] + '</td>' : '') +
-								'<td  ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3) ? 'style="background:#ff7a04;text-align:center;"' : 'style="text-align:center;"') + '>' + ((flag == 1 || flag == 2) ? input[i]['rooms'][j]['room_data']['water']['Usage'] : '<input type="text" id="end_num_water_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" value ="' + input[i]['rooms'][j]['room_data']['water']['End'] + '" />') + '</td>'  +
-								((flag == 1) ? '<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3) ? 'style="background:#ff7a04;"' : "") + '>' + input[i]['rooms'][j]['room_data']['water']['Money'] + '</td>' : '') +
-								'<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3) ? 'style="background:#ff7a04;"' : "") + '>' + ((input[i]['rooms'][j]['room_data']['garbage']) ? input[i]['rooms'][j]['room_data']['garbage'] : '') + '</td>' +
-								'<td align="center" id="checkpaid_water_td_' + input[i]['rooms'][j]['customer_group_id'] + '" style="' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? "background:#FFF;" : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? "background:#ff0433;" : "background:#ff7a04;" )) + '">' + ((flag == 2) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? '' : '') : '<?php echo $text_late; ?>' )) : ((flag == 1) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? '<input type="checkbox" id="checkpaid_' + input[i]['rooms'][j]['customer_group_id'] + '" name="checkpaid_' + input[i]['rooms'][j]['customer_group_id'] + '" />' : '') : '<?php echo $text_late; ?>' )) : '<input type="checkbox" ' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] != 'no') ? 'checked' : '') + ' id="checkpaidedit_2' + input[i]['rooms'][j]['customer_group_id'] + '" />')) + '</td>' +
-								((flag == 1) ? '<?php if($this->user->getUserGroup() == ADMIN_IDX) { ?>' + '<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3) ? 'style="background:#ff7a04;"' : "") + '><a style="float:right;color:blue;" onclick="editElecWater(' + input[i]['rooms'][j]['customer_group_id']  +');"><?php echo $text_edit; ?></a></td>' + '<?php } ?>' : '') +
+								'<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3 || input[i]['rooms'][j]['room_data']['is_supply'] == "no") ? 'style="background:#ff7a04;"' : "") + '>' + input[i]['rooms'][j]['name'] + '</td>' +
+								'<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3 || input[i]['rooms'][j]['room_data']['is_supply'] == "no") ? 'style="background:#ff7a04;"' : "") + '>' + input[i]['rooms'][j]['pay_month'] + '</td>' +
+								'<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3 || input[i]['rooms'][j]['room_data']['is_supply'] == "no") ? 'style="background:#ff7a04;text-align:center;"' : 'style="text-align:center;"') + '>' + ((flag == 1 || flag == 2) ?  input[i]['rooms'][j]['room_data']['elec']['Usage']: '<input type="text" id="end_num_elec_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" value ="' + input[i]['rooms'][j]['room_data']['elec']['End'] + '" />') + '</td>' +
+								((flag == 1) ? '<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3 || input[i]['rooms'][j]['room_data']['is_supply'] == "no") ? 'style="background:#ff7a04;"' : "") + '>' + input[i]['rooms'][j]['room_data']['elec']['Money'] + '</td>' : '') +
+								'<td  ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3 || input[i]['rooms'][j]['room_data']['is_supply'] == "no") ? 'style="background:#ff7a04;text-align:center;"' : 'style="text-align:center;"') + '>' + ((flag == 1 || flag == 2) ? input[i]['rooms'][j]['room_data']['water']['Usage'] : '<input type="text" id="end_num_water_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" value ="' + input[i]['rooms'][j]['room_data']['water']['End'] + '" />') + '</td>'  +
+								((flag == 1) ? '<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3 || input[i]['rooms'][j]['room_data']['is_supply'] == "no") ? 'style="background:#ff7a04;"' : "") + '>' + input[i]['rooms'][j]['room_data']['water']['Money'] + '</td>' : '') +
+								'<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3 || input[i]['rooms'][j]['room_data']['is_supply'] == "no") ? 'style="background:#ff7a04;"' : "") + '>' + ((input[i]['rooms'][j]['room_data']['garbage']) ? input[i]['rooms'][j]['room_data']['garbage'] : '') + '</td>' +
+								'<td align="center" id="checkpaid_water_td_' + input[i]['rooms'][j]['customer_group_id'] + '" style="' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? "background:#FFF;" : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? "background:#ff0433;" : "background:#ff7a04;" )) + '">' + ((flag == 2) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? '' : '') : '<?php echo $text_late; ?>' )) : ((flag == 1) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['is_supply'] == "no") ? '' : ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? '<input type="checkbox" id="checkpaid_' + input[i]['rooms'][j]['customer_group_id'] + '" name="checkpaid_' + input[i]['rooms'][j]['customer_group_id'] + '" />' : '')) : '<?php echo $text_late; ?>' )) : '<input type="checkbox" ' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] != 'no') ? 'checked' : '') + ' id="checkpaidedit_2' + input[i]['rooms'][j]['customer_group_id'] + '" />')) + '</td>' +
+								((flag == 1) ? '<?php if($this->user->getUserGroup() == ADMIN_IDX) { ?>' + '<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3 || input[i]['rooms'][j]['room_data']['is_supply'] == "no") ? 'style="background:#ff7a04;"' : "") + '>' + ((input[i]['rooms'][j]['room_data']['can_edit'] == 'yes') ? '<a style="float:right;color:blue;" onclick="editElecWater(' + input[i]['rooms'][j]['customer_group_id']  +');"><?php echo $text_edit; ?></a>' : '') + '</td>' + '<?php } ?>' : '') +
 							'</tr>';
 				}
 			}
@@ -835,7 +851,7 @@
 								dataType: 'json',
 								success: function(json) {
 									if(json['bill']['bill_detail']) {
-										//console.log(json['bill']);
+										console.log(json['bill']);
 										if(json['bill']['charged'] == 'no') {
 											temp_room = student['room_lead']['customer_group_id'];
 											$("#tbpreviewWie").hide();
@@ -1418,6 +1434,31 @@
     }
   }
   
+  function getDeadlineByPeriod() {
+  	//get data
+	$.ajax({
+		url: 'index.php?route=sale/manage_wie/getDeadlineByPeriod&token=<?php echo $token; ?>',
+		type: 'post',
+		data: 'period=' + $("#period").val(),
+		dataType: 'json',
+		success: function(json) {
+			console.log(json);
+			if(json['deadline']) {
+				var deadline = json['deadline'];
+				
+				$("#deadline_charge").val(((deadline['deadline_charge']) ? deadline['deadline_charge'] : 10));
+				$("#deadline_edit").val(((deadline['deadline_edit']) ? deadline['deadline_edit'] : 5));
+				$("#deadline_supply").val(((deadline['deadline_supply']) ? deadline['deadline_supply'] : 15));
+				$("#total_elec").val(((deadline['total_elec']) ? deadline['total_elec'] : 0));
+				$("#total_water").val(((deadline['total_water']) ? deadline['total_water'] : 0));
+			}
+		},
+		error : function(error) {
+			console.log(error);
+		}
+	});
+  }
+  
   function deadlineForm(show) {
     //toggle show
     if(show)
@@ -1426,7 +1467,7 @@
 		$.ajax({
 			url: 'index.php?route=sale/manage_wie/getCurrentDeadline&token=<?php echo $token; ?>',
 			type: 'post',
-			data: 'period=' + $("period").val(),
+			data: 'period=' + $("#period").val(),
 			dataType: 'json',
 			success: function(json) {
 				if(json['deadline']) {
@@ -1437,6 +1478,8 @@
 					$("#deadline_supply").val(((deadline['deadline_supply']) ? deadline['deadline_supply'] : 15));
 					$("#total_elec").val(((deadline['total_elec']) ? deadline['total_elec'] : 0));
 					$("#total_water").val(((deadline['total_water']) ? deadline['total_water'] : 0));
+					
+					$("#period").val(deadline['period']);
 				}
 			},
 			error : function(error) {

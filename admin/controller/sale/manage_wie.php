@@ -111,11 +111,11 @@ class ControllerSaleManageWie extends Controller {
 			$alldays[] = $i;
 		}
 		
-		if ($this->config->get('default_deadline_wie')) {
+		/*if ($this->config->get('default_deadline_wie')) {
 			$this->data['default_deadline_wie'] = $this->config->get('default_deadline_wie');
 		} else {
 			$this->data['default_deadline_wie'] = 15;
-		}
+		}*/
 		
 		if ($this->config->get('ministryMail')) {
 			$this->data['ministryMail'] = $this->config->get('ministryMail');
@@ -137,7 +137,8 @@ class ControllerSaleManageWie extends Controller {
 		$cur_year = date('Y');
 		$cur_month = date('m');
 		
-		$this->data['alldeadlineperiod'] = $this->model_sale_managewie->getAllDeadlinePeriod();
+		$this->data['cur_period'] = $cur_month.'-'.$cur_year;
+		$this->data['alldeadlineperiod'] = $this->model_sale_manage_wie->getAllDeadlinePeriod();
 		$this->data['allmonths'] = $allmonths;
 		$this->data['allyears'] = $allyears;
 		$this->data['alldays'] = $alldays;
@@ -507,7 +508,7 @@ class ControllerSaleManageWie extends Controller {
 				""											// deadline ?
 			);
 
-			$mailRoom = array("title" => $mailTitle, "body" => $completeMailBody, "charged" => ((isset($room_data_w['charged'])) ? $room_data_w['charged'] : 'no'));
+			$mailRoom = array("title" => $mailTitle, "body" => $completeMailBody, "charged" => ((isset($room_data_w['charged']) && $room_data_w['charged'] == 1) ? 'yes' : 'no'));
 		}
 		
 
@@ -791,45 +792,36 @@ class ControllerSaleManageWie extends Controller {
 		$this->load->model('sale/manage_wie');
 		$this->model_sale_manage_wie->elec_charged((int)$this->request->post['room_id']);//charge elec
 		$this->model_sale_manage_wie->water_charged((int)$this->request->post['room_id']);//charge water
+		$this->model_sale_manage_wie->updateWIELateRecord((int)$this->request->post['room_id']);//update late
 		
-		$mail_to = $this->model_sale_manage_wie->getRoomLeaderEmail((int)$this->request->post['room_id']);
-		$mailroom = $this->replaceEachRoomDataForBill((int)$this->request->post['room_id']);
+		$rooms = $this->model_sale_manage_wie->getRoomEmails((int)$this->request->post['room_id']);
+		$mailRooms = $this->replaceEachRoomData((int)$this->request->post['room_id']);
 		
-		if($mail_to != '' && isset($mailroom["title"])) {
-			$mail = new Mail();
-			$mail->protocol = $this->config->get('config_mail_protocol');
-			$mail->parameter = $this->config->get('config_mail_parameter');
-			$mail->hostname = $this->config->get('config_smtp_host');
-			$mail->username = $this->config->get('config_smtp_username');
-			$mail->password = $this->config->get('config_smtp_password');
-			$mail->port = $this->config->get('config_smtp_port');
-			$mail->timeout = $this->config->get('config_smtp_timeout');
-			$mail->setTo($mail_to);
-			$mail->setFrom($this->config->get('config_email'));
-			$mail->setSender($this->config->get('config_name'));
-			$mail->setSubject($mailroom["title"]);
-			$mail->setHTML($mailroom["body"]);
-			$mail->send();
-			
-			
+		foreach($rooms as $single_email){
+			if(isset($mailRooms["title"])) {
+				$json['mailed'][] = $single_email['email'].', ';
+				$mail = new Mail();
+				$mail->protocol = $this->config->get('config_mail_protocol');
+				$mail->parameter = $this->config->get('config_mail_parameter');
+				$mail->hostname = $this->config->get('config_smtp_host');
+				$mail->username = $this->config->get('config_smtp_username');
+				$mail->password = $this->config->get('config_smtp_password');
+				$mail->port = $this->config->get('config_smtp_port');
+				$mail->timeout = $this->config->get('config_smtp_timeout');
+				$mail->setTo($single_email['email']);
+				$mail->setFrom($this->config->get('config_email'));
+				$mail->setSender($this->config->get('config_name'));
+				$mail->setSubject($mailRooms["title"]);
+				$mail->setHTML($mailRooms["body"]);
+				$mail->send();
+			}
 		}
 		
-		$json['bill'] = $mailroom["body"];
+		$json['bill'] = $mailRooms["body"];
 		$json['success'] = 'yes';
 		
 		$this->response->setOutput(json_encode($json));
 	}
-	
-	/*public function water_charged() {
-		$json = array();
-		
-		$this->load->model('sale/manage_wie');
-		$this->model_sale_manage_wie->water_charged((int)$this->request->post['room_id']);
-		
-		$json['success'] = 'yes';
-		
-		$this->response->setOutput(json_encode($json));
-	}*/
 	
 	public function saveEditWie() {
 		$json = array();
@@ -863,6 +855,11 @@ class ControllerSaleManageWie extends Controller {
 		$this->load->model('sale/manage_wie');
 		$this->model_sale_manage_wie->saveDeadline($this->request->post);
 		
+		$cur_year = date('Y');
+		$cur_month = date('m');
+		
+		$period = $cur_month.'-'.$cur_year;
+		$json['period'] = $period;
 		$json['success'] = 'yes';
 		
 		$this->response->setOutput(json_encode($json));
@@ -879,6 +876,17 @@ class ControllerSaleManageWie extends Controller {
 		$period = $cur_month.'-'.$cur_year;
 		
 		$json['deadline'] = $this->model_sale_manage_wie->getDeadline($period);
+		$json['deadline']['period'] = $period;
+		
+		$this->response->setOutput(json_encode($json));
+	}
+	
+	public function getDeadlineByPeriod() {
+		$json = array();
+		
+		$this->load->model('sale/manage_wie');
+		
+		$json['deadline'] = $this->model_sale_manage_wie->getDeadline($this->request->post['period']);
 		
 		$this->response->setOutput(json_encode($json));
 	}

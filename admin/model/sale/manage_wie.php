@@ -14,12 +14,13 @@ class ModelSaleManageWie extends Model {
 		$date->setDate($cur_year, $cur_month, 1);
 		$date_final = $date->format('Y-m-d');
 		
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "dealine_total WHERE MONTH(period) = '" . (int)$cur_month . "' AND YEAR(period) = '" . (int)$cur_year . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "deadline_total WHERE MONTH(period) = '" . (int)$cur_month . "' AND YEAR(period) = '" . (int)$cur_year . "'");
 		
 		if($query->num_rows) {
-			$this->db->query("UPDATE " . DB_PREFIX . "dealine_total SET `deadline_charge` = '" . (int)$this->db->escape($data['deadline_charge']) . "', `deadline_edit` = '" . (int)$this->db->escape($data['deadline_edit']) . "', `deadline_supply` = '" . (int)$this->db->escape($data['deadline_supply']) . "' , `total_elec` = '" . $this->db->escape($data['total_elec']) . "' , `total_water` = '" . $this->db->escape($data['total_water']) . "', period = '" . $date_final . "'");		}
+			$this->db->query("UPDATE " . DB_PREFIX . "deadline_total SET `deadline_charge` = '" . (int)$this->db->escape($data['deadline_charge']) . "', `deadline_edit` = '" . (int)$this->db->escape($data['deadline_edit']) . "', `deadline_supply` = '" . (int)$this->db->escape($data['deadline_supply']) . "' , `total_elec` = '" . $this->db->escape($data['total_elec']) . "' , `total_water` = '" . $this->db->escape($data['total_water']) . "', period = '" . $date_final . "' WHERE MONTH(period) = '" . (int)$cur_month . "' AND YEAR(period) = '" . (int)$cur_year . "'");		
+		}
 		else {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "dealine_total SET `deadline_charge` = '" . (int)$this->db->escape($data['deadline_charge']) . "', `deadline_edit` = '" . (int)$this->db->escape($data['deadline_edit']) . "', `deadline_supply` = '" . (int)$this->db->escape($data['deadline_supply']) . "' , `total_elec` = '" . $this->db->escape($data['total_elec']) . "' , `total_water` = '" . $this->db->escape($data['total_water']) . "', period = '" . $date_final . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "deadline_total SET `deadline_charge` = '" . (int)$this->db->escape($data['deadline_charge']) . "', `deadline_edit` = '" . (int)$this->db->escape($data['deadline_edit']) . "', `deadline_supply` = '" . (int)$this->db->escape($data['deadline_supply']) . "' , `total_elec` = '" . $this->db->escape($data['total_elec']) . "' , `total_water` = '" . $this->db->escape($data['total_water']) . "', period = '" . $date_final . "'");
 		}
 	}
 	
@@ -27,7 +28,7 @@ class ModelSaleManageWie extends Model {
 		//check exist first
 		$array = explode('-',$period);
 		
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "dealine_total WHERE MONTH(period) = '" . (int)$array[0] . "' AND YEAR(period) = '" . (int)$array[1] . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "deadline_total WHERE MONTH(period) = '" . (int)$array[0] . "' AND YEAR(period) = '" . (int)$array[1] . "'");
 		
 		return $query->row;
 	}
@@ -37,9 +38,22 @@ class ModelSaleManageWie extends Model {
 		$cur_year = date('Y');
 		$cur_month = date('m');
 		
-		$query = $this->db->query("SELECT DISTINCT period FROM " . DB_PREFIX . "dealine_total WHERE MONTH(period) <> '" . (int)$cur_month . "' AND YEAR(period) <> '" . (int)$cur_year . "'");
+		$periods = array();
 		
-		return $query->rows;
+		$query = $this->db->query("SELECT DISTINCT period FROM " . DB_PREFIX . "deadline_total");
+		
+		if($query->num_rows) {
+			foreach($query->rows as $row) {
+				$month = date('m',strtotime($row['period']));
+				$year = date('Y',strtotime($row['period']));
+				
+				$period = $month.'-'.$year;
+				
+				$periods[] = $period;
+			}
+		}
+		
+		return $periods;
 	}
 	
 	public function deleteCustomerGroup($customer_group_id) {
@@ -70,6 +84,17 @@ class ModelSaleManageWie extends Model {
 		
 		$billing_wie_classified = array();
 		
+		$d_year = date('Y');
+		$d_month = date('m');
+		$period = $d_month.'-'.$d_year;
+		$deadline = $this->getDeadline($period);
+		
+		if ($deadline) {
+			$dead_line = (int)$deadline['deadline_charge'];
+		} else {
+			$dead_line = 10;
+		}
+		
 		foreach($floors_input as $floor_idx => $floor) {
 			$data = array('floor' => $floor['floor_id']);
 			$results = $this->getCustomerGroups($data);
@@ -88,12 +113,6 @@ class ModelSaleManageWie extends Model {
 					}
 					
 					$charge = 'no';
-					if ($this->config->get('default_deadline_wie')) {
-						$dead_line = $this->config->get('default_deadline_wie');
-					} else {
-						$dead_line = 15;
-					}
-					
 					if(isset($elec['charged']) && (int)$elec['charged'] == 1) {
 						$day = date('d', strtotime($elec['charged_date']));
 						
@@ -130,12 +149,6 @@ class ModelSaleManageWie extends Model {
 					}
 					
 					$charge = 'no';
-					if ($this->config->get('default_deadline_wie')) {
-						$dead_line = $this->config->get('default_deadline_wie');
-					} else {
-						$dead_line = 15;
-					}
-					
 					if(isset($water['charged']) && (int)$water['charged'] == 1) {
 						$day = date('d', strtotime($water['charged_date']));
 						
@@ -171,6 +184,36 @@ class ModelSaleManageWie extends Model {
 					else {
 						$billing_wie_classified[$result['customer_group_id']]['late_times'] = 0;
 					}
+					//deadline edit 
+					if ($deadline) {
+						$deadline_edit = (int)$deadline['deadline_edit'];
+					} else {
+						$deadline_edit = 5;
+					}
+					
+					$today = date('d');
+						
+					if((int)$today <= (int)$deadline_edit) {
+						$canedit = 'yes';
+					}
+					else {
+						$canedit = 'no';
+					}
+					$billing_wie_classified[$result['customer_group_id']]['can_edit'] = $canedit;
+					//deadline supply
+					if ($deadline) {
+						$deadline_supply = (int)$deadline['deadline_supply'];
+					} else {
+						$deadline_supply = 5;
+					}
+					
+					if((int)$today <= (int)$deadline_supply) {
+						$supply = 'yes';
+					}
+					else {
+						$supply = 'no';
+					}	
+					$billing_wie_classified[$result['customer_group_id']]['is_supply'] = $supply;
 					
 					$totalmoney += $money;
 				}
@@ -246,7 +289,16 @@ class ModelSaleManageWie extends Model {
 		$w_standard_idx = $this->model_price_standard->getWaterLastestLifeTime();
 		$w_standard = $this->model_price_standard->getWaterStandardPrice((int)$w_standard_idx['id']);
        
-		
+		$d_year = date('Y');
+		$d_month = date('m');
+		$period = $d_month.'-'.$d_year;
+		$deadline = $this->getDeadline($period);
+		if ($deadline) {
+			$dead_line = (int)$deadline['deadline_charge'];
+		} else {
+			$dead_line = 10;
+		}
+
 		foreach($floors_input as $floor_idx => $floor) {
 			$data = array('floor' => $floor['floor_id']);
 			$floors_input[$floor_idx]['name']=$floors_input[$floor_idx]['floor_name'];
@@ -275,6 +327,7 @@ class ModelSaleManageWie extends Model {
 					$mstart=$filter['month_start'];
 					$mend=$filter['month_end'];
 				}
+				
 				for($mm = $mstart; $mm <= $mend; $mm++)
 				{					
 
@@ -295,12 +348,6 @@ class ModelSaleManageWie extends Model {
 							}
 							
 							$charge = 'no';
-							if ($this->config->get('default_deadline_wie')) {
-								$dead_line = $this->config->get('default_deadline_wie');
-							} else {
-								$dead_line = 15;
-							}
-							
 							if(isset($elec['charged']) && (int)$elec['charged'] == 1) {
 								$day = date('d', strtotime($elec['charged_date']));
 								
@@ -337,12 +384,6 @@ class ModelSaleManageWie extends Model {
 							}
 							
 							$charge = 'no';
-							if ($this->config->get('default_deadline_wie')) {
-								$dead_line = $this->config->get('default_deadline_wie');
-							} else {
-								$dead_line = 15;
-							}
-							
 							if(isset($water['charged']) && (int)$water['charged'] == 1) {
 								$day = date('d', strtotime($water['charged_date']));
 								
@@ -388,7 +429,16 @@ class ModelSaleManageWie extends Model {
 		
 		$w_standard_idx = $this->model_price_standard->getWaterLastestLifeTime();
 		$w_standard = $this->model_price_standard->getWaterStandardPrice((int)$w_standard_idx['id']);
-       
+       	
+		$d_year = date('Y');
+		$d_month = date('m');
+		$period = $d_month.'-'.$d_year;
+		$deadline = $this->getDeadline($period);
+		if ($deadline) {
+			$dead_line = (int)$deadline['deadline_charge'];
+		} else {
+			$dead_line = 10;
+		}
 		
 		foreach($floors_input as $floor_idx => $floor) {
 			$data = array('floor' => $floor['floor_id']);
@@ -437,12 +487,6 @@ class ModelSaleManageWie extends Model {
 							}
 							
 							$charge = 'no';
-							if ($this->config->get('default_deadline_wie')) {
-								$dead_line = $this->config->get('default_deadline_wie');
-							} else {
-								$dead_line = 15;
-							}
-							
 							if(isset($elec['charged']) && (int)$elec['charged'] == 1) {
 								$day = date('d', strtotime($elec['charged_date']));
 								
@@ -479,12 +523,6 @@ class ModelSaleManageWie extends Model {
 							}
 							
 							$charge = 'no';
-							if ($this->config->get('default_deadline_wie')) {
-								$dead_line = $this->config->get('default_deadline_wie');
-							} else {
-								$dead_line = 15;
-							}
-							
 							if(isset($water['charged']) && (int)$water['charged'] == 1) {
 								$day = date('d', strtotime($water['charged_date']));
 								
@@ -529,7 +567,16 @@ class ModelSaleManageWie extends Model {
 		$w_standard_idx = $this->model_price_standard->getWaterLastestLifeTime();
 		$w_standard = $this->model_price_standard->getWaterStandardPrice((int)$w_standard_idx['id']);
        
-		
+		$d_year = date('Y');
+		$d_month = date('m');
+		$period = $d_month.'-'.$d_year;
+		$deadline = $this->getDeadline($period);
+		if ($deadline) {
+			$dead_line = (int)$deadline['deadline_charge'];
+		} else {
+			$dead_line = 10;
+		}
+
 		foreach($rooms_input as $room_idx => $room) {
 			$rooms_input[$room_idx]['wpay'] = 0;
 			$rooms_input[$room_idx]['wpaid'] = 0;
@@ -571,12 +618,6 @@ class ModelSaleManageWie extends Model {
 							}
 							
 							$charge = 'no';
-							if ($this->config->get('default_deadline_wie')) {
-								$dead_line = $this->config->get('default_deadline_wie');
-							} else {
-								$dead_line = 15;
-							}
-							
 							if(isset($elec['charged']) && (int)$elec['charged'] == 1) {
 								$day = date('d', strtotime($elec['charged_date']));
 								
@@ -613,12 +654,6 @@ class ModelSaleManageWie extends Model {
 							}
 							
 							$charge = 'no';
-							if ($this->config->get('default_deadline_wie')) {
-								$dead_line = $this->config->get('default_deadline_wie');
-							} else {
-								$dead_line = 15;
-							}
-							
 							if(isset($water['charged']) && (int)$water['charged'] == 1) {
 								$day = date('d', strtotime($water['charged_date']));
 								
@@ -670,6 +705,16 @@ class ModelSaleManageWie extends Model {
 		$roomstat[2]['wlist']='';
 		$roomstat[2]['ecount']=0;
 		$roomstat[2]['elist']='';
+		
+		$d_year = date('Y');
+		$d_month = date('m');
+		$period = $d_month.'-'.$d_year;
+		$deadline = $this->getDeadline($period);
+		if ($deadline) {
+			$dead_line = (int)$deadline['deadline_charge'];
+		} else {
+			$dead_line = 10;
+		}
 
 		foreach($rooms_input as $room_idx => $room) {
 			$wcount=0;
@@ -702,12 +747,6 @@ class ModelSaleManageWie extends Model {
 						//echo '<br/>dien:<br/>'.print_r($elec);
 						if(isset($elec)) {
 							//$billing_wie_classified[$result['customer_group_id']]['elec'] = $elec;
-							
-							if ($this->config->get('default_deadline_wie')) {
-								$dead_line = $this->config->get('default_deadline_wie');
-							} else {
-								$dead_line = 15;
-							}
 							if(isset($elec['charged']) && (int)$elec['charged'] == 1) {
 								$day = date('d', strtotime($elec['charged_date']));
 								
@@ -729,11 +768,6 @@ class ModelSaleManageWie extends Model {
 						$water = $this->model_sale_manage_wie->getWaterLogByRoomIdDate($rooms_input[$room_idx]['customer_group_id'],$mm, $yy);					
 						//echo '<br/>nuoc:<br/>'.print_r($water);
 						if(isset($water)) {
-							if ($this->config->get('default_deadline_wie')) {
-								$dead_line = $this->config->get('default_deadline_wie');
-							} else {
-								$dead_line = 15;
-							}
 							if(isset($water['charged']) && (int)$water['charged'] == 1) {
 								$day = date('d', strtotime($water['charged_date']));
 								
@@ -864,27 +898,6 @@ class ModelSaleManageWie extends Model {
 	public function saveEditWie($data){
 		$this->db->query("UPDATE " . DB_PREFIX . "e_record SET End = '" . (int)$data['end_elec'] . "', charged = " . (int)$data['check_paid'] . (((int)$data['check_paid'] == 1) ? " , charged_date = NOW() " : "") ." where RoomID = " . (int)$data['room_id']);
 		$this->db->query("UPDATE " . DB_PREFIX . "w_record SET End = '" . (int)$data['end_water'] . "', charged = " . (int)$data['check_paid'] . (((int)$data['check_paid'] == 1) ? " , charged_date = NOW() " : "") . " where RoomID = " . (int)$data['room_id']);
-		
-		if ($this->config->get('default_deadline_wie')) {
-			$dead_line = $this->config->get('default_deadline_wie');
-		} else {
-			$dead_line = 15;
-		}
-					
-		$day = date('d', strtotime(date('Y-m-d  H:i:s')));
-						
-		if((int)$day > (int)$dead_line) {
-			$charge = 'late';
-			
-			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "wie_late_record WHERE room_id = '" . (int)$data['room_id'] . "'");
-			
-			if($query->num_rows) {
-				$this->db->query("UPDATE " . DB_PREFIX . "wie_late_record SET `times` = '" . ((int)$query->row['times'] + 1) . "' WHERE `room_id` = '" . (int)$data['room_id'] . "'");
-			}
-			else {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "wie_late_record SET `room_id` = '" . (int)$data['room_id'] . "', `times` = '1'");
-			}
-		}
 	}
 	
 	public function elec_charged($room_id){
@@ -893,6 +906,33 @@ class ModelSaleManageWie extends Model {
 	
 	public function water_charged($room_id){
 		$this->db->query("UPDATE " . DB_PREFIX . "w_record SET charged = 1, charged_date = NOW() where RoomID = " . $room_id);
+	}
+	
+	public function updateWIELateRecord($room_id) {
+		$d_year = date('Y');
+		$d_month = date('m');
+		$period = $d_month.'-'.$d_year;
+		$deadline = $this->getDeadline($period);
+		if ($deadline) {
+			$dead_line = (int)$deadline['deadline_charge'];
+		} else {
+			$dead_line = 10;
+		}
+		
+		$day = date('d', strtotime(date('Y-m-d  H:i:s')));
+						
+		if((int)$day > (int)$dead_line) {
+			$charge = 'late';
+			
+			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "wie_late_record WHERE room_id = '" . $room_id . "'");
+			
+			if($query->num_rows) {
+				$this->db->query("UPDATE " . DB_PREFIX . "wie_late_record SET `times` = '" . ((int)$query->row['times'] + 1) . "' WHERE `room_id` = '" . $room_id . "'");
+			}
+			else {
+				$this->db->query("INSERT INTO " . DB_PREFIX . "wie_late_record SET `room_id` = '" . $room_id . "', `times` = '1'");
+			}
+		}
 	}
 	
 	public function confirmRoomElec($data){
