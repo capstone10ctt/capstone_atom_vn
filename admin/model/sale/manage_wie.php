@@ -231,6 +231,566 @@ class ModelSaleManageWie extends Model {
 		}
 	}
 	
+	public function getRoomView($filter){
+		//floors and room
+		$block_id = 1;
+		$this->load->model('sale/manage_wie');
+		$rooms_input = $this->model_sale_manage_wie->getCustomerGroups();
+		$floors_input = $this->model_sale_manage_wie->getFloors($block_id);
+		
+		//get electric and water limit data
+		$this->load->model('price/standard');
+		$e_standard_idx = $this->model_price_standard->getElectricityLastestLifeTime();
+		$e_standard = $this->model_price_standard->getElectricityStandardPrice((int)$e_standard_idx['id']);
+		
+		$w_standard_idx = $this->model_price_standard->getWaterLastestLifeTime();
+		$w_standard = $this->model_price_standard->getWaterStandardPrice((int)$w_standard_idx['id']);
+       
+		
+		foreach($floors_input as $floor_idx => $floor) {
+			$data = array('floor' => $floor['floor_id']);
+			$floors_input[$floor_idx]['name']=$floors_input[$floor_idx]['floor_name'];
+			$floors_input[$floor_idx]['wpay'] = 0;
+			$floors_input[$floor_idx]['wpaid'] = 0;
+			$floors_input[$floor_idx]['epay'] = 0;
+			$floors_input[$floor_idx]['epaid'] = 0;
+			$floors_input[$floor_idx]['delay'] = 0;
+
+
+			for($yy = $filter['year_start']; $yy <= $filter['year_end']; $yy++)
+			{
+
+				if($yy<$filter['year_end'] && $yy==$filter['year_start'])
+				{
+					$mstart=$filter['month_start'];
+					$mend=12;
+				}
+				else if($yy<$filter['year_end'] && $yy>$filter['year_start'])
+				{
+					$mstart=1;
+					$mend=12;
+				}
+				else 
+				{
+					$mstart=$filter['month_start'];
+					$mend=$filter['month_end'];
+				}
+				for($mm = $mstart; $mm <= $mend; $mm++)
+				{					
+
+					$results = $this->model_sale_manage_wie->getCustomerGroups($data);
+				
+					foreach ($results as $result) {
+
+						$totalmoney = 0;
+						$elec = $this->model_sale_manage_wie->getElectricLogByRoomIdDate($result['customer_group_id'],$mm, $yy);
+						//echo '<br/>dien:<br/>'.print_r($elec);
+						if(isset($elec)) {
+							//$billing_wie_classified[$result['customer_group_id']]['elec'] = $elec;
+							if(isset($elec['End']) && isset($elec['Start'])) {
+								$e_usage = (int)$elec['End'] - (int)$elec['Start'];
+							}
+							else {
+								$e_usage = 0;
+							}
+							
+							$charge = 'no';
+							if ($this->config->get('default_deadline_wie')) {
+								$dead_line = $this->config->get('default_deadline_wie');
+							} else {
+								$dead_line = 15;
+							}
+							
+							if(isset($elec['charged']) && (int)$elec['charged'] == 1) {
+								$day = date('d', strtotime($elec['charged_date']));
+								
+								if((int)$day <= (int)$dead_line) {
+									$charge = 'yes';
+								}
+								else {
+									$charge = 'late';
+								}
+							}
+							else {
+								$charge = 'no';
+							}
+							
+							
+							$money = $this->calculate_money_elec($e_standard, $e_usage);
+							
+							$floors_input[$floor_idx]['epay'] += $money;
+							if($charge!='no')
+							{
+								$floors_input[$floor_idx]['epaid'] += $money;
+							}
+						}
+						
+						$water = $this->model_sale_manage_wie->getWaterLogByRoomIdDate($result['customer_group_id'],$mm, $yy);					
+						//echo '<br/>nuoc:<br/>'.print_r($water);
+						if(isset($water)) {
+							//$billing_wie_classified[$result['customer_group_id']]['water'] = $water ;
+							if(isset($water['End']) && isset($water['Start'])) {
+								$w_usage = (int)$water['End'] - (int)$water['Start'];
+							}
+							else {
+								$w_usage = 0;
+							}
+							
+							$charge = 'no';
+							if ($this->config->get('default_deadline_wie')) {
+								$dead_line = $this->config->get('default_deadline_wie');
+							} else {
+								$dead_line = 15;
+							}
+							
+							if(isset($water['charged']) && (int)$water['charged'] == 1) {
+								$day = date('d', strtotime($water['charged_date']));
+								
+								if((int)$day <= (int)$dead_line) {
+									$charge = 'yes';
+								}
+								else {
+									$charge = 'late';
+								}
+							}
+							else {
+								$charge = 'no';
+							}
+							
+							$money = $this->calculate_money_water($w_standard, $w_usage, $result['customer_group_id']);
+							$floors_input[$floor_idx]['wpay'] += $money;
+							if($charge!='no')
+							{
+								$floors_input[$floor_idx]['wpaid'] += $money;
+							}
+						}
+					}				
+				}
+			}	
+		}
+		
+		
+			return $floors_input;
+		
+	}
+
+	public function getFloorView($filter){
+		//floors and room
+		$block_id = 1;
+		$this->load->model('sale/manage_wie');
+		$rooms_input = $this->model_sale_manage_wie->getCustomerGroups();
+		$floors_input = $this->model_sale_manage_wie->getFloors($block_id);
+		
+		//get electric and water limit data
+		$this->load->model('price/standard');
+		$e_standard_idx = $this->model_price_standard->getElectricityLastestLifeTime();
+		$e_standard = $this->model_price_standard->getElectricityStandardPrice((int)$e_standard_idx['id']);
+		
+		$w_standard_idx = $this->model_price_standard->getWaterLastestLifeTime();
+		$w_standard = $this->model_price_standard->getWaterStandardPrice((int)$w_standard_idx['id']);
+       
+		
+		foreach($floors_input as $floor_idx => $floor) {
+			$data = array('floor' => $floor['floor_id']);
+			$floors_input[$floor_idx]['name']=$floors_input[$floor_idx]['floor_name'];
+			$floors_input[$floor_idx]['wpay'] = 0;
+			$floors_input[$floor_idx]['wpaid'] = 0;
+			$floors_input[$floor_idx]['epay'] = 0;
+			$floors_input[$floor_idx]['epaid'] = 0;
+
+
+			for($yy = $filter['year_start']; $yy <= $filter['year_end']; $yy++)
+			{
+
+				if($yy<$filter['year_end'] && $yy==$filter['year_start'])
+				{
+					$mstart=$filter['month_start'];
+					$mend=12;
+				}
+				else if($yy<$filter['year_end'] && $yy>$filter['year_start'])
+				{
+					$mstart=1;
+					$mend=12;
+				}
+				else 
+				{
+					$mstart=$filter['month_start'];
+					$mend=$filter['month_end'];
+				}
+				for($mm = $mstart; $mm <= $mend; $mm++)
+				{					
+
+					$results = $this->model_sale_manage_wie->getCustomerGroups($data);
+				
+					foreach ($results as $result) {
+
+						$totalmoney = 0;
+						$elec = $this->model_sale_manage_wie->getElectricLogByRoomIdDate($result['customer_group_id'],$mm, $yy);
+						//echo '<br/>dien:<br/>'.print_r($elec);
+						if(isset($elec)) {
+							//$billing_wie_classified[$result['customer_group_id']]['elec'] = $elec;
+							if(isset($elec['End']) && isset($elec['Start'])) {
+								$e_usage = (int)$elec['End'] - (int)$elec['Start'];
+							}
+							else {
+								$e_usage = 0;
+							}
+							
+							$charge = 'no';
+							if ($this->config->get('default_deadline_wie')) {
+								$dead_line = $this->config->get('default_deadline_wie');
+							} else {
+								$dead_line = 15;
+							}
+							
+							if(isset($elec['charged']) && (int)$elec['charged'] == 1) {
+								$day = date('d', strtotime($elec['charged_date']));
+								
+								if((int)$day <= (int)$dead_line) {
+									$charge = 'yes';
+								}
+								else {
+									$charge = 'late';
+								}
+							}
+							else {
+								$charge = 'no';
+							}
+							
+							
+							$money = $this->calculate_money_elec($e_standard, $e_usage);
+							
+							$floors_input[$floor_idx]['epay'] += $money;
+							if($charge!='no')
+							{
+								$floors_input[$floor_idx]['epaid'] += $money;
+							}
+						}
+						
+						$water = $this->model_sale_manage_wie->getWaterLogByRoomIdDate($result['customer_group_id'],$mm, $yy);					
+						//echo '<br/>nuoc:<br/>'.print_r($water);
+						if(isset($water)) {
+							//$billing_wie_classified[$result['customer_group_id']]['water'] = $water ;
+							if(isset($water['End']) && isset($water['Start'])) {
+								$w_usage = (int)$water['End'] - (int)$water['Start'];
+							}
+							else {
+								$w_usage = 0;
+							}
+							
+							$charge = 'no';
+							if ($this->config->get('default_deadline_wie')) {
+								$dead_line = $this->config->get('default_deadline_wie');
+							} else {
+								$dead_line = 15;
+							}
+							
+							if(isset($water['charged']) && (int)$water['charged'] == 1) {
+								$day = date('d', strtotime($water['charged_date']));
+								
+								if((int)$day <= (int)$dead_line) {
+									$charge = 'yes';
+								}
+								else {
+									$charge = 'late';
+								}
+							}
+							else {
+								$charge = 'no';
+							}
+							
+							$money = $this->calculate_money_elec($e_standard, $e_usage);
+							$floors_input[$floor_idx]['wpay'] += $money;
+							if($charge!='no')
+							{
+								$floors_input[$floor_idx]['wpaid'] += $money;
+							}
+						}
+					}				
+				}
+			}	
+		}		
+		return $floors_input;
+		
+	}
+
+	public function getRoomViewById($filter){
+		//floors and room
+		$block_id = 1;
+		$this->load->model('sale/manage_wie');
+		
+		$rooms_input = $this->model_sale_manage_wie->getCustomerGroups($filter);
+		
+		//get electric and water limit data
+		$this->load->model('price/standard');
+		$e_standard_idx = $this->model_price_standard->getElectricityLastestLifeTime();
+		$e_standard = $this->model_price_standard->getElectricityStandardPrice((int)$e_standard_idx['id']);
+		
+		$w_standard_idx = $this->model_price_standard->getWaterLastestLifeTime();
+		$w_standard = $this->model_price_standard->getWaterStandardPrice((int)$w_standard_idx['id']);
+       
+		
+		foreach($rooms_input as $room_idx => $room) {
+			$rooms_input[$room_idx]['wpay'] = 0;
+			$rooms_input[$room_idx]['wpaid'] = 0;
+			$rooms_input[$room_idx]['epay'] = 0;
+			$rooms_input[$room_idx]['epaid'] = 0;
+
+
+			for($yy = $filter['year_start']; $yy <= $filter['year_end']; $yy++)
+			{
+
+				if($yy<$filter['year_end'] && $yy==$filter['year_start'])
+				{
+					$mstart=$filter['month_start'];
+					$mend=12;
+				}
+				else if($yy<$filter['year_end'] && $yy>$filter['year_start'])
+				{
+					$mstart=1;
+					$mend=12;
+				}
+				else 
+				{
+					$mstart=$filter['month_start'];
+					$mend=$filter['month_end'];
+				}
+				for($mm = $mstart; $mm <= $mend; $mm++)
+				{					
+
+						$totalmoney = 0;
+						$elec = $this->model_sale_manage_wie->getElectricLogByRoomIdDate($rooms_input[$room_idx]['customer_group_id'],$mm, $yy);
+						//echo '<br/>dien:<br/>'.print_r($elec);
+						if(isset($elec)) {
+							//$billing_wie_classified[$result['customer_group_id']]['elec'] = $elec;
+							if(isset($elec['End']) && isset($elec['Start'])) {
+								$e_usage = (int)$elec['End'] - (int)$elec['Start'];
+							}
+							else {
+								$e_usage = 0;
+							}
+							
+							$charge = 'no';
+							if ($this->config->get('default_deadline_wie')) {
+								$dead_line = $this->config->get('default_deadline_wie');
+							} else {
+								$dead_line = 15;
+							}
+							
+							if(isset($elec['charged']) && (int)$elec['charged'] == 1) {
+								$day = date('d', strtotime($elec['charged_date']));
+								
+								if((int)$day <= (int)$dead_line) {
+									$charge = 'yes';
+								}
+								else {
+									$charge = 'late';
+								}
+							}
+							else {
+								$charge = 'no';
+							}
+							
+							
+							$money = $this->calculate_money_elec($e_standard, $e_usage);
+							
+							$rooms_input[$room_idx]['epay'] += $money;
+							if($charge!='no')
+							{
+								$rooms_input[$room_idx]['epaid'] += $money;
+							}
+						}
+						
+						$water = $this->model_sale_manage_wie->getWaterLogByRoomIdDate($rooms_input[$room_idx]['customer_group_id'],$mm, $yy);					
+						//echo '<br/>nuoc:<br/>'.print_r($water);
+						if(isset($water)) {
+							//$billing_wie_classified[$result['customer_group_id']]['water'] = $water ;
+							if(isset($water['End']) && isset($water['Start'])) {
+								$w_usage = (int)$water['End'] - (int)$water['Start'];
+							}
+							else {
+								$w_usage = 0;
+							}
+							
+							$charge = 'no';
+							if ($this->config->get('default_deadline_wie')) {
+								$dead_line = $this->config->get('default_deadline_wie');
+							} else {
+								$dead_line = 15;
+							}
+							
+							if(isset($water['charged']) && (int)$water['charged'] == 1) {
+								$day = date('d', strtotime($water['charged_date']));
+								
+								if((int)$day <= (int)$dead_line) {
+									$charge = 'yes';
+								}
+								else {
+									$charge = 'late';
+								}
+							}
+							else {
+								$charge = 'no';
+							}
+							
+							$money = $this->calculate_money_water($w_standard, $w_usage, $rooms_input[$room_idx]['customer_group_id']);
+							$rooms_input[$room_idx]['wpay'] += $money;
+							if($charge!='no')
+							{
+								$rooms_input[$room_idx]['wpaid'] += $money;
+							}
+						}
+									
+				}
+			}	
+		}
+		
+		return $rooms_input;
+		
+	}
+
+	public function getRoomStat($filter){
+		//floors and room
+		
+		$this->load->model('sale/manage_wie');
+		
+		$rooms_input = $this->model_sale_manage_wie->getCustomerGroups($filter);
+		
+		//get electric and water limit data
+		$roomstat=array();
+		$roomstat[0]['wcount']=0;
+		$roomstat[0]['wlist']='';
+		$roomstat[0]['ecount']=0;
+		$roomstat[0]['elist']='';
+		$roomstat[1]['wcount']=0;
+		$roomstat[1]['wlist']='';
+		$roomstat[1]['ecount']=0;
+		$roomstat[1]['elist']='';
+		$roomstat[2]['wcount']=0;
+		$roomstat[2]['wlist']='';
+		$roomstat[2]['ecount']=0;
+		$roomstat[2]['elist']='';
+
+		foreach($rooms_input as $room_idx => $room) {
+			$wcount=0;
+			$ecount=0;
+
+
+			for($yy = $filter['year_start']; $yy <= $filter['year_end']; $yy++)
+			{
+
+				if($yy<$filter['year_end'] && $yy==$filter['year_start'])
+				{
+					$mstart=$filter['month_start'];
+					$mend=12;
+				}
+				else if($yy<$filter['year_end'] && $yy>$filter['year_start'])
+				{
+					$mstart=1;
+					$mend=12;
+				}
+				else 
+				{
+					$mstart=$filter['month_start'];
+					$mend=$filter['month_end'];
+				}
+				for($mm = $mstart; $mm <= $mend; $mm++)
+				{					
+
+						
+						$elec = $this->model_sale_manage_wie->getElectricLogByRoomIdDate($rooms_input[$room_idx]['customer_group_id'],$mm, $yy);
+						//echo '<br/>dien:<br/>'.print_r($elec);
+						if(isset($elec)) {
+							//$billing_wie_classified[$result['customer_group_id']]['elec'] = $elec;
+							
+							if ($this->config->get('default_deadline_wie')) {
+								$dead_line = $this->config->get('default_deadline_wie');
+							} else {
+								$dead_line = 15;
+							}
+							if(isset($elec['charged']) && (int)$elec['charged'] == 1) {
+								$day = date('d', strtotime($elec['charged_date']));
+								
+								if((int)$day <= (int)$dead_line) {
+									
+								}
+								else {
+									$ecount++;
+								}
+							}
+							else {
+								$ecount++;
+							}
+							
+							
+							
+						}
+						
+						$water = $this->model_sale_manage_wie->getWaterLogByRoomIdDate($rooms_input[$room_idx]['customer_group_id'],$mm, $yy);					
+						//echo '<br/>nuoc:<br/>'.print_r($water);
+						if(isset($water)) {
+							if ($this->config->get('default_deadline_wie')) {
+								$dead_line = $this->config->get('default_deadline_wie');
+							} else {
+								$dead_line = 15;
+							}
+							if(isset($water['charged']) && (int)$water['charged'] == 1) {
+								$day = date('d', strtotime($water['charged_date']));
+								
+								if((int)$day <= (int)$dead_line) {
+									
+								}
+								else {
+									$wcount++;
+								}
+							}
+							else {
+								$wcount++;
+							}
+						}
+									
+				}
+			}
+			if($wcount==0)	
+				$roomstat[0]['wcount']++;
+			else if($wcount==1)	
+			{
+				$roomstat[1]['wcount']++;
+				$roomstat[1]['wlist']=$roomstat[1]['wlist'].', '.$room['name'];
+			}
+			else
+			{
+				$roomstat[2]['wcount']++;
+				$roomstat[2]['wlist']=$roomstat[2]['wlist'].', '.$room['name'];
+			}
+
+			if($ecount==0)	
+				$roomstat[0]['ecount']++;
+			else if($wcount==1)	
+			{
+				$roomstat[1]['ecount']++;
+				$roomstat[1]['elist']=$roomstat[1]['elist'].', '.$room['name'];
+			}
+			else
+			{
+				$roomstat[2]['ecount']++;
+				$roomstat[2]['elist']=$roomstat[2]['elist'].', '.$room['name'];
+			}
+
+		}
+		if(strlen($roomstat[1]['wlist'])>0)
+			$roomstat[1]['wlist'] = substr($roomstat[1]['wlist'], 2);
+		if(strlen($roomstat[1]['elist'])>0)
+			$roomstat[1]['elist'] = substr($roomstat[1]['elist'], 2);
+		if(strlen($roomstat[2]['wlist'])>0)
+			$roomstat[2]['wlist'] = substr($roomstat[2]['wlist'], 2);
+		if(strlen($roomstat[2]['elist'])>0)
+			$roomstat[2]['elist'] = substr($roomstat[2]['elist'], 2);
+
+		return $roomstat;
+		
+	}
+	
 	public function inputUsage($data) {
 		$date = new DateTime();
 		$date->setDate($data['year'], $data['month'], 1);
@@ -478,6 +1038,19 @@ class ModelSaleManageWie extends Model {
 		}
 		return $query->row;
 	}
+	
+	public function getElectricLogByRoomIdDate($room_id, $month, $year) {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "e_record WHERE `RoomID` = '" . (int)$room_id . "' AND MONTH(date_added) = '" . (int)$month . "' AND YEAR(date_added) = '" . (int)$year . "'");
+		
+		return $query->row;
+	}
+	
+	public function getWaterLogByRoomIdDate($room_id, $month, $year) {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "w_record WHERE `RoomID` = '" . (int)$room_id . "' AND MONTH(date_added) = '" . (int)$month . "' AND YEAR(date_added) = '" . (int)$year . "'");
+		
+		return $query->row;
+	}
+
 	
 	public function getElectricLogByRoomId($room_id) {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "e_record WHERE `RoomID` = '" . (int)$room_id . "' AND MONTH(date_added) = '" . date('m') . "' AND YEAR(date_added) = '" . date('Y') . "'");
