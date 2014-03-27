@@ -1,3 +1,4 @@
+
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
@@ -136,133 +137,21 @@ class ControllerSaleManageWie extends Controller {
 		$cur_year = date('Y');
 		$cur_month = date('m');
 		
-		/*//floors and room
-		$block_id = 1;
-		$this->load->model('sale/manage_wie');
-		$rooms_input = $this->model_sale_manage_wie->getCustomerGroups();
-		$floors_input = $this->model_sale_manage_wie->getFloors($block_id);
-		
-		//get electric and water limit data
-		$this->load->model('price/standard');
-		$w_standard = $this->model_price_standard->getWaterStandardPrice();
-        $e_standard = $this->model_price_standard->getElectricityStandardPrice();
-		
-		$cur_year = date('Y');
-		$cur_month = date('m');
-		
-		$billing_wie_classified = array();
-		
-		foreach($floors_input as $floor_idx => $floor) {
-			$data = array('floor' => $floor['floor_id']);
-			$results = $this->model_sale_manage_wie->getCustomerGroups($data);
-			
-			foreach ($results as $result) {
-				$totalmoney = 0;
-				$elec = $this->model_sale_manage_wie->getElectricLogByRoomId($result['customer_group_id']);
-				//echo '<br/>dien:<br/>'.print_r($elec);
-				if(isset($elec)) {
-					$billing_wie_classified[$result['customer_group_id']]['elec'] = $elec;
-					if(isset($elec['End']) && isset($elec['Start'])) {
-						$e_usage = (int)$elec['End'] - (int)$elec['Start'];
-					}
-					else {
-						$e_usage = 0;
-					}
-					$billing_wie_classified[$result['customer_group_id']]['elec']['Usage'] = $e_usage;
-					$money = $this->model_sale_manage_wie->calculate_money($e_standard, $e_usage);
-					$billing_wie_classified[$result['customer_group_id']]['elec']['Money'] = $money;
-					$totalmoney += $money;
-				}
-				
-				$water = $this->model_sale_manage_wie->getWaterLogByRoomId($result['customer_group_id']);					
-				//echo '<br/>nuoc:<br/>'.print_r($water);
-				if(isset($water)) {
-					$billing_wie_classified[$result['customer_group_id']]['water'] = $water ;
-					if(isset($water['End']) && isset($water['Start'])) {
-						$w_usage = (int)$water['End'] - (int)$water['Start'];
-					}
-					else {
-						$w_usage = 0;
-					}
-					
-					$billing_wie_classified[$result['customer_group_id']]['water']['Usage'] = $w_usage;
-					$money = $this->model_sale_manage_wie->calculate_money($w_standard, $w_usage);
-					$billing_wie_classified[$result['customer_group_id']]['water']['Money'] = $money;
-					$totalmoney += $money;
-				}
-				
-				setlocale(LC_MONETARY, 'en_US');
-				$billing_wie_classified[$result['customer_group_id']]['totalmoney'] = str_replace('$','',money_format('%.0n',$totalmoney));
-				$billing_wie_classified[$result['customer_group_id']]['inword'] = $this->model_sale_manage_wie->convert_number_to_words((int)$totalmoney). ' đồng';
-				
-				$floors_input[$floor_idx]['rooms'][] = array(
-						'customer_group_id' => $result['customer_group_id'],
-						'floor_id' => $result['floor_id'],
-						'name'              => $result['name'] . (($result['customer_group_id'] == $this->config->get('config_manage_wie_id')) ? $this->language->get('text_default') : null),
-						'sort_order'        => $result['sort_order'],
-						'selected'          => isset($this->request->post['selected']) && in_array($result['manage_wie_id'], $this->request->post['selected']),
-						'room_data'			=> ((isset($billing_wie_classified[$result['customer_group_id']])) ? $billing_wie_classified[$result['customer_group_id']] : null)
-					);
-			}	
-		}
-		
-		
-		$filter_data = array();
-		if(isset($this->request->get['filter_floor'])) {
-			$filter_data = array('floor' => $this->request->get['filter_floor']);
-			$this->data['filter_floor'] = $this->request->get['filter_floor'];
-		}
-		else {
-			$this->data['filter_floor'] = '';
-		}
-		
-		if(isset($this->request->get['filter_room'])) {
-			$this->data['filter_room'] = $this->request->get['filter_room'];
-		}
-		else {
-			$this->data['filter_room'] = '';
-		}
-		
-		
-		$rooms_filter = $this->model_sale_manage_wie->getCustomerGroups($filter_data);
-		$floors_filter = $this->model_sale_manage_wie->getFloors($block_id);
-		
-		$filtered_floor = $floors_input;
-		if(isset($this->request->get['filter_floor'])) {
-			$filtered_floor = array();
-			foreach($floors_input as $key => $floor) {
-				if((int)$floor['floor_id'] == (int)$this->request->get['filter_floor']) {
-					$filtered_floor[$key] = $floor;
-				}
-			}
-		}
-		if(isset($this->request->get['filter_room'])) {
-			$filtered_floor = array();
-			foreach($floors_input as $key => $floor) {
-				if(isset($floor['rooms'])) {
-					foreach($floor['rooms'] as $ridx => $room) {
-						if((int)$room['customer_group_id'] == (int)$this->request->get['filter_room']) {
-							$filtered_floor[$key] = $floor;
-							$filtered_floor[$key]['rooms'] = array();
-							$filtered_floor[$key]['rooms'][$ridx] = $room;
-						}
-					}
-				}
-			}
-		}*/
-		
+		$this->data['alldeadlineperiod'] = $this->model_sale_managewie->getAllDeadlinePeriod();
 		$this->data['allmonths'] = $allmonths;
 		$this->data['allyears'] = $allyears;
 		$this->data['alldays'] = $alldays;
-		//$this->data['floors_wie'] = $filtered_floor;
-		//$this->data['floors_filter'] = $floors_input;
-//		$this->data['rooms_filter'] = $rooms_input;
 		$this->data['floors_input'] = $floors_input;
 		$this->data['rooms_input'] = $rooms_input;
 		$this->data['cur_year'] = $cur_year;
 		$this->data['cur_month'] = $cur_month;
 		$this->data['token'] = $this->session->data['token'];
 		
+		$this->data['text_error_total'] = $this->language->get('text_error_total');
+		$this->data['text_update_deadline'] = $this->language->get('text_update_deadline');
+		$this->data['text_set_deadline'] = $this->language->get('text_set_deadline');
+		$this->data['text_room_charged'] = $this->language->get('text_room_charged');
+		$this->data['text_exit'] = $this->language->get('text_exit');
 		$this->data['text_print'] = $this->language->get('text_print');
 		$this->data['text_popup_mail_header'] = $this->language->get('text_popup_mail_header');
 		$this->data['text_popup_print_header'] = $this->language->get('text_popup_print_header');
@@ -280,7 +169,11 @@ class ControllerSaleManageWie extends Controller {
 		$this->data['text_confirm'] = $this->language->get('text_confirm');
 		$this->data['text_electric_start'] = $this->language->get('text_electric_start');
 		$this->data['text_water_start'] = $this->language->get('text_water_start');
-		$this->data['text_deadline'] = $this->language->get('text_deadline');
+		$this->data['text_deadline_charge'] = $this->language->get('text_deadline_charge');
+		$this->data['text_deadline_edit'] = $this->language->get('text_deadline_edit');
+		$this->data['text_deadline_supply'] = $this->language->get('text_deadline_supply');
+		$this->data['text_total_elec'] = $this->language->get('text_total_elec');
+		$this->data['text_total_water'] = $this->language->get('text_total_water');
 		$this->data['text_save'] = $this->language->get('text_save');
 		$this->data['text_edit'] = $this->language->get('text_edit');
 		$this->data['text_tool'] = $this->language->get('text_tool');
@@ -419,6 +312,128 @@ class ControllerSaleManageWie extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
+	public function convert_number_to_words($number) { 
+		$hyphen      = ' '; 
+		$conjunction = '  '; 
+		$separator   = ' '; 
+		$negative    = 'negative '; 
+		$decimal     = ' point '; 
+		$dictionary  = array( 
+		0                   => 'không', 
+		1                   => 'một', 
+		2                   => 'hai', 
+		3                   => 'ba', 
+		4                   => 'bốn', 
+		5                   => 'năm', 
+		6                   => 'sáu', 
+		7                   => 'bảy', 
+		8                   => 'tám', 
+		9                   => 'chín', 
+		10                  => 'mười', 
+		11                  => 'mười một', 
+		12                  => 'mười hai', 
+		13                  => 'mười ba', 
+		14                  => 'mười bốn', 
+		15                  => 'mười năm', 
+		16                  => 'mười sáu', 
+		17                  => 'mười bảy', 
+		18                  => 'mười tám', 
+		19                  => 'mười chín', 
+		20                  => 'hai mươi', 
+		30                  => 'ba mươi', 
+		40                  => 'bốn mươi', 
+		50                  => 'năm mươi', 
+		60                  => 'sáu mươi', 
+		70                  => 'bảy mươi', 
+		80                  => 'tám mươi', 
+		90                  => 'chín mươi', 
+		100                 => 'trăm', 
+		1000                => 'ngàn', 
+		1000000             => 'triệu', 
+		1000000000          => 'tỷ', 
+		1000000000000       => 'nghìn tỷ', 
+		1000000000000000    => 'ngàn triệu triệu', 
+		1000000000000000000 => 'tỷ tỷ' 
+		); 
+		
+		if (!is_numeric($number)) { 
+			return false; 
+		} 
+		if (($number >= 0 && (int) $number < 0) || (int) $number < 0 - PHP_INT_MAX) { 
+		// overflow 
+		trigger_error( 
+			'convert_number_to_words only accepts numbers between -' . PHP_INT_MAX . ' and ' . PHP_INT_MAX, 
+			E_USER_WARNING 
+		); 
+			return false; 
+		} 
+		if ($number < 0) { 
+			return $negative . $this->convert_number_to_words(abs($number)); 
+		} 
+		
+		$string = $fraction = null; 
+		
+		if (strpos($number, '.') !== false) { 
+			list($number, $fraction) = explode('.', $number); 
+		} 
+		
+		switch (true) { 
+			case $number < 21: 
+			$string = $dictionary[$number]; 
+			break; 
+		case $number < 100: 
+			$tens   = ((int) ($number / 10)) * 10; 
+			$units  = $number % 10; 
+			$string = $dictionary[$tens]; 
+			if ($units) { 
+			$string .= $hyphen . $dictionary[$units]; 
+			} 
+			break; 
+		case $number < 1000: 
+			$hundreds  = $number / 100; 
+			$remainder = $number % 100; 
+			$string = $dictionary[$hundreds] . ' ' . $dictionary[100]; 
+			if ($remainder) { 
+			$string .= $conjunction . $this->convert_number_to_words($remainder); 
+			} 
+			break; 
+		default: 
+			$baseUnit = pow(1000, floor(log($number, 1000))); 
+			$numBaseUnits = (int) ($number / $baseUnit); 
+			$remainder = $number % $baseUnit; 
+			$string = $this->convert_number_to_words($numBaseUnits) . ' ' . $dictionary[$baseUnit]; 
+			if ($remainder) { 
+			$string .= $remainder < 100 ? $conjunction : $separator; 
+			$string .= $this->convert_number_to_words($remainder); 
+			} 
+			break; 
+		} 
+	
+		if (null !== $fraction && is_numeric($fraction)) { 
+		$string .= $decimal; 
+		$words = array(); 
+		foreach (str_split((string) $fraction) as $number) { 
+			$words[] = $dictionary[$number]; 
+		} 
+			$string .= implode(' ', $words); 
+		} 
+		
+		return $string; 
+	}
+	
+	function roundMoney($num) {
+		$result = $num;
+		$remainder = $num % 500;
+		$qoutient = (int)($num / 500);
+		if($remainder > 0 && $remainder >= 250) {
+			$result = ($qoutient + 1)* 500;
+		}
+		else if($remainder > 0){
+			$result = $qoutient * 500;
+		}
+		
+		return $result;
+	}
 
 	// Nguyen Tan Phu code
 	// 1051014
@@ -444,7 +459,12 @@ class ControllerSaleManageWie extends Controller {
 	
 	public function replaceEachRoomDataForBill($roomId) {
 		$this->load->model('catalog/template_email');
-		$templateMailData = $this->model_catalog_template_email->getTemplateEmail("mail_3")['description'][1];
+		if($this->user->getUserGroup() == ADMIN_IDX) {
+			$templateMailData = $this->model_catalog_template_email->getTemplateEmail("mail_3")['description'][1];
+		}
+		else {
+			$templateMailData = $this->model_catalog_template_email->getTemplateEmail("mail_4")['description'][1];
+		}
 
 		$templateMail = $templateMailData['description'];
 		$mailTitle = $templateMailData['name'];
@@ -474,8 +494,8 @@ class ControllerSaleManageWie extends Controller {
 	
 				// Tong tien
 				
-				number_format($room_data_e["Money"] + $room_data_w["Money"] + (($wie_stat["room_data"]["garbage"]) ? $wie_stat["room_data"]["garbage"] : 0),0),		//10
-				$wie_stat["room_data"]["inword"],					//11
+				number_format($this->roundMoney($room_data_e["Money"] + $room_data_w["Money"] + (($wie_stat["room_data"]["garbage"]) ? $wie_stat["room_data"]["garbage"] : 0)),0),		//10
+				$this->convert_number_to_words($this->roundMoney($room_data_e["Money"] + $room_data_w["Money"] + (($wie_stat["room_data"]["garbage"]) ? $wie_stat["room_data"]["garbage"] : 0))).' đồng',					//11
 	
 				date("m"),									//12
 				date("d"),									//13
@@ -487,7 +507,7 @@ class ControllerSaleManageWie extends Controller {
 				""											// deadline ?
 			);
 
-			$mailRoom = array("title" => $mailTitle, "body" => $completeMailBody);
+			$mailRoom = array("title" => $mailTitle, "body" => $completeMailBody, "charged" => ((isset($room_data_w['charged'])) ? $room_data_w['charged'] : 'no'));
 		}
 		
 
@@ -526,8 +546,8 @@ class ControllerSaleManageWie extends Controller {
 	
 				// Tong tien
 				
-				number_format($room_data_e["Money"] + $room_data_w["Money"] + (($wie_stat["room_data"]["garbage"]) ? $wie_stat["room_data"]["garbage"] : 0),0),		//10
-				$wie_stat["room_data"]["inword"],					//11
+				number_format($this->roundMoney($room_data_e["Money"] + $room_data_w["Money"] + (($wie_stat["room_data"]["garbage"]) ? $wie_stat["room_data"]["garbage"] : 0)),0),		//10
+				$this->convert_number_to_words($this->roundMoney($room_data_e["Money"] + $room_data_w["Money"] + (($wie_stat["room_data"]["garbage"]) ? $wie_stat["room_data"]["garbage"] : 0))).' đồng',					//11
 	
 				date("m"),									//12
 				date("d"),									//13
@@ -746,7 +766,7 @@ class ControllerSaleManageWie extends Controller {
 		$this->load->model('sale/manage_wie');
 		$mailroom = $this->replaceEachRoomDataForBill((int)$this->request->post['room_id']);
 		
-		$json['bill'] = $mailroom["body"];
+		$json['bill'] = array('bill_detail' => $mailroom["body"], 'charged' => $mailroom["charged"]);
 		
 		$this->response->setOutput(json_encode($json));
 	}
@@ -837,6 +857,32 @@ class ControllerSaleManageWie extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 	
+	public function saveDeadline() {
+		$json = array();
+		
+		$this->load->model('sale/manage_wie');
+		$this->model_sale_manage_wie->saveDeadline($this->request->post);
+		
+		$json['success'] = 'yes';
+		
+		$this->response->setOutput(json_encode($json));
+	}
+	
+	public function getCurrentDeadline() {
+		$json = array();
+		
+		$this->load->model('sale/manage_wie');
+		
+		$cur_year = date('Y');
+		$cur_month = date('m');
+		
+		$period = $cur_month.'-'.$cur_year;
+		
+		$json['deadline'] = $this->model_sale_manage_wie->getDeadline($period);
+		
+		$this->response->setOutput(json_encode($json));
+	}
+	
 	public function sendMailSelectedRooms() {
 		$json = array();
 		
@@ -860,25 +906,27 @@ class ControllerSaleManageWie extends Controller {
 				$room_id = $room;
 			}
 			
-			$mail_to = $this->model_sale_manage_wie->getRoomLeaderEmail($room_id);
-			$mailMinistry = $this->replaceEachRoomData($room_id);
+			$rooms = $this->model_sale_manage_wie->getRoomEmails($room_id);
+			$mailRooms = $this->replaceEachRoomData($room_id);
 			
-			if($mail_to != '' && isset($mailMinistry["title"])) {
-				$json['mailed'][] = $mail_to;
-				$mail = new Mail();
-				$mail->protocol = $this->config->get('config_mail_protocol');
-				$mail->parameter = $this->config->get('config_mail_parameter');
-				$mail->hostname = $this->config->get('config_smtp_host');
-				$mail->username = $this->config->get('config_smtp_username');
-				$mail->password = $this->config->get('config_smtp_password');
-				$mail->port = $this->config->get('config_smtp_port');
-				$mail->timeout = $this->config->get('config_smtp_timeout');
-				$mail->setTo($mail_to);
-				$mail->setFrom($this->config->get('config_email'));
-				$mail->setSender($this->config->get('config_name'));
-				$mail->setSubject($mailMinistry["title"]);
-				$mail->setHTML($mailMinistry["body"]);
-				$mail->send();
+			foreach($rooms as $single_email){
+				if(isset($mailRooms["title"])) {
+					$json['mailed'][] = $single_email['email'].', ';
+					$mail = new Mail();
+					$mail->protocol = $this->config->get('config_mail_protocol');
+					$mail->parameter = $this->config->get('config_mail_parameter');
+					$mail->hostname = $this->config->get('config_smtp_host');
+					$mail->username = $this->config->get('config_smtp_username');
+					$mail->password = $this->config->get('config_smtp_password');
+					$mail->port = $this->config->get('config_smtp_port');
+					$mail->timeout = $this->config->get('config_smtp_timeout');
+					$mail->setTo($single_email['email']);
+					$mail->setFrom($this->config->get('config_email'));
+					$mail->setSender($this->config->get('config_name'));
+					$mail->setSubject($mailRooms["title"]);
+					$mail->setHTML($mailRooms["body"]);
+					$mail->send();
+				}
 			}
 		}
 		

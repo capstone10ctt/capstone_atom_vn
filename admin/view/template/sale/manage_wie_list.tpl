@@ -18,7 +18,7 @@
       <?php if($this->user->getUserGroup() == ADMIN_IDX) { ?>
       <div class="buttons">
       <!--<input id="temp_id" value="123456789" /><a onclick="previewElecWaterCard();" class="button">test card</a>-->
-      <a onclick="newsToggle(true);" class="button"><?php echo $text_add; ?></a><a href="<?php echo $import_data; ?>" class="button"><?php echo $text_import_from_file; ?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="mailForm(true);" class="button"><?php echo $text_mail; ?></a><a onclick="sendMailToMinistry();" class="button"><?php echo $text_mail_monthly; ?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="printForm(true);" class="button"><?php echo $text_print; ?></a><!--<a onclick="location.reload();" class="button"><?php echo $text_refresh; ?></a>--></div>
+      <a onclick="deadlineForm(true);" class="button"><?php echo $text_set_deadline; ?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="newsToggle(true);" class="button"><?php echo $text_add; ?></a><a href="<?php echo $import_data; ?>" class="button"><?php echo $text_import_from_file; ?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="mailForm(true);" class="button"><?php echo $text_mail; ?></a><a onclick="sendMailToMinistry();" class="button"><?php echo $text_mail_monthly; ?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="printForm(true);" class="button"><?php echo $text_print; ?></a><!--<a onclick="location.reload();" class="button"><?php echo $text_refresh; ?></a>--></div>
       <?php }?>
     </div>
     <div class="content">
@@ -220,7 +220,7 @@
         </div>
        <div id="tbpreviewWie" align="center">
        </div>
-       <a id="confirmPreview" onclick="checkpaid();" class="button" style="display:none;margin:0px auto 0px;"/><?php echo $text_confirm ?></a>
+       <a id="confirmPreview" onclick="checkpaid();" class="button" style="display:none;margin:0px auto 0px;"/><?php echo $text_confirm ?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="previewWieToggle(false);" class="button"/><?php echo $text_exit; ?></a>
     </div>
     
     </div>
@@ -237,7 +237,7 @@
     <div class="fbody">
        <table class="editWie">
           <tbody>
-            <fieldset style="border:0;">
+            <fieldset id="mail_elements" style="border:0;">
     <input id="ra_all_mail" type="radio" name="mail" checked value="1">Gửi tất cả các phòng<br/>
 
     <input id="ra_partial_mail" type="radio" name="mail" value="2">Tùy chọn<br/>
@@ -288,7 +288,7 @@
     <div class="fbody">
        <table class="editWie">
           <tbody>
-            <fieldset style="border:0;">
+            <fieldset id="print_elements" style="border:0;">
     <input id="ra_all_print" type="radio" name="print" checked value="1">In tất cả các phòng<br/>
 
     <input id="ra_partial_print" type="radio" name="print" value="2">Tùy chọn<br/>
@@ -346,40 +346,163 @@
     </div>
 </div>
 
+<div id="deadline-form-back" class="news-form-back"></div>
+<div id="deadline-form" class="confirmbox-form">
+    <div class="header">
+        <p id='lblpopupheader'><?php echo $text_set_deadline ?></p>
+        <!--<img src="../admin/view/image/remove-small.png" alt="Close" title="Close" onclick="confirmBoxToggle(false);">-->
+        <a onclick="deadlineForm(false);" style="float:right;margin:8px 10px 0px 0px;font-weight:bold;color:#fff;text-decoration:none;">Thoát</a>
+    </div>
+    <div class="fbody">
+    	<div style="float:left;width:100%;height:40px;" align="left">
+        	<p style="float:left;margin:0px 0px 0px 20px;padding:0px;line-height:40px;">Lịch sử </p>
+        	<select id="period" style="float:left;width:100px;height:40px;margin: 11px 0px 0px 15px;">
+              <option value=""><?php echo $text_select; ?></option>
+                <?php foreach($alldeadlineperiod as $period) { ?> 
+                   <option value="<?php echo $eachday ?>"><?php echo $eachday; ?></option>
+                <?php } ?>
+            </select>
+        </div>
+       <table style="float:left;width:290px;margin-right:10px;">
+          <tbody>
+          	<tr>
+                <td><p><?php echo $text_deadline_charge; ?></p></td>
+                <td>
+                	<select id="deadline_charge" name="deadline_charge">
+                      <option value=""><?php echo $text_select; ?></option>
+                        <?php foreach($alldays as $eachday) { ?> 
+                            <?php if($eachday == $deadline_charge) {?>
+                                <option value="<?php echo $eachday ?>" selected="selected"><?php echo $eachday; ?></option>
+                            <?php } else { ?>
+                                <option value="<?php echo $eachday ?>"><?php echo $eachday; ?></option>
+                            <?php }?>
+                        <?php } ?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><p><?php echo $text_deadline_edit; ?></p></td>
+                <td>
+                	<select id="deadline_edit" name="deadline_edit">
+                      <option value=""><?php echo $text_select; ?></option>
+                        <?php foreach($alldays as $eachday) { ?> 
+                            <?php if($eachday == $deadline_edit) {?>
+                                <option value="<?php echo $eachday ?>" selected="selected"><?php echo $eachday; ?></option>
+                            <?php } else { ?>
+                                <option value="<?php echo $eachday ?>"><?php echo $eachday; ?></option>
+                            <?php }?>
+                        <?php } ?>
+                    </select>
+                </td>
+            </tr>
+            <tr><td><p><?php echo $text_deadline_supply; ?></p></td>
+            <td>
+                <select id="deadline_supply" name="deadline_supply">
+                  <option value=""><?php echo $text_select; ?></option>
+                    <?php foreach($alldays as $eachday) { ?> 
+                        <?php if($eachday == $deadline_supply) {?>
+                            <option value="<?php echo $eachday ?>" selected="selected"><?php echo $eachday; ?></option>
+                        <?php } else { ?>
+                            <option value="<?php echo $eachday ?>"><?php echo $eachday; ?></option>
+                        <?php }?>
+                    <?php } ?>
+                </select>
+            </td>
+            </tr>
+          </tbody>
+        </table>
+        <table style="float:left;width:290px;margin-right:10px;">
+          <tbody>
+          	<tr>
+                <td><p><?php echo $text_total_elec; ?></p></td>
+                <td><input type="text" id="total_elec" value="<?php echo $total_elec ;?>" /></td>
+            </tr>
+            <tr>
+                <td><p><?php echo $text_total_water; ?></p></td>
+                <td><input type="text" id="total_water" value="<?php echo $total_elec ;?>" /></td>
+            </tr>
+            <tr><td colspan="2" style="height:40px;"></td></tr>
+          </tbody>
+        </table>
+        <div style="float:left;width:100%;"><a onclick="saveDeadline()" class="button"/><?php echo $text_confirm ?></a></div>
+    </div>
+</div>
+
 <script type="text/javascript"><!--
 
 	var card_code = '';
+	var temp_room = 0;
     $( document ).ready(function() {
-          $("body").bind("keyup", function(e){
-                e.preventDefault();
-                //console.log(String.fromCharCode(e.which));  
-                if(e.keyCode != 13) {
-                    card_code += String.fromCharCode(e.which);
-                }
-                else {
-                    if(card_code.length >= 10) {
-                        var card_code_ori = card_code.substr(card_code.length - 10, 10);
-						card_code = '';
-						if($('#editwiepreview-form').css("display") == 'none') {
-							previewElecWaterCard(card_code_ori);
-						}
-						else {
-							checkpaid();
-						}
-                        //console.log(card_code_ori);
-                        
-                    }
-                }
-          });
+	  $("body").bind("keyup", function(e){
+			e.preventDefault();
+			//console.log(String.fromCharCode(e.which));  
+			if(e.keyCode != 13) {
+				card_code += String.fromCharCode(e.which);
+			}
+			else {
+				if(card_code.length >= 10 && card_code.match(/^\d*[0-9](\.\d*[0-9])?$/)) {
+					//alert(card_code);
+					var card_code_ori = card_code.substr(card_code.length - 10, 10);
+					card_code = '';
+					if($('#editwiepreview-form').css("display") == 'none') {
+						previewElecWaterCard(card_code_ori);
+					}
+					else {
+						checkpaid();
+					}
+					//console.log(card_code_ori);
+					
+				}
+			}
+	  });
+	  //mail
+	  $("input[name^='mail']").click(function () {
+		  if($(this).attr("id") == "ra_all_mail") {
+			$("#mail_elements *").each(function(index, element) {
+				if(!$(element).is(':radio')) {
+					$(element).attr("disabled","disabled");
+				}
+			});
+		  }
+		  else if($(this).attr("id") == "ra_partial_mail"){
+			$("#mail_elements *").each(function(index, element) {
+				$(element).removeAttr("disabled");
+			});
+		  }
+		});
+		//disable at load
+		$("#mail_elements *").each(function(index, element) {
+			if(!$(element).is(':radio')) {
+				$(element).attr("disabled","disabled");
+			}
+		});
+		
+		
+		//print
+		$("input[name^='print']").click(function () {
+		  if($(this).attr("id") == "ra_all_print") {
+			$("#print_elements *").each(function(index, element) {
+				if(!$(element).is(':radio')) {
+					$(element).attr("disabled","disabled");
+				}
+			});
+		  }
+		  else if($(this).attr("id") == "ra_partial_print"){
+			$("#print_elements *").each(function(index, element) {
+				$(element).removeAttr("disabled");
+			});
+		  }
+		});
+		//disable at load
+		$("#print_elements *").each(function(index, element) {
+			if(!$(element).is(':radio')) {
+				$(element).attr("disabled","disabled");
+			}
+		});
     });
 	
 	filterRoomByFloorView();
 	
-	function hasNumber (s) {
-		var regEx=/\d/
-		return (s.search(regEx)==-1) ? true : false;
-	}
-
 	function viewRoomWieDetail(id) {
 		$('tr[id^=\'detail_wie_' + id + '\']').slideToggle(500);
 	}
@@ -490,6 +613,33 @@
       }
     });
   }
+  
+  function saveDeadline() {
+	  var total_elec = $("#total_elec").val();
+	  var total_water = $("#total_water").val();
+	  
+	  if(total_elec == '' || total_water == '' || !total_elec.match(/^\d*[0-9](\.\d*[0-9])?$/) || !total_water.match(/^\d*[0-9](\.\d*[0-9])?$/)) {
+	  	alert('<?php echo $text_error_total; ?>');
+		return;
+	  }
+	  
+		$.ajax({
+			url: 'index.php?route=sale/manage_wie/saveDeadline&token=<?php echo $token; ?>',
+			type: 'post',
+			data: 'deadline_charge=' + $("#deadline_charge").val() + '&deadline_edit=' + $("#deadline_edit").val() + '&deadline_supply=' + $("#deadline_supply").val() + '&total_elec=' + total_elec + '&total_water=' + total_water,
+			dataType: 'json',
+			success: function(json) {
+				if(json['success']) {
+					alert('<?php echo $text_update_deadline; ?>');
+					deadlineForm(false);
+				}
+			},
+			error : function(error) {
+				console.log(error);
+			}
+		});
+  }
+  
 
 	function loadOldValues() {
 		var floor_id = $('#sel_floor').val();
@@ -597,24 +747,10 @@
 								'<td  ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3) ? 'style="background:#ff7a04;text-align:center;"' : 'style="text-align:center;"') + '>' + ((flag == 1 || flag == 2) ? input[i]['rooms'][j]['room_data']['water']['Usage'] : '<input type="text" id="end_num_water_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" value ="' + input[i]['rooms'][j]['room_data']['water']['End'] + '" />') + '</td>'  +
 								((flag == 1) ? '<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3) ? 'style="background:#ff7a04;"' : "") + '>' + input[i]['rooms'][j]['room_data']['water']['Money'] + '</td>' : '') +
 								'<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3) ? 'style="background:#ff7a04;"' : "") + '>' + ((input[i]['rooms'][j]['room_data']['garbage']) ? input[i]['rooms'][j]['room_data']['garbage'] : '') + '</td>' +
-								'<td align="center" id="checkpaid_water_td_' + input[i]['rooms'][j]['customer_group_id'] + '" style="' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? "background:#FFF;" : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? "background:#ff0433;" : "background:#ff7a04;" )) + '">' + ((flag == 2) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? '' : '') : '<?php echo $text_late; ?>' )) : ((flag == 1) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? '<input type="checkbox" id="checkpaid_' + input[i]['rooms'][j]['customer_group_id'] + '" name="checkpaid_' + input[i]['rooms'][j]['customer_group_id'] + '" />' : '') : '<?php echo $text_late; ?>' )) : '<input type="checkbox" ' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] != 'no') ? 'checked' : '') + ' id="checkpaid_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" />')) + '</td>' +
+								'<td align="center" id="checkpaid_water_td_' + input[i]['rooms'][j]['customer_group_id'] + '" style="' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? "background:#FFF;" : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? "background:#ff0433;" : "background:#ff7a04;" )) + '">' + ((flag == 2) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? '' : '') : '<?php echo $text_late; ?>' )) : ((flag == 1) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? '<input type="checkbox" id="checkpaid_' + input[i]['rooms'][j]['customer_group_id'] + '" name="checkpaid_' + input[i]['rooms'][j]['customer_group_id'] + '" />' : '') : '<?php echo $text_late; ?>' )) : '<input type="checkbox" ' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] != 'no') ? 'checked' : '') + ' id="checkpaidedit_2' + input[i]['rooms'][j]['customer_group_id'] + '" />')) + '</td>' +
 								((flag == 1) ? '<?php if($this->user->getUserGroup() == ADMIN_IDX) { ?>' + '<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3) ? 'style="background:#ff7a04;"' : "") + '><a style="float:right;color:blue;" onclick="editElecWater(' + input[i]['rooms'][j]['customer_group_id']  +');"><?php echo $text_edit; ?></a></td>' + '<?php } ?>' : '') +
 							'</tr>';
 				}
-				
-				//for(var j=0; j < input[i]['rooms'].length; j++) {
-//					strHTML += '<tr class="body" >' +
-//								'<td>' + input[i]['rooms'][j]['name'] + '</td>' +
-//								'<td>' + input[i]['rooms'][j]['pay_month'] + '</td>' +
-//								'<td style="text-align:center;">' + ((flag == 1 || flag == 2) ?  input[i]['rooms'][j]['room_data']['elec']['Usage']: '<input type="text" id="end_num_elec_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" value ="' + input[i]['rooms'][j]['room_data']['elec']['End'] + '" />') + '</td>' +
-//								((flag == 1) ? '<td>' + input[i]['rooms'][j]['room_data']['elec']['Money'] + '</td>' : '') +
-//								'<td align="center" id="checkpaid_elec_td_' + input[i]['rooms'][j]['customer_group_id'] + '" style="' + ((input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'yes') ? "background:#FFF;" : ((input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'no') ? "background:#ff0433;" : "background:#ff7a04;" )) + '">' + ((flag == 2) ? ((input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['elec']['ok'] == 'yes') ? '' : '') : '<?php echo $text_late; ?>' )) : ((flag == 1) ? ((input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['elec']['ok'] == 'yes') ? '<input type="checkbox" name="checkpaid_elec_' + input[i]['rooms'][j]['customer_group_id'] + '" />' : '') : '<?php echo $text_late; ?>' )) : '<input type="checkbox" ' + ((input[i]['rooms'][j]['room_data']['elec']['Charged'] != 'no') ? 'checked' : '') + ' id="checkpaid_elec_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" />')) + '</td>' +
-//								'<td style="text-align:center;">' + ((flag == 1 || flag == 2) ? input[i]['rooms'][j]['room_data']['water']['Usage'] : '<input type="text" id="end_num_water_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" value ="' + input[i]['rooms'][j]['room_data']['water']['End'] + '" />') + '</td>'  +
-//								((flag == 1) ? '<td>' + input[i]['rooms'][j]['room_data']['water']['Money'] + '</td>' : '') +
-//								'<td align="center" id="checkpaid_water_td_' + input[i]['rooms'][j]['customer_group_id'] + '" style="' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? "background:#FFF;" : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? "background:#ff0433;" : "background:#ff7a04;" )) + '">' + ((flag == 2) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? '' : '') : '<?php echo $text_late; ?>' )) : ((flag == 1) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? '<input type="checkbox" name="checkpaid_water_' + input[i]['rooms'][j]['customer_group_id'] + '" />' : '') : '<?php echo $text_late; ?>' )) : '<input type="checkbox" ' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] != 'no') ? 'checked' : '') + ' id="checkpaid_water_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" />')) + '</td>' +
-//								((flag == 1) ? '<td><a style="float:right;color:blue;" onclick="editElecWater(' + input[i]['rooms'][j]['customer_group_id']  +');"><?php echo $text_edit; ?></a></td>' : '') +
-//							'</tr>';
-//				}
 			}
 		}
 		
@@ -622,10 +758,13 @@
 			$("#viewWie").html(strHTML);
 		
 			$("input[name^='checkpaid_']").click(function() {
-				var id = $(this).attr('name').replace('checkpaid_','');
-				temp_room = id;
-				$("#confirmPreview").show();
-				previewElecWater(id);
+				var checked = $(this).attr("checked") ? 1 : 0;
+				if(checked) {
+					var id = $(this).attr('name').replace('checkpaid_','');
+					temp_room = id;
+					$("#confirmPreview").show();
+					previewElecWater(id);
+				}
 				//checkpaid_elec(id);	
 			});
 			
@@ -642,7 +781,6 @@
 		}
 	}
 	
-	var temp_room = 0;
 	var txtidx = 0;
 	var ref_typewritter = null;
 	function typeWritter(field, value, callback){
@@ -696,19 +834,24 @@
 								data: 'room_id=' + student['room_lead']['customer_group_id'],
 								dataType: 'json',
 								success: function(json) {
-									//console.log(json['bill']);
-									if(json['bill']) {
-										temp_room = student['room_lead']['customer_group_id'];
-										$("#tbpreviewWie").hide();
-										$("#tbpreviewWie").html(json['bill']);
-										$("#tbpreviewWie").fadeIn(500);
-										$("#confirmPreview").fadeIn(300);
-										$("#loadingData").fadeOut();
-										
-										var left = ($(window).width() - $('#editwiepreview-form').width()) / 2;
-										var top = ($(window).height() - $('#editwiepreview-form').height()) / 2;
-										$('#editwiepreview-form').css('left',left + 'px');
-										$('#editwiepreview-form').css('top',top + 'px');
+									if(json['bill']['bill_detail']) {
+										//console.log(json['bill']);
+										if(json['bill']['charged'] == 'no') {
+											temp_room = student['room_lead']['customer_group_id'];
+											$("#tbpreviewWie").hide();
+											$("#tbpreviewWie").html(json['bill']['bill_detail']);
+											$("#tbpreviewWie").fadeIn(500);
+											$("#confirmPreview").fadeIn(300);
+											$("#loadingData").fadeOut();
+											
+											var left = ($(window).width() - $('#editwiepreview-form').width()) / 2;
+											var top = ($(window).height() - $('#editwiepreview-form').height()) / 2;
+											$('#editwiepreview-form').css('left',left + 'px');
+											$('#editwiepreview-form').css('top',top + 'px');
+										}
+										else {
+											$("#tbpreviewWie").html('<?php echo $text_room_charged;?>');
+										}
 									}
 								},
 								error : function(error) {
@@ -718,10 +861,6 @@
 							
 					 });}); });});});});});});
 					
-					
-					
-				
-			
 					
 					//ref_typewritter = setInterval(typeWritter, 20, "txtHeaderMSSV",'<?php echo $text_mssv; ?>');
 //					
@@ -766,7 +905,12 @@
 				//console.log(json['bill']);
 				if(json['bill']) {
 					temp_room = room_id;
-					$("#tbpreviewWie").html(json['bill']);
+					if(json['bill']['charged'] == 'no') {
+						$("#tbpreviewWie").html(json['bill']['bill_detail']);
+					}
+					else {
+						$("#tbpreviewWie").html('<?php echo $text_room_charged;?>');
+					}
 					previewWieToggle(true);
 				}
 			},
@@ -809,37 +953,6 @@
 		//confirmResult = false;
 	}
 	
-	//function checkpaid_water() {
-//		if(!confirmResult)
-//		{
-//			if($('#confirmbox-form').css('display') == 'none')
-//				confirmBoxToggle(true,'Check đóng tiền nước phòng ' + temp_room,checkpaid_water);
-//			return;
-//		}
-//		
-//		//update charged data
-//		$.ajax({
-//			url: 'index.php?route=sale/manage_wie/water_charged&token=<?php echo $token; ?>',
-//			type: 'post',
-//			data: {'room_id' : temp_room},
-//			dataType: 'json',
-//			success: function(json) {
-//				if(json['success']) {
-//					previewWieToggle(false);
-//					filterRoomByFloorView();
-//					//disabled the checkbox
-//					//$("#checkpaid_water_td_" + id).html('<?php echo $text_paid;?>');
-//				}
-//			},
-//			error : function(error) {
-//				console.log(error);
-//			}
-//		});
-//		
-//		confirmResult = false;
-//	}
-			
-	var cur_room=0;
 	function editElecWater(room_id) {
 		$.ajax({
 			url: 'index.php?route=sale/manage_wie/filterRoomByFloorView&token=<?php echo $token; ?>',
@@ -849,7 +962,7 @@
 			success: function(json) {
 				console.log(json['floors_filtered']);
 				if(json['floors_filtered']) {
-					cur_room = room_id;
+					temp_room = room_id;
 					renderRoomsView(json['floors_filtered'],0);
 					editWieToggle(true);
 				}
@@ -862,27 +975,20 @@
 	
 	function saveEditWie() {
 		
-		var end_elec = $("#end_num_elec_edit_" + cur_room).val();
-		var end_water = $("#end_num_water_edit_" + cur_room).val();
-		var check_paid = $("#checkpaid_edit_" + cur_room).attr("checked") ? 1 : 0;
-		//var sel_water = $("#checkpaid_water_edit_" + cur_room).attr("checked") ? 1 : 0;
-		
+		var end_elec = $("#end_num_elec_edit_" + temp_room).val();
+		var end_water = $("#end_num_water_edit_" + temp_room).val();
+		var check_paid = $("#checkpaidedit_2" + temp_room).attr("checked") ? 1 : 0;		
 		if(!confirmResult)
 		{
 			if($('#confirmbox-form').css('display') == 'none')
-				confirmBoxToggle(true,'Sửa điện nước phòng ' + cur_room,saveEditWie);
+				confirmBoxToggle(true,'Sửa điện nước phòng ' + temp_room,saveEditWie);
 			return;
 		}
-		
-		/*alert(end_elec);
-		alert(end_water);
-		alert(sel_elec);
-		alert(sel_water);*/
 		
 		$.ajax({
 			url: 'index.php?route=sale/manage_wie/saveEditWie&token=<?php echo $token; ?>',
 			type: 'post',
-			data: 'room_id=' + cur_room + '&end_elec=' + end_elec + '&end_water=' + end_water + '&check_paid=' + check_paid,
+			data: 'room_id=' + temp_room + '&end_elec=' + end_elec + '&end_water=' + end_water + '&check_paid=' + check_paid,
 			dataType: 'json',
 			success: function(json) {
 				//console.log(json['floors_filtered']);
@@ -890,9 +996,6 @@
 					filterRoomByFloorView();
 					alert('<?php echo $text_success?>');
 					editWieToggle(false);
-				}
-				if(json['error']) {
-					
 				}
 			},
 			error : function(error) {
@@ -1198,7 +1301,7 @@
 		{
 			document.getElementById('lblpopupheader').innerHTML = "<?php echo $text_popup_header ?>";
 			//checked false
-			$("#checkpaid_" + cur_room).removeAttr('checked');
+			$("#checkpaid_" + temp_room).removeAttr('checked');
 			$('#editwiepreview-form-back').fadeOut(400);
 			$('#editwiepreview-form').fadeOut(400);
 		}
@@ -1312,6 +1415,47 @@
       document.getElementById('lblpopupheader').innerHTML = "<?php echo $text_popup_print_header ?>";
       $('#print-form-back').fadeOut(400);
       $('#print-form').fadeOut(400);
+    }
+  }
+  
+  function deadlineForm(show) {
+    //toggle show
+    if(show)
+    {
+		//get data
+		$.ajax({
+			url: 'index.php?route=sale/manage_wie/getCurrentDeadline&token=<?php echo $token; ?>',
+			type: 'post',
+			data: 'period=' + $("period").val(),
+			dataType: 'json',
+			success: function(json) {
+				if(json['deadline']) {
+					var deadline = json['deadline'];
+					
+					$("#deadline_charge").val(((deadline['deadline_charge']) ? deadline['deadline_charge'] : 10));
+					$("#deadline_edit").val(((deadline['deadline_edit']) ? deadline['deadline_edit'] : 5));
+					$("#deadline_supply").val(((deadline['deadline_supply']) ? deadline['deadline_supply'] : 15));
+					$("#total_elec").val(((deadline['total_elec']) ? deadline['total_elec'] : 0));
+					$("#total_water").val(((deadline['total_water']) ? deadline['total_water'] : 0));
+				}
+			},
+			error : function(error) {
+				console.log(error);
+			}
+		});
+      //show box
+      var left = ($(window).width() - $('#deadline-form').width()) / 2;
+      var top = ($(window).height() - $('#deadline-form').height()) / 2;
+      $('#deadline-form').css('left',left + 'px');
+      $('#deadline-form').css('top',top + 'px');
+      $('#deadline-form-back').fadeIn(400);
+      $('#deadline-form').fadeIn(400);
+    }
+    else
+    {
+      document.getElementById('lblpopupheader').innerHTML = "<?php echo $text_popup_print_header ?>";
+      $('#deadline-form-back').fadeOut(400);
+      $('#deadline-form').fadeOut(400);
     }
   }
 
