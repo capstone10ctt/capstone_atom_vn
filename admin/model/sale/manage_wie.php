@@ -1395,27 +1395,27 @@ class ModelSaleManageWie extends Model {
 	
 	public function calculate_money_water($w,$w_usage, $room_id)
 	{
+		if($w_usage == 0)
+			return 0;
 		$total_student = $this->countStudentInRoom($room_id);
 		if($total_student == 0) {
 			$total_student = 1;
 		}
+
 		
 		$money = 0;
 		$temp = 0;
 		foreach ($w as $z)
 		{
-			if($z['To']!=-1 && $w_usage > $z['To'])
+			$money += $z['Price']*$total_student;
+			if($z['To']==-1 || $w_usage < $z['To'])
 			{
 				$money += $z['Price']*$total_student;
-				$temp += $z['To'];
 			}
 			else
-			{
-				$money += $z['Price']*$total_student;
-				return $money;
-			}
+				break;
 		}
-		return $temp;
+		return $money;
 	}
 	
 	public function getCustomerGroupDescriptions($customer_group_id) {
