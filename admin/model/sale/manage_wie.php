@@ -1408,11 +1408,7 @@ class ModelSaleManageWie extends Model {
 		foreach ($w as $z)
 		{
 			$money += $z['Price']*$total_student;
-			if($z['To']==-1 || $w_usage < $z['To'])
-			{
-				$money += $z['Price']*$total_student;
-			}
-			else
+			if($w_usage <= $z['To'])
 				break;
 		}
 		return $money;
