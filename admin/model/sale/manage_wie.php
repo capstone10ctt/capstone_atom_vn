@@ -1013,18 +1013,14 @@ class ModelSaleManageWie extends Model {
 			$query2 = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer WHERE student_id = '" . (int)$student_id . "'");
 			
 			if($query2->num_rows) {
-				$query3 = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_group WHERE room_leader = '" . trim($query2->row['customer_id']) . "'");
-				
+				$query3 = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_group WHERE customer_group_id = '" . (int)$query2->row['customer_group_id'] . "'");
+					
 				if($query3->num_rows) {
-					$query4 = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_group WHERE customer_group_id = '" . (int)$query3->row['customer_group_id'] . "'");
-					
-					if($query4->num_rows) {
-						$temp = $query2->row;
-						$temp['room_lead'] = $query4->row;
-					}
-					
-					return $temp;
+					$temp = $query2->row;
+					$temp['room_lead'] = $query3->row;
 				}
+				
+				return $temp;
 			}
 		}
 		

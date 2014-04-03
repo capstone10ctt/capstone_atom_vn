@@ -161,7 +161,12 @@ class ControllerCommonHeader extends Controller {
 			$this->data['report_product_viewed'] = $this->url->link('report/product_viewed', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['report_product_purchased'] = $this->url->link('report/product_purchased', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['report_customer_online'] = $this->url->link('report/customer_online', 'token=' . $this->session->data['token'], 'SSL');
-			$this->data['report_customer_usage'] = $this->url->link('report/customer_order', 'token=' . $this->session->data['token'], 'SSL');
+			if($this->user->getUserGroup() == ADMIN_IDX) {
+				$this->data['report_customer_usage'] = $this->url->link('report/customer_order', 'token=' . $this->session->data['token'], 'SSL');
+			}
+			else {
+				$this->data['report_customer_usage'] = $this->url->link('report/customer_order2', 'token=' . $this->session->data['token'], 'SSL');
+			}
 			$this->data['report_customer_reward'] = $this->url->link('report/customer_reward', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['report_customer_credit'] = $this->url->link('report/customer_credit', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['report_affiliate_commission'] = $this->url->link('report/affiliate_commission', 'token=' . $this->session->data['token'], 'SSL');

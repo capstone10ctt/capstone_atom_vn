@@ -444,7 +444,8 @@
 				card_code += String.fromCharCode(e.which);
 			}
 			else {
-				if(card_code.length >= 10 && card_code.match(/^\d*[0-9](\.\d*[0-9])?$/)) {
+				// && card_code.match(/^\d*[0-9](\.\d*[0-9])?$/)
+				if(card_code.length >= 10) {
 					//alert(card_code);
 					var card_code_ori = card_code.substr(card_code.length - 10, 10);
 					card_code = '';
@@ -823,6 +824,7 @@
 			data: 'card_id=' + card_id,
 			dataType: 'json',
 			success: function(json) {
+				//console.log(json);
 				//console.log(json['student_info']);
 				//clear data first
 				$("#txtHeaderMSSV").html('');
@@ -843,13 +845,14 @@
 					var name = student['firstname'] + ' ' + student['lastname'];
 					var roomname = 'Phòng ' + student['room_lead']['name'];
 					
-					ref_typewritter = setInterval(typeWritter, 20, "txtHeaderMSSV",'<?php echo $text_mssv; ?>', function () { ref_typewritter = setInterval(typeWritter, 20, "txtHeaderSName",'<?php echo $text_sname; ?>',function () { ref_typewritter = setInterval(typeWritter, 20, "txtHeaderRoomLead",'<?php echo $text_roomlead; ?>',function () { ref_typewritter = setInterval(typeWritter, 20, "txtMSSV",student_id,function () { ref_typewritter = setInterval(typeWritter, 20, "txtSName",name,function () { ref_typewritter = setInterval(typeWritter, 20, "txtRoomLead",roomname, function() { $("#student_info").append('<div id="checkOkImg" style="display:none;margin:5px 0px 5px 0px;"><img src="view/image/check_ok.png" style="width:32px;height:32px;" alt =""/><p style="top:-10px;"><?php echo $text_confirm_student; ?></p></div><div id="loadingData" style="display:none;margin:5px 0px 5px 0px;"><img src="view/image/loading.gif" style="width:10px;height:10px;" alt =""/><p style="with:60%!important;"><?php echo $text_loading_info; ?></p></div>');$("#checkOkImg").fadeIn(1000, function() {$("#loadingData").fadeIn(1000, function(){
+					ref_typewritter = setInterval(typeWritter, 10, "txtHeaderMSSV",'<?php echo $text_mssv; ?>', function () { ref_typewritter = setInterval(typeWritter, 10, "txtHeaderSName",'<?php echo $text_sname; ?>',function () { ref_typewritter = setInterval(typeWritter, 10, "txtHeaderRoomLead",'<?php echo $text_roomlead; ?>',function () { ref_typewritter = setInterval(typeWritter, 10, "txtMSSV",student_id,function () { ref_typewritter = setInterval(typeWritter, 10, "txtSName",name,function () { ref_typewritter = setInterval(typeWritter, 10, "txtRoomLead",roomname, function() { $("#student_info").append('<div id="checkOkImg" style="display:none;margin:5px 0px 5px 0px;"><img src="view/image/check_ok.png" style="width:32px;height:32px;" alt =""/><p style="top:-10px;"><?php echo $text_confirm_student; ?></p></div><div id="loadingData" style="display:none;margin:5px 0px 5px 0px;"><img src="view/image/loading.gif" style="width:10px;height:10px;" alt =""/><p style="with:60%!important;"><?php echo $text_loading_info; ?></p></div>');$("#checkOkImg").fadeIn(500, function() {$("#loadingData").fadeIn(500, function(){
 							$.ajax({
 								url: 'index.php?route=sale/manage_wie/getBillInfo&token=<?php echo $token; ?>',
 								type: 'post',
 								data: 'room_id=' + student['room_lead']['customer_group_id'],
 								dataType: 'json',
 								success: function(json) {
+									console.log(json);
 									if(json['bill']['bill_detail']) {
 										console.log(json['bill']);
 										if(json['bill']['charged'] == 'no') {
@@ -866,7 +869,8 @@
 											$('#editwiepreview-form').css('top',top + 'px');
 										}
 										else {
-											$("#tbpreviewWie").html('<?php echo $text_room_charged;?>');
+											previewWieToggle(false);
+											alert('<?php echo $text_room_charged;?>');
 										}
 									}
 								},
