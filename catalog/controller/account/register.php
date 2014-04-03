@@ -744,6 +744,56 @@ class ControllerAccountRegister extends Controller {
 		$json = $universities;
 		$this->response->setOutput(json_encode($json));
 	}
+
+	public function replaceApplicationMailData($data = array()) {
+		$this->load->model('catalog/template_email');
+		$templateMailData = $this->model_catalog_template_email->getTemplateEmail("mail_5")['description'][1];
+		$templateMail = $templateMailData['description'];
+		$mailTitle = $templateMailData['name'];
+
+		$completeMailTitle = $mailTitle;
+		$completeMailBody = $this->format($templateMail, 
+			$data['full_name'],							//0 fullname
+			$data['student_id'],						//1 student id
+			$data['dob'],								//2 date of birth
+			$data['race'],								//3 dan toc
+			$data['sex'],								//4
+			$data['id'],								//5 cmnd
+			$data['address_temp'],						//6 dia chi thuong tru
+			$data['address_real'],						//7 dia chi thuong tru
+			$data['phone'],								//8 
+			$data['email'],								//9
+			$data['area'],								//10 sv thuoc dien ?
+			$data['area_detail'],						//11 dien doi tuong
+			$data['family_background'],					//12 hoan canh gia dinh
+
+
+			date("d"),									//13
+			date("m"),									//14
+			date("Y")									//15
+			$data['full_name'],							//16 fullname
+			$data['family_background_cont'],					//17 hoan canh gia dinh
+
+			);
+
+
+		$mailMinistry = array("title" => $completeMailTitle, "body" => $completeMailBody);
+		return $mailMinistry;
+	}
+
+	function format() {
+	    $args = func_get_args();
+	    if (count($args) == 0) {
+	        return;
+	    }
+	    if (count($args) == 1) {
+	        return $args[0];
+	    }
+	    
+	    $str = array_shift($args);
+	    $str = preg_replace_callback('/\\{(0|[1-9]\\d*)\\}/', create_function('$match', '$args = '.var_export($args, true).'; return isset($args[$match[1]]) ? $args[$match[1]] : $match[0];'), $str);
+	    return $str;
+	}
 	/////////// END “you-id” - “your-name” modifications/////////////
 }
 ?>
