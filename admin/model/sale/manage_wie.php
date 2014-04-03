@@ -537,7 +537,8 @@ class ModelSaleManageWie extends Model {
 								$charge = 'no';
 							}
 							
-							$money = $this->calculate_money_elec($e_standard, $e_usage);
+							$money = $this->calculate_money_water($w_standard, $w_usage, $result['customer_group_id']);
+
 							$floors_input[$floor_idx]['wpay'] += $money;
 							if($charge!='no')
 							{
@@ -669,6 +670,7 @@ class ModelSaleManageWie extends Model {
 							}
 							
 							$money = $this->calculate_money_water($w_standard, $w_usage, $rooms_input[$room_idx]['customer_group_id']);
+							//echo "$w_usage: $money<br />";
 							$rooms_input[$room_idx]['wpay'] += $money;
 							if($charge!='no')
 							{
