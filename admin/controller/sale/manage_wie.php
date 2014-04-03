@@ -508,7 +508,7 @@ class ControllerSaleManageWie extends Controller {
 				""											// deadline ?
 			);
 
-			$mailRoom = array("title" => $mailTitle, "body" => $completeMailBody, "charged" => ((isset($room_data_w['charged']) && $room_data_w['charged'] == 1) ? 'yes' : 'no'));
+			$mailRoom = array("title" => $mailTitle, "body" => $completeMailBody, "charged" => (($room_data_e['Charged'] != 'no') ? 'yes' : 'no'));
 		}
 		
 
