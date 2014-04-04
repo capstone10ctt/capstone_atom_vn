@@ -271,12 +271,12 @@
                                         $show.append('<tr class="line">' +
                                                 '<td class="from">' + arr[index].from + '</td>' +
                                                 '<td class="to">' + to + '</td>' +
-                                                '<td class="price">' + price.format() + '&nbsp?</td>' +
+                                                '<td class="price">' + price.format() + '&nbsp₫</td>' +
                                                 '</tr>');
                                         $edit.append('<tr class="line">' +
                                                 '<td class="from">' + arr[index].from + '</td>' +
                                                 '<td class="to">' + to + '</td>' +
-                                                '<td class="price">' + price.format() + '&nbsp?</td>' +
+                                                '<td class="price">' + price.format() + '&nbsp₫</td>' +
                                                 '</tr>');
                                     }
                                     $this.dialog('close');
