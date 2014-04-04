@@ -817,7 +817,7 @@
 	
 	function previewElecWaterCard(card_id) {
 		//var card_id = $("#temp_id").val();
-		
+		loadingForm(true);
 		$.ajax({
 			url: 'index.php?route=sale/manage_wie/getStudentIDFromCardID&token=<?php echo $token; ?>',
 			type: 'post',
@@ -835,9 +835,11 @@
 				$("#txtRoomLead").html('');
 				$("#tbpreviewWie").html('');
 				
-				previewWieToggle(true);
+				//previewWieToggle(true);
 				
 				if(json['student_info']) {
+					loadingForm(false);
+					previewWieToggle(true);
 					$("#student_info").show();
 					var student = json['student_info'];
 					
@@ -845,16 +847,16 @@
 					var name = student['firstname'] + ' ' + student['lastname'];
 					var roomname = 'Phòng ' + student['room_lead']['name'];
 					
-					ref_typewritter = setInterval(typeWritter, 10, "txtHeaderMSSV",'<?php echo $text_mssv; ?>', function () { ref_typewritter = setInterval(typeWritter, 10, "txtHeaderSName",'<?php echo $text_sname; ?>',function () { ref_typewritter = setInterval(typeWritter, 10, "txtHeaderRoomLead",'<?php echo $text_roomlead; ?>',function () { ref_typewritter = setInterval(typeWritter, 10, "txtMSSV",student_id,function () { ref_typewritter = setInterval(typeWritter, 10, "txtSName",name,function () { ref_typewritter = setInterval(typeWritter, 10, "txtRoomLead",roomname, function() { $("#student_info").append('<div id="checkOkImg" style="display:none;margin:5px 0px 5px 0px;"><img src="view/image/check_ok.png" style="width:32px;height:32px;" alt =""/><p style="top:-10px;"><?php echo $text_confirm_student; ?></p></div><div id="loadingData" style="display:none;margin:5px 0px 5px 0px;"><img src="view/image/loading.gif" style="width:10px;height:10px;" alt =""/><p style="with:60%!important;"><?php echo $text_loading_info; ?></p></div>');$("#checkOkImg").fadeIn(500, function() {$("#loadingData").fadeIn(500, function(){
+					ref_typewritter = setInterval(typeWritter, 5, "txtHeaderMSSV",'<?php echo $text_mssv; ?>', function () { ref_typewritter = setInterval(typeWritter, 5, "txtHeaderSName",'<?php echo $text_sname; ?>',function () { ref_typewritter = setInterval(typeWritter, 5, "txtHeaderRoomLead",'<?php echo $text_roomlead; ?>',function () { ref_typewritter = setInterval(typeWritter, 5, "txtMSSV",student_id,function () { ref_typewritter = setInterval(typeWritter, 5, "txtSName",name,function () { ref_typewritter = setInterval(typeWritter, 5, "txtRoomLead",roomname, function() { $("#student_info").append('<div id="checkOkImg" style="display:none;margin:5px 0px 5px 0px;"><img src="view/image/check_ok.png" style="width:32px;height:32px;" alt =""/><p style="top:-10px;"><?php echo $text_confirm_student; ?></p></div><div id="loadingData" style="display:none;margin:5px 0px 5px 0px;"><img src="view/image/loading.gif" style="width:10px;height:10px;" alt =""/><p style="with:60%!important;"><?php echo $text_loading_info; ?></p></div>');$("#checkOkImg").fadeIn(300, function() {$("#loadingData").fadeIn(300, function(){
 							$.ajax({
 								url: 'index.php?route=sale/manage_wie/getBillInfo&token=<?php echo $token; ?>',
 								type: 'post',
 								data: 'room_id=' + student['room_lead']['customer_group_id'],
 								dataType: 'json',
 								success: function(json) {
-									console.log(json);
+									//console.log(json);
 									if(json['bill']['bill_detail']) {
-										console.log(json['bill']);
+										//console.log(json['bill']);
 										if(json['bill']['charged'] == 'no') {
 											temp_room = student['room_lead']['customer_group_id'];
 											$("#tbpreviewWie").hide();
