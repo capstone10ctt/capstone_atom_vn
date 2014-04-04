@@ -773,7 +773,9 @@ class ControllerSaleManageWie extends Controller {
 		$this->load->model('sale/manage_wie');
 		$mailroom = $this->replaceEachRoomDataForBill((int)$this->request->post['room_id']);
 		
-		$json['bill'] = array('bill_detail' => $mailroom["body"], 'charged' => $mailroom["charged"]);
+		if(isset($mailroom["body"])) {
+			$json['bill'] = array('bill_detail' => $mailroom["body"], 'charged' => $mailroom["charged"]);
+		}
 		
 		$this->response->setOutput(json_encode($json));
 	}

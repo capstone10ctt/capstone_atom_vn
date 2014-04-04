@@ -871,6 +871,7 @@
 											$('#editwiepreview-form').css('top',top + 'px');
 										}
 										else {
+											loadingForm(false);
 											previewWieToggle(false);
 											alert('<?php echo $text_room_charged;?>');
 										}
