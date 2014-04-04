@@ -1,5 +1,95 @@
 <?php echo $header; ?>
 <head>
+    <style>
+        #content {
+            width: inherit;
+        }
+
+        .standard_price_show {
+            float: left;
+            width: 19%;
+            padding-left: 0.5%;
+        }
+
+        .standard_price_edit {
+            float: right;
+            width: 79%;
+            padding-left: 0.5%;
+        }
+
+        .standard_price_show, .standard_price_edit {
+            margin-top: 15px;
+            -webkit-box-shadow: 1px 0px 1px 1px rgba(232,232,232,1);
+            -moz-box-shadow: 1px 0px 1px 1px rgba(232,232,232,1);
+            box-shadow: 1px 0px 1px 1px rgba(232,232,232,1);
+        }
+
+        .electricity_standard_price, .water_standard_price, .garbage_standard_price  {
+            width: 255px;
+        }
+
+        #electricity_modified_date, #water_modified_date, #garbage_modified_date {
+            margin-left: 5px;
+            width: 150px;
+        }
+
+        #from-date-electricity, #from-date-water, #from-date-garbage {
+            margin-left: 1em;
+            margin-right: 0.5em;
+        }
+
+        h2 {
+            color: #0000ff;
+        }
+
+        h3 {
+            color: orangered;
+        }
+
+        .table_electricity, .table_water, .table_garbage {
+            width: 250px;
+        }
+
+        .left_info {
+            float: left;
+            width: 230px;
+        }
+
+        img:hover {
+            cursor: hand;
+        }
+
+        input[type=text]:focus, textarea:focus {
+            box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+            padding: 3px 0px 3px 3px;
+            margin: 5px 1px 3px 0px;
+            border: 1px solid rgba(81, 203, 238, 1);
+        }
+
+        input[type=text] {
+            -webkit-transition: all 0.30s ease-in-out;
+            -moz-transition: all 0.30s ease-in-out;
+            -ms-transition: all 0.30s ease-in-out;
+            -o-transition: all 0.30s ease-in-out;
+            outline: none;
+            padding: 3px 0px 3px 3px;
+            margin: 5px 1px 3px 0px;
+            border: 1px solid #DDDDDD;
+        }
+
+        .invalid {
+            border: 1px solid #CB000F;
+            color: red
+        }
+
+        .valid {
+            color: #000000;
+        }
+
+        .dlg-no-title .ui-dialog-titlebar {
+            display: none;
+        }
+    </style>
     <script src="view/javascript/jquery.blockUI.js"></script>
     <script src="view/javascript/datepicker-vi.js"></script>
     <script type="text/javascript">
