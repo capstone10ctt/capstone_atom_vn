@@ -876,6 +876,11 @@
 											alert('<?php echo $text_room_charged;?>');
 										}
 									}
+									else {
+										loadingForm(false);
+										previewWieToggle(false);
+										alert('<?php echo $text_room_bill_null;?>');
+									}
 								},
 								error : function(error) {
 									console.log(error);

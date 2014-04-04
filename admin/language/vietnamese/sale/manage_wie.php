@@ -32,7 +32,8 @@ $_['text_late'] = "Nộp trễ";
 $_['text_edit'] = "Sửa";
 $_['text_tool'] = "Công cụ";
 $_['text_exit'] = "Không xác nhận";
-$_['text_room_charged'] = "Phòng này đã đóng tiền hoặc chưa có dữ liệu điện nước";
+$_['text_room_charged'] = "Phòng này đã đóng tiền";
+$_['text_room_bill_null'] = "Phòng này chưa có dữ liệu điện nước";
 
 $_['text_update_deadline']             = 'Thiết lập hạn chót và tổng tiền thành công';
 $_['text_error_total']             = 'Tổng tiền không được rỗng và phải là số !';

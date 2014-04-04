@@ -148,6 +148,7 @@ class ControllerSaleManageWie extends Controller {
 		$this->data['cur_month'] = $cur_month;
 		$this->data['token'] = $this->session->data['token'];
 		
+		$this->data['text_room_bill_null'] = $this->language->get('text_room_bill_null');
 		$this->data['text_red_stop_service'] = $this->language->get('text_red_stop_service');
 		$this->data['text_loading'] = $this->language->get('text_loading');
 		$this->data['text_cancel'] = $this->language->get('text_cancel');
