@@ -855,7 +855,7 @@
 								dataType: 'json',
 								success: function(json) {
 									//console.log(json);
-									if(json['bill']['bill_detail']) {
+									if(json['bill']) {
 										//console.log(json['bill']);
 										if(json['bill']['charged'] == 'no') {
 											temp_room = student['room_lead']['customer_group_id'];
