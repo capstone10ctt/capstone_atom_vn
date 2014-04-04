@@ -10,7 +10,7 @@ class ModelPriceStandard extends Model {
 	//end vlmn modification
     
     public function getElectricityStandardPrice($id) {
-        $query = $this->db->query('SELECT `From`, `To`, Price FROM e_standard WHERE id = "' . $id . '"');
+        $query = $this->db->query('SELECT `From`, `To`, Price FROM e_standard WHERE id = "' . $id . '" ORDER BY `From`');
         return $query->rows;
     }
 
@@ -38,7 +38,7 @@ class ModelPriceStandard extends Model {
     }
 	//end vlmn modification
     public function getWaterStandardPrice($id) {
-        $query = $this->db->query('SELECT `From`, `To`, Price FROM w_standard WHERE id = "' . $id . '"');
+        $query = $this->db->query('SELECT `From`, `To`, Price FROM w_standard WHERE id = "' . $id . '" ORDER BY `From`');
         return $query->rows;
     }
 
