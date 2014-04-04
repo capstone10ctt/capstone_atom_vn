@@ -952,12 +952,12 @@
 	
 	function checkpaid() {
 		loadingForm(true);
-		//if(!confirmResult)
-//		{
-//			if($('#confirmbox-form').css('display') == 'none')
-//				confirmBoxToggle(true,'Check đóng tiền điện phòng ' + temp_room,checkpaid);
-//			return;
-//		}
+		if(!confirmResult)
+		{
+			if($('#confirmbox-form').css('display') == 'none')
+				confirmBoxToggle(true,'Check đóng tiền điện phòng ' + temp_room,checkpaid);
+			return;
+		}
 		
 		//update charged data
 		$.ajax({
@@ -983,7 +983,7 @@
 			}
 		});
 		
-		//confirmResult = false;
+		confirmResult = false;
 	}
 	
 	function editElecWater(room_id) {
