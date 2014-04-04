@@ -16,7 +16,7 @@ class ControllerAccountRegister extends Controller {
 					
 		$this->load->model('account/customer');
 		
-    	if (($this->request->server['REQUEST_METHOD'] == 'POST') /*&& $this->validate()*/) {
+    	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$this->model_account_customer->addCustomer($this->request->post);
 
 			$this->customer->login($this->request->post['email'], $this->request->post['password']);
@@ -63,8 +63,11 @@ class ControllerAccountRegister extends Controller {
 		
 		$this->data['text_account_already'] = sprintf($this->language->get('text_account_already'), $this->url->link('account/login', '', 'SSL'));
 		$this->data['text_your_details'] = $this->language->get('text_your_details');
-    	$this->data['text_your_address'] = $this->language->get('text_your_address');
+    	$this->data['text_your_address1'] = $this->language->get('text_your_address1');
+    	$this->data['text_your_address2'] = $this->language->get('text_your_address2');
+    	$this->data['text_your_studentinfo'] = $this->language->get('text_your_studentinfo');    	
     	$this->data['text_your_password'] = $this->language->get('text_your_password');
+    	$this->data['text_your_special'] = $this->language->get('text_your_special');
 		$this->data['text_newsletter'] = $this->language->get('text_newsletter');
 		$this->data['text_yes'] = $this->language->get('text_yes');
 		$this->data['text_no'] = $this->language->get('text_no');
@@ -82,8 +85,8 @@ class ControllerAccountRegister extends Controller {
         //	 	 + line 289: optimize the operation
         /////////// Start “you-id” - “your-name” modifications/////////////
 		$this->data['entry_university'] = $this->language->get('entry_university');
-                $this->data['entry_date_of_birth'] = $this->language->get('entry_date_of_birth');
-                $this->data['entry_ethnic'] = $this->language->get('entry_ethnic');
+		$this->data['entry_date_of_birth'] = $this->language->get('entry_date_of_birth');
+        $this->data['entry_ethnic'] = $this->language->get('entry_ethnic');
 		$this->data['entry_faculty'] = $this->language->get('entry_faculty');
 		$this->data['entry_student_id'] = $this->language->get('entry_student_id');
 		$this->data['error_university'] = $this->language->get('error_university');
@@ -99,6 +102,7 @@ class ControllerAccountRegister extends Controller {
 		$this->load->model('catalog/category');
 		$universities = $this->model_catalog_category->getCategories();
 		$this->data['universities'] = $universities;
+
 		
 		$NKUniversity = $this->model_account_customer->NKUniversity();//lay trong database id cua truong nang khieu
 		$this->data['NKUniversity'] = $NKUniversity;//set no ra ngoai view
@@ -110,16 +114,17 @@ class ControllerAccountRegister extends Controller {
 					
 		$this->data['genders'] = $genders;
 		
-                if (isset($this->error['university'])) {
-			$this->data['error_university'] = $this->error['university'];
-		} else {
-			$this->data['error_university'] = '';
-		}
+        //if (isset($this->error['university'])) {
+		//	$this->data['error_university'] = $this->error['university'];
+		//} else {
+			//$this->data['error_university'] = '';
+		//}
                 if (isset($this->error['ethnic'])) {
 			$this->data['error_ethnic'] = $this->error['ethnic'];
 		} else {
 			$this->data['error_ethnic'] = '';
 		}
+
 		if (isset($this->error['date_of_birth'])) {
 			$this->data['error_date_of_birth'] = $this->error['date_of_birth'];
 		} else {
@@ -140,11 +145,11 @@ class ControllerAccountRegister extends Controller {
 		} else {
 			$this->data['error_idnum'] = '';
 		}
-		if (isset($this->error['iddate'])) {
+		/*if (isset($this->error['iddate'])) {
 			$this->data['error_iddate'] = $this->error['iddate'];
 		} else {
 			$this->data['error_iddate'] = '';
-		}
+		}*/
 		if (isset($this->error['address_2'])) {
 			$this->data['error_address_2'] = $this->error['address_2'];
 		} else {
@@ -167,11 +172,32 @@ class ControllerAccountRegister extends Controller {
 		} else {
 			$this->data['ethnic'] = '';
 		}
-                if (isset($this->request->post['date_of_birth'])) {
+
+
+		if (isset($this->request->post['datebirth'])) {
+                    $this->data['datebirth'] = $this->request->post['datebirth'];
+		} else {
+			$this->data['datebirth'] = 0;
+		}
+
+		if (isset($this->request->post['monthbirth'])) {
+                    $this->data['monthbirth'] = $this->request->post['monthbirth'];
+		} else {
+			$this->data['monthbirth'] = 0;
+		}
+
+		if (isset($this->request->post['yearbirth'])) {
+                    $this->data['yearbirth'] = $this->request->post['yearbirth'];
+		} else {
+			$this->data['yearbirth'] = 0;
+		}
+
+		
+        /*if (isset($this->request->post['date_of_birth'])) {
                     $this->data['date_of_birth'] = $this->request->post['date_of_birth'];
 		} else {
 			$this->data['date_of_birth'] = '';
-		}
+		}*/
 		if (isset($this->request->post['university_id'])) {
                     $this->data['university_id'] = $this->request->post['university_id'];
 		} else {
@@ -197,20 +223,34 @@ class ControllerAccountRegister extends Controller {
 		} else {
 			$this->data['id_location'] = '';
 		}
+
+		if (isset($this->request->post['address_4'])) {
+    		$this->data['address_4'] = $this->request->post['address_4'];
+		} else {
+			$this->data['address_4'] = '';
+		}
+
+		if (isset($this->request->post['address_9'])) {
+    		$this->data['address_9'] = $this->request->post['address_9'];
+		} else {
+			$this->data['address_9'] = '';
+		}
+
 		if (isset($this->request->post['idnum'])) {
     		$this->data['idnum'] = $this->request->post['idnum'];
 		} else {
 			$this->data['idnum'] = '';
 		}
-		if (isset($this->request->post['iddate'])) {
+		/*if (isset($this->request->post['iddate'])) {
     		$this->data['iddate'] = $this->request->post['iddate'];
 		} else {
 			$this->data['iddate'] = '';
-		}
+		}*/
 		/////////// END “you-id” - “your-name” modifications/////////////
 		
-    	$this->data['entry_firstname'] = $this->language->get('entry_firstname');
-    	$this->data['entry_lastname'] = $this->language->get('entry_lastname');
+		$this->data['entry_fullname'] = $this->language->get('entry_fullname');
+    	//$this->data['entry_firstname'] = $this->language->get('entry_firstname');
+    	//$this->data['entry_lastname'] = $this->language->get('entry_lastname');
     	$this->data['entry_email'] = $this->language->get('entry_email');
     	$this->data['entry_telephone'] = $this->language->get('entry_telephone');
     	$this->data['entry_fax'] = $this->language->get('entry_fax');
@@ -218,8 +258,16 @@ class ControllerAccountRegister extends Controller {
 		$this->data['entry_customer_group'] = $this->language->get('entry_customer_group');
 		$this->data['entry_company_id'] = $this->language->get('entry_company_id');
 		$this->data['entry_tax_id'] = $this->language->get('entry_tax_id');
+		$this->data['entry_address_0'] = $this->language->get('entry_address_0');
     	$this->data['entry_address_1'] = $this->language->get('entry_address_1');
     	$this->data['entry_address_2'] = $this->language->get('entry_address_2');
+    	$this->data['entry_address_3'] = $this->language->get('entry_address_3');
+    	$this->data['entry_address_4'] = $this->language->get('entry_address_4');
+    	$this->data['entry_address_5'] = $this->language->get('entry_address_5');
+    	$this->data['entry_address_6'] = $this->language->get('entry_address_6');
+    	$this->data['entry_address_7'] = $this->language->get('entry_address_7');
+    	$this->data['entry_address_8'] = $this->language->get('entry_address_8');
+    	$this->data['entry_address_9'] = $this->language->get('entry_address_9');      
     	$this->data['entry_postcode'] = $this->language->get('entry_postcode');
     	$this->data['entry_city'] = $this->language->get('entry_city');
     	$this->data['entry_country'] = $this->language->get('entry_country');
@@ -235,7 +283,14 @@ class ControllerAccountRegister extends Controller {
 		} else {
 			$this->data['error_warning'] = '';
 		}
-		
+
+		if (isset($this->error['fullname'])) {
+			$this->data['error_fullname'] = $this->error['fullname'];
+		} else {
+			$this->data['error_fullname'] = '';
+		}	
+
+		/*
 		if (isset($this->error['firstname'])) {
 			$this->data['error_firstname'] = $this->error['firstname'];
 		} else {
@@ -246,7 +301,7 @@ class ControllerAccountRegister extends Controller {
 			$this->data['error_lastname'] = $this->error['lastname'];
 		} else {
 			$this->data['error_lastname'] = '';
-		}		
+		}*/		
 	
 		if (isset($this->error['email'])) {
 			$this->data['error_email'] = $this->error['email'];
@@ -283,13 +338,52 @@ class ControllerAccountRegister extends Controller {
 		} else {
 			$this->data['error_tax_id'] = '';
 		}
-								
+
+		if (isset($this->error['address_0'])) {
+			$this->data['error_address_0'] = $this->error['address_0'];
+		} else {
+			$this->data['error_address_0'] = '';
+		}						
   		if (isset($this->error['address_1'])) {
 			$this->data['error_address_1'] = $this->error['address_1'];
 		} else {
 			$this->data['error_address_1'] = '';
 		}
-   		
+		if (isset($this->error['address_3'])) {
+			$this->data['error_address_3'] = $this->error['address_3'];
+		} else {
+			$this->data['error_address_3'] = '';
+		}
+		if (isset($this->error['address_4'])) {
+			$this->data['error_address_4'] = $this->error['address_4'];
+		} else {
+			$this->data['error_address_4'] = '';
+		}
+   		if (isset($this->error['address_5'])) {
+			$this->data['error_address_5'] = $this->error['address_5'];
+		} else {
+			$this->data['error_address_5'] = '';
+		}
+		if (isset($this->error['address_6'])) {
+			$this->data['error_address_6'] = $this->error['address_6'];
+		} else {
+			$this->data['error_address_6'] = '';
+		}			
+		if (isset($this->error['address_7'])) {
+			$this->data['error_address_7'] = $this->error['address_7'];
+		} else {
+			$this->data['error_address_7'] = '';
+		}			
+		if (isset($this->error['address_8'])) {
+			$this->data['error_address_8'] = $this->error['address_8'];
+		} else {
+			$this->data['error_address_8'] = '';
+		}						
+		if (isset($this->error['address_9'])) {
+			$this->data['error_address_9'] = $this->error['address_9'];
+		} else {
+			$this->data['error_address_9'] = '';
+		}						
 		if (isset($this->error['city'])) {
 			$this->data['error_city'] = $this->error['city'];
 		} else {
@@ -315,8 +409,14 @@ class ControllerAccountRegister extends Controller {
 		}
 		
     	$this->data['action'] = $this->url->link('account/register', '', 'SSL');
+
+    	if (isset($this->request->post['fullname'])) {
+    		$this->data['fullname'] = $this->request->post['fullname'];
+		} else {
+			$this->data['fullname'] = '';
+		}
 		
-		if (isset($this->request->post['firstname'])) {
+		/*if (isset($this->request->post['firstname'])) {
     		$this->data['firstname'] = $this->request->post['firstname'];
 		} else {
 			$this->data['firstname'] = '';
@@ -326,7 +426,7 @@ class ControllerAccountRegister extends Controller {
     		$this->data['lastname'] = $this->request->post['lastname'];
 		} else {
 			$this->data['lastname'] = '';
-		}
+		}*/
 		
 		if (isset($this->request->post['email'])) {
     		$this->data['email'] = $this->request->post['email'];
@@ -386,6 +486,13 @@ class ControllerAccountRegister extends Controller {
 			$this->data['tax_id'] = '';
 		}
 						
+
+		if (isset($this->request->post['address_0'])) {
+    		$this->data['address_0'] = $this->request->post['address_0'];
+		} else {
+			$this->data['address_0'] = '';
+		}
+
 		if (isset($this->request->post['address_1'])) {
     		$this->data['address_1'] = $this->request->post['address_1'];
 		} else {
@@ -398,6 +505,52 @@ class ControllerAccountRegister extends Controller {
 			$this->data['address_2'] = '';
 		}
 
+		if (isset($this->request->post['address_3'])) {
+    		$this->data['address_3'] = $this->request->post['address_3'];
+		} else {
+			$this->data['address_3'] = '';
+		}
+
+		if (isset($this->request->post['address_4'])) {
+    		$this->data['address_4'] = $this->request->post['address_4'];		
+    	} else {
+			$this->data['address_4'] = '';
+		}
+		if (isset($this->request->post['address_5'])) {
+    		$this->data['address_5'] = $this->request->post['address_5'];
+		} else {
+			$this->data['address_5'] = '';
+		}
+
+		if (isset($this->request->post['address_6'])) {
+    		$this->data['address_6'] = $this->request->post['address_6'];
+		} else {
+			$this->data['address_6'] = '';
+		}
+
+		if (isset($this->request->post['address_7'])) {
+    		$this->data['address_7'] = $this->request->post['address_7'];
+		} else {
+			$this->data['address_7'] = '';
+		}
+
+		if (isset($this->request->post['address_8'])) {
+    		$this->data['address_8'] = $this->request->post['address_8'];
+		} else {
+			$this->data['address_8'] = '';
+		}
+
+		if (isset($this->request->post['address_9'])) {
+    		$this->data['address_9'] = $this->request->post['address_9'];		
+    	} else {
+			$this->data['address_9'] = '';
+		}
+		if (isset($this->request->post['reason'])) {
+    		$this->data['reason'] = $this->request->post['reason'];		
+    	} else {
+			$this->data['reason'] = '';
+		}
+		
 		if (isset($this->request->post['postcode'])) {
     		$this->data['postcode'] = $this->request->post['postcode'];
 		} elseif (isset($this->session->data['shipping_postcode'])) {
@@ -463,13 +616,78 @@ class ControllerAccountRegister extends Controller {
 		} else {
 			$this->data['text_agree'] = '';
 		}
+		$this->data['text_agree0']=$this->language->get('text_agree0');
+		$this->data['text_agree1']=$this->language->get('text_agree1');
+		$this->data['text_agree2']=$this->language->get('text_agree2');
+		$this->data['text_agree3']=$this->language->get('text_agree3');
+		$this->data['text_agree4']=$this->language->get('text_agree4');
+		$this->data['text_agree5']=$this->language->get('text_agree5');
+		$this->data['text_agree6']=$this->language->get('text_agree6');
+		$this->data['text_agree7']=$this->language->get('text_agree7');
+		$this->data['text_agree8']=$this->language->get('text_agree8');
+		$this->data['entry_reason']=$this->language->get('entry_reason');
 		
+		///////////////////////
+
 		if (isset($this->request->post['agree'])) {
       		$this->data['agree'] = $this->request->post['agree'];
 		} else {
 			$this->data['agree'] = false;
 		}
+		if (isset($this->request->post['policy'])) {
+      		$this->data['policy'] = $this->request->post['policy'];
+		} else {
+			$this->data['policy'] = false;
+		}
+		/*
+		if (isset($this->request->post['agree1'])) {
+      		$this->data['agree1'] = $this->request->post['agree1'];
+		} else {
+			$this->data['agree1'] = false;
+		}
+
+		if (isset($this->request->post['agree2'])) {
+      		$this->data['agree2'] = $this->request->post['agree2'];
+		} else {
+			$this->data['agree2'] = false;
+		}
 		
+		if (isset($this->request->post['agree3'])) {
+      		$this->data['agree3'] = $this->request->post['agree3'];
+		} else {
+			$this->data['agree3'] = false;
+		}
+		
+		if (isset($this->request->post['agree4'])) {
+      		$this->data['agree4'] = $this->request->post['agree4'];
+		} else {
+			$this->data['agree4'] = false;
+		}
+		
+		if (isset($this->request->post['agree5'])) {
+      		$this->data['agree5'] = $this->request->post['agree5'];
+		} else {
+			$this->data['agree5'] = false;
+		}
+		
+		if (isset($this->request->post['agree6'])) {
+      		$this->data['agree6'] = $this->request->post['agree6'];
+		} else {
+			$this->data['agree6'] = false;
+		}
+		
+		if (isset($this->request->post['agree7'])) {
+      		$this->data['agree7'] = $this->request->post['agree7'];
+		} else {
+			$this->data['agree7'] = false;
+		}
+		
+		if (isset($this->request->post['agree8'])) {
+      		$this->data['agree8'] = $this->request->post['agree8'];
+		} else {
+			$this->data['agree8'] = false;
+		}
+		*/
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/register.tpl')) {
 			$this->template = $this->config->get('config_template') . '/template/account/register.tpl';
 		} else {
@@ -489,13 +707,18 @@ class ControllerAccountRegister extends Controller {
   	}
 	
   	protected function validate() {
-    	if ((utf8_strlen($this->request->post['firstname']) < 1) || (utf8_strlen($this->request->post['firstname']) > 32)) {
+
+  		if ((utf8_strlen($this->request->post['fullname']) < 1) || (utf8_strlen($this->request->post['fullname']) > 32)) {
+      		$this->error['fullname'] = $this->language->get('error_fullname');
+    	}
+
+    	/*if ((utf8_strlen($this->request->post['firstname']) < 1) || (utf8_strlen($this->request->post['firstname']) > 32)) {
       		$this->error['firstname'] = $this->language->get('error_firstname');
     	}
 
     	if ((utf8_strlen($this->request->post['lastname']) < 1) || (utf8_strlen($this->request->post['lastname']) > 32)) {
       		$this->error['lastname'] = $this->language->get('error_lastname');
-    	}
+    	}*/
 
     	if ((utf8_strlen($this->request->post['email']) > 96) || !preg_match('/^[^\@]+@.*\.[a-z]{2,6}$/i', $this->request->post['email'])) {
       		$this->error['email'] = $this->language->get('error_email');
@@ -525,12 +748,12 @@ class ControllerAccountRegister extends Controller {
 		if ((utf8_strlen($this->request->post['idnum']) != 9)) {
       		$this->error['idnum'] = $this->language->get('error_idnum');
     	}
-		if ((int)$this->request->post['university_id'] == -1) {
-      		$this->error['university'] = $this->language->get('error_university');
-    	}
-		if ((int)$this->request->post['faculty_id'] == -1) {
+		//if ((int)$this->request->post['university_id'] == -1) {
+      		//$this->error['university'] = $this->language->get('error_university');
+    	//}
+		/*if ((int)$this->request->post['faculty_id'] == -1) {
       		$this->error['faculty'] = $this->language->get('error_faculty');
-    	}
+    	}*/
 		if ($this->request->post['student_id'] == '' || !$this->checkStudentID($this->request->post['student_id'])) {
       		$this->error['student_id'] = $this->language->get('error_student_id');
     	}
@@ -539,12 +762,15 @@ class ControllerAccountRegister extends Controller {
       		$this->error['error_idnum'] = $this->language->get('error_idnum');
     	}
 				//check input date satisfy dd/mm/yyyy
-		if (!$this->checkdateDDMMYYYY($this->request->post['iddate'])) {
+		/*if (!$this->checkdateDDMMYYYY($this->request->post['iddate'])) {
       		$this->error['iddate'] = $this->language->get('error_iddate');
-    	}
-        if (!$this->checkdateDDMMYYYY($this->request->post['date_of_birth'])) {
+    	}*/
+    	if (!$this->checkdateofbirth($this->request->post['datebirth'],$this->request->post['monthbirth'],$this->request->post['yearbirth'])) {
       		$this->error['date_of_birth'] = $this->language->get('error_date_of_birth');
     	}
+        /*if (!$this->checkdateDDMMYYYY($this->request->post['date_of_birth'])) {
+      		$this->error['date_of_birth'] = $this->language->get('error_date_of_birth');
+    	}*/
         /////////// END “you-id” - “your-name” modifications/////////////
 		
 		// Customer Group
@@ -570,9 +796,37 @@ class ControllerAccountRegister extends Controller {
 			}						
 		}
 		
-    	if ((utf8_strlen($this->request->post['address_1']) < 3) || (utf8_strlen($this->request->post['address_1']) > 128)) {
+    	if ((utf8_strlen($this->request->post['address_0']) < 1) || (utf8_strlen($this->request->post['address_0']) > 128)) {
+      		$this->error['address_0'] = $this->language->get('error_address_0');
+    	}
+    	if ((utf8_strlen($this->request->post['address_1']) < 1) || (utf8_strlen($this->request->post['address_1']) > 128)) {
       		$this->error['address_1'] = $this->language->get('error_address_1');
     	}
+    	if ((utf8_strlen($this->request->post['address_3']) < 1) || (utf8_strlen($this->request->post['address_3']) > 128)) {
+      		$this->error['address_3'] = $this->language->get('error_address_3');
+    	}
+
+    	if ($this->request->post['address_4'] == '') {
+      		$this->error['address_4'] = $this->language->get('error_address_4');
+    	}
+
+    	if ((utf8_strlen($this->request->post['address_5']) < 1) || (utf8_strlen($this->request->post['address_5']) > 128)) {
+      		$this->error['address_5'] = $this->language->get('error_address_5');
+    	}
+    	if ((utf8_strlen($this->request->post['address_6']) < 1) || (utf8_strlen($this->request->post['address_6']) > 128)) {
+      		$this->error['address_6'] = $this->language->get('error_address_6');
+    	}
+    	if ((utf8_strlen($this->request->post['address_7']) < 1) || (utf8_strlen($this->request->post['address_7']) > 128)) {
+      		$this->error['address_7'] = $this->language->get('error_address_7');
+    	}
+    	if ((utf8_strlen($this->request->post['address_8']) < 1) || (utf8_strlen($this->request->post['address_8']) > 128)) {
+      		$this->error['address_8'] = $this->language->get('error_address_8');
+    	}
+		if ($this->request->post['address_9'] == '') {
+      		$this->error['address_9'] = $this->language->get('error_address_9');
+    	}
+
+
 
 	/////////////////////// Modification//////////////////////
         //       ID: 1051018	 	 	 	 	
@@ -584,15 +838,15 @@ class ControllerAccountRegister extends Controller {
         // 	 Last updated: list the change by line number and goal, ex: 
         //	 	 + line 289: optimize the operation
         /////////// Start “you-id” - “your-name” modifications/////////////
-		if ((utf8_strlen($this->request->post['address_2']) < 3) || (utf8_strlen($this->request->post['address_2']) > 128)) {
-      		$this->error['address_2'] = $this->language->get('error_address_1');
+		if ((utf8_strlen($this->request->post['address_2']) < 1) || (utf8_strlen($this->request->post['address_2']) > 128)) {
+      		$this->error['address_2'] = $this->language->get('error_address_2');
     	}
 		if ($this->request->post['gender_id'] == '') {
       		$this->error['gender'] = $this->language->get('error_gender');
     	}
-		if ($this->request->post['id_location'] == '') {
+		/*if ($this->request->post['id_location'] == '') {
       		$this->error['id_location'] = $this->language->get('error_id_location');
-    	}
+    	}*/
     	/*if ((utf8_strlen($this->request->post['city']) < 2) || (utf8_strlen($this->request->post['city']) > 128)) {
       		$this->error['city'] = $this->language->get('error_city');
     	}*/
@@ -600,7 +854,7 @@ class ControllerAccountRegister extends Controller {
 
 		$this->load->model('localisation/country');
 		
-		$country_info = $this->model_localisation_country->getCountry($this->request->post['country_id']);
+		$country_info = $this->model_localisation_country->getCountry(300);//$this->request->post['country_id']);
 		
 		if ($country_info) {
 			// VAT Validation
@@ -611,13 +865,13 @@ class ControllerAccountRegister extends Controller {
 			}
 		}
 		
-    	if ($this->request->post['country_id'] == '') {
-      		$this->error['country'] = $this->language->get('error_country');
-    	}
+    	//if ($this->request->post['country_id'] == '') {
+      		//$this->error['country'] = $this->language->get('error_country');
+    	//}
 		
-    	if (!isset($this->request->post['zone_id']) || $this->request->post['zone_id'] == '') {
-      		$this->error['zone'] = $this->language->get('error_zone');
-    	}
+    	//if (!isset($this->request->post['zone_id']) || $this->request->post['zone_id'] == '') {
+      	//	$this->error['zone'] = $this->language->get('error_zone');
+    	//}
 
     	if ((utf8_strlen($this->request->post['password']) < 4) || (utf8_strlen($this->request->post['password']) > 20)) {
       		$this->error['password'] = $this->language->get('error_password');
@@ -695,6 +949,14 @@ class ControllerAccountRegister extends Controller {
             }
             return true;
 	}
+	protected function checkdateofbirth($a,$b,$c)
+	{
+            if (($a==0)||($b==0)||($c==0)) return false;
+            if ((($c % 4)!=0)&&($b==2)&&($a==29)) return false;
+            if ((($b==4)||($b==6)||($b==9)||($b==11))&&($a==31) )return false;
+            if (($b==2)&&(($a==31)||($a==30)))return false;            
+            return true;
+	}
         /////////// END “you-id” - “your-name” modifications/////////////
         /////////////////////// Modification//////////////////////
         //       ID: 1051018	 	 	 	 	
@@ -744,56 +1006,16 @@ class ControllerAccountRegister extends Controller {
 		$json = $universities;
 		$this->response->setOutput(json_encode($json));
 	}
-
-	public function replaceApplicationMailData($data = array()) {
-		$this->load->model('catalog/template_email');
-		$templateMailData = $this->model_catalog_template_email->getTemplateEmail("mail_5")['description'][1];
-		$templateMail = $templateMailData['description'];
-		$mailTitle = $templateMailData['name'];
-
-		$completeMailTitle = $mailTitle;
-		$completeMailBody = $this->format($templateMail, 
-			$data['full_name'],							//0 fullname
-			$data['student_id'],						//1 student id
-			$data['dob'],								//2 date of birth
-			$data['race'],								//3 dan toc
-			$data['sex'],								//4
-			$data['id'],								//5 cmnd
-			$data['address_temp'],						//6 dia chi thuong tru
-			$data['address_real'],						//7 dia chi thuong tru
-			$data['phone'],								//8 
-			$data['email'],								//9
-			$data['area'],								//10 sv thuoc dien ?
-			$data['area_detail'],						//11 dien doi tuong
-			$data['family_background'],					//12 hoan canh gia dinh
-
-
-			date("d"),									//13
-			date("m"),									//14
-			date("Y")									//15
-			$data['full_name'],							//16 fullname
-			$data['family_background_cont'],					//17 hoan canh gia dinh
-
-			);
-
-
-		$mailMinistry = array("title" => $completeMailTitle, "body" => $completeMailBody);
-		return $mailMinistry;
-	}
-
-	function format() {
-	    $args = func_get_args();
-	    if (count($args) == 0) {
-	        return;
-	    }
-	    if (count($args) == 1) {
-	        return $args[0];
-	    }
-	    
-	    $str = array_shift($args);
-	    $str = preg_replace_callback('/\\{(0|[1-9]\\d*)\\}/', create_function('$match', '$args = '.var_export($args, true).'; return isset($args[$match[1]]) ? $args[$match[1]] : $match[0];'), $str);
-	    return $str;
-	}
 	/////////// END “you-id” - “your-name” modifications/////////////
+
+/////////////////////// Modification//////////////////////
+//   ID: 1051009	 	 	 	 	
+//   Name: Nguyen Dang Khoa	 	 	 	 	
+// 	 Class: 10CTT 
+// 	 Date 17/3/2014
+// 	 Description: Fix Register page 
+// 	 Date modified: 17/1/2014 
+//////////////////////////////////////////////////////////
+
 }
 ?>
