@@ -141,6 +141,13 @@ $(document).ready(function(){
         </ul>
       </li>
       <?php } ?>
+        <li id="reports"><a class="top"><?php echo $text_reports; ?></a>
+        <ul>
+          <li><a href="<?php echo $report_customer_usage2; ?>"><?php echo $text_report_customer_usage; ?></a></li>
+        </ul>
+      </li>
+      
+
       
       <?php if($this->user->getUserGroup() == ADMIN_IDX) { ?>
       <li id="extension"><a class="top"><?php echo $text_extension; ?></a>
