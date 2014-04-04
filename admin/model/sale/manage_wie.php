@@ -1418,21 +1418,13 @@ class ModelSaleManageWie extends Model {
 		}
 		
 		$money = 0;
-		$temp = 0;
 		foreach ($w as $z)
 		{
-			if($z['To']!=-1 && $w_usage > $z['To'])
-			{
-				$money += $z['Price']*$total_student;
-				$temp += $z['To'];
-			}
-			else
-			{
-				$money += $z['Price']*$total_student;
-				return $money;
-			}
+			$money += $z['Price']*$total_student;
+			if($w_usage > $z['To'])
+				break;
 		}
-		return $temp;
+		return $money;
 	}
 	
 	public function getCustomerGroupDescriptions($customer_group_id) {
