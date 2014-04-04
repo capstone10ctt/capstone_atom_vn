@@ -7,10 +7,9 @@ class ControllerToolImport extends Controller {
 	public function index() {
 
 		$this->language->load('tool/import');
-
-
 		
 		$this->load->model('sale/customer_group');
+		$this->load->model('sale/manage_wie');
 		
 
 		$this->data['heading_title'] = $this->language->get('heading_title');
@@ -31,6 +30,8 @@ class ControllerToolImport extends Controller {
 		$this->data['entry_eend'] = $this->language->get('entry_eend');
 		$this->data['entry_wstart'] = $this->language->get('entry_wstart');
 		$this->data['entry_wend'] = $this->language->get('entry_wend');
+		$this->data['entry_studentidcard'] = $this->language->get('entry_studentidcard');
+		$this->data['entry_cardcode'] = $this->language->get('entry_cardcode');
 		$this->data['entry_dateadded'] = $this->language->get('entry_dateadded');
 		$this->data['entry_uploaddata'] = $this->language->get('entry_uploaddata');
 
@@ -41,6 +42,7 @@ class ControllerToolImport extends Controller {
 		$this->data['error_facultynotvalid'] = $this->language->get('error_facultynotvalid');
 		$this->data['error_locationnotvalid'] = $this->language->get('error_locationnotvalid');
 		$this->data['error_roomnotfound'] = $this->language->get('error_roomnotfound');
+		$this->data['error_cardexist'] = $this->language->get('error_cardexist');
 		$this->data['error_upload'] = $this->language->get('error_upload');
 
 		$this->data['error'] = "";
@@ -57,6 +59,8 @@ class ControllerToolImport extends Controller {
 		$this->session->data['col_wstart']="";
 		$this->session->data['col_wend']="";
 		$this->session->data['col_addeddate']="";
+		$this->session->data['col_cardcode']="";
+		$this->session->data['col_studentid']="";
 		$this->session->data['file_type']="";
 		$this->session->data['sheetData']="";
 		$this->data['uploaded']="";
@@ -71,6 +75,7 @@ class ControllerToolImport extends Controller {
 				}
 			  	else{
 			  		$this->data['roomList'] =  $this->model_sale_customer_group->getRoomList();
+					$this->data['card_list'] =  $this->model_sale_manage_wie->getCardList();
 
 					include 'PHPExcel/IOFactory.php';
 					if (isset($_FILES["file"]["tmp_name"]) && (($_FILES["file"]["type"]=="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") || ($_FILES["file"]["type"]=="application/vnd.ms-excel")))
@@ -124,6 +129,12 @@ class ControllerToolImport extends Controller {
 									case "ngay nhap":
 										$this->session->data['col_addeddate'] = $key;
 										break;
+									case "ma the":
+										$this->session->data['col_cardcode'] = $key;
+										break;
+									case "ma sv":
+										$this->session->data['col_studentid'] = $key;
+										break;
 								}
 							}
 							$this->data['uploaded'] = "yes";
@@ -134,6 +145,9 @@ class ControllerToolImport extends Controller {
 							} else if($this->session->data['col_room']!='' && ($this->session->data['col_estart']!='' || $this->session->data['col_eend']!='' || $this->session->data['col_wstart']!='' || $this->session->data['col_wend']!=''))
 							{
 								$this->session->data['file_type']="watere";
+							} else if($this->session->data['col_cardcode'] != '' && $this->session->data['col_studentid'] != '')
+							{
+								$this->session->data['file_type']="card";
 							}
 							else
 								$this->session->data['uploaded']="";
@@ -164,6 +178,8 @@ class ControllerToolImport extends Controller {
 			$this->session->data['col_esend']="";
 			$this->session->data['col_wstart']="";
 			$this->session->data['col_wend']="";
+			$this->session->data['col_cardcode']="";
+			$this->session->data['col_studentid']="";
 			$this->session->data['col_addeddate']="";
 			$this->session->data['file_type']="";
 			$this->session->data['sheetData']="";
@@ -260,10 +276,12 @@ class ControllerToolImport extends Controller {
 			
 			$this->load->model('sale/customer_group');
 			$this->load->model('sale/customer');
+			$this->load->model('sale/manage_wie');
 			$facultyList = $this->model_sale_customer->getFacultyList();
 			$locationList = $this->model_sale_customer->getLocationList();
 
-
+			$card_list =  $this->model_sale_manage_wie->getCardList();
+			
 			$roomList =  $this->model_sale_customer_group->getRoomList();
 			$count = 0;
 			if($this->session->data['file_type'] == 'student')
@@ -429,10 +447,21 @@ class ControllerToolImport extends Controller {
 			    } 
 				
 				$this->model_sale_manage_wie->inputUsage($data);
+			}else if($this->session->data['file_type'] == 'card'){
+				for ($i = 2; $i <= count($this->session->data['sheetData']); $i++)
+			    {
+			       $card_id = $this->session->data['sheetData'][$i][$this->session->data['col_cardcode']];
+				   $student_id = $this->session->data['sheetData'][$i][$this->session->data['col_studentid']];
+				   //delete old
+				   $this->model_sale_manage_wie->deleteOldCard($card_id);
+				   //input new
+				   $this->model_sale_manage_wie->inputNewCard($card_id,$student_id);
+				   
+				   $count++;
+			    } 
 			}
 
-
-			$this->session->data['success'] = $count." " . $this->session->data['file_type'] . " has been imported!";
+			$this->session->data['success'] = $count." " . $this->session->data['file_type'] . " đã được nhập!";
 			$this->redirect($this->url->link('tool/import', 'token=' . $this->session->data['token'], 'SSL'));
 			//$this->response->setOutput($this->model_tool_import->import($this->request->post['import']));
 		} else {

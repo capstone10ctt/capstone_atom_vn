@@ -219,8 +219,51 @@
     echo '</tbody>';
     echo '</table>';
     }
+    else if($this->session->data['file_type']=="card")
+    {
+      
+      date_default_timezone_set('Asia/Saigon');
+      $currentdate = date('m/d/Y h:i:s a', time());
+        echo '<table class="list" id="waterelist">';
+        echo '<thead>';
+        echo '<tr>';
+        if($this->session->data['col_cardcode']!='')
+       		 echo '<td>'.$entry_cardcode.'</td>';
+   		 if($this->session->data['col_studentid']!='')
+        	echo '<td>'.$entry_studentid.'</td>';
+        echo '<td>'.$entry_comment.'</td>';
+        echo '</tr>';
+        echo '</thead>';
+        echo '<tbody>';
+        
+        for ($i = 2; $i <= count($this->session->data['sheetData']); $i++)
+        {
+          $warning = false;
+          if (!in_array($this->session->data['sheetData'][$i][$this->session->data['col_cardcode']], $card_list))
+            echo '<tr>';
+          else
+          {
+            echo '<tr class="warning">';
+            $warning = true;
+          }
+          if($this->session->data['col_cardcode']!='')
+            echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_cardcode']].'</td>';
+         if($this->session->data['col_studentid']!='')
+            echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_studentid']].'</td>';
+          
+          if (!$warning)
+            echo '<td></td>';
+          else
+            echo '<td>'.$error_cardexist.'</td>';
+          echo '</tr>';
+    
+        }
+        echo '</tbody>';
+        echo '</table>';
+    }
     ?>
-    </form>
+    </form>	  
+
     </div>
   </div>
 </div>

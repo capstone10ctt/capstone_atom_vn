@@ -2,12 +2,15 @@
 // Heading
 $_['heading_title']    = 'Phòng';
 
+$_['text_all'] = "---Tất cả---";
 $_['text_mail_monthly'] = "Gửi mail thống kê tháng";
 $_['text_import_from_file'] = "Nhập từ file Excel";
 $_['text_confirm'] = "Xác nhận";
 
 $_['text_title']             = 'Phòng/Hộ gia đình';
 $_['text_mssv']             = 'MSSV:';
+$_['text_cancel']             = 'Huỷ';
+$_['text_loading']             = 'Đang xử lý...';
 $_['text_sname']             = 'Họ và tên:';
 $_['text_garbage'] = 'Tiền rác';
 $_['text_print'] = 'In hoá đơn';
@@ -59,6 +62,8 @@ $_['text_print']             = 'In hoá đơn';
 $_['text_refresh']             = ' Cập nhập dữ liệu mới';
 $_['text_green']             = 'Dữ liệu có thay đổi';
 $_['text_red']             = 'Dữ liệu lỗi';
+$_['text_red_not_charged']             = 'Phòng chưa đóng tiền';
+$_['text_red_stop_service']             = 'Phòng đóng trễ quá 3 lần hoặc ngừng cung cấp dịch vụ';
 $_['text_edit']             = 'Sửa';
 $_['text_view']             = 'Xem';
 $_['text_submit']             = 'Nhập';
@@ -74,6 +79,7 @@ $_['text_warning']               = 'Cảnh báo !';
 $_['text_error_log']               = 'Lý do nhập phải dài hơn 10 ký tự !';
 // Text
 $_['text_success']     = 'Nhập dữ liệu thành công!';
+$_['text_error']     = 'Mộ số dữ liệu nhập lỗi!';
 $_['text_success_charged']     = 'Đã nộp tiền!';
 
 // Column

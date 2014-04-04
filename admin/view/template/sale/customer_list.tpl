@@ -30,6 +30,7 @@
       <a onclick="$('form').attr('action', '<?php echo $approve; ?>'); $('form').submit();" class="button"><?php echo $button_approve; ?></a>
       -->
       <!-- end LMT -->
+      <a onclick="popStudentInfo(true);" class="button"><?php echo $popup_thongtinsv; ?></a><a onclick="popStudentInfo2(true);" class="button"><?php echo $popup_thongtinsv2; ?></a>
       <a href="<?php echo $insert; ?>" class="button"><?php echo $button_insert; ?></a><a onclick="$('form').attr('action', '<?php echo $delete; ?>'); $('form').submit();" class="button"><?php echo $button_delete; ?></a></div>
     </div>
     <div class="content">
@@ -285,6 +286,49 @@
     </div>
   </div>
 </div>
+
+<!--start vlmn modification-->
+<div id="studentinfo-form-back" class="news-form-back"></div>
+<div id="studentinfo-form" class="studentinfo-form">
+    <div class="header">
+        <p id='lblpopupheader'><?php echo $text_popup_header_student ?></p>
+        <!--<img src="../admin/view/image/remove-small.png" alt="Close" title="Close" onclick="editWieToggle(false);">-->
+        <a onclick="popStudentInfo(false);" style="float:right;margin:8px 10px 0px 0px;font-weight:bold;color:#fff;text-decoration:none;">Thoát</a>
+    </div>
+    <div class="fbody">
+    	<img src="../image/no_image.jpg" alt=""/>
+    	<p style="margin-top:20px;">MSSV: 1051025</p>
+       <p>Họ và tên: Võ Lý Minh Nhân</p>
+       <p>MSSV: Diện</p>
+       <span>Giới tính: Nam</span>
+       <span>Ngày sinh: 16/03/1992</span>
+       <span>Quê quán: Bình thuận</span>
+       <textarea rows="10" cols="104"></textarea>
+       <div class="buttons">
+       <a id="confirmPreview" onclick="checkpaid();" class="button" /><?php echo $text_confirm ?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="previewWieToggle(false);" class="button"/><?php echo $text_exit; ?></a></div>
+    </div>
+    
+    </div>
+</div>
+
+<div id="studentinfo2-form-back" class="news-form-back"></div>
+<div id="studentinfo2-form" class="studentinfo-form">
+    <div class="header">
+        <p id='lblpopupheader'><?php echo $text_popup_header_student ?></p>
+        <!--<img src="../admin/view/image/remove-small.png" alt="Close" title="Close" onclick="editWieToggle(false);">-->
+        <a onclick="popStudentInfo2(false);" style="float:right;margin:8px 10px 0px 0px;font-weight:bold;color:#fff;text-decoration:none;">Thoát</a>
+    </div>
+    <div class="fbody">
+    	<img src="../image/no_image.jpg" alt=""/>
+    	<p style="margin-top:20px;">MSSV: 1051025</p>
+       <p>Họ và tên: Võ Lý Minh Nhân</p>
+       <div class="buttons">
+       <a id="confirmPreview" onclick="checkpaid();" class="button" /><?php echo $text_confirm ?></a></div>
+    
+    </div>
+</div>
+<!--end vlmn modification-->
+
 <script type="text/javascript"><!--
 /////////////////////// Modification//////////////////////
 // ID: 1051015        
@@ -409,4 +453,43 @@ $(document).ready(function() {
 	$('#date').datepicker({dateFormat: 'dd-mm-yy'});
 });
 //--></script>
+<script type="text/javascript">
+	function popStudentInfo(show) {
+		//toggle show
+		if(show)
+		{
+			//show box
+			var left = ($(window).width() - $('#studentinfo-form').width()) / 2;
+			var top = ($(window).height() - $('#studentinfo-form').height()) / 2;
+			$('#studentinfo-form').css('left',left + 'px');
+			$('#studentinfo-form').css('top',top + 'px');
+			$('#studentinfo-form-back').fadeIn(400);
+			$('#studentinfo-form').fadeIn(400);
+		}
+		else
+		{
+			$('#studentinfo-form-back').fadeOut(400);
+			$('#studentinfo-form').fadeOut(400);
+		}
+	}
+	
+	function popStudentInfo2(show) {
+		//toggle show
+		if(show)
+		{
+			//show box
+			var left = ($(window).width() - $('#studentinfo2-form').width()) / 2;
+			var top = ($(window).height() - $('#studentinfo2-form').height()) / 2;
+			$('#studentinfo2-form').css('left',left + 'px');
+			$('#studentinfo2-form').css('top',top + 'px');
+			$('#studentinfo2-form-back').fadeIn(400);
+			$('#studentinfo2-form').fadeIn(400);
+		}
+		else
+		{
+			$('#studentinfo2-form-back').fadeOut(400);
+			$('#studentinfo2-form').fadeOut(400);
+		}
+	}
+</script>
 <?php echo $footer; ?> 

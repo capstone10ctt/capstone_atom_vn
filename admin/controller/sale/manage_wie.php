@@ -148,6 +148,12 @@ class ControllerSaleManageWie extends Controller {
 		$this->data['cur_month'] = $cur_month;
 		$this->data['token'] = $this->session->data['token'];
 		
+		$this->data['text_red_stop_service'] = $this->language->get('text_red_stop_service');
+		$this->data['text_loading'] = $this->language->get('text_loading');
+		$this->data['text_cancel'] = $this->language->get('text_cancel');
+		$this->data['text_error'] = $this->language->get('text_error');
+		$this->data['text_red_not_charged'] = $this->language->get('text_red_not_charged');
+		$this->data['text_all'] = $this->language->get('text_all');
 		$this->data['text_error_total'] = $this->language->get('text_error_total');
 		$this->data['text_update_deadline'] = $this->language->get('text_update_deadline');
 		$this->data['text_set_deadline'] = $this->language->get('text_set_deadline');
@@ -485,18 +491,18 @@ class ControllerSaleManageWie extends Controller {
 				$room_data_e["Start"],			//2 dau
 				$room_data_e["End"],			//3 cuoi
 				$room_data_e["Usage"],			//4 tieu thu
-				number_format($room_data_e["Money"],0),			//5 thanh tien
+				number_format((int)str_replace(",","",$room_data_e["Money"]),0),			//5 thanh tien
 				// Nuoc
 				$room_data_w["Start"],			//6 dau
 				$room_data_w["End"],			//7 cuoi
 				$room_data_w["Usage"],			//8 tieu thu
-				number_format($room_data_w["Money"],0),			//9 thanh tien
+				number_format((int)str_replace(",","",$room_data_w["Money"]),0),			//9 thanh tien
 	
 	
 				// Tong tien
 				
-				number_format($this->roundMoney($room_data_e["Money"] + $room_data_w["Money"] + (($wie_stat["room_data"]["garbage"]) ? $wie_stat["room_data"]["garbage"] : 0)),0),		//10
-				$this->convert_number_to_words($this->roundMoney($room_data_e["Money"] + $room_data_w["Money"] + (($wie_stat["room_data"]["garbage"]) ? $wie_stat["room_data"]["garbage"] : 0))).' đồng',					//11
+				number_format($this->roundMoney((int)str_replace(",","",$room_data_e["Money"]) + (int)str_replace(",","",$room_data_w["Money"]) + (($wie_stat["room_data"]["garbage"]) ? $wie_stat["room_data"]["garbage"] : 0)),0),		//10
+				$this->convert_number_to_words($this->roundMoney((int)str_replace(",","",$room_data_e["Money"]) + (int)str_replace(",","",$room_data_w["Money"]) + (($wie_stat["room_data"]["garbage"]) ? $wie_stat["room_data"]["garbage"] : 0))).' đồng',					//11
 	
 				date("m"),									//12
 				date("d"),									//13
@@ -537,18 +543,18 @@ class ControllerSaleManageWie extends Controller {
 				$room_data_e["Start"],			//2 dau
 				$room_data_e["End"],			//3 cuoi
 				$room_data_e["Usage"],			//4 tieu thu
-				number_format($room_data_e["Money"],0),			//5 thanh tien
+				number_format((int)str_replace(",","",$room_data_e["Money"]),0),			//5 thanh tien
 				// Nuoc
 				$room_data_w["Start"],			//6 dau
 				$room_data_w["End"],			//7 cuoi
 				$room_data_w["Usage"],			//8 tieu thu
-				number_format($room_data_w["Money"],0),			//9 thanh tien
+				number_format((int)str_replace(",","",$room_data_w["Money"]),0),			//9 thanh tien
 	
 	
 				// Tong tien
 				
-				number_format($this->roundMoney($room_data_e["Money"] + $room_data_w["Money"] + (($wie_stat["room_data"]["garbage"]) ? $wie_stat["room_data"]["garbage"] : 0)),0),		//10
-				$this->convert_number_to_words($this->roundMoney($room_data_e["Money"] + $room_data_w["Money"] + (($wie_stat["room_data"]["garbage"]) ? $wie_stat["room_data"]["garbage"] : 0))).' đồng',					//11
+				number_format($this->roundMoney((int)str_replace(",","",$room_data_e["Money"]) + (int)str_replace(",","",$room_data_w["Money"]) + (($wie_stat["room_data"]["garbage"]) ? $wie_stat["room_data"]["garbage"] : 0)),0),		//10
+				$this->convert_number_to_words($this->roundMoney((int)str_replace(",","",$room_data_e["Money"]) + (int)str_replace(",","",$room_data_w["Money"]) + (($wie_stat["room_data"]["garbage"]) ? $wie_stat["room_data"]["garbage"] : 0))).' đồng',					//11
 	
 				date("m"),									//12
 				date("d"),									//13
@@ -795,7 +801,7 @@ class ControllerSaleManageWie extends Controller {
 		$this->model_sale_manage_wie->updateWIELateRecord((int)$this->request->post['room_id']);//update late
 		
 		$rooms = $this->model_sale_manage_wie->getRoomEmails((int)$this->request->post['room_id']);
-		$mailRooms = $this->replaceEachRoomData((int)$this->request->post['room_id']);
+		$mailRooms = $this->replaceEachRoomDataForBill((int)$this->request->post['room_id']);
 		
 		foreach($rooms as $single_email){
 			if(isset($mailRooms["title"])) {
@@ -968,7 +974,7 @@ class ControllerSaleManageWie extends Controller {
 			
 			$bill = $this->replaceEachRoomDataForBill($room_id);
 			if($bill) {
-				$json['bills'] .= $bill["body"];
+				$json['bills'] .= '<div style="page-break-after: always;">'.$bill["body"].'</div>';
 			}
 		}
 		

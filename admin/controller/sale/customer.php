@@ -326,6 +326,13 @@ class ControllerSaleCustomer extends Controller {
 				$filter_address_1 = null;
 			}
 
+			//start vlmn modification
+			$this->data['popup_thongtinsv'] = $this->language->get('popup_thongtinsv');
+			$this->data['popup_thongtinsv2'] = $this->language->get('popup_thongtinsv2');
+			$this->data['text_confirm'] = $this->language->get('text_confirm');
+			$this->data['text_exit'] = $this->language->get('text_exit');
+			$this->data['text_popup_header_student'] = $this->language->get('text_popup_header_student');
+			//end vlmn modification
 			$this->data['column_student_id'] = $this->language->get('column_student_id');
 			$this->data['column_gender'] = $this->language->get('column_gender');
 			$this->data['column_university'] = $this->language->get('column_university');
