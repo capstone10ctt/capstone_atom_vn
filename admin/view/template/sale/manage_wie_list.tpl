@@ -1088,8 +1088,8 @@
 					//newsToggle(false);
 					refreshInputFilter();
 					var have_false = checkOutputAndHighlight(json['success']);
+					loadingForm(false);
 					if(!have_false) {
-						loadingForm(false);
 						alert('<?php echo $text_success?>');
 					}
 					else {
