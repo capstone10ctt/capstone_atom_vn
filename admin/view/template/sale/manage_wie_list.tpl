@@ -1047,7 +1047,7 @@
 	}
 	var confirmResult = false;
 	function inputHistory() {
-		
+		loadingForm(true);
 		//if(!confirmResult)
 //		{
 //			if($('#confirmbox-form').css('display') == 'none')
@@ -1089,6 +1089,7 @@
 					refreshInputFilter();
 					var have_false = checkOutputAndHighlight(json['success']);
 					if(!have_false) {
+						loadingForm(false);
 						alert('<?php echo $text_success?>');
 					}
 					else {
