@@ -13,6 +13,6 @@ $_['description_electricity'] = 'ĐIỆN';
 $_['description_water'] = 'NƯỚC';
 $_['description_garbage'] = 'RÁC';
 $_['last_modified'] = 'Lịch sử cập nhật';
-$_['from_date'] = 'Từ ngày';
-$_['to_date'] = 'Đến ngày';
+$_['from_date'] = 'Từ';
+$_['to_date'] = 'Đến';
 ?>

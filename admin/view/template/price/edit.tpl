@@ -1,9 +1,11 @@
 <?php echo $header; ?>
 <head>
     <script src="view/javascript/jquery.blockUI.js"></script>
+    <script src="view/javascript/datepicker-vi.js"></script>
     <script type="text/javascript">
         $(document).ajaxStop($.unblockUI);
         $(function() {
+            $.datepicker.setDefaults($.datepicker.regional['vi']);
             // format number: convert 1234 -> 1,234
             Number.prototype.format = function(n, x) {
                 var re = '(\\d)(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -28,19 +30,23 @@
             var idNewestWater = 0;
             var idNewestGarbage = 0;
 
+            var electricityLatestUpdateDate;
+            var electricityUpdateDateFrom;
+
+            var waterLatestUpdateDate;
+            var waterUpdateDateFrom;
+
+            var garbageLatestUpdateDate;
+            var garbageUpdateDateFrom;
+
             $.ajax({
-                url: 'index.php?route=price/edit/loadApplyingElectricityStandardId&token=<?php echo $token; ?>',
-                dataType: 'json',
+                url: 'index.php?route=price/edit/getLatestElectricityUpdateDate&token=<?php echo $token; ?>',
+                dateType: 'json',
                 type: 'post',
                 success: function(json) {
-                    idApplyingElectricityStandardPrice = json['id'];
-                    if ($('#electricity_modified_date').children('option').filter(':selected').val() == idApplyingElectricityStandardPrice) {
-                        $('#applyingElectricityStandardPrice').show();
-                        $('input[name="applyElectricityStandard"]').prop('disabled', true);
-                    } else {
-                        $('#applyingElectricityStandardPrice').hide();
-                        $('input[name="applyElectricityStandard"]').prop('disabled', false);
-                    }
+                    var obj = $.parseJSON(json);
+                    electricityUpdateDateFrom = electricityLatestUpdateDate = new Date(obj['year'], obj['month'], 1);
+                    $('#from-date-electricity').val($.datepicker.formatDate('M, yy', electricityLatestUpdateDate));
                 },
                 error: function(xhr) {
                     console.log(xhr);
@@ -62,15 +68,10 @@
             });
 
             $('#electricity_modified_date').change(function() {
-                var $btnCreateNew = $('input[name="createNewElectricityStandard"]');
-                var $fromDate = $('#from-date-electricity');
-                var $toDate = $('#to-date-electricity');
-                if ($(this).children('option').filter(':selected').val() == idApplyingElectricityStandardPrice) {
-                    $('#applyingElectricityStandardPrice').show();
-                    $('input[name="applyElectricityStandard"]').prop('disabled', true);
+                if ($(this).children('option').filter(':selected').index() != 0) {
+                    $('input[name="createNewElectricityStandard"]').prop('disabled', true);
                 } else {
-                    $('#applyingElectricityStandardPrice').hide();
-                    $('input[name="applyElectricityStandard"]').prop('disabled', false);
+                    $('input[name="createNewElectricityStandard"]').prop('disabled', false);
                 }
                 $.blockUI({ message: '<h3><span><img src="view/image/price/preloader.gif" height="16" width="16" /></span> Đang tải dữ liệu...</h3>' });
                 $.ajax({
@@ -95,12 +96,12 @@
                             $show.append('<tr class="line">' +
                                     '<td class="from">' + json['data'][index]['From'] + '</td>' +
                                     '<td class="to">' + to + '</td>' +
-                                    '<td class="price">' + price.format() + '&nbsp₫</td>' + // format function: convert 1234 -> 1,234
+                                    '<td class="price">' + price.format() + '&nbsp?</td>' + // format function: convert 1234 -> 1,234
                                     '</tr>');
                             $edit.append('<tr class="line">' +
                                     '<td class="from">' + json['data'][index]['From'] + '</td>' +
                                     '<td class="to">' + to + '</td>' +
-                                    '<td class="price">' + price.format() + '&nbsp₫</td>' + // format function: convert 1234 -> 1,234
+                                    '<td class="price">' + price.format() + '&nbsp?</td>' + // format function: convert 1234 -> 1,234
                                     '</tr>');
                         }
                     }, // for debugging purpose
@@ -145,20 +146,22 @@
                                 jsonElectricityNew.electricity_new[index].to = $(element).children('.to').children().val();
                                 jsonElectricityNew.electricity_new[index].price = $(element).children('.price').children().val();
                             });
-
-                            var updateDateTo = '';
-                            var frDate = $('#from-date-electricity').val();
-                            var updateDateFrom = frDate.substr(6, 4) + '-' + frDate.substr(3, 2) + '-' + frDate.substr(0, 2);
-                            if ($('#to-date-electricity').val()) {
-                                var toDate = $('#to-date-electricity').val();
-                                updateDateTo = toDate.substr(6, 4) + '-' + toDate.substr(3, 2) + '-' + toDate.substr(0, 2);
-                            }
+                            var day = electricityUpdateDateFrom.getDate();
+                            var month = electricityUpdateDateFrom.getMonth() + 1;
+                            var year = electricityUpdateDateFrom.getFullYear();
+                            var updateDate = year + '-' + month + '-' + day;
+                            var prevDate = electricityUpdateDateFrom;
+                            prevDate.setDate(0);
+                            day = prevDate.getDate();
+                            month = prevDate.getMonth() + 1;
+                            year = prevDate.getFullYear();
+                            var endDate = year + '-' + month + '-' + day;
                             $.ajax({
                                 url: 'index.php?route=price/edit/updateElectricityStandardPrice&token=<?php echo $token; ?>',
                                 data: {
                                     'electricity_new_data': jsonElectricityNew,
-                                    'update_date_from': updateDateFrom,
-                                    'update_date_to': updateDateTo,
+                                    'update_date_from': updateDate,
+                                    'old_end_date': endDate,
                                     'id': idNewestElectricity
                                 },
                                 dataType: 'json',
@@ -178,12 +181,12 @@
                                         $show.append('<tr class="line">' +
                                                 '<td class="from">' + arr[index].from + '</td>' +
                                                 '<td class="to">' + to + '</td>' +
-                                                '<td class="price">' + price.format() + '&nbsp₫</td>' +
+                                                '<td class="price">' + price.format() + '&nbsp?</td>' +
                                                 '</tr>');
                                         $edit.append('<tr class="line">' +
                                                 '<td class="from">' + arr[index].from + '</td>' +
                                                 '<td class="to">' + to + '</td>' +
-                                                '<td class="price">' + price.format() + '&nbsp₫</td>' +
+                                                '<td class="price">' + price.format() + '&nbsp?</td>' +
                                                 '</tr>');
                                     }
                                     $this.dialog('close');
@@ -203,209 +206,135 @@
             });
 
             $('input[name="createNewElectricityStandard"]').click(function() {
-                var $fromDate = $('#from-date-electricity');
-                var $toDate = $('#to-date-electricity');
-                if ($fromDate.datepicker('getDate') && $fromDate.datepicker('getDate') > frDate && $('') && $fromDate.datepicker('getDate') < $toDate.datepicker('getDate')) {
-                    var $tbody = $('#dialog-update-electricity-standard').find('tbody');
-                    $tbody.empty();
-                    // jQuery BlockUI (http://malsup.com/jquery/block/)
-                    $.blockUI({ message: '<h3><span><img src="view/image/price/preloader.gif" height="16" width="16" /></span> Đang lấy dữ liệu...</h3>' });
-                    $.ajax({
-                        url: 'index.php?route=price/edit/loadNewestElectricityStandardPrice&token=<?php echo $token; ?>',
-                        dataType: 'json',
-                        type: 'post',
-                        success: function(json) {
-                            // open dialog after loading data successfully
-                            $('#dialog-update-electricity-standard').dialog('open');
-                            idNewestElectricity = json['id'];
-                            for (var index in json['newest']) {
-                                var to = json['newest'][index]['To'];
-                                if (index == 0) {
-                                    $tbody.append('<tr class="line">' +
-                                            '<td class="from"><input type="text" style="width: 74px;" disabled="true" value="' + json['newest'][index]['From'] + '"/></td>' +
-                                            '<td class="to"><input type="text" style="width: 74px;" value="' + to + '"/></td>' +
-                                            '<td class="price"><input type="text" style="width: 74px;" value="' + json['newest'][index]['Price'] + '"/></td>' +
-                                            '<td class="remove"></td>' +
-                                            '</tr>');
-                                } else {
-                                    $tbody.append('<tr class="line">' +
-                                            '<td class="from"><input type="text" style="width: 74px;" disabled="true" value="' + json['newest'][index]['From'] + '"/></td>' +
-                                            '<td class="to"><input type="text" style="width: 74px;" value="' + to + '"/></td>' +
-                                            '<td class="price"><input type="text" style="width: 74px;" value="' + json['newest'][index]['Price'] + '"/></td>' +
-                                            '<td class="remove"><img src="view/image/price/delete.png" height="16" width="16" /></td>' +
-                                            '</tr>');
-                                }
+                var $tbody = $('#dialog-update-electricity-standard').find('tbody');
+                $tbody.empty();
+                // jQuery BlockUI (http://malsup.com/jquery/block/)
+                $.blockUI({ message: '<h3><span><img src="view/image/price/preloader.gif" height="16" width="16" /></span> ?ang l?y d? li?u...</h3>' });
+                $.ajax({
+                    url: 'index.php?route=price/edit/loadNewestElectricityStandardPrice&token=<?php echo $token; ?>',
+                    dataType: 'json',
+                    type: 'post',
+                    success: function(json) {
+                        // open dialog after loading data successfully
+                        $('#dialog-update-electricity-standard').dialog('open');
+                        idNewestElectricity = json['id'];
+                        for (var index in json['newest']) {
+                            var to = json['newest'][index]['To'];
+                            if (index == 0) {
+                                $tbody.append('<tr class="line">' +
+                                        '<td class="from"><input type="text" style="width: 74px;" disabled="true" value="' + json['newest'][index]['From'] + '"/></td>' +
+                                        '<td class="to"><input type="text" style="width: 74px;" value="' + to + '"/></td>' +
+                                        '<td class="price"><input type="text" style="width: 74px;" value="' + json['newest'][index]['Price'] + '"/></td>' +
+                                        '<td class="remove"></td>' +
+                                        '</tr>');
+                            } else {
+                                $tbody.append('<tr class="line">' +
+                                        '<td class="from"><input type="text" style="width: 74px;" disabled="true" value="' + json['newest'][index]['From'] + '"/></td>' +
+                                        '<td class="to"><input type="text" style="width: 74px;" value="' + to + '"/></td>' +
+                                        '<td class="price"><input type="text" style="width: 74px;" value="' + json['newest'][index]['Price'] + '"/></td>' +
+                                        '<td class="remove"><img src="view/image/price/delete.png" height="16" width="16" /></td>' +
+                                        '</tr>');
                             }
-                            $tbody.append('' +
-                                    '<tr class="dummy-line">' +
-                                    '<td class="from" style="display: none;"><input style="width: 74px;" disabled="true" /></td>' +
-                                    '<td class="to" style="display: none;"><input style="width: 74px;" /></td>' +
-                                    '<td class="price" style="display: none;"><input style="width: 74px;" /></td>' +
-                                    '<td class="remove" style="display: none;"><img src="view/image/price/delete.png" height="16" width="16" /></td>' +
-                                    '</tr>' +
-                                    '<tr class="plus">' +
-                                    '<td><img src="view/image/price/add.png" height="16" width="16" /></td>' +
-                                    '<td></td>' +
-                                    '<td></td>' +
-                                    '<td></td>' +
-                                    '</tr>');
-                            // input check
-                            $('#dialog-update-electricity-standard').find('tbody').focusout(function(e) { // e: event object
-                                var $this = $(e.target).closest('.line'); // e.target points to the focus-lost element
-                                var $from = $this.children('.from').children();
-                                var $to = $this.children('.to').children();
-                                var $price = $this.children('.price').children();
-                                var to = $to.val();
-                                var from = $from.val();
-                                var price = $price.val();
-                                var isLastRow = $this.parent().is(':last-child');
-                                if (to == -1 && isLastRow) {
-
-                                } else if (to && parseInt(to) <= parseInt(from)) {
-                                    alert ('Giá trị cột Đến kW phải lớn hơn cột Từ kW');
-                                    $to.focus().select();
-                                } else if (to && (!$.isNumeric(to) || parseInt(to) < 0)) {
-                                    alert('Giá trị nhập vào không hợp lệ');
-                                    $to.focus().select();
-                                } else if (price && (!$.isNumeric(price) || parseInt(price) < 0)) {
-                                    alert('Giá trị nhập vào không hợp lệ');
-                                    $price.focus().select();
-                                } else {
-                                    // change value of From in the next row. From = (last row's To) + 1
-                                    var $next = $this.next();
-                                    if ($next) {
-                                        $next.children('.from').children().val(parseInt(to) + 1);
-                                    }
-                                }
-                            });
-                            $('.plus').on('click', function() {
-                                $toCell = $('#dialog-update-electricity-standard').find('.line').last().children('.to').children();
-                                to = parseInt($toCell.val());
-                                if (to == -1) {
-                                    alert('Bạn phải nhập giá trị khác -1 cho cột Đến kW ở dòng cuối cùng trước khi thêm dòng mới')
-                                } else {
-                                    // select dummy-line
-                                    $dummy = $('.dummy-line');
-                                    // add a new dummy-line after the default dummy-line, change the default dummy-line into a `line` and make all its children visible
-                                    // the new dummy-line become the default dummy-line
-                                    $dummy.after($dummy.outerHTML()).removeClass("dummy-line").addClass("line")
-                                            .children().show() // show newly added row
-                                            .end().children('.from').children().val(to + 1); // From = (last To value) + 1
-                                }
-                            });
-                        }, // for debugging purpose
-                        error: function(xhr) {
-                            console.log(xhr);
                         }
-                    });
-                } else {
-                    alert('Bạn nhập chưa đúng. Hãy kiểm tra lại dữ liệu nhập!');
-                }
-            });
+                        $tbody.append('' +
+                                '<tr class="dummy-line">' +
+                                '<td class="from" style="display: none;"><input style="width: 74px;" disabled="true" /></td>' +
+                                '<td class="to" style="display: none;"><input style="width: 74px;" /></td>' +
+                                '<td class="price" style="display: none;"><input style="width: 74px;" /></td>' +
+                                '<td class="remove" style="display: none;"><img src="view/image/price/delete.png" height="16" width="16" /></td>' +
+                                '</tr>' +
+                                '<tr class="plus">' +
+                                '<td><img src="view/image/price/add.png" height="16" width="16" /></td>' +
+                                '<td></td>' +
+                                '<td></td>' +
+                                '<td></td>' +
+                                '</tr>');
+                        // input check
+                        $('#dialog-update-electricity-standard').find('tbody').focusout(function(e) { // e: event object
+                            var $this = $(e.target).closest('.line'); // e.target points to the focus-lost element
+                            var $from = $this.children('.from').children();
+                            var $to = $this.children('.to').children();
+                            var $price = $this.children('.price').children();
+                            var to = $to.val();
+                            var from = $from.val();
+                            var price = $price.val();
+                            var isLastRow = $this.parent().is(':last-child');
+                            if (to == -1 && isLastRow) {
 
-            $('input[name="applyElectricityStandard"]').click(function() {
-                $('#dialog-apply-electricity-standard').dialog('open');
-            });
-
-            $('#dialog-apply-electricity-standard').dialog({
-                autoOpen: false,
-                draggable: true,
-                resizable: false,
-                position: 'center',
-                modal: true,
-                show: true,
-                minHeight: 'auto', // auto expand height
-                minWidth: 'auto',
-                buttons: {
-                    "Đồng ý": function() {
-                        var done = false;
-                        $.ajax({
-                            url: 'index.php?route=price/edit/applyElectricityStandardPrice&token=<?php echo $token; ?>',
-                            data: { 'id' : $('#electricity_modified_date').children('option').filter(':selected').val() },
-                            dataType: 'json',
-                            type: 'post',
-                            success: function() {
-                            },
-                            error: function(xhr) {
-                                console.log(xhr);
+                            } else if (to && parseInt(to) <= parseInt(from)) {
+                                alert ('Giá trị cột Đến kW phải lớn giá trị cột Từ kW');
+                                $to.focus().select();
+                            } else if (to && (!$.isNumeric(to) || parseInt(to) < 0)) {
+                                alert('Giá trị nhập vào không hợp lệ');
+                                $to.focus().select();
+                            } else if (price && (!$.isNumeric(price) || parseInt(price) < 0)) {
+                                alert('Giá trị nhập vào không hợp lệ');
+                                $price.focus().select();
+                            } else {
+                                // change value of From in the next row. From = (last row's To) + 1
+                                var $next = $this.next();
+                                if ($next) {
+                                    $next.children('.from').children().val(parseInt(to) + 1);
+                                }
                             }
                         });
-                        idApplyingElectricityStandardPrice = $('#electricity_modified_date').children('option').filter(':selected').val();
-                        $('#applyingElectricityStandardPrice').show();
-                        $('input[name="applyElectricityStandard"]').prop('disabled', true);
-                        $(this).dialog("close");
-                    },
-                    "Hủy bỏ": function() {
-                        $(this).dialog("close");
+                        $('.plus').on('click', function() {
+                            $toCell = $('#dialog-update-electricity-standard').find('.line').last().children('.to').children();
+                            to = parseInt($toCell.val());
+                            if (to == -1) {
+                                alert('Bạn phải nhập giá trị khác -1 cho cột Đến kW dòng cuối cùng trước khi thêm dòng mới')
+                            } else {
+                                // select dummy-line
+                                $dummy = $('.dummy-line');
+                                // add a new dummy-line after the default dummy-line, change the default dummy-line into a `line` and make all its children visible
+                                // the new dummy-line become the default dummy-line
+                                $dummy.after($dummy.outerHTML()).removeClass("dummy-line").addClass("line")
+                                        .children().show() // show newly added row
+                                        .end().children('.from').children().val(to + 1); // From = (last To value) + 1
+                            }
+                        });
+                    }, // for debugging purpose
+                    error: function(xhr) {
+                        console.log(xhr);
                     }
-                }
+                });
             });
 
             $('#from-date-electricity').datepicker({
-                dateFormat: 'dd-mm-yy',
-                onSelect: function(selectedDate) {
-                    var dateFrom = $('#from-date-electricity').datepicker('getDate');
-                    var dateTo = $('#to-date-electricity').datepicker('getDate');
-                    if (dateFrom && dateTo && dateFrom > dateTo) {
-                        alert('Ngày bắt đầu phải nhỏ hơn ngày kết thúc!');
-                        if (!$(this).hasClass('invalid')) {
-                            $(this).removeClass('valid');
-                            $(this).addClass('invalid');
-                        }
+                dateFormat: 'M yy',
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true,
+                onClose: function(selectedDate) {
+                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                    electricityUpdateDateFrom = new Date(year, month, 1);
+                    if (electricityUpdateDateFrom >= electricityLatestUpdateDate) {
+                        $(this).val($.datepicker.formatDate('M, yy', electricityUpdateDateFrom));
                     } else {
-                        if (!$(this).hasClass('valid')) {
-                            $(this).removeClass('invalid');
-                            $(this).addClass('valid');
-                        }
-                    }
-                    if (dateFrom < frDate) {
-                        alert("Không thể chọn ngày bắt đầu trong quá khứ!");
-                        if (!$(this).hasClass('invalid')) {
-                            $(this).removeClass('valid');
-                            $(this).addClass('invalid');
-                        }
-                    } else {
-                        if (!$(this).hasClass('valid')) {
-                            $(this).removeClass('invalid');
-                            $(this).addClass('valid');
-                        }
+                        alert('Thời điểm bắt đầu phải ở trong tương lai!');
                     }
                 }
             });
 
-            $('#to-date-electricity').datepicker({
-                dateFormat: 'dd-mm-yy',
-                onSelect: function(selectedDate) {
-                    var dateFrom = $('#from-date-electricity').datepicker('getDate');
-                    var dateTo = $('#to-date-electricity').datepicker('getDate');
-                    if (dateFrom && dateTo && dateFrom > dateTo) {
-                        alert('Ngày bắt đầu phải nhỏ hơn ngày kết thúc!');
-                        if (!$(this).hasClass('invalid')) {
-                            $(this).removeClass('valid');
-                            $(this).addClass('invalid');
-                        }
-                    } else {
-                        if (!$(this).hasClass('valid')) {
-                            $(this).removeClass('invalid');
-                            $(this).addClass('valid');
-                        }
-                    }
-                }
+            $('#from-date-electricity').focus(function() {
+                $(".ui-datepicker-calendar").hide();
+                $("#ui-datepicker-div").position({
+                    my: "center top",
+                    at: "center bottom",
+                    of: $(this)
+                });
             });
+
             //==========================================================================================================
             $.ajax({
-                url: 'index.php?route=price/edit/loadApplyingWaterStandardId&token=<?php echo $token; ?>',
-                dataType: 'json',
+                url: 'index.php?route=price/edit/getLatestWaterUpdateDate&token=<?php echo $token; ?>',
+                dateType: 'json',
                 type: 'post',
                 success: function(json) {
-                    idApplyingWaterStandardPrice = json['id'];
-                    if ($('#water_modified_date').children('option').filter(':selected').val() == idApplyingWaterStandardPrice) {
-                        $('#applyingWaterStandardPrice').show();
-                        $('input[name="applyWaterStandard"]').prop('disabled', true);
-                    } else {
-                        $('#applyingWaterStandardPrice').hide();
-                        $('input[name="applyWaterStandard"]').prop('disabled', false);
-                    }
+                    var obj = $.parseJSON(json);
+                    waterUpdateDateFrom = waterLatestUpdateDate = new Date(obj['year'], obj['month'], 1);
+                    $('#from-date-water').val($.datepicker.formatDate('M, yy', waterLatestUpdateDate));
                 },
                 error: function(xhr) {
                     console.log(xhr);
@@ -427,15 +356,10 @@
             });
 
             $('#water_modified_date').change(function() {
-                var $btnCreateNew = $('input[name="createNewWaterStandard"]');
-                var $fromDate = $('#from-date-water');
-                var $toDate = $('#to-date-water');
-                if ($(this).children('option').filter(':selected').val() == idApplyingWaterStandardPrice) {
-                    $('#applyingWaterStandardPrice').show();
-                    $('input[name="applyWaterStandard"]').prop('disabled', true);
+                if ($(this).children('option').filter(':selected').index() != 0) {
+                    $('input[name="createNewWaterStandard"]').prop('disabled', true);
                 } else {
-                    $('#applyingWaterStandardPrice').hide();
-                    $('input[name="applyWaterStandard"]').prop('disabled', false);
+                    $('input[name="createNewWaterStandard"]').prop('disabled', false);
                 }
                 $.blockUI({ message: '<h3><span><img src="view/image/price/preloader.gif" height="16" width="16" /></span> Đang tải dữ liệu...</h3>' });
                 $.ajax({
@@ -510,19 +434,22 @@
                                 jsonWaterNew.water_new[index].to = $(element).children('.to').children().val();
                                 jsonWaterNew.water_new[index].price = $(element).children('.price').children().val();
                             });
-                            var updateDateTo = '';
-                            var frDate = $('#from-date-water').val();
-                            var updateDateFrom = frDate.substr(6, 4) + '-' + frDate.substr(3, 2) + '-' + frDate.substr(0, 2);
-                            if ($('#to-date-water').val()) {
-                                var toDate = $('#to-date-water').val();
-                                updateDateTo = toDate.substr(6, 4) + '-' + toDate.substr(3, 2) + '-' + toDate.substr(0, 2);
-                            }
+                            var day = waterUpdateDateFrom.getDate();
+                            var month = waterUpdateDateFrom.getMonth() + 1;
+                            var year = waterUpdateDateFrom.getFullYear();
+                            var updateDate = year + '-' + month + '-' + day;
+                            var prevDate = waterUpdateDateFrom;
+                            prevDate.setDate(0);
+                            day = prevDate.getDate();
+                            month = prevDate.getMonth() + 1;
+                            year = prevDate.getFullYear();
+                            var endDate = year + '-' + month + '-' + day;
                             $.ajax({
                                 url: 'index.php?route=price/edit/updateWaterStandardPrice&token=<?php echo $token; ?>',
                                 data: {
                                     'water_new_data': jsonWaterNew,
-                                    'update_date_from': updateDateFrom,
-                                    'update_date_to': updateDateTo,
+                                    'update_date_from': updateDate,
+                                    'old_end_date': endDate,
                                     'id': idNewestWater
                                 },
                                 dataType: 'json',
@@ -665,10 +592,6 @@
                 }
             });
 
-            $('input[name="applyWaterStandard"]').click(function() {
-                $('#dialog-apply-water-standard').dialog('open');
-            });
-
             $('#dialog-apply-water-standard').dialog({
                 autoOpen: false,
                 draggable: true,
@@ -703,70 +626,39 @@
             });
 
             $('#from-date-water').datepicker({
-                dateFormat: 'dd-mm-yy',
-                onSelect: function(selectedDate) {
-                    var dateFrom = $('#from-date-water').datepicker('getDate');
-                    var dateTo = $('#to-date-water').datepicker('getDate');
-                    if (dateFrom && dateTo && dateFrom > dateTo) {
-                        alert('Ngày bắt đầu phải nhỏ hơn ngày kết thúc!');
-                        if (!$(this).hasClass('invalid')) {
-                            $(this).removeClass('valid');
-                            $(this).addClass('invalid');
-                        }
+                dateFormat: 'M yy',
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true,
+                onClose: function(selectedDate) {
+                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                    waterUpdateDateFrom = new Date(year, month, 1);
+                    if (waterUpdateDateFrom >= waterLatestUpdateDate) {
+                        $(this).val($.datepicker.formatDate('M, yy', waterUpdateDateFrom));
                     } else {
-                        if (!$(this).hasClass('valid')) {
-                            $(this).removeClass('invalid');
-                            $(this).addClass('valid');
-                        }
-                    }
-                    if (dateFrom < frDate) {
-                        alert("Không thể chọn ngày bắt đầu trong quá khứ!");
-                        if (!$(this).hasClass('invalid')) {
-                            $(this).removeClass('valid');
-                            $(this).addClass('invalid');
-                        }
-                    } else {
-                        if (!$(this).hasClass('valid')) {
-                            $(this).removeClass('invalid');
-                            $(this).addClass('valid');
-                        }
+                        alert('Thời điểm bắt đầu phải ở trong tương lai!');
                     }
                 }
             });
 
-            $('#to-date-water').datepicker({
-                dateFormat: 'dd-mm-yy',
-                onSelect: function(selectedDate) {
-                    var dateFrom = $('#from-date-water').datepicker('getDate');
-                    var dateTo = $('#to-date-water').datepicker('getDate');
-                    if (dateFrom && dateTo && dateFrom > dateTo) {
-                        alert('Ngày bắt đầu phải nhỏ hơn ngày kết thúc!');
-                        if (!$(this).hasClass('invalid')) {
-                            $(this).removeClass('valid');
-                            $(this).addClass('invalid');
-                        }
-                    } else {
-                        if (!$(this).hasClass('valid')) {
-                            $(this).removeClass('invalid');
-                            $(this).addClass('valid');
-                        }
-                    }
-                }
+            $('#from-date-water').focus(function() {
+                $(".ui-datepicker-calendar").hide();
+                $("#ui-datepicker-div").position({
+                    my: "center top",
+                    at: "center bottom",
+                    of: $(this)
+                });
             });
             //==========================================================================================================
             $.ajax({
-                url: 'index.php?route=price/edit/loadApplyingGarbageStandardId&token=<?php echo $token; ?>',
-                dataType: 'json',
+                url: 'index.php?route=price/edit/getLatestGarbageUpdateDate&token=<?php echo $token; ?>',
+                dateType: 'json',
                 type: 'post',
                 success: function(json) {
-                    idApplyingGarbageStandardPrice = json['id'];
-                    if ($('#garbage_modified_date').children('option').filter(':selected').val() == idApplyingGarbageStandardPrice) {
-                        $('#applyingGarbageStandardPrice').show();
-                        $('input[name="applyGarbageStandard"]').prop('disabled', true);
-                    } else {
-                        $('#applyingGarbageStandardPrice').hide();
-                        $('input[name="applyGarbageStandard"]').prop('disabled', false);
-                    }
+                    var obj = $.parseJSON(json);
+                    garbageUpdateDateFrom = garbageLatestUpdateDate = new Date(obj['year'], obj['month'], 1);
+                    $('#from-date-garbage').val($.datepicker.formatDate('M, yy', garbageLatestUpdateDate));
                 },
                 error: function(xhr) {
                     console.log(xhr);
@@ -1009,27 +901,6 @@
                 }
             });
 
-            $('#to-date-garbage').datepicker({
-                dateFormat: 'dd-mm-yy',
-                onSelect: function(selectedDate) {
-                    var dateFrom = $('#from-date-garbage').datepicker('getDate');
-                    var dateTo = $('#to-date-garbage').datepicker('getDate');
-                    if (dateFrom && dateTo && dateFrom > dateTo) {
-                        alert('Ngày bắt đầu phải nhỏ hơn ngày kết thúc!');
-                        if (!$(this).hasClass('invalid')) {
-                            $(this).removeClass('valid');
-                            $(this).addClass('invalid');
-                        }
-                    } else {
-                        if (!$(this).hasClass('valid')) {
-                            $(this).removeClass('invalid');
-                            $(this).addClass('valid');
-                        }
-                    }
-                }
-            });
-            var frDate = new Date();
-            //var updateDateFrom = frDate.substr(6, 4) + '-' + frDate.substr(3, 2) + '-' + frDate.substr(0, 2);
         });
     </script>
 </head>
@@ -1110,7 +981,7 @@
         <div class="table_electricity">
             <?php echo '<h3>' . $description_electricity . '</h3>'; ?>
             <div id="dialog-update-electricity-standard" title="Cập nhật">
-                <p><span style="color: red; font-weight: bold;">(*)</span> Nhập -1 vào cột Đến kW để kết thúc bảng định mức</p>
+                <p><span style="color: red; font-weight: bold;">(*)</span> Nhập -1 vào cột Đến kW ở dòng cuối cùng để kết thúc bảng định mức</p>
                 <table>
                     <thead>
                         <td><b><?php echo $text_electricity_from; ?></b></td>
@@ -1127,37 +998,30 @@
                 <select id="electricity_modified_date">
                     <?php
                     foreach ($electricity_last_modified_list as $row) {
-                    $from = date("d-m-Y", strtotime($row['from']));
+                    $from = date("m-Y", strtotime($row['from']));
                     if (!empty($row['to'])) {
-                        $to = date("d-m-Y", strtotime($row['to']));
+                        $to = date("m-Y", strtotime($row['to']));
                   ?>
-                    <option value="<?php echo $row['id']; ?>"><?php echo $from; ?> -> <?php echo $to; ?></option>
+                    <option value="<?php echo $row['id']; ?>"><?php echo $from; ?> ⇒ <?php echo $to; ?></option>
                     <?php
                     } else {
                   ?>
-                    <option value="<?php echo $row['id']; ?>"><?php echo $from; ?></option>
+                    <option value="<?php echo $row['id']; ?>"><?php echo $from; ?> ⇒ ∞</option>
                     <?php
                     }
                   ?>
                     ?>
                     <?php } ?>
                 </select>
-                <input type="button" value="ÁP DỤNG" name="applyElectricityStandard" style="float: none;" />
-            </div>
-            <div id="dialog-apply-electricity-standard" title="Áp dụng">
-                <p>Bạn có muốn áp dụng định mức này?</p>
             </div>
 
-            <div style="clear: both;"></div>
-            <div style="width: 200px;">
-                <div><p><?php echo $from_date; ?></p><input type="text" id="from-date-electricity"></div>
-                <div style="clear: both;"></div>
-                <div><p><?php echo $to_date; ?></p><input type="text" id="to-date-electricity"></div>
-                <div style="clear: both;"></div>
+            <div>
+                <?php echo $from_date; ?>
+                <input type="text" id="from-date-electricity" />
+                <input type="button" value="Thêm Mới" name="createNewElectricityStandard" />
             </div>
-            <input type="button" value="CẬP NHẬT" name="createNewElectricityStandard" style="float: none;" />
+
             <div class="left_info">
-                <p id="applyingElectricityStandardPrice" style="display: none;"><span style="color: #ff0000;">(*)</span> Định mức đang áp dụng</p>
                 <table class="electricity_standard_price">
                     <thead>
                         <td><b><?php echo $text_electricity_from; ?></b></td>
@@ -1203,37 +1067,29 @@
                 <select id="water_modified_date">
                     <?php
                     foreach ($water_last_modified_list as $row) {
-                    $from = date("d-m-Y", strtotime($row['from']));
+                    $from = date("m-Y", strtotime($row['from']));
                     if (!empty($row['to'])) {
-                        $to = date("d-m-Y", strtotime($row['to']));
+                        $to = date("m-Y", strtotime($row['to']));
                   ?>
-                    <option value="<?php echo $row['id']; ?>"><?php echo $from; ?> -> <?php echo $to; ?></option>
+                    <option value="<?php echo $row['id']; ?>"><?php echo $from; ?> ⇒ <?php echo $to; ?></option>
                     <?php
                     } else {
                   ?>
-                    <option value="<?php echo $row['id']; ?>"><?php echo $from; ?></option>
+                    <option value="<?php echo $row['id']; ?>"><?php echo $from; ?> ⇒ ∞</option>
                     <?php
                     }
                   ?>
                     ?>
                     <?php } ?>
                 </select>
-                <input type="button" value="ÁP DỤNG" name="applyWaterStandard" style="float: none;" />
             </div>
-            <div id="dialog-apply-water-standard" title="Áp dụng">
-                <p>Bạn có muốn áp dụng định mức này?</p>
+            <div>
+                <?php echo $from_date; ?>
+                <input type="text" id="from-date-water">
+                <input type="button" value="Thêm Mới" name="createNewWaterStandard" />
             </div>
 
-            <div style="clear: both;"></div>
-            <div style="width: 200px;">
-                <div><p><?php echo $from_date; ?></p><input type="text" id="from-date-water"></div>
-                <div style="clear: both;"></div>
-                <div><p><?php echo $to_date; ?></p><input type="text" id="to-date-water"></div>
-                <div style="clear: both;"></div>
-            </div>
-            <input type="button" value="CẬP NHẬT" name="createNewWaterStandard" style="float: none;" />
             <div class="left_info">
-                <p id="applyingWaterStandardPrice" style="display: none;"><span style="color: #ff0000;">(*)</span> Định mức đang áp dụng</p>
                 <table class="water_standard_price">
                     <thead>
                     <td><b><?php echo $text_water_from; ?></b></td>
@@ -1275,37 +1131,29 @@
                 <select id="garbage_modified_date">
                     <?php
                     foreach ($garbage_last_modified_list as $row) {
-                    $from = date("d-m-Y", strtotime($row['from']));
+                    $from = date("m-Y", strtotime($row['from']));
                     if (!empty($row['to'])) {
-                        $to = date("d-m-Y", strtotime($row['to']));
+                        $to = date("m-Y", strtotime($row['to']));
                   ?>
-                    <option value="<?php echo $row['id']; ?>"><?php echo $from; ?> -> <?php echo $to; ?></option>
+                    <option value="<?php echo $row['id']; ?>"><?php echo $from; ?> ⇒ <?php echo $to; ?></option>
                     <?php
                     } else {
                   ?>
-                    <option value="<?php echo $row['id']; ?>"><?php echo $from; ?></option>
+                    <option value="<?php echo $row['id']; ?>"><?php echo $from; ?> ⇒ ∞</option>
                     <?php
                     }
                   ?>
                     ?>
                     <?php } ?>
                 </select>
-                <input type="button" value="ÁP DỤNG" name="applyGarbageStandard" style="float: none;" />
             </div>
-            <div id="dialog-apply-garbage-standard" title="Áp dụng">
-                <p>Bạn có muốn áp dụng định mức này?</p>
+            <div>
+                <?php echo $from_date; ?>
+                <input type="text" id="from-date-garbage">
+                <input type="button" value="Thêm Mới" name="createNewGarbageStandard" />
             </div>
 
-            <div style="clear: both;"></div>
-            <div style="width: 200px;">
-                <div><p><?php echo $from_date; ?></p><input type="text" id="from-date-garbage"></div>
-                <div style="clear: both;"></div>
-                <div><p><?php echo $to_date; ?></p><input type="text" id="to-date-garbage"></div>
-                <div style="clear: both;"></div>
-            </div>
-            <input type="button" value="CẬP NHẬT" name="createNewGarbageStandard" style="float: none;" />
             <div class="left_info">
-                <p id="applyingGarbageStandardPrice" style="display: none;"><span style="color: #ff0000;">(*)</span> Định mức đang áp dụng</p>
                 <table class="garbage_standard_price">
                     <thead>
                     <td><b><?php echo $text_garbage_price; ?></b</td>

@@ -1,60 +1,55 @@
 #content {
     width: inherit;
 }
+
 .standard_price_show {
     float: left;
     width: 19%;
     padding-left: 0.5%;
 }
+
 .standard_price_edit {
     float: right;
     width: 79%;
     padding-left: 0.5%;
 }
-.standard_price_show, .standard_price_edit{
+
+.standard_price_show, .standard_price_edit {
     margin-top: 15px;
     -webkit-box-shadow: 1px 0px 1px 1px rgba(232,232,232,1);
     -moz-box-shadow: 1px 0px 1px 1px rgba(232,232,232,1);
     box-shadow: 1px 0px 1px 1px rgba(232,232,232,1);
 }
-.electricity_standard_price, .water_standard_price  {
-    width: 224px;
+
+.electricity_standard_price, .water_standard_price, .garbage_standard_price  {
+    width: 255px;
+}
+
+#electricity_modified_date, #water_modified_date, #garbage_modified_date {
+    margin-left: 5px;
+    width: 150px;
+}
+
+#from-date-electricity, #from-date-water, #from-date-garbage {
+    margin-left: 1em;
+    margin-right: 0.5em;
 }
 
 h2 {
     color: #0000ff;
 }
 
-input {
-    float: right;
+h3 {
+    color: orangered;
 }
-.table_electricity, .table_water {
+
+.table_electricity, .table_water, .table_garbage {
     width: 250px;
-}
-
-.table_electricity {
-    float: left;
-    width: 48%;
-}
-
-.table_water {
-    float: right;
-    width: 48%;
-}
-
-.vertical-line {
-    float: left;
-    border-left: 1px solid #808080;
-    height: 300px;
-    width: 1px;
 }
 
 .left_info {
     float: left;
     width: 230px;
-}
-.right_electricity_edit, .right_water_edit {
-    margin-left: 235px;
 }
 
 img:hover {
@@ -77,6 +72,15 @@ input[type=text] {
     padding: 3px 0px 3px 3px;
     margin: 5px 1px 3px 0px;
     border: 1px solid #DDDDDD;
+}
+
+.invalid {
+    border: 1px solid #CB000F;
+    color: red
+}
+
+.valid {
+    color: #000000;
 }
 
 .dlg-no-title .ui-dialog-titlebar {

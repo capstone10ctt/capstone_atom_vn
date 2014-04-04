@@ -1,6 +1,5 @@
 <?php
 class ControllerPriceEdit extends Controller {
-
     public function index() {
         $this->language->load('price/standard');
         $this->load->model('price/standard');
@@ -89,18 +88,19 @@ class ControllerPriceEdit extends Controller {
 
     public function updateElectricityStandardPrice() {
         $json = array();
-        if (!empty($this->request->post['update_date_from']) && !empty($this->request->post['update_date_to']) &&
+        if (!empty($this->request->post['update_date_from']) && !empty($this->request->post['old_end_date']) &&
             !empty($this->request->post['electricity_new_data']) &&
             !empty($this->request->post['id'])) {
             // retrieve passed data from View and stores it in variables
             $updateDateFrom = $this->request->post['update_date_from'];
-            $updateDateTo = $this->request->post['update_date_to'];
+            $oldEndDate = $this->request->post['old_end_date'];
             $electricity_new_data = $this->request->post['electricity_new_data'];
             $id = $this->request->post['id'];
+            // update the end date of old standard price
+            $this->db->query('UPDATE e_lifetime SET `to`= "' . $oldEndDate . '" WHERE id = "' . $id . '"');
             // update table
-            // check if update in the same day
-            $this->db->query('INSERT INTO e_lifetime (`from`, `to`) VALUES ("'. $updateDateFrom . '", "' . $updateDateTo . '")');
-            $newestId = $this->db->query('SELECT id FROM e_lifetime WHERE `from` = "' . $updateDateFrom . '" AND `to` = "' . $updateDateTo . '"')->row;
+            $this->db->query('INSERT INTO e_lifetime (`from`, `to`) VALUES ("'. $updateDateFrom . '", NULL)');
+            $newestId = $this->db->query('SELECT id FROM e_lifetime WHERE `from` = "' . $updateDateFrom . '" AND `to` IS NULL')->row;
             foreach ($electricity_new_data['electricity_new'] as $data) {
                 $this->db->query('INSERT INTO e_standard (`id`, `From`, `To`, `Price`) VALUES ("' . $newestId['id'] . '", "' . $data['from'] . '", "' . $data['to'] . '", "' . $data['price'] .'")');
             }
@@ -110,26 +110,16 @@ class ControllerPriceEdit extends Controller {
         $this->response->setOutput(json_encode($json));
     }
 
-    public function applyElectricityStandardPrice() {
-        $json = array();
-        if (!empty($this->request->post['id'])) {
-            $id = $this->request->post['id'];
-            $this->db->query('UPDATE e_lifetime SET `apply` = "0" WHERE `id` <> "'. $id . '"');
-            $this->db->query('UPDATE e_lifetime SET `apply` = "1" WHERE `id` = "' . $id . '"');
-            // set 'success' string in order to send back to the View
-            $json['success'] = 'success';
-        }
-        $this->response->setOutput(json_encode($json));
-    }
+    public function getLatestElectricityUpdateDate() {
+        $this->load->model('price/standard');
 
-    public function loadApplyingElectricityStandardId() {
         $json = array();
-        $temp = $this->db->query('SELECT `id` FROM e_lifetime WHERE `apply` = 1')->row;
-        $json['id'] = $temp['id'];
+        $latestUpdateDate = $this->model_price_standard->getLatestElectricityUpdateDate();
         $handle = fopen("log.txt","w");
-        fwrite($handle,var_export($json['id'], true));
+        fwrite($handle,var_export($latestUpdateDate, true));
         fclose($handle);
-        $json['success'] = 'success';
+        $json['month'] = $latestUpdateDate['Month'];
+        $json['year'] = $latestUpdateDate['Year'];
         $this->response->setOutput(json_encode($json));
     }
 
@@ -177,18 +167,19 @@ class ControllerPriceEdit extends Controller {
 
     public function updateWaterStandardPrice() {
         $json = array();
-        if (!empty($this->request->post['update_date_from']) && !empty($this->request->post['update_date_to']) &&
+        if (!empty($this->request->post['update_date_from']) && !empty($this->request->post['old_end_date']) &&
             !empty($this->request->post['water_new_data']) &&
             !empty($this->request->post['id'])) {
             // retrieve passed data from View and stores it in variables
             $updateDateFrom = $this->request->post['update_date_from'];
-            $updateDateTo = $this->request->post['update_date_to'];
+            $oldEndDate = $this->request->post['old_end_date'];
             $water_new_data = $this->request->post['water_new_data'];
             $id = $this->request->post['id'];
+            // update the end date of old standard price
+            $this->db->query('UPDATE w_lifetime SET `to`= "' . $oldEndDate . '" WHERE id = "' . $id . '"');
             // update table
-            // check if update in the same day
-            $this->db->query('INSERT INTO w_lifetime (`from`, `to`) VALUES ("'. $updateDateFrom . '", "' . $updateDateTo . '")');
-            $newestId = $this->db->query('SELECT id FROM w_lifetime WHERE `from` = "' . $updateDateFrom . '" AND `to` = "' . $updateDateTo . '"')->row;
+            $this->db->query('INSERT INTO w_lifetime (`from`, `to`) VALUES ("'. $updateDateFrom . '", NULL)');
+            $newestId = $this->db->query('SELECT id FROM w_lifetime WHERE `from` = "' . $updateDateFrom . '" AND `to` IS NULL')->row;
             foreach ($water_new_data['water_new'] as $data) {
                 $this->db->query('INSERT INTO w_standard (`id`, `From`, `To`, `Price`) VALUES ("' . $newestId['id'] . '", "' . $data['from'] . '", "' . $data['to'] . '", "' . $data['price'] .'")');
             }
@@ -198,26 +189,13 @@ class ControllerPriceEdit extends Controller {
         $this->response->setOutput(json_encode($json));
     }
 
-    public function applyWaterStandardPrice() {
-        $json = array();
-        if (!empty($this->request->post['id'])) {
-            $id = $this->request->post['id'];
-            $handle = fopen("log.txt","w");
-            fwrite($handle,var_export($id,true));
-            fclose($handle);
-            $this->db->query('UPDATE w_lifetime SET `apply` = "0" WHERE `id` <> "'. $id . '"');
-            $this->db->query('UPDATE w_lifetime SET `apply` = "1" WHERE `id` = "' . $id . '"');
-            // set 'success' string in order to send back to the View
-            $json['success'] = 'success';
-        }
-        $this->response->setOutput(json_encode($json));
-    }
+    public function getLatestWaterUpdateDate() {
+        $this->load->model('price/standard');
 
-    public function loadApplyingWaterStandardId() {
         $json = array();
-        $temp = $this->db->query('SELECT `id` FROM w_lifetime WHERE `apply` = 1')->row;
-        $json['id'] = $temp['id'];
-        $json['success'] = 'success';
+        $latestUpdateDate = $this->model_price_standard->getLatestWaterUpdateDate();
+        $json['month'] = $latestUpdateDate['Month'];
+        $json['year'] = $latestUpdateDate['Year'];
         $this->response->setOutput(json_encode($json));
     }
 
@@ -260,18 +238,19 @@ class ControllerPriceEdit extends Controller {
 
     public function updateGarbageStandardPrice() {
         $json = array();
-        if (!empty($this->request->post['update_date_from']) && !empty($this->request->post['update_date_to']) &&
+        if (!empty($this->request->post['update_date_from']) && !empty($this->request->post['old_end_date']) &&
             !empty($this->request->post['garbage_new_data']) &&
             !empty($this->request->post['id'])) {
             // retrieve passed data from View and stores it in variables
             $updateDateFrom = $this->request->post['update_date_from'];
-            $updateDateTo = $this->request->post['update_date_to'];
+            $oldEndDate = $this->request->post['old_end_date'];
             $garbage_new_data = $this->request->post['garbage_new_data'];
             $id = $this->request->post['id'];
+            // update the end date of old standard price
+            $this->db->query('UPDATE g_lifetime SET `to`= "' . $oldEndDate . '" WHERE id = "' . $id . '"');
             // update table
-            // check if update in the same day
-            $this->db->query('INSERT INTO g_lifetime (`from`, `to`) VALUES ("'. $updateDateFrom . '", "' . $updateDateTo . '")');
-            $newestId = $this->db->query('SELECT id FROM g_lifetime WHERE `from` = "' . $updateDateFrom . '" AND `to` = "' . $updateDateTo . '"')->row;
+            $this->db->query('INSERT INTO g_lifetime (`from`, `to`) VALUES ("'. $updateDateFrom . '", NULL)');
+            $newestId = $this->db->query('SELECT id FROM g_lifetime WHERE `from` = "' . $updateDateFrom . '" AND `to` IS NULL')->row;
             foreach ($garbage_new_data['garbage_new'] as $data) {
                 $this->db->query('INSERT INTO g_standard (`id`, `Price`) VALUES ("' . $newestId['id'] . '", "' . $data['price'] .'")');
             }
@@ -281,23 +260,13 @@ class ControllerPriceEdit extends Controller {
         $this->response->setOutput(json_encode($json));
     }
 
-    public function applyGarbageStandardPrice() {
-        $json = array();
-        if (!empty($this->request->post['id'])) {
-            $id = $this->request->post['id'];
-            $this->db->query('UPDATE g_lifetime SET `apply` = "0" WHERE `id` <> "'. $id . '"');
-            $this->db->query('UPDATE g_lifetime SET `apply` = "1" WHERE `id` = "' . $id . '"');
-            // set 'success' string in order to send back to the View
-            $json['success'] = 'success';
-        }
-        $this->response->setOutput(json_encode($json));
-    }
+    public function getLatestGarbageUpdateDate() {
+        $this->load->model('price/standard');
 
-    public function loadApplyingGarbageStandardId() {
         $json = array();
-        $temp = $this->db->query('SELECT `id` FROM g_lifetime WHERE `apply` = 1')->row;
-        $json['id'] = $temp['id'];
-        $json['success'] = 'success';
+        $latestUpdateDate = $this->model_price_standard->getLatestGarbageUpdateDate();
+        $json['month'] = $latestUpdateDate['Month'];
+        $json['year'] = $latestUpdateDate['Year'];
         $this->response->setOutput(json_encode($json));
     }
 
