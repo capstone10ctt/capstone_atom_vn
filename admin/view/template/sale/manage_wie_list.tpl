@@ -906,9 +906,11 @@
 //					alert('roomname: '+ roomname);
 				}
 				else {
-					$("#student_info").html('');
-					$("#student_info").append('<div id="checkOkImg" style="display:none;margin:5px 0px 5px 0px;"><img src="view/image/check_fail.png" style="width:32px;height:32px;" alt =""/><p style="top:-10px;width:70%!important"><?php echo $text_no_student; ?></span></p>'); 
-					$("#checkOkImg").fadeIn(1000);
+					loadingForm(false);
+					alert('<?php echo $text_no_student; ?>');
+					//$("#student_info").html('');
+					//$("#student_info").append('<div id="checkOkImg" style="display:none;margin:5px 0px 5px 0px;"><img src="view/image/check_fail.png" style="width:32px;height:32px;" alt =""/><p style="top:-10px;width:70%!important"><?php echo $text_no_student; ?></span></p>'); 
+					//$("#checkOkImg").fadeIn(1000);
 				}
 			},
 			error : function(error) {
