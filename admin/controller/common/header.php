@@ -132,7 +132,7 @@ class ControllerCommonHeader extends Controller {
 			$this->data['customer_fields'] = $this->url->link('sale/customer_field', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['customer_group'] = $this->url->link('sale/customer_group', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['customer_approval'] = $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'], 'SSL');
-			$this->data['manage_wie_limit'] = $this->url->link('price/standard', 'token=' . $this->session->data['token'], 'SSL');
+			$this->data['manage_wie_limit'] = $this->url->link('price/edit', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['manage_wie'] = $this->url->link('sale/manage_wie', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['manage_email_templates'] = $this->url->link('catalog/template_email', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['customer_ban_ip'] = $this->url->link('sale/customer_ban_ip', 'token=' . $this->session->data['token'], 'SSL');
