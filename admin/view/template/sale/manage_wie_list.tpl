@@ -424,6 +424,14 @@
 	var cur_history = '';
 	var temp_room = 0;
     $( document ).ready(function() {
+		var month = (new Date).getMonth() + 1;
+		var year = (new Date).getFullYear();
+		
+		cur_history = month + '-' + year;
+		//alert(cur_history);
+		$("#sel_history").val(cur_history);
+		filterRoomByFloorView();
+		
 	  $("body").bind("keyup", function(e){
 			e.preventDefault();
 			//console.log(String.fromCharCode(e.which));  
