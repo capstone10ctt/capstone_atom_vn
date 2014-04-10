@@ -439,16 +439,14 @@ class ControllerToolImport extends Controller {
 					$data['electric_usage'][] = $temp_elec;
 					$data['water_usage'][] = $temp_water;
 				
-			       if($this->session->data['col_addeddate'] != '') {
-					   if($this->session->data['sheetData'][$i][$this->session->data['col_addeddate']] != '') {
-						   //echo $this->session->data['sheetData'][$i][$this->session->data['col_addeddate']].'<br/>';
-						   $d = DateTime::createFromFormat('d/m/Y', $this->session->data['sheetData'][$i][$this->session->data['col_addeddate']]);
-						   //$my_date = date('d-m-Y', strtotime($this->session->data['col_addeddate']));
-							$data['year'] = $d->format('Y');
-							$data['month'] = $d->format('m');
-							$is_set = true;
-					   }
-					}
+			       if($this->session->data['sheetData'][$i][$this->session->data['col_addeddate']] != '') {
+					   //echo $this->session->data['sheetData'][$i][$this->session->data['col_addeddate']].'<br/>';
+					   $d = DateTime::createFromFormat('d/m/Y', $this->session->data['sheetData'][$i][$this->session->data['col_addeddate']]);
+					   //$my_date = date('d-m-Y', strtotime($this->session->data['col_addeddate']));
+						$data['year'] = $d->format('Y');
+						$data['month'] = $d->format('m');
+						$is_set = true;
+				   }
 					else if(!$is_set){
 						$data['year'] = date('Y');
 						$data['month'] = date('m');
