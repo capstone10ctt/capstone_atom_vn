@@ -1,7 +1,23 @@
 <?php
 class ModelSaleManageWie extends Model {
 	
-	
+	public function getCardList() {
+		$query = $this->db->query("SELECT card_id FROM `" . DB_PREFIX . "card_id_to_student_id`");
+		
+		$list = array();
+		foreach($query->rows as $row) {
+			$list[] =  $row['card_id'];  
+		}
+
+		return $list;
+	}
+	public function inputNewCard($card_id,$student_id){
+		$this->db->query("INSERT INTO " . DB_PREFIX . "card_id_to_student_id SET `card_id` = '" . $this->db->escape($card_id) . "', `student_id` = '" . $this->db->escape($student_id) . "'");
+	}
+	public function deleteOldCard($card_id) {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "card_id_to_student_id` WHERE card_id = '" . $this->db->escape($card_id) . "'");
+	}
+
 	public function savelog($data){
 		$this->db->query("INSERT INTO " . DB_PREFIX . "logs SET `action` = '" . $this->db->escape($data['action']) . "', `reason` = '" . $this->db->escape($data['reason']) . "', `date_added` = NOW(), `factor` = '" . $this->db->escape($data['factor']) . "'");
 	}
