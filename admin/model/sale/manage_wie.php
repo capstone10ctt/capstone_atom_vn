@@ -518,7 +518,7 @@ class ModelSaleManageWie extends Model {
 							}
 							
 							
-							$money = $this->roundMoney($this->calculate_money_elec($e_standard, $e_usage)_;
+							$money = $this->roundMoney($this->calculate_money_elec($e_standard, $e_usage));
 							
 							$floors_input[$floor_idx]['epay'] += $money;
 							if($charge!='no')
@@ -1486,7 +1486,7 @@ class ModelSaleManageWie extends Model {
 		$temp = 0;
 		foreach ($w as $z)
 		{
-			if($w_usage > $z['To'])
+			if($z['To'] != -1 && $w_usage > $z['To'])
 			{
 				$money += ($z['To']-$z['From'])*$z['Price']*$total_student;
 			}
@@ -1523,7 +1523,7 @@ class ModelSaleManageWie extends Model {
 	function roundMoney($num) {
 		$result = $num;
 		$remainder = $num % 500;
-		$qoutient = (int)((int)$num / 500);
+		$qoutient = (int)($num / 500);
 		if($remainder > 0 && $remainder >= 250) {
 			$result = ($qoutient + 1)* 500;
 		}
