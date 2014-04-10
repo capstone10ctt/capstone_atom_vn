@@ -17,7 +17,7 @@ class ModelSaleManageWie extends Model {
 	public function deleteOldCard($card_id) {
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "card_id_to_student_id` WHERE card_id = '" . $this->db->escape($card_id) . "'");
 	}
-
+	
 	public function savelog($data){
 		$this->db->query("INSERT INTO " . DB_PREFIX . "logs SET `action` = '" . $this->db->escape($data['action']) . "', `reason` = '" . $this->db->escape($data['reason']) . "', `date_added` = NOW(), `factor` = '" . $this->db->escape($data['factor']) . "'");
 	}
@@ -379,7 +379,7 @@ class ModelSaleManageWie extends Model {
 							}
 							
 							
-							$money = $this->calculate_money_elec($e_standard, $e_usage);
+							$money = $this->roundMoney($this->calculate_money_elec($e_standard, $e_usage));
 							
 							$floors_input[$floor_idx]['epay'] += $money;
 							if($charge!='no')
@@ -518,7 +518,7 @@ class ModelSaleManageWie extends Model {
 							}
 							
 							
-							$money = $this->calculate_money_elec($e_standard, $e_usage);
+							$money = $this->roundMoney($this->calculate_money_elec($e_standard, $e_usage)_;
 							
 							$floors_input[$floor_idx]['epay'] += $money;
 							if($charge!='no')
@@ -527,7 +527,7 @@ class ModelSaleManageWie extends Model {
 							}
 						}
 						
-						$water = $this->roundMoney($this->model_sale_manage_wie->getWaterLogByRoomIdDate($result['customer_group_id'],$mm, $yy));					
+						$water = $this->model_sale_manage_wie->getWaterLogByRoomIdDate($result['customer_group_id'],$mm, $yy);					
 						//echo '<br/>nuoc:<br/>'.print_r($water);
 						if(isset($water)) {
 							//$billing_wie_classified[$result['customer_group_id']]['water'] = $water ;
@@ -650,7 +650,7 @@ class ModelSaleManageWie extends Model {
 							}
 							
 							
-							$money = $this->calculate_money_elec($e_standard, $e_usage);
+							$money = $this->roundMoney($this->calculate_money_elec($e_standard, $e_usage));
 							
 							$rooms_input[$room_idx]['epay'] += $money;
 							if($charge!='no')
@@ -659,7 +659,7 @@ class ModelSaleManageWie extends Model {
 							}
 						}
 						
-						$water = $this->roundMoney($this->model_sale_manage_wie->getWaterLogByRoomIdDate($rooms_input[$room_idx]['customer_group_id'],$mm, $yy));					
+						$water = $this->model_sale_manage_wie->getWaterLogByRoomIdDate($rooms_input[$room_idx]['customer_group_id'],$mm, $yy);					
 						//echo '<br/>nuoc:<br/>'.print_r($water);
 						if(isset($water)) {
 							//$billing_wie_classified[$result['customer_group_id']]['water'] = $water ;
@@ -1494,7 +1494,7 @@ class ModelSaleManageWie extends Model {
 			{
 				$money += ($w_usage-$z['From'])*$z['Price']*$total_student;
 				break;
-		}
+			}
 		}
 		return $money;
 	}
