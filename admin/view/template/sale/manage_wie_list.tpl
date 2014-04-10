@@ -54,6 +54,7 @@
                 <tr>
                 	<td><?php echo $text_history?></td>
                      <td><select id="sel_history" onchange="cur_history = this.value;filterRoomByFloorView()">
+                     		<option value=""><?php echo $text_select; ?></option>
                         <?php foreach($histories as $history) { ?>
                           <option value="<?php echo $history ?>"><?php echo $history; ?></option>
                         <?php } ?>
