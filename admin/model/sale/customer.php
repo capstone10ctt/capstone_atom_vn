@@ -129,6 +129,13 @@ class ModelSaleCustomer extends Model {
 
 		return $query->rows;
 	}
+
+	public function getFields()
+	{
+		$query = $this->db->query( "SELECT DISTINCT field_id, field_name FROM " . DB_PREFIX . "field_description WHERE language_id = '" . (int)$this->config->get('config_language_id') ."'");
+
+		return $query->rows;
+	}
 	public function getCustomerGroupIdFromFloor($parent_id = 0)
 	{
 		$query = $this->db->query( "SELECT cgd.customer_group_id, cg.name FROM " . DB_PREFIX . "customer_group cg LEFT JOIN ". DB_PREFIX ."customer_group_description cgd ON(cg.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') ."' AND cg.floor_id = '" . (int)$parent_id . "'");
@@ -141,8 +148,20 @@ class ModelSaleCustomer extends Model {
 		$implode = array();
 		// start LMT
 
+		if (!empty($data['filter_id'])) {
+			$implode[] = "student_id LIKE '%" . $this->db->escape($data['filter_id']) . "%'";
+		}
+
+		if (!empty($data['filter_field'])) {
+			$implode[] = "field = '" . (int)$data['filter_field'] . "'";
+		}
+
 		if (isset($data['filter_gender']) && !is_null($data['filter_gender'])) {
 			$implode[] = "c.gender = '" . (int)$data['filter_gender'] . "'";
+		}
+
+		if (!empty($data['filter_telephone'])) {
+			$implode[] = "c.telephone LIKE '%" . $this->db->escape($data['filter_telephone']) . "%'";
 		}
 		if (!empty($data['filter_date_of_birth'])) {
 			$implode[] = "c.date_of_birth LIKE '%" . $this->db->escape(date("Y-m-d", strtotime($data['filter_date_of_birth']))) . "%'";
@@ -212,6 +231,7 @@ class ModelSaleCustomer extends Model {
 			// start LMT
 			'student_id',
 			'name',
+			'field',
 			'gender',
 			'date_of_birth',
 			'university',
@@ -264,7 +284,7 @@ class ModelSaleCustomer extends Model {
 
 		if ($customer_info) {
 			$this->db->query("UPDATE " . DB_PREFIX . "customer SET approved = '1' WHERE customer_id = '" . (int)$customer_id . "'");
-
+			/*
 			$this->language->load('mail/customer');
 			
 			$this->load->model('setting/store');
@@ -299,7 +319,15 @@ class ModelSaleCustomer extends Model {
 			$mail->setSender($store_name);
 			$mail->setSubject(html_entity_decode(sprintf($this->language->get('text_approve_subject'), $store_name), ENT_QUOTES, 'UTF-8'));
 			$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
-			$mail->send();
+			$mail->send();*/
+		}		
+	}
+
+	public function unapprove($customer_id) {
+		$customer_info = $this->getCustomer($customer_id);
+
+		if ($customer_info) {
+			$this->db->query("UPDATE " . DB_PREFIX . "customer SET approved = '0' WHERE customer_id = '" . (int)$customer_id . "'");
 		}		
 	}
 		
@@ -376,6 +404,14 @@ class ModelSaleCustomer extends Model {
 		
 		$implode = array();
 		
+		if (!empty($data['filter_id'])) {
+			$implode[] = "student_id LIKE '%" . $this->db->escape($data['filter_id']) . "%'";
+		}
+
+		if (!empty($data['filter_field'])) {
+			$implode[] = "field = '" . (int)$data['filter_field'] . "'";
+		}
+
 		if (!empty($data['filter_name'])) {
 			$implode[] = "CONCAT(firstname, ' ', lastname) LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
 		}

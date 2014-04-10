@@ -414,7 +414,7 @@ class ModelSaleManageWie extends Model {
 								$charge = 'no';
 							}
 							
-							$money = $this->calculate_money_water($w_standard, $w_usage, $result['customer_group_id']);
+							$money = $this->roundMoney($this->calculate_money_water($w_standard, $w_usage, $result['customer_group_id']));
 							$floors_input[$floor_idx]['wpay'] += $money;
 							if($charge!='no')
 							{
@@ -527,7 +527,7 @@ class ModelSaleManageWie extends Model {
 							}
 						}
 						
-						$water = $this->model_sale_manage_wie->getWaterLogByRoomIdDate($result['customer_group_id'],$mm, $yy);					
+						$water = $this->roundMoney($this->model_sale_manage_wie->getWaterLogByRoomIdDate($result['customer_group_id'],$mm, $yy));					
 						//echo '<br/>nuoc:<br/>'.print_r($water);
 						if(isset($water)) {
 							//$billing_wie_classified[$result['customer_group_id']]['water'] = $water ;
@@ -553,7 +553,7 @@ class ModelSaleManageWie extends Model {
 								$charge = 'no';
 							}
 							
-							$money = $this->calculate_money_water($w_standard, $w_usage, $result['customer_group_id']);
+							$money = $this->roundMoney($this->calculate_money_water($w_standard, $w_usage, $result['customer_group_id']));
 
 							$floors_input[$floor_idx]['wpay'] += $money;
 							if($charge!='no')
@@ -659,7 +659,7 @@ class ModelSaleManageWie extends Model {
 							}
 						}
 						
-						$water = $this->model_sale_manage_wie->getWaterLogByRoomIdDate($rooms_input[$room_idx]['customer_group_id'],$mm, $yy);					
+						$water = $this->roundMoney($this->model_sale_manage_wie->getWaterLogByRoomIdDate($rooms_input[$room_idx]['customer_group_id'],$mm, $yy));					
 						//echo '<br/>nuoc:<br/>'.print_r($water);
 						if(isset($water)) {
 							//$billing_wie_classified[$result['customer_group_id']]['water'] = $water ;
@@ -685,7 +685,7 @@ class ModelSaleManageWie extends Model {
 								$charge = 'no';
 							}
 							
-							$money = $this->calculate_money_water($w_standard, $w_usage, $rooms_input[$room_idx]['customer_group_id']);
+							$money = $this->roundMoney($this->calculate_money_water($w_standard, $w_usage, $rooms_input[$room_idx]['customer_group_id']));
 							//echo "$w_usage: $money<br />";
 							$rooms_input[$room_idx]['wpay'] += $money;
 							if($charge!='no')
@@ -1486,9 +1486,15 @@ class ModelSaleManageWie extends Model {
 		$temp = 0;
 		foreach ($w as $z)
 		{
-			$money += $z['Price']*$total_student;
-			if($w_usage <= $z['To'])
+			if($w_usage > $z['To'])
+			{
+				$money += ($z['To']-$z['From'])*$z['Price']*$total_student;
+			}
+			else 
+			{
+				$money += ($w_usage-$z['From'])*$z['Price']*$total_student;
 				break;
+		}
 		}
 		return $money;
 	}
@@ -1517,7 +1523,7 @@ class ModelSaleManageWie extends Model {
 	function roundMoney($num) {
 		$result = $num;
 		$remainder = $num % 500;
-		$qoutient = (int)($num / 500);
+		$qoutient = (int)((int)$num / 500);
 		if($remainder > 0 && $remainder >= 250) {
 			$result = ($qoutient + 1)* 500;
 		}

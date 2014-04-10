@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']         = 'Students';
+$_['heading_title']         = 'Verify Students';
 
 /////////////////////// Modification//////////////////////
 // ID: 1051015	 	 	 	
@@ -14,6 +14,7 @@ $_['heading_title']         = 'Students';
 // + $_['error_bed']: line 42
 //////////////////////////////////////////////////////////////
 // start LMT
+$_['column_field']           = 'Field';
 $_['column_student_id']           = 'Student ID';
 $_['column_gender']           = 'Gender';
 $_['column_university']           = 'university';
