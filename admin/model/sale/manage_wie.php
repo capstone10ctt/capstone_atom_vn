@@ -80,16 +80,17 @@ class ModelSaleManageWie extends Model {
 	
 	public function getHistories() {
 		$periods = array();
-		$query = $this->db->query("SELECT DISTINCT date_added FROM " . DB_PREFIX . "e_record ORDER BY date_added DESC");
+		$query = $this->db->query("SELECT date_added FROM " . DB_PREFIX . "e_record ORDER BY date_added DESC");
 		
 		if($query->num_rows) {
 			foreach($query->rows as $row) {
 				$month = date('m',strtotime($row['date_added']));
 				$year = date('Y',strtotime($row['date_added']));
 				
-				$period = $month.'-'.$year;
-				
-				$periods[] = $period;
+				$period = (int)$month.'-'.$year;
+				if(!in_array($period,$periods)) {
+					$periods[] = $period;
+				}
 			}
 		}
 		
@@ -117,8 +118,8 @@ class ModelSaleManageWie extends Model {
 			$cur_month = (int)$h_array[0];
 		}
 		else {
-		 	$cur_year = date('Y');
-			$cur_month = date('m');
+		 	$cur_year = (int)date('Y');
+			$cur_month = (int)date('m');
 		}
 		
 		
