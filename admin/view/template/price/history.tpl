@@ -41,7 +41,7 @@
         /*=======================================*/
 
         /* Display vertical line among columns in tables positioned in Compare section */
-        table.compare-electricity_standard_price {
+        table.compare-electricity_standard_price, table.compare-water_standard_price {
             border-collapse: collapse;
         }
 
@@ -49,7 +49,7 @@
             border: none;
         }
 
-        .compare-electricity_standard_price td {
+        .compare-electricity_standard_price td, .compare-water_standard_price td{
             padding-left: 2em;
             padding-right: 2em;
             border-right: solid 1px;
@@ -120,10 +120,82 @@
                 });
             });
 
+            $('#water_modified_date').change(function() {
+                $.blockUI({ message: '<h3><span><img src="view/image/price/preloader.gif" height="16" width="16" /></span> Đang tải dữ liệu...</h3>' });
+                $.ajax({
+                    url: 'index.php?route=price/edit/loadWaterStandardPrice&token=<?php echo $token; ?>',
+                    data: { 'id' : $(this).children('option').filter(':selected').val() },
+                    dataType: 'json',
+                    type: 'post',
+                    success: function(json) {
+                        var $edit = $('.water_standard_price').find('tbody');
+                        // delete all current lines in the table
+                        $edit.empty();
+                        // loop all elements in a list of objects
+                        for (var index in json['data']) {
+                            var price = parseInt(json['data'][index]['Price']);
+                            var to = json['data'][index]['To'];
+                            if (to == -1) {
+                                to = '';
+                            }
+                            // add new lines represent the standard price corresponding to the inputted date
+                            $edit.append('<tr class="line">' +
+                                    '<td class="from">' + json['data'][index]['From'] + '</td>' +
+                                    '<td class="to">' + to + '</td>' +
+                                    '<td class="price">' + price.format() + '&nbsp₫</td>' + // format function: convert 1234 -> 1,234
+                                    '</tr>');
+                        }
+                    }, // for debugging purpose
+                    error: function(xhr) {
+                        console.log(xhr);
+                    }
+                });
+            });
+
+            $('#garbage_modified_date').change(function() {
+                $.blockUI({ message: '<h3><span><img src="view/image/price/preloader.gif" height="16" width="16" /></span> Đang tải dữ liệu...</h3>' });
+                $.ajax({
+                    url: 'index.php?route=price/edit/loadGarbageStandardPrice&token=<?php echo $token; ?>',
+                    data: { 'id' : $(this).children('option').filter(':selected').val() },
+                    dataType: 'json',
+                    type: 'post',
+                    success: function(json) {
+                        var $edit = $('.garbage_standard_price').find('tbody');
+                        // delete all current lines in the table
+                        $edit.empty();
+                        // loop all elements in a list of objects
+                        for (var index in json['data']) {
+                            var price = parseInt(json['data'][index]['Price']);
+                            var to = json['data'][index]['To'];
+                            if (to == -1) {
+                                to = '';
+                            }
+                            // add new lines represent the standard price corresponding to the inputted date
+                            $edit.append('<tr class="line">' +
+                                    '<td class="from">' + json['data'][index]['From'] + '</td>' +
+                                    '<td class="to">' + to + '</td>' +
+                                    '<td class="price">' + price.format() + '&nbsp₫</td>' + // format function: convert 1234 -> 1,234
+                                    '</tr>');
+                        }
+                    }, // for debugging purpose
+                    error: function(xhr) {
+                        console.log(xhr);
+                    }
+                });
+            });
+
             $('.content-compare').hide();
 
-            $('.link-compare > a').click(function() {
-                $('.content-compare').toggle();
+            $('.table_electricity > .link-compare > a').click(function() {
+                $('.table_electricity > .content-compare').toggle();
+            });
+
+            $('.table_water > .link-compare > a').click(function() {
+                $('.table_water > .content-compare').toggle();
+            });
+
+            $('.table_garbage > .link-compare > a').click(function() {
+                $('.table_garbage > .content-compare').toggle();
             });
 
             $('#compare-electricity_modified_date').change(function() {
@@ -135,6 +207,70 @@
                     type: 'post',
                     success: function(json) {
                         var $edit = $('.compare-electricity_standard_price').find('tbody');
+                        // delete all current lines in the table
+                        $edit.empty();
+                        // loop all elements in a list of objects
+                        for (var index in json['data']) {
+                            var price = parseInt(json['data'][index]['Price']);
+                            var to = json['data'][index]['To'];
+                            if (to == -1) {
+                                to = '';
+                            }
+                            // add new lines represent the standard price corresponding to the inputted date
+                            $edit.append('<tr class="line">' +
+                                    '<td class="from">' + json['data'][index]['From'] + '</td>' +
+                                    '<td class="to">' + to + '</td>' +
+                                    '<td class="price">' + price.format() + '&nbsp₫</td>' + // format function: convert 1234 -> 1,234
+                                    '</tr>');
+                        }
+                    }, // for debugging purpose
+                    error: function(xhr) {
+                        console.log(xhr);
+                    }
+                });
+            });
+
+            $('#compare-water_modified_date').change(function() {
+                $.blockUI({ message: '<h3><span><img src="view/image/price/preloader.gif" height="16" width="16" /></span> Đang tải dữ liệu...</h3>' });
+                $.ajax({
+                    url: 'index.php?route=price/edit/loadWaterStandardPrice&token=<?php echo $token; ?>',
+                    data: { 'id' : $(this).children('option').filter(':selected').val() },
+                    dataType: 'json',
+                    type: 'post',
+                    success: function(json) {
+                        var $edit = $('.compare-water_standard_price').find('tbody');
+                        // delete all current lines in the table
+                        $edit.empty();
+                        // loop all elements in a list of objects
+                        for (var index in json['data']) {
+                            var price = parseInt(json['data'][index]['Price']);
+                            var to = json['data'][index]['To'];
+                            if (to == -1) {
+                                to = '';
+                            }
+                            // add new lines represent the standard price corresponding to the inputted date
+                            $edit.append('<tr class="line">' +
+                                    '<td class="from">' + json['data'][index]['From'] + '</td>' +
+                                    '<td class="to">' + to + '</td>' +
+                                    '<td class="price">' + price.format() + '&nbsp₫</td>' + // format function: convert 1234 -> 1,234
+                                    '</tr>');
+                        }
+                    }, // for debugging purpose
+                    error: function(xhr) {
+                        console.log(xhr);
+                    }
+                });
+            });
+
+            $('#compare-garbage_modified_date').change(function() {
+                $.blockUI({ message: '<h3><span><img src="view/image/price/preloader.gif" height="16" width="16" /></span> Đang tải dữ liệu...</h3>' });
+                $.ajax({
+                    url: 'index.php?route=price/edit/loadGarbageStandardPrice&token=<?php echo $token; ?>',
+                    data: { 'id' : $(this).children('option').filter(':selected').val() },
+                    dataType: 'json',
+                    type: 'post',
+                    success: function(json) {
+                        var $edit = $('.compare-garbage_standard_price').find('tbody');
                         // delete all current lines in the table
                         $edit.empty();
                         // loop all elements in a list of objects
@@ -263,6 +399,24 @@
     <div class="table_water">
         <?php echo '<h3>' . $description_water . '</h3>'; ?>
         <?php echo $valid_date_range; ?>
+        <select id="water_modified_date">
+            <?php
+                    foreach ($water_last_modified_list as $row) {
+                    $from = date("m-Y", strtotime($row['from']));
+                    if (!empty($row['to'])) {
+                        $to = date("m-Y", strtotime($row['to']));
+                  ?>
+            <option value="<?php echo $row['id']; ?>">Từ <?php echo $from; ?> Đến <?php echo $to; ?></option>
+            <?php
+                    } else {
+                  ?>
+            <option value="<?php echo $row['id']; ?>">Từ <?php echo $from; ?> trở đi</option>
+            <?php
+                    }
+                  ?>
+            ?>
+            <?php } ?>
+        </select>
         <br />
         <br />
         <table class="water_standard_price">
@@ -288,13 +442,74 @@
             </tbody>
         </table>
         <div class="link-compare"><a>So Sánh</a></div>
+        <br />
         <div class="content-compare">
-
+            <?php echo $valid_date_range; ?>
+            <select id="compare-water_modified_date">
+                <?php
+                    foreach ($water_last_modified_list as $row) {
+                    $from = date("m-Y", strtotime($row['from']));
+                    if (!empty($row['to'])) {
+                        $to = date("m-Y", strtotime($row['to']));
+                  ?>
+                <option value="<?php echo $row['id']; ?>">Từ <?php echo $from; ?> Đến <?php echo $to; ?></option>
+                <?php
+                    } else {
+                  ?>
+                <option value="<?php echo $row['id']; ?>">Từ <?php echo $from; ?> trở đi</option>
+                <?php
+                    }
+                  ?>
+                ?>
+                <?php } ?>
+            </select>
+            <br />
+            <br />
+            <table class="compare-water_standard_price">
+                <thead>
+                <td><b><?php echo $text_water_from; ?></b></td>
+                <td><b><?php echo $text_water_to; ?></b></td>
+                <td><b><?php echo $text_water_price; ?></b</td>
+                </thead>
+                <tbody>
+                <?php
+                if ($w_standard) {
+                    foreach ($w_standard as $row) {
+                ?>
+                <tr class="line">
+                    <td class="from"><?php echo $row['From']; ?></td>
+                    <td class="to"><?php if ($row['To'] != -1) echo $row['To']; ?></td>
+                    <td class="price"><?php echo number_format($row['Price']); ?>&nbsp₫</td>
+                </tr>
+                <?php
+                    }
+                }
+                ?>
+                </tbody>
+            </table>
         </div>
     </div>
     <div class="table_garbage">
         <?php echo '<h3>' . $description_garbage . '</h3>'; ?>
         <?php echo $valid_date_range; ?>
+        <select id="compare-garbage_modified_date">
+            <?php
+                    foreach ($garbage_last_modified_list as $row) {
+                    $from = date("m-Y", strtotime($row['from']));
+                    if (!empty($row['to'])) {
+                        $to = date("m-Y", strtotime($row['to']));
+                  ?>
+            <option value="<?php echo $row['id']; ?>">Từ <?php echo $from; ?> Đến <?php echo $to; ?></option>
+            <?php
+                    } else {
+                  ?>
+            <option value="<?php echo $row['id']; ?>">Từ <?php echo $from; ?> trở đi</option>
+            <?php
+                    }
+                  ?>
+            ?>
+            <?php } ?>
+        </select>
         <br />
         <br />
         <table class="garbage_standard_price">
@@ -316,8 +531,47 @@
             </tbody>
         </table>
         <div class="link-compare"><a>So Sánh</a></div>
+        <br />
         <div class="content-compare">
-
+            <?php echo $valid_date_range; ?>
+            <select id="compare-garbage_modified_date">
+                <?php
+                    foreach ($garbage_last_modified_list as $row) {
+                    $from = date("m-Y", strtotime($row['from']));
+                    if (!empty($row['to'])) {
+                        $to = date("m-Y", strtotime($row['to']));
+                  ?>
+                <option value="<?php echo $row['id']; ?>">Từ <?php echo $from; ?> Đến <?php echo $to; ?></option>
+                <?php
+                    } else {
+                  ?>
+                <option value="<?php echo $row['id']; ?>">Từ <?php echo $from; ?> trở đi</option>
+                <?php
+                    }
+                  ?>
+                ?>
+                <?php } ?>
+            </select>
+            <br />
+            <br />
+            <table class="compare-garbage_standard_price">
+                <thead>
+                <td><b><?php echo $text_garbage_price; ?></b</td>
+                </thead>
+                <tbody>
+                <?php
+                if ($g_standard) {
+                    foreach ($g_standard as $row) {
+                ?>
+                <tr class="line">
+                    <td class="price"><?php echo number_format($row['Price']); ?>&nbsp₫</td>
+                </tr>
+                <?php
+                    }
+                }
+                ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

@@ -74,10 +74,18 @@ class ControllerPriceEdit extends Controller {
         // load necessary data
         $electricity_last_modified = $this->model_price_standard->getElectricityLastModified();
         $electricity_last_modified_list = $this->model_price_standard->getElectricityLastModifiedList();
+        $water_last_modified = $this->model_price_standard->getWaterLastModified();
+        $water_last_modified_list = $this->model_price_standard->getWaterLastModifiedList();
+        $garbage_last_modified = $this->model_price_standard->getGarbageLastModified();
+        $garbage_last_modified_list = $this->model_price_standard->getGarbageLastModifiedList();
         // put modified date list into variable 'electricity_last_modified_list' & `water_last_modified_list`
         $this->data['electricity_last_modified_list'] = $electricity_last_modified_list;
+        $this->data['water_last_modified_list'] = $water_last_modified_list;
+        $this->data['garbage_last_modified_list'] = $garbage_last_modified_list;
         // load electricity standard price based on the provided date
         $this->loadElectricityStandardPrice($electricity_last_modified['id']);
+        $this->loadWaterStandardPrice($water_last_modified['id']);
+        $this->loadGarbageStandardPrice($garbage_last_modified['id']);
         // load language values
         $this->data['text_electricity_from'] = $this->language->get('text_electricity_from');
         $this->data['text_electricity_to'] = $this->language->get('text_electricity_to');
@@ -194,6 +202,26 @@ class ControllerPriceEdit extends Controller {
         }
     }
 
+    public function getCurrentApplyDateElectricity() {
+        // remember to put this line or $this->model_price_standard will be NULL when call this function from ajax for the 2nd time
+        $this->load->model('price/standard');
+        $json = array();
+
+        $currentApplyDate = $this->model_price_standard->getCurrentApplyDateElectricity();
+        $json['date'] = $currentApplyDate['From'];
+        $this->response->setOutput(json_encode($json));
+    }
+
+    public function loadNewestWaterStandardPriceId() {
+        // remember to put this line or $this->model_price_standard will be NULL when call this function from ajax for the 2nd time
+        $this->load->model('price/standard');
+        $json = array();
+
+        $water_last_modified = $this->model_price_standard->getWaterLastModified();
+        $json['id'] = $water_last_modified['id'];
+        $this->response->setOutput(json_encode($json));
+    }
+
     public function loadNewestWaterStandardPrice() {
         // remember to put this line or $this->model_price_standard will be NULL when call this function from ajax for the 2nd time
         $this->load->model('price/standard');
@@ -270,6 +298,35 @@ class ControllerPriceEdit extends Controller {
         $this->response->setOutput(json_encode($json));
     }
 
+    public function deleteCurrentWaterStandardPrice() {
+        $this->load->model('price/standard');
+
+        if (!empty($this->request->post['id'])) {
+            $id = $this->request->post['id'];
+            $this->model_price_standard->deleteCurrentWaterStandardPrice($id);
+        }
+    }
+
+    public function getCurrentApplyDateWater() {
+        // remember to put this line or $this->model_price_standard will be NULL when call this function from ajax for the 2nd time
+        $this->load->model('price/standard');
+        $json = array();
+
+        $currentApplyDate = $this->model_price_standard->getCurrentApplyDateWater();
+        $json['date'] = $currentApplyDate['From'];
+        $this->response->setOutput(json_encode($json));
+    }
+
+    public function loadNewestGarbageStandardPriceId() {
+        // remember to put this line or $this->model_price_standard will be NULL when call this function from ajax for the 2nd time
+        $this->load->model('price/standard');
+        $json = array();
+
+        $garbage_last_modified = $this->model_price_standard->getGarbageLastModified();
+        $json['id'] = $garbage_last_modified['id'];
+        $this->response->setOutput(json_encode($json));
+    }
+
     public function loadNewestGarbageStandardPrice() {
         // remember to put this line or $this->model_price_standard will be NULL when call this function from ajax for the 2nd time
         $this->load->model('price/standard');
@@ -338,6 +395,25 @@ class ControllerPriceEdit extends Controller {
         $latestUpdateDate = $this->model_price_standard->getLatestGarbageUpdateDate();
         $json['month'] = $latestUpdateDate['Month'];
         $json['year'] = $latestUpdateDate['Year'];
+        $this->response->setOutput(json_encode($json));
+    }
+
+    public function deleteCurrentGarbageStandardPrice() {
+        $this->load->model('price/standard');
+
+        if (!empty($this->request->post['id'])) {
+            $id = $this->request->post['id'];
+            $this->model_price_standard->deleteCurrentGarbageStandardPrice($id);
+        }
+    }
+
+    public function getCurrentApplyDateGarbage() {
+        // remember to put this line or $this->model_price_standard will be NULL when call this function from ajax for the 2nd time
+        $this->load->model('price/standard');
+        $json = array();
+
+        $currentApplyDate = $this->model_price_standard->getCurrentApplyDateGarbage();
+        $json['date'] = $currentApplyDate['From'];
         $this->response->setOutput(json_encode($json));
     }
 

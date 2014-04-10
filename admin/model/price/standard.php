@@ -33,10 +33,12 @@ class ModelPriceStandard extends Model {
         $this->db->query('DELETE FROM e_standard WHERE `id` = "' . $id . '"');
         $this->db->query('DELETE FROM e_lifetime WHERE `id` = "' . $id . '"');
         $lastRow = $this->db->query('SELECT `id` FROM e_lifetime ORDER BY `id` DESC LIMIT 1')->row;
-        $handle = fopen("log.txt","w");
-        fwrite($handle,var_export($lastRow,true));
-        fclose($handle);
         $this->db->query('UPDATE e_lifetime SET `to` = null WHERE `id` = "' . $lastRow['id'] . '"');
+    }
+
+    public function getCurrentApplyDateElectricity() {
+        $query = $this->db->query('SELECT `From` FROM e_lifetime WHERE `apply` = "1"');
+        return $query->row;
     }
     //==================================================================================================================
     //start vlmn modification
@@ -66,6 +68,18 @@ class ModelPriceStandard extends Model {
         $query = $this->db->query("SELECT MONTH(`from`) AS Month, YEAR(`from`) AS Year FROM w_lifetime ORDER BY YEAR(`from`) DESC, MONTH(`from`) DESC LIMIT 1");
         return $query->row;
     }
+
+    public function deleteCurrentWaterStandardPrice($id) {
+        $this->db->query('DELETE FROM w_standard WHERE `id` = "' . $id . '"');
+        $this->db->query('DELETE FROM w_lifetime WHERE `id` = "' . $id . '"');
+        $lastRow = $this->db->query('SELECT `id` FROM w_lifetime ORDER BY `id` DESC LIMIT 1')->row;
+        $this->db->query('UPDATE w_lifetime SET `to` = null WHERE `id` = "' . $lastRow['id'] . '"');
+    }
+
+    public function getCurrentApplyDateWater() {
+        $query = $this->db->query('SELECT `From` FROM w_lifetime WHERE `apply` = "1"');
+        return $query->row;
+    }
     //==================================================================================================================
     public function getGarbageStandardPrice($id) {
         $query = $this->db->query('SELECT Price FROM g_standard WHERE id = "' . $id . '"');
@@ -84,6 +98,18 @@ class ModelPriceStandard extends Model {
 
     public function getLatestGarbageUpdateDate() {
         $query = $this->db->query("SELECT MONTH(`from`) AS Month, YEAR(`from`) AS Year FROM g_lifetime ORDER BY YEAR(`from`) DESC, MONTH(`from`) DESC LIMIT 1");
+        return $query->row;
+    }
+
+    public function deleteCurrentGarbageStandardPrice($id) {
+        $this->db->query('DELETE FROM g_standard WHERE `id` = "' . $id . '"');
+        $this->db->query('DELETE FROM g_lifetime WHERE `id` = "' . $id . '"');
+        $lastRow = $this->db->query('SELECT `id` FROM g_lifetime ORDER BY `id` DESC LIMIT 1')->row;
+        $this->db->query('UPDATE g_lifetime SET `to` = null WHERE `id` = "' . $lastRow['id'] . '"');
+    }
+
+    public function getCurrentApplyDateGarbage() {
+        $query = $this->db->query('SELECT `From` FROM g_lifetime WHERE `apply` = "1"');
         return $query->row;
     }
 }

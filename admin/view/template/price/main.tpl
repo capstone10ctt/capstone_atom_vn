@@ -89,6 +89,7 @@
             display: none;
         }
     </style>
+    <script src="view/javascript/date.js"></script>
     <script type="text/javascript">
         $(function() {
             $('#btnNewStandardPrice').click(function() {
@@ -97,6 +98,45 @@
 
             $('#btnHistoryStandardPrice').click(function() {
                 window.location.href = "index.php?route=price/edit/historyStandardPriceView&token=<?php echo $token; ?>"
+            });
+
+            $.ajax({
+                url: 'index.php?route=price/edit/getCurrentApplyDateElectricity&token=<?php echo $token; ?>',
+                dataType: 'json',
+                type: 'post',
+                success: function(json) {
+                    var date = new Date(json['date']).toString('dd/MM/yyyy');
+                    $('.electricity_apply_date').text(date);
+                },
+                error: function(xhr) {
+                    console.log(xhr);
+                }
+            });
+
+            $.ajax({
+                url: 'index.php?route=price/edit/getCurrentApplyDateWater&token=<?php echo $token; ?>',
+                dataType: 'json',
+                type: 'post',
+                success: function(json) {
+                    var date = new Date(json['date']).toString('dd/MM/yyyy');
+                    $('.water_apply_date').text(date);
+                },
+                error: function(xhr) {
+                    console.log(xhr);
+                }
+            });
+
+            $.ajax({
+                url: 'index.php?route=price/edit/getCurrentApplyDateGarbage&token=<?php echo $token; ?>',
+                dataType: 'json',
+                type: 'post',
+                success: function(json) {
+                    var date = new Date(json['date']).toString('dd/MM/yyyy');
+                    $('.garbage_apply_date').text(date);
+                },
+                error: function(xhr) {
+                    console.log(xhr);
+                }
             });
         });
     </script>
@@ -110,6 +150,7 @@
     <div class="table_electricity">
         <?php echo '<h3>' . $description_electricity . '</h3>'; ?>
         <?php echo $valid_date_range; ?>
+        <span class="electricity_apply_date"></span>
         <br />
         <br />
         <table class="electricity_standard_price">
@@ -138,6 +179,7 @@
     <div class="table_water">
         <?php echo '<h3>' . $description_water . '</h3>'; ?>
         <?php echo $valid_date_range; ?>
+        <span class="water_apply_date"></span>
         <br />
         <br />
         <table class="water_standard_price">
@@ -166,6 +208,7 @@
     <div class="table_garbage">
         <?php echo '<h3>' . $description_garbage . '</h3>'; ?>
         <?php echo $valid_date_range; ?>
+        <span class="garbage_apply_date"></span>
         <br />
         <br />
         <table class="garbage_standard_price">

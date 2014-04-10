@@ -12,5 +12,5 @@ $_['text_garbage_price'] = 'Thành Tiền';
 $_['description_electricity'] = 'Định Mức Điện';
 $_['description_water'] = 'Định Mức Nước';
 $_['description_garbage'] = 'Định Mức Rác';
-$_['valid_date_range'] = 'Hiệu Lực Từ';
+$_['valid_date_range'] = 'Hiệu Lực Từ:';
 ?>
