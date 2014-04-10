@@ -38,43 +38,35 @@
         <thead>
           <tr>
             <td class="center"><?php echo $column_room; ?></td>
-            <td class="center"><?php echo $column_water; ?></td>
-            <td class="center"><?php echo $column_electric; ?></td>
-            <td class="center"><?php echo $column_total_money; ?></td>
+            <td class="center"><?php echo $column_water_paid; ?></td>
+            <td class="center"><?php echo $column_electric_paid; ?></td>
             <td class="center"><?php echo $column_total_money_paid; ?></td>
-            <td class="center"><?php echo $column_total_money_remain; ?></td>
             <td class="center"><?php echo $charged_date; ?></td>
           </tr>
         </thead>
         <tbody>
-        <?php $totalPay_w = 0; $totalPay_e = 0; $totalPay_sum = 0; $totalPaid_sum = 0; $totalRemain = 0;?>
+        <?php $totalPaid_w = 0; $totalPaid_e = 0; $totalPaid_sum = 0; ?>
           <?php if (isset($rooms)) {
           foreach ($rooms as $room) { 
-      			$totalPay_w += (int)$room['wpay'];
-              	$totalPay_e += (int)$room['epay'];
-              	$totalPay_sum += (int)$room['wpay'] + (int)$room['epay'];
-              	$totalPaid_sum += (int)$room['wpaid'] + (int)$room['epaid'];
-              	$totalRemain += (int)$room['epay']+$room['wpay']-$room['epaid']-$room['wpaid'];
+      			$totalPaid_w += (int)$room['wpaid'];
+          	$totalPaid_e += (int)$room['epaid'];
+          	$totalPaid_sum += (int)$room['wpaid'] + (int)$room['epaid'];
 
           	?>
           <tr>
             <td class="left"><?php echo $room['name']; ?></td>
-            <td class="left"><?php echo number_format($room['wpay'],0); ?></td>
-            <td class="left"><?php echo number_format($room['epay'],0); ?></td>
-            <td class="left"><?php echo number_format($room['epay']+$room['wpay'] ,0); ?></td>
+            <td class="left"><?php echo number_format($room['wpaid'],0); ?></td>
+            <td class="left"><?php echo number_format($room['epaid'],0); ?></td>
             <td class="left"><?php echo number_format($room['epaid']+$room['wpaid'] ,0); ?></td>
-            <td class="left"><?php echo number_format($room['epay']+$room['wpay']-$room['epaid']-$room['wpaid'] ,0); ?></td>
             <td class="left"><?php echo date("d/m/Y   H:i:s", strtotime($room['charged_date']))?></td>
           </tr>
           <?php }}?>
 
           <tr>
             <td class="left"><strong><?php echo $total_sum; ?></strong></td>
-            <td class="left"><strong><?php echo number_format($totalPay_w,0); ?></strong></td>
-            <td class="left"><strong><?php echo number_format($totalPay_e,0); ?></strong></td>
-            <td class="left"><strong><?php echo number_format($totalPay_sum,0); ?></strong></td>
+            <td class="left"><strong><?php echo number_format($totalPaid_w,0); ?></strong></td>
+            <td class="left"><strong><?php echo number_format($totalPaid_e,0); ?></strong></td>
             <td class="left"><strong><?php echo number_format($totalPaid_sum,0); ?></strong></td>
-            <td class="left"><strong><?php echo number_format($totalRemain,0); ?></strong></td>
             <td class="left"><strong>--</strong></td>
           </tr>
 

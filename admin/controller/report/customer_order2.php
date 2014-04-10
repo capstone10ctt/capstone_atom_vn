@@ -122,6 +122,8 @@ class ControllerReportCustomerOrder2 extends Controller {
 		$this->data['column_total'] = $this->language->get('column_total');
 		$this->data['column_water'] = $this->language->get('column_water');
 		$this->data['column_electric'] = $this->language->get('column_electric');
+		$this->data['column_water_paid'] = $this->language->get('column_water_paid');
+		$this->data['column_electric_paid'] = $this->language->get('column_electric_paid');
 		$this->data['column_garbage'] = $this->language->get('column_garbage');
 		$this->data['column_diff'] = $this->language->get('column_diff');
 		$this->data['column_count'] = $this->language->get('column_count');
