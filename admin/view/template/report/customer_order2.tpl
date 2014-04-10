@@ -40,24 +40,27 @@
             <td class="center"><?php echo $column_room; ?></td>
             <td class="center"><?php echo $column_water_paid; ?></td>
             <td class="center"><?php echo $column_electric_paid; ?></td>
+            <td class="center"><?php echo $column_garbage; ?></td>
             <td class="center"><?php echo $column_total_money_paid; ?></td>
             <td class="center"><?php echo $charged_date; ?></td>
           </tr>
         </thead>
         <tbody>
-        <?php $totalPaid_w = 0; $totalPaid_e = 0; $totalPaid_sum = 0; ?>
+        <?php $totalPaid_w = 0; $totalPaid_e = 0; $totalPaid_g = 0; $totalPaid_sum = 0; $g_const = 50000; ?>
           <?php if (isset($rooms)) {
           foreach ($rooms as $room) { 
       			$totalPaid_w += (int)$room['wpaid'];
           	$totalPaid_e += (int)$room['epaid'];
-          	$totalPaid_sum += (int)$room['wpaid'] + (int)$room['epaid'];
+            $totalPaid_g += (int)$g_const;
+          	$totalPaid_sum += (int)$room['wpaid'] + (int)$room['epaid'] + (int)$g_const;
 
           	?>
           <tr>
             <td class="left"><?php echo $room['name']; ?></td>
             <td class="left"><?php echo number_format($room['wpaid'],0); ?></td>
             <td class="left"><?php echo number_format($room['epaid'],0); ?></td>
-            <td class="left"><?php echo number_format($room['epaid']+$room['wpaid'] ,0); ?></td>
+            <td class="left"><?php echo number_format($g_const,0); ?></td>
+            <td class="left"><?php echo number_format($room['epaid']+$room['wpaid']+$g_const ,0); ?></td>
             <td class="left"><?php echo date("d/m/Y   H:i:s", strtotime($room['charged_date']))?></td>
           </tr>
           <?php }}?>
@@ -66,6 +69,7 @@
             <td class="left"><strong><?php echo $total_sum; ?></strong></td>
             <td class="left"><strong><?php echo number_format($totalPaid_w,0); ?></strong></td>
             <td class="left"><strong><?php echo number_format($totalPaid_e,0); ?></strong></td>
+            <td class="left"><strong><?php echo number_format($totalPaid_g,0); ?></strong></td>
             <td class="left"><strong><?php echo number_format($totalPaid_sum,0); ?></strong></td>
             <td class="left"><strong>--</strong></td>
           </tr>
