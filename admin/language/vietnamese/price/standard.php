@@ -1,18 +1,16 @@
 <?php
-$_['text_electricity_from'] = 'Từ kW';
-$_['text_electricity_to'] = 'Đến kW';
-$_['text_electricity_price'] = 'Giá';
+$_['text_electricity_from'] = 'Từ kW/người';
+$_['text_electricity_to'] = 'Đến kW/người';
+$_['text_electricity_price'] = 'Thành Tiền';
 
-$_['text_water_from'] = 'Từ m3';
-$_['text_water_to'] = 'Đến m3';
-$_['text_water_price'] = 'Giá';
+$_['text_water_from'] = 'Từ m3/người/tháng';
+$_['text_water_to'] = 'Đến m3/người/tháng';
+$_['text_water_price'] = 'Thành Tiền';
 
-$_['text_garbage_price'] = 'Giá';
+$_['text_garbage_price'] = 'Thành Tiền';
 
-$_['description_electricity'] = 'ĐIỆN';
-$_['description_water'] = 'NƯỚC';
-$_['description_garbage'] = 'RÁC';
-$_['last_modified'] = 'Lịch sử cập nhật';
-$_['from_date'] = 'Từ';
-$_['to_date'] = 'Đến';
+$_['description_electricity'] = 'Định Mức Điện';
+$_['description_water'] = 'Định Mức Nước';
+$_['description_garbage'] = 'Định Mức Rác';
+$_['valid_date_range'] = 'Hiệu Lực Từ';
 ?>

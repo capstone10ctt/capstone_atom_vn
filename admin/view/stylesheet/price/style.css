@@ -1,26 +1,3 @@
-#content {
-    width: inherit;
-}
-
-.standard_price_show {
-    float: left;
-    width: 19%;
-    padding-left: 0.5%;
-}
-
-.standard_price_edit {
-    float: right;
-    width: 79%;
-    padding-left: 0.5%;
-}
-
-.standard_price_show, .standard_price_edit {
-    margin-top: 15px;
-    -webkit-box-shadow: 1px 0px 1px 1px rgba(232,232,232,1);
-    -moz-box-shadow: 1px 0px 1px 1px rgba(232,232,232,1);
-    box-shadow: 1px 0px 1px 1px rgba(232,232,232,1);
-}
-
 .electricity_standard_price, .water_standard_price, .garbage_standard_price  {
     width: 255px;
 }

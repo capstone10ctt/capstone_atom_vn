@@ -10,7 +10,7 @@ class ModelPriceStandard extends Model {
 	//end vlmn modification
     
     public function getElectricityStandardPrice($id) {
-        $query = $this->db->query('SELECT `From`, `To`, Price FROM e_standard WHERE id = "' . $id . '" ORDER BY `From`');
+        $query = $this->db->query('SELECT `From`, `To`, Price FROM e_standard WHERE id = "' . $id . '"');
         return $query->rows;
     }
 
@@ -28,6 +28,16 @@ class ModelPriceStandard extends Model {
         $query = $this->db->query("SELECT MONTH(`from`) AS Month, YEAR(`from`) AS Year FROM e_lifetime ORDER BY YEAR(`from`) DESC, MONTH(`from`) DESC LIMIT 1");
         return $query->row;
     }
+
+    public function deleteCurrentElectricityStandardPrice($id) {
+        $this->db->query('DELETE FROM e_standard WHERE `id` = "' . $id . '"');
+        $this->db->query('DELETE FROM e_lifetime WHERE `id` = "' . $id . '"');
+        $lastRow = $this->db->query('SELECT `id` FROM e_lifetime ORDER BY `id` DESC LIMIT 1')->row;
+        $handle = fopen("log.txt","w");
+        fwrite($handle,var_export($lastRow,true));
+        fclose($handle);
+        $this->db->query('UPDATE e_lifetime SET `to` = null WHERE `id` = "' . $lastRow['id'] . '"');
+    }
     //==================================================================================================================
     //start vlmn modification
 	public function getWaterLastestLifeTime() {
@@ -38,7 +48,7 @@ class ModelPriceStandard extends Model {
     }
 	//end vlmn modification
     public function getWaterStandardPrice($id) {
-        $query = $this->db->query('SELECT `From`, `To`, Price FROM w_standard WHERE id = "' . $id . '" ORDER BY `From`');
+        $query = $this->db->query('SELECT `From`, `To`, Price FROM w_standard WHERE id = "' . $id . '"');
         return $query->rows;
     }
 
