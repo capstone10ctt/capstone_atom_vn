@@ -51,6 +51,14 @@
                         <?php } ?>
                     </select></td>
                 </tr>
+                <tr>
+                	<td><?php echo $text_history?></td>
+                     <td><select id="sel_history" onchange="cur_history = this.value;filterRoomByFloorView()">
+                        <?php foreach($histories as $history) { ?>
+                          <option value="<?php echo $history ?>"><?php echo $history; ?></option>
+                        <?php } ?>
+                    </select></td>
+                </tr>
             </table>
             
             <?php if($this->user->getUserGroup() == ADMIN_IDX) { ?>
@@ -413,6 +421,7 @@
 
 <script type="text/javascript"><!--
 	var card_code = '';
+	var cur_history = '';
 	var temp_room = 0;
     $( document ).ready(function() {
 	  $("body").bind("keyup", function(e){
@@ -504,10 +513,11 @@
 		var floor_id = $('#sel_floor_wie').val();
 		var room_id = $('#sel_room_wie').val();
 		
+		
 		$.ajax({
 			url: 'index.php?route=sale/manage_wie/filterRoomByFloorView&token=<?php echo $token; ?>',
 			type: 'post',
-			data: 'floor_id=' + floor_id + '&room_id=' + room_id,
+			data: 'floor_id=' + floor_id + '&room_id=' + room_id + '&history=' + cur_history,
 			dataType: 'json',
 			success: function(json) {
 				//console.log(json['floors_filtered']);
@@ -764,8 +774,8 @@
 								'<td  ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3 || (input[i]['rooms'][j]['room_data']['is_supply'] == "no" && input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'no')) ? 'style="background:#ff7a04;text-align:center;"' : 'style="text-align:center;"') + '>' + ((flag == 1 || flag == 2) ? input[i]['rooms'][j]['room_data']['water']['Usage'] : '<input type="text" id="end_num_water_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" value ="' + input[i]['rooms'][j]['room_data']['water']['End'] + '" />') + '</td>'  +
 								((flag == 1) ? '<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3 || (input[i]['rooms'][j]['room_data']['is_supply'] == "no" && input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'no')) ? 'style="background:#ff7a04;"' : "") + '>' + input[i]['rooms'][j]['room_data']['water']['Money'] + '</td>' : '') +
 								'<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3 || (input[i]['rooms'][j]['room_data']['is_supply'] == "no" && input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'no')) ? 'style="background:#ff7a04;"' : "") + '>' + ((input[i]['rooms'][j]['room_data']['garbage']) ? input[i]['rooms'][j]['room_data']['garbage'] : '') + '</td>' +
-								'<td align="center" id="checkpaid_water_td_' + input[i]['rooms'][j]['customer_group_id'] + '" style="' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? "background:#FFF;" : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? "background:#ff0433;" : "background:#ff7a04;" )) + '">' + ((flag == 2) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? '' : '') : '<?php echo $text_late; ?>' )) : ((flag == 1) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['is_supply'] == "no") ? '' : ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? '<input type="checkbox" id="checkpaid_' + input[i]['rooms'][j]['customer_group_id'] + '" name="checkpaid_' + input[i]['rooms'][j]['customer_group_id'] + '" />' : '')) : '<?php echo $text_late; ?>' )) : '<input type="checkbox" ' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] != 'no') ? 'checked' : '') + ' id="checkpaidedit_2' + input[i]['rooms'][j]['customer_group_id'] + '" />')) + '</td>' +
-								((flag == 1) ? '<?php if($this->user->getUserGroup() == ADMIN_IDX) { ?>' + '<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3 || (input[i]['rooms'][j]['room_data']['is_supply'] == "no" && input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'no')) ? 'style="background:#ff7a04;"' : "") + '>' + ((input[i]['rooms'][j]['room_data']['can_edit'] == 'yes') ? '<a style="float:right;color:blue;" onclick="editElecWater(' + input[i]['rooms'][j]['customer_group_id']  +');"><?php echo $text_edit; ?></a>' : '') + '</td>' + '<?php } ?>' : '') +
+								'<td align="center" id="checkpaid_water_td_' + input[i]['rooms'][j]['customer_group_id'] + '" style="' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? "background:#FFF;" : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? "background:#ff0433;" : "background:#ff7a04;" )) + '">' + ((flag == 2) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? '' : '') : '<?php echo $text_late; ?>' )) : ((flag == 1) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['is_supply'] == "no") ? '' : ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? ((parseInt(input[i]['rooms'][j]['pay_month'].split('-')[0]) == ((new Date).getMonth() + 1)) ? '<input type="checkbox" id="checkpaid_' + input[i]['rooms'][j]['customer_group_id'] + '" name="checkpaid_' + input[i]['rooms'][j]['customer_group_id'] + '" />' : '') : '')) : '<?php echo $text_late; ?>' )) : '<input type="checkbox" ' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] != 'no') ? 'checked' : '') + ' id="checkpaidedit_2' + input[i]['rooms'][j]['customer_group_id'] + '" />')) + '</td>' +
+								((flag == 1) ? '<?php if($this->user->getUserGroup() == ADMIN_IDX) { ?>' + '<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3 || (input[i]['rooms'][j]['room_data']['is_supply'] == "no" && input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'no')) ? 'style="background:#ff7a04;"' : "") + '>' + ((input[i]['rooms'][j]['room_data']['can_edit'] == 'yes' && parseInt(input[i]['rooms'][j]['pay_month'].split('-')[0]) == ((new Date).getMonth() + 1)) ? '<a style="float:right;color:blue;" onclick="editElecWater(' + input[i]['rooms'][j]['customer_group_id']  +');"><?php echo $text_edit; ?></a>' : '') + '</td>' + '<?php } ?>' : '') +
 							'</tr>';
 				}
 			}
@@ -952,12 +962,12 @@
 	
 	function checkpaid() {
 		loadingForm(true);
-		//if(!confirmResult)
-//		{
-//			if($('#confirmbox-form').css('display') == 'none')
-//				confirmBoxToggle(true,'Check đóng tiền điện phòng ' + temp_room,checkpaid);
-//			return;
-//		}
+		if(!confirmResult)
+		{
+			if($('#confirmbox-form').css('display') == 'none')
+				confirmBoxToggle(true,'Check đóng tiền điện phòng ' + temp_room,checkpaid);
+			return;
+		}
 		
 		//update charged data
 		$.ajax({
@@ -983,7 +993,7 @@
 			}
 		});
 		
-		//confirmResult = false;
+		confirmResult = false;
 	}
 	
 	function editElecWater(room_id) {
@@ -1066,9 +1076,12 @@
 //		}
 		
 		clearAllStyles();
-		//var month = $('#sel_month').val();
-		//var year = $('#sel_year').val();
+		var month = (new Date).getMonth() + 1;
+		var year = (new Date).getFullYear();
 		
+		alert(month);
+		alert(year);
+	
 		var electric_sels = $('input[id^=\'usage_electric_\']');
 		var water_sels = $('input[id^=\'usage_water_\']');
 		
@@ -1090,7 +1103,7 @@
 		$.ajax({
 			url: 'index.php?route=sale/manage_wie/inputUsage&token=<?php echo $token; ?>',
 			type: 'post',
-			data: {'electric_usage' : electric_usage, 'water_usage' : water_usage},
+			data: {'month' : month , 'year' : year , 'electric_usage' : electric_usage, 'water_usage' : water_usage},
 			dataType: 'json',
 			success: function(json) {
 				if(json['success']) {

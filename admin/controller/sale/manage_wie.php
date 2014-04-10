@@ -134,6 +134,8 @@ class ControllerSaleManageWie extends Controller {
 		$rooms_input = $this->model_sale_manage_wie->getCustomerGroups();
 		$floors_input = $this->model_sale_manage_wie->getFloors($block_id);
 		
+		$histories = $this->model_sale_manage_wie->getHistories();
+		
 		$cur_year = date('Y');
 		$cur_month = date('m');
 		
@@ -144,10 +146,12 @@ class ControllerSaleManageWie extends Controller {
 		$this->data['alldays'] = $alldays;
 		$this->data['floors_input'] = $floors_input;
 		$this->data['rooms_input'] = $rooms_input;
+		$this->data['histories'] = $histories;
 		$this->data['cur_year'] = $cur_year;
 		$this->data['cur_month'] = $cur_month;
 		$this->data['token'] = $this->session->data['token'];
 		
+		$this->data['text_history'] = $this->language->get('text_history');
 		$this->data['text_room_bill_null'] = $this->language->get('text_room_bill_null');
 		$this->data['text_red_stop_service'] = $this->language->get('text_red_stop_service');
 		$this->data['text_loading'] = $this->language->get('text_loading');
@@ -312,6 +316,9 @@ class ControllerSaleManageWie extends Controller {
 		}
 		if(isset($this->request->post['room_id']) && (int)$this->request->post['room_id'] != -1) {
 			$data['filter_room'] = (int)$this->request->post['room_id'];
+		}
+		if(isset($this->request->post['history']) && $this->request->post['history'] != 'history') {
+			$data['filter_history'] = $this->request->post['history'];
 		}
 		
 		//$json['filter_floor'] = (int)$this->request->post['floor_id'];
@@ -975,7 +982,7 @@ class ControllerSaleManageWie extends Controller {
 				$room_id = $room;
 			}
 			
-			$bill = $this->replaceEachRoomDataForBill($room_id);
+			$bill = $this->replaceEachRoomData($room_id);
 			if($bill) {
 				$json['bills'] .= '<div style="page-break-after: always;">'.$bill["body"].'</div>';
 			}

@@ -267,7 +267,7 @@ class ControllerToolImport extends Controller {
 	public function import() {
 		$this->language->load('tool/import');
 
-
+		$is_set = false;
 		if (!isset($this->request->post['import'])) {
 			$this->session->data['error'] = $this->language->get('error_upload');
 			
@@ -402,8 +402,6 @@ class ControllerToolImport extends Controller {
 				$data['electric_usage'] = array();
 				$data['water_usage'] = array();
 				
-				$data['year'] = date('Y');
-				$data['month'] = date('m');
 		
 				for ($i = 2; $i <= count($this->session->data['sheetData']); $i++)
 			    {
@@ -441,7 +439,20 @@ class ControllerToolImport extends Controller {
 					$data['electric_usage'][] = $temp_elec;
 					$data['water_usage'][] = $temp_water;
 				
-			        
+			       if($this->session->data['col_addeddate'] != '') {
+					   if($this->session->data['sheetData'][$i][$this->session->data['col_addeddate']] != '') {
+						   //echo $this->session->data['sheetData'][$i][$this->session->data['col_addeddate']].'<br/>';
+						   $d = DateTime::createFromFormat('d/m/Y', $this->session->data['sheetData'][$i][$this->session->data['col_addeddate']]);
+						   //$my_date = date('d-m-Y', strtotime($this->session->data['col_addeddate']));
+							$data['year'] = $d->format('Y');
+							$data['month'] = $d->format('m');
+							$is_set = true;
+					   }
+					}
+					else if(!$is_set){
+						$data['year'] = date('Y');
+						$data['month'] = date('m');
+					}
 			      	$count++;
 			      }
 			    } 

@@ -7,6 +7,7 @@ $_['text_mail_monthly'] = "Gửi mail thống kê tháng";
 $_['text_import_from_file'] = "Nhập từ file Excel";
 $_['text_confirm'] = "Xác nhận";
 
+$_['text_history']             = 'Lịch sử';
 $_['text_title']             = 'Phòng/Hộ gia đình';
 $_['text_mssv']             = 'MSSV:';
 $_['text_cancel']             = 'Huỷ';

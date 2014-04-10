@@ -207,7 +207,7 @@
       if($this->session->data['col_addeddate']!='' && trim($this->session->data['sheetData'][$i][$this->session->data['col_addeddate']])!='')
         echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_addeddate']].'</td>';
       else
-        echo '<td>'.$currentdate.'</td>';
+        echo '<td></td>';
       
       if (!$warning)
         echo '<td></td>';
