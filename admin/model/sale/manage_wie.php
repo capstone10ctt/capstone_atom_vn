@@ -145,7 +145,7 @@ class ModelSaleManageWie extends Model {
 					
 					$billing_wie_classified[$result['customer_group_id']]['elec']['Usage'] = $e_usage;
 					$money = $this->calculate_money_elec($e_standard, $e_usage);
-					$billing_wie_classified[$result['customer_group_id']]['elec']['Money'] = $money;
+					$billing_wie_classified[$result['customer_group_id']]['elec']['Money'] = number_format($money,0);
 					$billing_wie_classified[$result['customer_group_id']]['elec']['End'] = (isset($elec['End']) ? $elec['End'] : 0);
 					$billing_wie_classified[$result['customer_group_id']]['elec']['Start'] = (isset($elec['Start']) ? $elec['Start'] : 0);
 					$billing_wie_classified[$result['customer_group_id']]['elec']['Charged'] = $charge;
@@ -183,7 +183,7 @@ class ModelSaleManageWie extends Model {
 					//$billing_wie_classified[$result['customer_group_id']]['water']['w_standard'] = $w_standard;
 					//$billing_wie_classified[$result['customer_group_id']]['water']['lifetime'] = $this->model_price_standard->getWaterLastestLifeTime();
 					$money = $this->calculate_money_water($w_standard, $w_usage, $result['customer_group_id']);
-					$billing_wie_classified[$result['customer_group_id']]['water']['Money'] = $money;
+					$billing_wie_classified[$result['customer_group_id']]['water']['Money'] = number_format($money,0);
 					$billing_wie_classified[$result['customer_group_id']]['water']['End'] = (isset($water['End']) ? $water['End'] : 0);
 					$billing_wie_classified[$result['customer_group_id']]['water']['Start'] = (isset($water['Start']) ? $water['Start'] : 0);
 					$billing_wie_classified[$result['customer_group_id']]['water']['Charged'] = $charge;
@@ -873,14 +873,17 @@ class ModelSaleManageWie extends Model {
 	}
 	
 	public function inputUsage($data) {
+		$cur_year = date('Y');
+		$cur_month = date('m');
+
 		$date = new DateTime();
-		$date->setDate($data['year'], $data['month'], 1);
+		$date->setDate($cur_year, $cur_month, 1);
 		$date_final = $date->format('Y-m-d  H:i:s');
 		
 		foreach($data['electric_usage'] as $key => $elec) {
 			if(isset($elec['usage'])) {
-				if(!$this->checkElectricInput($elec['room_id'], $data['year'], $data['month'])) {
-					$last_usage_data = $this->getLastUsageElec($elec['room_id'],$data['month'], $data['year']);
+				if(!$this->checkElectricInput($elec['room_id'], $cur_year, $cur_month)) {
+					$last_usage_data = $this->getLastUsageElec($elec['room_id'],$cur_month, $cur_year);
 					if($last_usage_data != -1) {
 						$last_usage =  (int)$last_usage_data['End'] + 1;
 					}
@@ -897,7 +900,7 @@ class ModelSaleManageWie extends Model {
 					}
 				}
 				else {
-					$result = $this->checkElectricIfEditing($elec['room_id'], $data['year'], $data['month'], $elec['usage']);
+					$result = $this->checkElectricIfEditing($elec['room_id'], $cur_year, $cur_month, $elec['usage']);
 					if($result == 'edit') {
 						$data['electric_usage'][$key]['edit'] = 1;
 					}
@@ -910,8 +913,8 @@ class ModelSaleManageWie extends Model {
 		
 		foreach($data['water_usage'] as $key => $water) {
 			if(isset($water['usage'])) {
-				if(!$this->checkWaterInput($water['room_id'], $data['year'], $data['month'])) {
-					$last_usage_data = $this->getLastUsageWater($water['room_id'],$data['month'], $data['year']);
+				if(!$this->checkWaterInput($water['room_id'], $cur_year, $cur_month)) {
+					$last_usage_data = $this->getLastUsageWater($water['room_id'],$cur_month, $cur_year);
 					if($last_usage_data != -1) {
 						$last_usage =  (int)$last_usage_data['End'] + 1;
 					}
@@ -928,7 +931,7 @@ class ModelSaleManageWie extends Model {
 					}
 				}
 				else {
-					$result = $this->checkWaterIfEditing($water['room_id'], $data['year'], $data['month'], $water['usage']);
+					$result = $this->checkWaterIfEditing($water['room_id'], $cur_year, $cur_month, $water['usage']);
 					if($result == 'edit') {
 						$data['water_usage'][$key]['edit'] = 1;
 					}
