@@ -1080,8 +1080,8 @@
 		var month = (new Date).getMonth() + 1;
 		var year = (new Date).getFullYear();
 		
-		alert(month);
-		alert(year);
+		//alert(month);
+		//alert(year);
 	
 		var electric_sels = $('input[id^=\'usage_electric_\']');
 		var water_sels = $('input[id^=\'usage_water_\']');
