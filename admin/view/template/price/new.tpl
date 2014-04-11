@@ -175,7 +175,7 @@
         //  electricity
         var $tbody_electricity = $('#update-electricity-standard').find('tbody');
         $tbody_electricity.append('<tr class="line">' +
-                '<td class="from"><input type="text" style="width: 74px;" disabled="true" value="0"/></td>' +
+                '<td class="from"><input type="text" style="width: 74px;" disabled="true" value="1"/></td>' +
                 '<td class="to"><input type="text" style="width: 74px;" /></td>' +
                 '<td class="price"><input type="text" style="width: 74px;" /></td>' +
                 '<td class="remove"></td>' +
@@ -195,7 +195,7 @@
 
         var $tbody_water = $('#update-water-standard').find('tbody');
         $tbody_water.append('<tr class="line">' +
-                '<td class="from"><input type="text" style="width: 74px;" disabled="true" value="0"/></td>' +
+                '<td class="from"><input type="text" style="width: 74px;" disabled="true" value="1"/></td>' +
                 '<td class="to"><input type="text" style="width: 74px;" /></td>' +
                 '<td class="price"><input type="text" style="width: 74px;" /></td>' +
                 '<td class="remove"></td>' +
@@ -263,7 +263,7 @@
                 // the new dummy-line become the default dummy-line
                 $dummy.after($dummy.outerHTML()).removeClass("dummy-line").addClass("line")
                         .children().show() // show newly added row
-                        .end().children('.from').children().val(to + 1); // From = (last To value) + 1
+                        .end().children('.from').children().val(to); // From = (last To value) + 1
             }
         });
 
@@ -330,7 +330,7 @@
                 // the new dummy-line become the default dummy-line
                 $dummy.after($dummy.outerHTML()).removeClass("dummy-line").addClass("line")
                         .children().show() // show newly added row
-                        .end().children('.from').children().val(to + 1); // From = (last To value) + 1
+                        .end().children('.from').children().val(to); // From = (last To value) + 1
             }
         });
 
