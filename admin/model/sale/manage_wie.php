@@ -1459,6 +1459,7 @@ class ModelSaleManageWie extends Model {
 			if($z['To']!=-1 && $e_usage > $z['To'])
 			{
 				$money += $z['Price']*($z['To']-$z['From']);
+				
 			}
 			else
 			{
@@ -1466,6 +1467,7 @@ class ModelSaleManageWie extends Model {
 				return $money;
 			}
 		}
+		return $money;
 	}
 	
 	public function calculate_money_water($w,$w_usage, $room_id)
