@@ -20,6 +20,7 @@
 <?php } ?>
 <script type="text/javascript" src="view/javascript/jquery/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="view/javascript/jquery/ui/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="view/javascript/jquery/ui/jquery-ui-timepicker-addon2.js"></script>
 <link type="text/css" href="view/javascript/jquery/ui/themes/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
 <script type="text/javascript" src="view/javascript/jquery/tabs.js"></script>
 <script type="text/javascript" src="view/javascript/jquery/superfish/js/superfish.js"></script>
@@ -64,7 +65,9 @@ $(document).ready(function(){
   <?php if ($logged) { ?>
   <div id="menu">
     <ul class="left" style="display: none;">
-      <li id="dashboard"><a href="<?php echo $home; ?>" class="top"><?php echo $text_dashboard; ?></a></li>
+    	<?php if($this->user->getUserGroup() == ADMIN_IDX) { ?>
+      	<li id="dashboard"><a href="<?php echo $home; ?>" class="top"><?php echo $text_dashboard; ?></a></li>
+        <?php } ?>
       <!--<li id="catalog"><a class="top"><?php echo $text_catalog; ?></a>
         <ul>
           <li><a href="<?php echo $category; ?>"><?php echo $text_category; ?></a></li>
@@ -85,15 +88,22 @@ $(document).ready(function(){
       </li>-->
       <li id="student"><a class="top"><?php echo $text_customer; ?></a>
         <ul>
+          <?php if($this->user->getUserGroup() == ADMIN_IDX) { ?>
           <li><a href="<?php echo $customer; ?>"><?php echo $text_customer; ?></a></li>
+          <li><a href="<?php echo $customer_approval; ?>"><?php echo $text_customer_approval; ?></a></li>
           <li><a href="<?php echo $customer_group; ?>"><?php echo $text_customer_group; ?></a></li>
           <li><a href="<?php echo $category; ?>"><?php echo $text_category; ?></a></li>
           <li><a href="<?php echo $manage_wie_limit; ?>"><?php echo $text_manage_wie_limit; ?></a></li>
+          <?php } ?>
           <li><a href="<?php echo $manage_wie; ?>"><?php echo $text_manage_wie; ?></a></li>
+          <?php if($this->user->getUserGroup() == ADMIN_IDX) { ?>
           <li><a href="<?php echo $manage_email_templates; ?>"><?php echo $text_manage_email_templates; ?></a></li>
+          <?php } ?>
           <!--<li><a href="<?php echo $customer_ban_ip; ?>"><?php echo $text_customer_ban_ip; ?></a></li>-->
         </ul>
       </li>
+      
+      <?php if($this->user->getUserGroup() == ADMIN_IDX) { ?>
       <li id="reports"><a class="top"><?php echo $text_reports; ?></a>
         <ul>
       	  <li><a href="<?php echo $report_customer_usage; ?>"><?php echo $text_report_customer_usage; ?></a></li>
@@ -131,6 +141,16 @@ $(document).ready(function(){
           </li>-->
         </ul>
       </li>
+      <?php } else { ?>
+        <li id="reports"><a class="top"><?php echo $text_reports; ?></a>
+        <ul>
+          <li><a href="<?php echo $report_customer_usage2; ?>"><?php echo $text_report_customer_usage; ?></a></li>
+        </ul>
+      </li>
+      
+
+      
+      <?php } if($this->user->getUserGroup() == ADMIN_IDX) { ?>
       <li id="extension"><a class="top"><?php echo $text_extension; ?></a>
         <ul>
           <li><a href="<?php echo $module; ?>"><?php echo $text_module; ?></a></li>
@@ -141,6 +161,8 @@ $(document).ready(function(){
           <li><a href="<?php echo $vqmod_manager; ?>"><?php echo $text_vqmod_manager; ?></a></li>
         </ul>
       </li>
+      <?php } ?>
+      
       <!--<li id="sale"><a class="top"><?php echo $text_sale; ?></a>
         <ul>
           <li><a href="<?php echo $order; ?>"><?php echo $text_order; ?></a></li>
@@ -163,6 +185,8 @@ $(document).ready(function(){
           <li><a href="<?php echo $contact; ?>"><?php echo $text_contact; ?></a></li>
         </ul>
       </li>-->
+      
+      <?php if($this->user->getUserGroup() == ADMIN_IDX) { ?>
       <li id="system"><a class="top"><?php echo $text_system; ?></a>
         <ul>
         <li><a href="<?php echo $information; ?>"><?php echo $text_information; ?></a></li>
@@ -210,6 +234,7 @@ $(document).ready(function(){
           <li><a href="<?php echo $import; ?>"><?php echo $text_import; ?></a></li>
         </ul>
       </li>
+      <?php } ?>
      <!-- <li id="help"><a class="top"><?php echo $text_help; ?></a>
         <ul>
           <li><a href="http://www.opencart.com" target="_blank"><?php echo $text_opencart; ?></a></li>

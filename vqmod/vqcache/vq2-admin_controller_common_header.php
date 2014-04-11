@@ -39,6 +39,7 @@ class ControllerCommonHeader extends Controller {
 		$this->data['text_currency'] = $this->language->get('text_currency');			
 		$this->data['text_customer'] = $this->language->get('text_customer');
 		$this->data['text_manage_cost'] = $this->language->get('text_manage_cost');
+		$this->data['text_customer_approval'] = $this->language->get('text_customer_approval');
 		$this->data['text_customer_group'] = $this->language->get('text_customer_group');
 		$this->data['text_customer_field'] = $this->language->get('text_customer_field');
 		$this->data['text_customer_ban_ip'] = $this->language->get('text_customer_ban_ip');
@@ -131,7 +132,8 @@ class ControllerCommonHeader extends Controller {
 			$this->data['customer'] = $this->url->link('sale/customer', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['customer_fields'] = $this->url->link('sale/customer_field', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['customer_group'] = $this->url->link('sale/customer_group', 'token=' . $this->session->data['token'], 'SSL');
-			$this->data['manage_wie_limit'] = $this->url->link('price/standard', 'token=' . $this->session->data['token'], 'SSL');
+			$this->data['customer_approval'] = $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'], 'SSL');
+			$this->data['manage_wie_limit'] = $this->url->link('price/edit', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['manage_wie'] = $this->url->link('sale/manage_wie', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['manage_email_templates'] = $this->url->link('catalog/template_email', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['customer_ban_ip'] = $this->url->link('sale/customer_ban_ip', 'token=' . $this->session->data['token'], 'SSL');
@@ -163,6 +165,7 @@ class ControllerCommonHeader extends Controller {
 			$this->data['report_product_purchased'] = $this->url->link('report/product_purchased', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['report_customer_online'] = $this->url->link('report/customer_online', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['report_customer_usage'] = $this->url->link('report/customer_order', 'token=' . $this->session->data['token'], 'SSL');
+			$this->data['report_customer_usage2'] = $this->url->link('report/customer_order2', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['report_customer_reward'] = $this->url->link('report/customer_reward', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['report_customer_credit'] = $this->url->link('report/customer_credit', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['report_affiliate_commission'] = $this->url->link('report/affiliate_commission', 'token=' . $this->session->data['token'], 'SSL');

@@ -26,6 +26,7 @@ $_['text_country']          = 'Quốc gia';
 $_['text_coupon']           = 'Mã giảm giá';
 $_['text_currency']         = 'Tiền tệ';
 $_['text_customer']         = 'Sinh viên';
+$_['text_customer_approval']= 'Duyệt Sinh viên';
 $_['text_customer_group']   = 'Danh sách phòng';
 $_['text_dashboard']        = 'Bảng quản trị';
 $_['text_design']           = 'Thiết kế';
