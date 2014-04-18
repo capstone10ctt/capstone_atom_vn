@@ -1,80 +1,73 @@
 <?php
 final class MySQL {
-	private $link;
-	
+	private $mysqli;
+
 	public function __construct($hostname, $username, $password, $database) {
-		if (!$this->link = mysql_connect($hostname, $username, $password)) {
-      		trigger_error('Error: Could not make a database link using ' . $username . '@' . $hostname);
+		$this->mysqli = new mysqli($hostname, $username, $password, $database);
+
+		if ($this->mysqli->connect_error) {
+			trigger_error('Error: Could not make a database link (' . $this->mysqli->connect_errno . ') ' . $this->mysqli->connect_error);
 		}
 
-    	if (!mysql_select_db($database, $this->link)) {
-      		trigger_error('Error: Could not connect to database ' . $database);
-    	}
-		
-		mysql_query("SET NAMES 'utf8'", $this->link);
-		mysql_query("SET CHARACTER SET utf8", $this->link);
-		mysql_query("SET CHARACTER_SET_CONNECTION=utf8", $this->link);
-		mysql_query("SET SQL_MODE = ''", $this->link);
-  	}
-		
-  	public function query($sql) {
-		if ($this->link) {
-			$resource = mysql_query($sql, $this->link);
-	
-			if ($resource) {
-				if (is_resource($resource)) {
-					$i = 0;
-			
-					$data = array();
-			
-					while ($result = mysql_fetch_assoc($resource)) {
-						$data[$i] = $result;
-			
-						$i++;
-					}
-					
-					mysql_free_result($resource);
-					
-					$query = new stdClass();
-					$query->row = isset($data[0]) ? $data[0] : array();
-					$query->rows = $data;
-					$query->num_rows = $i;
-					
-					unset($data);
-					
-					return $query;	
-				} else {
-					return true;
-				}
-			} else {
-				trigger_error('Error: ' . mysql_error($this->link) . '<br />Error No: ' . mysql_errno($this->link) . '<br />' . $sql);
-				exit();
-			}
+		$this->mysqli->set_charset('utf8');
+	}
+
+	public function query($sql) {
+		$query = $this->mysqli->query($sql);
+
+		if ($this->mysqli->errno) {
+			trigger_error('Error: ' . $this->mysqli->error . '<br />Error No: ' . $this->mysqli->errno . '<br />' . $sql);
+			exit();
 		}
-  	}
-	
-	public function escape($value) {
-		if ($this->link) {
-			return mysql_real_escape_string($value, $this->link);
+
+		if ($query) {
+			if (isset($query->num_rows)) {
+				$result = new stdClass();
+				$data = array();
+
+				while ($row = $query->fetch_assoc()) {
+					$data[] = $row;
+				}
+
+				$result->row = isset($data[0]) ? $data[0] : array();
+				$result->rows = $data;
+				$result->num_rows = $query->num_rows;
+
+				$query->close();
+
+				unset($data);
+
+				return $result;
+			} else {
+				// When MySQLi returns boolean true instead of a result object
+				// http://www.php.net/manual/en/mysqli.query.php
+				$result = new stdClass();
+				$result->row = array();
+				$result->rows = array();
+				$result->num_rows = 0;
+
+				return $result;
+			}
+		} else {
+			trigger_error('Error: ' . $this->mysqli->error . '<br />Error No: ' . $this->mysqli->errno . '<br />' . $sql);
+			exit();
 		}
 	}
-	
-  	public function countAffected() {
-		if ($this->link) {
-    		return mysql_affected_rows($this->link);
-		}
-  	}
 
-  	public function getLastId() {
-		if ($this->link) {
-    		return mysql_insert_id($this->link);
-		}
-  	}	
-	
+	public function escape($value) {
+		return $this->mysqli->real_escape_string($value);
+	}
+
+	public function countAffected() {
+		return $this->mysqli->affected_rows;
+	}
+
+	public function getLastId() {
+		return $this->mysqli->insert_id;
+	}
+
 	public function __destruct() {
-		if ($this->link) {
-			mysql_close($this->link);
-		}
+		$this->mysqli->close();
 	}
 }
 ?>
