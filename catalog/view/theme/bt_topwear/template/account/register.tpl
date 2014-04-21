@@ -687,6 +687,9 @@
           <td>                    
           <?php echo $entry_reason; ?>
           <TEXTAREA name="reason" ROWS=3 COLS=20 ><?php echo $reason; ?></TEXTAREA>
+          <?php if ($error_reason) { ?>
+            <span class="error"><?php echo $error_reason; ?></span>
+            <?php } ?>
           <!--<input type="text" name="reason" value="<?php echo $reason; ?>" />-->                
           </td>
         </tr>
