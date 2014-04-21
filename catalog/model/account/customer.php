@@ -27,6 +27,55 @@ class ModelAccountCustomer extends Model {
 	}
 	//end changing
 	
+	
+	public function replaceApplicationMailData($data = array()) {
+		$this->load->model('catalog/template_email');
+		$templateMailData = $this->model_catalog_template_email->getTemplateEmail("mail_5")['description'][1];
+		$templateMail = $templateMailData['description'];
+		$mailTitle = $templateMailData['name'];
+
+		$completeMailTitle = $mailTitle;
+		$completeMailBody = $this->format($templateMail, 
+			$data['full_name'],							//0 fullname
+			$data['student_id'],						//1 student id
+			$data['dob'],								//2 date of birth
+			$data['race'],								//3 dan toc
+			$data['sex'],								//4
+			$data['id'],								//5 cmnd
+			$data['address_temp'],						//6 dia chi thuong tru
+			$data['address_real'],						//7 dia chi thuong tru
+			$data['phone'],								//8 
+			$data['email'],								//9
+			$data['area'],								//10 sv thuoc dien ?
+			$data['area_detail'],						//11 dien doi tuong
+			$data['family_background'],					//12 hoan canh gia dinh
+
+
+			date("d"),									//13
+			date("m"),									//14
+			date("Y"),								//15
+			$data['full_name'],							//16 fullname
+			$data['family_background_cont']);					//17 hoan canh gia dinh);
+
+
+		$mailMinistry = array("title" => $completeMailTitle, "body" => $completeMailBody);
+		return $mailMinistry;
+	}
+
+	function format() {
+	    $args = func_get_args();
+	    if (count($args) == 0) {
+	        return;
+	    }
+	    if (count($args) == 1) {
+	        return $args[0];
+	    }
+	    
+	    $str = array_shift($args);
+	    $str = preg_replace_callback('/\\{(0|[1-9]\\d*)\\}/', create_function('$match', '$args = '.var_export($args, true).'; return isset($args[$match[1]]) ? $args[$match[1]] : $match[0];'), $str);
+	    return $str;
+	}
+	
 	public function getFields()
 	{
 		$query = $this->db->query( "SELECT DISTINCT field_id, field_name FROM " . DB_PREFIX . "field_description WHERE language_id = '" . (int)$this->config->get('config_language_id') ."'");
@@ -69,6 +118,16 @@ class ModelAccountCustomer extends Model {
 		$address_id = $this->db->getLastId();
 
       	$this->db->query("UPDATE " . DB_PREFIX . "customer SET address_id = '" . (int)$address_id . "' WHERE customer_id = '" . (int)$customer_id . "'");
+		
+		//random barcode
+		$random_barcode = rand(1000000000, 9999999999);
+		
+		$customer = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer WHERE customer_id = '" . (int)$customer_id . "'");
+		
+		$student_id = $customer->row['student_id'];
+		
+		$this->db->query("INSERT INTO " . DB_PREFIX . "file_to_student SET student_id = '" . $student_id . "' AND file_code = '" . $random_barcode . "'");
+		//end barcode
 		
 		$this->language->load('mail/customer');
 		

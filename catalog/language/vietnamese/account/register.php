@@ -74,6 +74,8 @@ $_['error_ethnic']         = 'Lỗi: Xin nhập tôn giáo và độ dài phải
 $_['error_gender']         = 'Lỗi: Xin lựa chọn giới tính!';
 $_['error_id_location']         = 'Lỗi: Xin lựa chọn khu vực!';
 
+$_['error_reason']         = 'Lỗi: Lý do không được để trống và phải dài hơn 15 ký tự!';
+
 $_['entry_gender']        = 'Giới tính:';
 $_['entry_male']        = 'Nam';
 $_['entry_female']        = 'Nữ';

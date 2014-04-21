@@ -343,6 +343,12 @@ class ControllerAccountRegister extends Controller {
 			$this->data['error_tax_id'] = '';
 		}
 
+		if (isset($this->error['reason'])) {
+			$this->data['error_reason'] = $this->error['reason'];
+		} else {
+			$this->data['error_reason'] = '';
+		}
+		
 		if (isset($this->error['address_0'])) {
 			$this->data['error_address_0'] = $this->error['address_0'];
 		} else {
@@ -758,8 +764,13 @@ class ControllerAccountRegister extends Controller {
 		/*if ((int)$this->request->post['faculty_id'] == -1) {
       		$this->error['faculty'] = $this->language->get('error_faculty');
     	}*/
+		
 		if ($this->request->post['student_id'] == '' || !$this->checkStudentID($this->request->post['student_id'])) {
       		$this->error['student_id'] = $this->language->get('error_student_id');
+    	}
+		
+		if ($this->request->post['reason'] == '' || strlen($this->request->post['reason']) < 15) {
+      		$this->error['reason'] = $this->language->get('error_reason');
     	}
         
         if (is_null(utf8_strlen($this->request->post['idnum'])) || !$this->checkIDNum($this->request->post['idnum'])) {
