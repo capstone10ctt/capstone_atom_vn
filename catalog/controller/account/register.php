@@ -22,19 +22,6 @@ class ControllerAccountRegister extends Controller {
 			$this->customer->login($this->request->post['email'], $this->request->post['password']);
 			
 			unset($this->session->data['guest']);
-			
-			// Default Shipping Address
-			if ($this->config->get('config_tax_customer') == 'shipping') {
-				$this->session->data['shipping_country_id'] = $this->request->post['country_id'];
-				$this->session->data['shipping_zone_id'] = $this->request->post['zone_id'];
-				//$this->session->data['shipping_postcode'] = $this->request->post['postcode'];				
-			}
-			
-			// Default Payment Address
-			if ($this->config->get('config_tax_customer') == 'payment') {
-				$this->session->data['payment_country_id'] = $this->request->post['country_id'];
-				$this->session->data['payment_zone_id'] = $this->request->post['zone_id'];			
-			}
 							  	  
 	  		$this->redirect($this->url->link('account/success'));
     	} 
