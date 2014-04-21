@@ -20,6 +20,7 @@ class ControllerModuleBossMegaMenu extends Controller {
 			$this->load->model('catalog/category');
 			$this->load->model('catalog/product');
 			
+			$i = 0 ;
 			foreach ($menus as $menu) {
 				if ($menu['status']){
 					$href = "#";
@@ -180,17 +181,38 @@ class ControllerModuleBossMegaMenu extends Controller {
 						}
 					}
 					
-					$this->data['menus'][] = array(
+					$this->data['menus_temp'][] = array(
 						'title'	 			=> $menu['title'][$this->config->get('config_language_id')],
 						'href'				=> $href,
 						'dropdown_width'	=> $menu['dropdown_width'],
 						'column_width'		=> $menu['dropdown_width']/ ($menu['dropdown_column'] ? $menu['dropdown_column'] : 1),
 						'options'			=> $options
 					);
+					
+					$i++;
 				}
 			}
 		}
 		// end menu
+		
+		for($j = 0; $j < $i; $j ++) {
+			if($j == round($i / 2,0)){
+				$this->data['menus'][] = array(
+						'title'	 			=> 'logo',
+						'href'				=> 'image/logotruong.png',
+						'dropdown_width'	=> '200',
+						'column_width'		=> '200',
+						'options'			=> array()
+					);
+			}
+			$this->data['menus'][] = array(
+						'title'	 			=> $this->data['menus_temp'][$j]['title'],
+						'href'				=> $this->data['menus_temp'][$j]['href'],
+						'dropdown_width'	=> $this->data['menus_temp'][$j]['dropdown_width'],
+						'column_width'		=> $this->data['menus_temp'][$j]['column_width'],
+						'options'			=> $this->data['menus_temp'][$j]['options']
+					);
+		}
 		
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/module/boss_megamenu.tpl')) {
 			$this->template = $this->config->get('config_template') . '/template/module/boss_megamenu.tpl';

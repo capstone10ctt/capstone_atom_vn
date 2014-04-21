@@ -33,8 +33,18 @@
       <a onclick="$('form').attr('action', '<?php echo $approve; ?>'); $('form').submit();" class="button"><?php echo $text_approve; ?></a><a onclick="$('form').attr('action', '<?php echo $unapprove; ?>'); $('form').submit();" class="button"><?php echo $text_not_approve; ?></a></div>
     </div>
     <div class="content">
-    <div id="leftcol" style="float:fleft;width:200px;text-alignment:left">
-      
+    <div id="leftcol" style="float:left;width:200px;text-alignment:left">
+      <div style="margin-bottom:5px;font-size:15px;font-weight:bold;"><?php echo $text_search; ?></div>
+         <input type="text" />
+         <input type="button" value="<?php echo $text_do_search; ?>" style="width:70px;"/>
+         <input type="button" value="<?php echo $text_cancel; ?>" style="width:70px;"/>
+        
+        <div style="margin-top:20px;margin-bottom:5px;font-size:15px;font-weight:bold;"><?php echo $text_report; ?></div>
+        <div style="margin-bottom:5px;"><?php echo $text_received; ?> <?php echo $total_received.'/'.$total_online;?></div>
+        <div style="margin-bottom:5px"><?php echo $text_male; ?><?php echo ': '.$total_received_male;?></div>
+    	<div style="margin-bottom:5px"><?php echo $text_female; ?><?php echo ': '.$total_received_female;?></div>
+        
+        <div id="block_info"></div> 
     </div>
     <div id="rightcol" style="margin-left:200px;text-alignment:left">
       <form action="" method="post" enctype="multipart/form-data" id="form">

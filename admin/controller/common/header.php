@@ -21,6 +21,7 @@ class ControllerCommonHeader extends Controller {
 
 		$this->data['heading_title'] = $this->language->get('heading_title');
 		
+		$this->data['text_annoucement'] = $this->language->get('text_annoucement');
 		$this->data['text_manage_wie_limit'] = $this->language->get('text_manage_wie_limit');
 		$this->data['text_manage_wie'] = $this->language->get('text_manage_wie');
 		$this->data['text_manage_email_templates'] = $this->language->get('text_manage_email_templates');
@@ -118,6 +119,7 @@ class ControllerCommonHeader extends Controller {
 			$this->data['logged'] = sprintf($this->language->get('text_logged'), $this->user->getUserName());
 	
 			$this->data['home'] = $this->url->link('common/home', 'token=' . $this->session->data['token'], 'SSL');
+			$this->data['announcements'] = $this->url->link('bossblog/articles', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['affiliate'] = $this->url->link('sale/affiliate', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['attribute'] = $this->url->link('catalog/attribute', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['attribute_group'] = $this->url->link('catalog/attribute_group', 'token=' . $this->session->data['token'], 'SSL');

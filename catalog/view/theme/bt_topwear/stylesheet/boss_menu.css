@@ -8,9 +8,9 @@
 
 	
 /* menu */
-.boss_menu {	margin-bottom: 10px;position:relative;z-index:70 }
-#boss_menu {/*  border-bottom: 3px solid; */height:60px;margin-bottom:8px}
-#boss_menu > ul {	background: #4388CC; list-style: none;margin: 0;padding: 0;height:40px;margin-top:30px;}
+.boss_menu {	height:150px;margin-bottom: 10px;position:relative;z-index:70; margin-top:50px; }
+#boss_menu {/*  border-bottom: 3px solid; */height:130px;}
+#boss_menu > ul {	background: #e3dec8; list-style: none;margin: 0;padding: 0;height:150px;}
 #boss_menu > ul > li 
 {
 	z-index: 20;
@@ -25,7 +25,7 @@
 #boss_menu > ul > li > a 
 { 
 	font-size: 21px;
-	color:white!important;
+	color:#6e6953!important;
 	/* text-decoration: none; */
 	display: block;
 	padding: 0px 0px 0px 0px; 
@@ -33,11 +33,12 @@
 	z-index: 6;
 	position: relative;
 	padding-right:0;
-	text-transform:uppercase;
-	font-family:'Conv_AdventPro';
-	height:46px;
+	text-transform:capitalize;
+	font-family:'universi';
+	height:140px;
+	width:130px;
 	transition-duration:0.2s;
-	line-height:29px
+	line-height:140px
 	
 }
 

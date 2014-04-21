@@ -89,37 +89,6 @@ if(!isset($b_Mode_CSS)){
 ?>
 <div id="container" class="<?php echo $b_Mode_CSS; ?>">
 
-<div id="header">
-<div class="container_24">	
-<div class="grid_24 omega alpha">
-  <div class="top_header">
-  <div id="welcome">
-    <?php if (!$logged) { ?>
-    <?php echo $text_welcome; ?>
-    <?php } else { ?>
-    <?php echo $text_logged; ?>
-    <?php } ?>
-  </div>
-  <!--<div class="links"><a href="<?php echo $home; ?>"><?php echo $text_home; ?></a><a href="<?php echo $wishlist; ?>" id="wishlist-total"><?php echo $text_wishlist; ?></a><a href="<?php echo $account; ?>"><?php echo $text_account; ?></a></div>-->
-  </div>
-  <div class="bottom_header">
-  <?php if ($logo) { ?>
-  <div id="logo"><a href="<?php echo $home; ?>"><img src="<?php echo $logo; ?>" title="<?php echo $name; ?>" alt="<?php echo $name; ?>" /></a></div>
-  <?php } ?>
-  
-  <?php echo $language; ?>
-  <!--<?php echo $cart; ?>
-   <?php echo $currency; ?>
-  
-  <div id="search">
-    <div class="button-search" title="<?php echo $text_search; ?>"></div>
-    <input type="text" name="search" placeholder="<?php echo $text_search; ?>" value="<?php echo $search; ?>" />
-  </div>-->
-  
-  </div>
-</div>
-</div>
-</div>
 <div class="boss_menu">	
 <div class="container_24">		
 	<?php if ($this->config->get('b_General_Menu')) { ?>	
@@ -215,5 +184,5 @@ if(!isset($b_Mode_CSS)){
 if(isset($boss_editorthemes)){
 	echo $boss_editorthemes;
 } ?>
-<div class="container_24">
+<div class="container_24" style="background:#e3dec8!important;">
 <div id="notification"></div>

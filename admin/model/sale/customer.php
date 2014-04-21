@@ -136,12 +136,28 @@ class ModelSaleCustomer extends Model {
 
 		return $query->rows;
 	}
+	
 	public function getCustomerGroupIdFromFloor($parent_id = 0)
 	{
 		$query = $this->db->query( "SELECT cgd.customer_group_id, cg.name FROM " . DB_PREFIX . "customer_group cg LEFT JOIN ". DB_PREFIX ."customer_group_description cgd ON(cg.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') ."' AND cg.floor_id = '" . (int)$parent_id . "'");
 
 		return $query->rows;
 	}
+	
+	//start vlmn modification
+	public function getTotalCustomersByData($data) {
+		$sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer WHERE student_status = '" . (int)$data['status'] . "'";
+		
+		if (!empty($data['gender']) && (int)$data['gender'] != -1) {
+			$implode[] = " AND gender = '" . (int)$data['gender'] . "'";
+		}
+		
+		$query = $this->db->query($sql);	
+		
+		return $query->row['total'];
+	}
+	//end vlmn modification
+	
 	public function getCustomers($data = array()) {
 		$sql = "SELECT *, CONCAT(c.lastname, ' ', c.firstname) AS name, cg.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group cg ON (c.customer_group_id = cg.customer_group_id) LEFT JOIN ". DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) LEFT JOIN ". DB_PREFIX . "floor_description fd ON (cg.floor_id = fd.floor_id AND fd.language_id = cgd.language_id ) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') ."'";
 		//$sql = "SELECT *, CONCAT(c.firstname, ' ', c.lastname) AS name, cg.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
@@ -176,7 +192,13 @@ class ModelSaleCustomer extends Model {
 		*/
 		if (!empty($data['filter_floor_id']) && !is_null($data['filter_floor_id'])) {
 			$implode[] = "cg.floor_id = '" . (int)$data['filter_floor_id'] . "'";
-		}	
+		}
+		
+		//filter by status state
+		if (!empty($data['filter_student_status']) && !is_null($data['filter_student_status'])) {
+			$implode[] = "c.student_status = '" . (int)$data['filter_student_status'] . "'";
+		}
+		//filter by status state
 			
 		if (!empty($data['filter_ethnic'])) {
 			$implode[] = "c.ethnic LIKE '%" . $this->db->escape($data['filter_ethnic']) . "%'";
@@ -382,7 +404,7 @@ class ModelSaleCustomer extends Model {
 			);
 		}
 	}
-		
+	
 	public function getAddresses($customer_id) {
 		$address_data = array();
 		
@@ -397,7 +419,7 @@ class ModelSaleCustomer extends Model {
 		}		
 		
 		return $address_data;
-	}	
+	}
 				
 	public function getTotalCustomers($data = array()) {
       	$sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer";
@@ -434,7 +456,13 @@ class ModelSaleCustomer extends Model {
 						
 		if (isset($data['filter_status']) && !is_null($data['filter_status'])) {
 			$implode[] = "status = '" . (int)$data['filter_status'] . "'";
-		}			
+		}	
+		
+		//filter by status state
+		if (!empty($data['filter_student_status']) && !is_null($data['filter_student_status'])) {
+			$implode[] = "student_status = '" . (int)$data['filter_student_status'] . "'";
+		}
+		//filter by status state		
 		
 		if (isset($data['filter_approved']) && !is_null($data['filter_approved'])) {
 			$implode[] = "approved = '" . (int)$data['filter_approved'] . "'";

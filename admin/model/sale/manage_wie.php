@@ -879,7 +879,7 @@ class ModelSaleManageWie extends Model {
 		foreach($data['electric_usage'] as $key => $elec) {
 			if(isset($elec['usage'])) {
 				if(!$this->checkElectricInput($elec['room_id'], $data['year'], $data['month'])) {
-					$last_usage_data = $this->getLastUsageElec($elec['room_id'],$data['month'], $data['year']);
+					$last_usage_data = $this->getLastUsageElec($elec['room_id']);
 					if($last_usage_data != -1) {
 						$last_usage =  (int)$last_usage_data['End'];
 					}
@@ -910,7 +910,7 @@ class ModelSaleManageWie extends Model {
 		foreach($data['water_usage'] as $key => $water) {
 			if(isset($water['usage'])) {
 				if(!$this->checkWaterInput($water['room_id'], $data['year'], $data['month'])) {
-					$last_usage_data = $this->getLastUsageWater($water['room_id'],$data['month'], $data['year']);
+					$last_usage_data = $this->getLastUsageWater($water['room_id']);
 					if($last_usage_data != -1) {
 						$last_usage =  (int)$last_usage_data['End'];
 					}
@@ -1105,16 +1105,18 @@ class ModelSaleManageWie extends Model {
 		return false;
 	}
 	
-	public function getLastUsageElec($room_id, $month, $year) {
-		$query = $this->db->query("SELECT End FROM " . DB_PREFIX . "e_record WHERE RoomID = '" . (int)$room_id . "' AND MONTH(date_added) = " . (int)$month . " AND YEAR(date_added) = " . (int)$year);
+	public function getLastUsageElec($room_id) {
+		//$query = $this->db->query("SELECT End FROM " . DB_PREFIX . "e_record WHERE RoomID = '" . (int)$room_id . "' AND MONTH(date_added) = " . (int)$month . " AND YEAR(date_added) = " . (int)$year);
+		$query = $this->db->query("SELECT End FROM " . DB_PREFIX . "e_record WHERE RoomID = '" . (int)$room_id . "' ORDER by date_added DESC LIMIT 0,1");
 		if(!$query->num_rows) {
 			return -1;
 		}
 		return $query->row;
 	}
 	
-	public function getLastUsageWater($room_id, $month, $year) {
-		$query = $this->db->query("SELECT End FROM " . DB_PREFIX . "w_record WHERE RoomID = '" . (int)$room_id . "' AND MONTH(date_added) = " . (int)$month . " AND YEAR(date_added) = " . (int)$year);
+	public function getLastUsageWater($room_id) {
+		//$query = $this->db->query("SELECT End FROM " . DB_PREFIX . "w_record WHERE RoomID = '" . (int)$room_id . "' AND MONTH(date_added) = " . (int)$month . " AND YEAR(date_added) = " . (int)$year);
+		$query = $this->db->query("SELECT End FROM " . DB_PREFIX . "w_record WHERE RoomID = '" . (int)$room_id . "' ORDER by date_added DESC LIMIT 0,1");
 		if(!$query->num_rows) {
 			return -1;	
 		}
@@ -1147,13 +1149,13 @@ class ModelSaleManageWie extends Model {
 	}
 	
 	public function getElectricLogPreviousMonthByRoomId($room_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "e_record WHERE `RoomID` = '" . (int)$room_id . "' AND MONTH(date_added) = '" . ((int)date('m') - 1) . "' AND YEAR(date_added) = '" . date('Y') . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "e_record WHERE `RoomID` = '" . (int)$room_id . "' ORDER by date_added DESC LIMIT 0,1");
 		
 		return $query->row;
 	}
 	
 	public function getWaterLogPreviousMonthByRoomId($room_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "w_record WHERE `RoomID` = '" . (int)$room_id . "' AND MONTH(date_added) = '" . ((int)date('m') - 1) . "' AND YEAR(date_added) = '" . date('Y') . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "w_record WHERE `RoomID` = '" . (int)$room_id . "' ORDER by date_added DESC LIMIT 0,1");
 		
 		return $query->row;
 	}
@@ -1207,8 +1209,8 @@ class ModelSaleManageWie extends Model {
 					'name'              => $result['name'] . (($result['customer_group_id'] == $this->config->get('config_manage_wie_id')) ? $this->language->get('text_default') : null),
 					'sort_order'        => $result['sort_order'],
 					'selected'          => isset($this->request->post['selected']) && in_array($result['manage_wie_id'], $this->request->post['selected']),
-					'last_elec' => (($pre_elec) ? (int)$pre_elec['End'] + 1 : 0),
-					'last_water' => (($pre_water) ? (int)$pre_water['End'] + 1: 0),
+					'last_elec' => (($pre_elec) ? (int)$pre_elec['End'] : 0),
+					'last_water' => (($pre_water) ? (int)$pre_water['End'] : 0),
 				);
 		}
 		//end get data
@@ -1330,8 +1332,8 @@ class ModelSaleManageWie extends Model {
 						'name'              => $result['name'] . (($result['customer_group_id'] == $this->config->get('config_manage_wie_id')) ? $this->language->get('text_default') : null),
 						'sort_order'        => $result['sort_order'],
 						'selected'          => isset($this->request->post['selected']) && in_array($result['manage_wie_id'], $this->request->post['selected']),
-						'last_elec' => (($pre_elec) ? (int)$pre_elec['End'] + 1 : 0),
-						'last_water' => (($pre_water) ? (int)$pre_water['End'] + 1: 0),
+						'last_elec' => (($pre_elec) ? (int)$pre_elec['End']  : 0),
+						'last_water' => (($pre_water) ? (int)$pre_water['End'] : 0),
 						'cur_elec' => (($cur_elec) ? (int)$cur_elec['End'] : 0),
 						'cur_water' => (($cur_water) ? (int)$cur_water['End'] : 0),
 					);

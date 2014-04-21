@@ -418,7 +418,14 @@ class ControllerSaleCustomerApproval extends Controller {
 			} else {
 				$filter_address_1 = null;
 			}
-
+			
+			$this->data['text_search'] = $this->language->get('text_search');
+			$this->data['text_report'] = $this->language->get('text_report');
+			$this->data['text_received'] = $this->language->get('text_received');
+			
+			$this->data['text_do_search'] = $this->language->get('text_do_search');
+			$this->data['text_cancel'] = $this->language->get('text_cancel');
+			
 			$this->data['column_student_id'] = $this->language->get('column_student_id');
 			$this->data['column_gender'] = $this->language->get('column_gender');
 			$this->data['column_telephone'] = $this->language->get('column_telephone');
@@ -620,6 +627,10 @@ class ControllerSaleCustomerApproval extends Controller {
 		$data = array(
             // start LMT
             'filter_university'              => $filter_university,
+			
+				'filter_gender' => $filter_gender,
+				'filter_student_status' => 1,
+				
             'filter_faculty'              => $filter_faculty,
             'filter_floor_id'              => $filter_floor_id,
             'filter_date_of_birth' 		=> $filter_date_of_birth,
@@ -645,6 +656,20 @@ class ControllerSaleCustomerApproval extends Controller {
 			'limit'                    => $this->config->get('config_admin_limit')
 		);
 		
+		//start vlmn modification
+		$data_filter_status = array('status' => 0, 'gender'=> -1);
+		$this->data['total_online'] = $this->model_sale_customer->getTotalCustomersByData($data_filter_status);
+		
+		$data_filter_status = array('status' => 1, 'gender'=> -1);
+		$this->data['total_received'] = $this->model_sale_customer->getTotalCustomersByData($data_filter_status);
+		
+		$data_filter_status = array('status' => 1, 'gender'=> 0);
+		$this->data['total_received_male'] = $this->model_sale_customer->getTotalCustomersByData($data_filter_status);
+		
+		$data_filter_status = array('status' => 1, 'gender'=> 1);
+		$this->data['total_received_female'] = $this->model_sale_customer->getTotalCustomersByData($data_filter_status);
+		
+		//end vlmn modification
 		$customer_total = $this->model_sale_customer->getTotalCustomers($data);
 	
 		$results = $this->model_sale_customer->getCustomers($data);

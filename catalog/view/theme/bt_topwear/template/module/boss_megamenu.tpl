@@ -11,10 +11,12 @@ function showSubmenu($category) {
 	}
 }
 ?>
+<!--<pre>
+<?php echo print_r($menus); ?>-->
 <div id="boss_menu" class="mega-menu hide-on-mobile">
   <ul>
   <?php foreach ($menus as $menu) { ?>
-	<li><a href="<?php echo $menu['href']; ?>"><?php echo $menu['title'] ?></a>
+	<li><?php if($menu['title'] == 'logo') { ?> <img style="position:absolute;top:-120px;left:-20px;border-radius:150px;" src="<?php echo $menu['href']; ?>" alt="" /> <li style="width:130px;"></li><?php } else { ?><a href="<?php echo $menu['href']; ?>"><?php echo $menu['title'] ?></a><?php } ?>
 		<?php if (count($menu['options']) > 0) { ?>
 		<div style="width: <?php echo $menu['dropdown_width']; ?>px; color: white;" class="dropdown">
 			<?php foreach ($menu['options'] as $option) { ?>

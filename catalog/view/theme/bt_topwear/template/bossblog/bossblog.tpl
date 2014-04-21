@@ -1,5 +1,5 @@
 <?php echo $header; ?>
-<div class="breadcrumb">
+<!--<div class="breadcrumb">
     <?php foreach ($breadcrumbs as $breadcrumb) { ?>
 	<?php if($breadcrumb == end($breadcrumbs)){ ?>
 		<a class="last" href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a>
@@ -8,11 +8,11 @@
     <?php } ?>
     <?php } ?>
 </div>
-<?php echo $column_left; ?>
+--><?php echo $column_left; ?>
 <?php echo $column_right; ?>
 <div id="content"><?php echo $content_top; ?>
 <div class="bossblog_fr">
-    <h1><?php echo $heading_title; ?></h1>
+    <!--<h1><?php echo $heading_title; ?></h1>-->
     <?php if ($articles) { ?>
         <div class="article-filter">  
         <div class="rss-feed">

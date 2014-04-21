@@ -27,6 +27,13 @@ class ModelAccountCustomer extends Model {
 	}
 	//end changing
 	
+	public function getFields()
+	{
+		$query = $this->db->query( "SELECT DISTINCT field_id, field_name FROM " . DB_PREFIX . "field_description WHERE language_id = '" . (int)$this->config->get('config_language_id') ."'");
+
+		return $query->rows;
+	}
+	
 	public function addCustomer($data) {
 		if (isset($data['customer_group_id']) && is_array($this->config->get('config_customer_group_display')) && in_array($data['customer_group_id'], $this->config->get('config_customer_group_display'))) {
 			$customer_group_id = $data['customer_group_id'];
@@ -42,11 +49,11 @@ class ModelAccountCustomer extends Model {
 		
 		// start changing:
 		$NKUniversity = $this->NKUniversity();
-		$inputdate = date("Y-m-d", strtotime($data['iddate']));		
+		/*$inputdate = date("Y-m-d", strtotime($data['iddate']));		
 	    $data['date_of_birth'] = (string)$data['monthbirth'].'/'.(string)$data['datebirth'].'/'.(string)$data['yearbirth'];
-		$inputdateofbirth = date("Y-m-d", strtotime($data['date_of_birth']));
+		$inputdateofbirth = date("Y-m-d", strtotime($data['date_of_birth']));*/
 		
-      	$this->db->query("INSERT INTO " . DB_PREFIX . "customer SET store_id = '" . (int)$this->config->get('config_store_id') . "', firstname = '" . $this->db->escape($data['fullname']) /*. $this->db->escape($data['firstname']) *//*. "', lastname = '" . $this->db->escape($data['lastname']) */. "', email = '" . $this->db->escape($data['email']) . "', gender = '" . $this->db->escape($data['gender_id']) . "', id_num = '" . $this->db->escape($data['idnum']) . "', id_date = '" . $this->db->escape($inputdate) . "', date_of_birth = '" . $this->db->escape($inputdateofbirth) . "', id_location = '" . $this->db->escape($data['id_location']) . /*"',university = '" . $this->db->escape($data['university_id']) . "',faculty = '" . $this->db->escape($data['faculty_id']) */"',student_id = '" . $this->db->escape($data['student_id']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', newsletter = '" . (isset($data['newsletter']) ? (int)$data['newsletter'] : 0) . "', customer_group_id = '" . (int)$customer_group_id . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) ."', policy = '" . (int)$data['policy'] ./*"', diencs1 = '" . (bool)$data['agree1']."', diencs2 = '" . (bool)$data['agree2']."', diencs3 = '" . (bool)$data['agree3']."', diencs4 = '" . (bool)$data['agree4']."', diencs5 = '" . (bool)$data['agree5']."', diencs6 = '" . (bool)$data['agree6']."', diencs7 = '" . (bool)$data['agree7']."', diencs8 = '" . (bool)$data['agree8'] .*/"', reason = '" . $this->db->escape($data['reason']). "', status = '1', approved = '" . (int)!$customer_group_info['approval'] . "', date_added = NOW()");
+      	$this->db->query("INSERT INTO " . DB_PREFIX . "customer SET store_id = '" . (int)$this->config->get('config_store_id') . "', firstname = '" . $this->db->escape($data['fullname']) /*. $this->db->escape($data['firstname']) *//*. "', lastname = '" . $this->db->escape($data['lastname']) */. "', email = '" . $this->db->escape($data['email']) . "', gender = '" . $this->db->escape($data['gender_id']) . "', id_num = '" . $this->db->escape($data['idnum']) . /*"', id_date = '" . $this->db->escape($inputdate) . "', date_of_birth = '" . $this->db->escape($inputdateofbirth) . "', id_location = '" . $this->db->escape($data['id_location']) . /*"',university = '" . $this->db->escape($data['university_id']) . "',faculty = '" . $this->db->escape($data['faculty_id']) */"',student_id = '" . $this->db->escape($data['student_id']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', newsletter = '" . (isset($data['newsletter']) ? (int)$data['newsletter'] : 0) . "', customer_group_id = '" . (int)$customer_group_id . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) ."', field = '" . (int)$data['policy'] ./*"', diencs1 = '" . (bool)$data['agree1']."', diencs2 = '" . (bool)$data['agree2']."', diencs3 = '" . (bool)$data['agree3']."', diencs4 = '" . (bool)$data['agree4']."', diencs5 = '" . (bool)$data['agree5']."', diencs6 = '" . (bool)$data['agree6']."', diencs7 = '" . (bool)$data['agree7']."', diencs8 = '" . (bool)$data['agree8'] .*/"', reason = '" . $this->db->escape($data['reason']). "', status = '1', approved = '" . (int)!$customer_group_info['approval'] . "', date_added = NOW()");
 		
 		$customer_id = $this->db->getLastId();
 		

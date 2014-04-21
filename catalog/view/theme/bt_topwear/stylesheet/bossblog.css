@@ -3,7 +3,10 @@
 #column-right{width:200px}
 #column-right + #content{margin-right:220px}
 /*Block Blog common*/
-.block .block-title{ background: #4388CC!important;}
+.block .block-title{ background: #e3dec8!important;}
+.block-title span{
+	font-family:'universi';
+}
 .boss_block-recent-post li.item .blog-title,.boss_block-tag-cloud li.item .blog-title ,.boss_block-recent-comments li.item .blog-title,.boss_blog-cat li.item .blog-title{text-decoration:none;padding:0;font-weight:bold;color:#0a263c;font-weight:bold;font-size:12px}
 .boss_block-recent-post li.item,.boss_block-recent-comments li.item ,.boss_blog-cat li.item {padding: 15px 0;}
 .boss_block-recent-post li.item.last,.boss_block-tag-cloud li.item .last,.boss_block-recent-comments li.item.last ,.boss_blog-cat li.item.last{border:0} 

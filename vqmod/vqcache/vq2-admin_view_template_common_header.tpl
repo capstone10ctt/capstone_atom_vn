@@ -66,7 +66,7 @@ $(document).ready(function(){
   <div id="menu">
     <ul class="left" style="display: none;">
     	<?php if($this->user->getUserGroup() == ADMIN_IDX) { ?>
-      	<li id="dashboard"><a href="<?php echo $home; ?>" class="top"><?php echo $text_dashboard; ?></a></li>
+      	<li id="dashboard"><a href="<?php echo $home; ?>" class="top"><?php echo $text_dashboard; ?></a></li><li id="announcements"><a href="<?php echo $announcements; ?>" class="top"><?php echo $text_annoucement; ?></a></li>
         <?php } ?>
       <!--<li id="catalog"><a class="top"><?php echo $text_catalog; ?></a>
         <ul>

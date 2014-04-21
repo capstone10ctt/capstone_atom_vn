@@ -3,8 +3,8 @@
 		#container.box{}
 
 	}
-	/*********************************************** ipad 2 ngang***************************************/
-	/* Bigger then standard 960 */
+	/*********************************************** ipad 2 ngang**************************************
+	/* Bigger then standard 960 
 	@media only screen and (min-width:1024px) and (max-width: 1279px) {
 		#container.box{width:960px}
 		body{-webkit-text-size-adjust: none;}
@@ -110,15 +110,15 @@
 		
 	}
 	/******************************************** ipad 2 ngang up********************************/
-	/* Smaller than standard 960 (devices and browsers) */
+	/* Smaller than standard 960 (devices and browsers) *
 	@media only screen and (max-width: 1023px) {
 		#container.box{}
 	}
-	/************************************** IPAD 2 DOC************************************************/
-	/* Tablet Portrait size to standard 960 (devices and browsers) */
+	/************************************** IPAD 2 DOC************************************************
+	/* Tablet Portrait size to standard 960 (devices and browsers) *
 	@media only screen and (min-width: 768px) and (max-width: 1023px) {
 		#container.box{width:748px}
-		/* category - product */
+		/* category - product *
 		#column-left + #column-right + #content .product-filter .sort { clear:right; margin-top:5px}
 		#header{height:225px}
 		#header #search{margin-left:75px;margin-top:25px;margin-right:0}
@@ -209,15 +209,15 @@
 	
 	
 	}
-	/************************************** IPAD 2 DOC up************************************************/
-	/******************************* all size ****************************/
-	/* Small Tablet Portrait size max width:767 (devices and browsers) */
+	/************************************** IPAD 2 DOC up************************************************
+	/******************************* all size ****************************
+	/* Small Tablet Portrait size max width:767 (devices and browsers) *
 	@media only screen and (max-width: 767px) {	
 		#container.box{}
 		.cpanelContainer { display:none}
 		input[type="text"], input[type="password"], textarea{width:96%}
 		select { width:100%}
-		/* category - product */
+		/* category - product *
 		#column-left, #column-right { display:none}
 		#column-left + #column-right + #content, #column-left + #content{overflow:inherit!important}
 		#column-left + #column-right + #content  .breadcrumb,
@@ -251,43 +251,43 @@
 		
 		.htabs a{ width:100%; text-align:left; padding-left:0; padding-right:0; text-indent:20px}
 		h2.ta-header  { background:#ccc;  width:100%; text-align:left;padding:5px 0; text-indent:10px; margin:0 0 5px 0!important; cursor:pointer;border:1px solid #dcdcdc}
-		/* header */
+		/* header *
 		#header #search{margin:20px 0;background:none;padding:0;float:left;height:45px}
 		#header #logo{float:none; width:100%; text-align:center; padding:0 0 30px;margin-right:0}
 		#header #welcome{padding-top:10px}
-		/*menu*/
+		/*menu*
 		#boss_menu{background-color:transparent;}
 		#boss_menu > ul > li{width:100%; padding:6px 0; margin-bottom:5px; background-color:#121212}
 		#boss_menu > ul > li > div.dropdown{display:none!important}
 		
-		/*footer*/
+		/*footer*
 		#footer .column{width:100%!important; padding:0 0 10px; min-height:auto}
 		
-		/*category*/
+		/*category*
 		.category-info .image{margin:0 0 10px; float:none}
 		.product-list .right, .product-list .left{width:100%; float:left; margin:0 0 10px;padding-left: 0;}		
 		.product-list{width:100%; margin:0}
 		.product-list > div{width:100%!important}
 		
-		/*product detail*/
+		/*product detail*
 		.product-info > .left{width:100%; margin:0}
 		.product-info > .left .image{text-align:center}
 		.product-info .image-additional{width:100%; margin:10px 0}
 		.product-info > .left + .right{width:100%}
-		/* shopping cart */
+		/* shopping cart *
 		.cart-info .quantity input[type="text"]{width:30px}
 		td.model , td.image{}
 		.cart-module #shipping td { display:block; width:100%; padding-bottom:5px}
 		.cart-module .content input[type="text"], .cart-module .content input.button{ float:left; clear:both; margin:5px 0}
 		
-		/*login*/
+		/*login
 		.login-content .left, .login-content .right { width:100%; margin-bottom:10px}
-		/*checkout*/
+		/*checkout
 		.checkout-content .left,.checkout-content .right { width:100%; margin-bottom:10px}
 		table.form td { display:block; width:100%}
 		#confirm  td.model ,#confirm   td.image{}
 		
-		/*return*/
+		/*return
 		.return-name, .return-model, .return-quantity, .return-reason, .return-opened, .return-captcha { width:100%!important; margin-bottom:10px}
 		#header #welcome{float:none;text-align:center;margin-bottom:10px;line-height:22px}
 		#header .links{float:none;text-align:center}
@@ -549,10 +549,10 @@
 		
 		
 	}
-	              /******************************* all size up*****************************/
+	              /******************************* all size up*****************************
 	
-	/*****************************************IPOD ngang**************************************************/
-	/* Small Tablet Portrait size to standard 600 (devices and browsers) */
+	/*****************************************IPOD ngang*************************************************
+	/* Small Tablet Portrait size to standard 600 (devices and browsers) 
 		
 	@media only screen and (min-width: 480px) and (max-width: 767px) {
 		body{-webkit-text-size-adjust: none;}
@@ -615,10 +615,10 @@
 	}
 	/*********************************IPOD ngang up****************************************/
 	
-	/* All Mobile Sizes (devices and browser) */
+	/* All Mobile Sizes (devices and browser) 
 	@media only screen and (max-width: 479px) {
 		#container.box{width: 300px;}
 		.column_content { padding:0 0 20px 0}
-	}
+	}*/
 
 	

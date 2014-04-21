@@ -214,22 +214,22 @@
         <tr>
           <td >
             <div class="banana" style="width:45px; min-width:45px; display: inline-block">
-              <input type="text" name="address_0" value="<?php echo $address_0; ?>" />
+              <input type="text" style="width:45px;" name="address_0" value="<?php echo $address_0; ?>" />
               
             </div>
 
             <div class="banana" style="width:120px; min-width:120px; display: inline-block">
-              <input type="text" name="address_1" value="<?php echo $address_1; ?>" />
+              <input type="text" style="width:120px;" name="address_1" value="<?php echo $address_1; ?>" />
               
             </div>
 
             <div class="banana" style="width:45px; min-width:45px; display: inline-block">
-              <input type="text" name="address_2" value="<?php echo $address_2; ?>" />
+              <input type="text" style="width:45px;" name="address_2" value="<?php echo $address_2; ?>" />
               
             </div>
 
             <div class="banana" style="width:45px; min-width:45px; display: inline-block">
-              <input type="text" name="address_3" value="<?php echo $address_3; ?>" />
+              <input type="text" style="width:45px;" name="address_3" value="<?php echo $address_3; ?>" />
               
             </div>
 
@@ -285,22 +285,22 @@
         <tr>
           <td >
             <div class="banana" style="width:45px; min-width:45px; display: inline-block">
-              <input type="text" name="address_5" value="<?php echo $address_5; ?>" />
+              <input type="text" style="width:45px;" name="address_5" value="<?php echo $address_5; ?>" />
               
             </div>
 
             <div class="banana" style="width:120px; min-width:120px; display: inline-block">
-              <input type="text" name="address_6" value="<?php echo $address_6; ?>" />
+              <input type="text" style="width:120px;" name="address_6" value="<?php echo $address_6; ?>" />
               
             </div>
 
             <div class="banana" style="width:45px; min-width:45px; display: inline-block">
-              <input type="text" name="address_7" value="<?php echo $address_7; ?>" />
+              <input type="text" style="width:45px;" name="address_7" value="<?php echo $address_7; ?>" />
               
             </div>
 
             <div class="banana" style="width:45px; min-width:45px; display: inline-block">
-              <input type="text" name="address_8" value="<?php echo $address_8; ?>" />
+              <input type="text" style="width:45px;" name="address_8" value="<?php echo $address_8; ?>" />
               
             </div>
 
@@ -668,16 +668,12 @@
         
         <div class="banana" style="width:90px; min-width:90px; display: inline-block">
             
-        <select name="policy" type="text" class="scroll" id="policy" width="90" style="width: 90px">
-        <option value=0 <?php echo ($policy == 0) ? ' selected="selected"' : ''; ?>>không có</option>
-        <option value=1 <?php echo ($policy == 1) ? ' selected="selected"' : ''; ?>>1</option>
-        <option value=2 <?php echo ($policy == 2) ? ' selected="selected"' : ''; ?>>2</option>
-        <option value=3 <?php echo ($policy == 3) ? ' selected="selected"' : ''; ?>>3</option>
-        <option value=4 <?php echo ($policy == 4) ? ' selected="selected"' : ''; ?>>4</option>
-        <option value=5 <?php echo ($policy == 5) ? ' selected="selected"' : ''; ?>>5</option>
-        <option value=6 <?php echo ($policy == 6) ? ' selected="selected"' : ''; ?>>6</option>
-        <option value=7 <?php echo ($policy == 7) ? ' selected="selected"' : ''; ?>>7</option>
-        <option value=8 <?php echo ($policy == 8) ? ' selected="selected"' : ''; ?>>8</option>
+        <select name="policy" type="text" class="scroll" id="policy" width="90" style="width: 90px">\
+        <?php foreach($fields as $field) { ?>
+       
+        <option value="<?php echo $field['field_id'] ?>" <?php echo ($policy == $field['field_id']) ? ' selected="selected"' : ''; ?>><?php echo $field['field_name'] ?></option>
+        
+        <?php } ?>
         </select>
         </div>
         

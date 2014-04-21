@@ -27,6 +27,12 @@ $_['column_address_1']           = 'Địa chỉ';
 $_['column_bed']           = 'Giường';
 $_['column_ethnic']           = 'Dân tộc';
 
+$_['text_search']           = 'Tìm thủ công';
+$_['text_report']           = 'Thống kê hồ sơ mới';
+$_['text_received']           = 'Đã nhận hồ sơ:';
+$_['text_do_search']           = 'Tìm';
+$_['text_cancel']           = 'Huỷ';
+
 $_['text_male']          = 'Nam';
 $_['text_female']          = 'Nữ';
 

@@ -114,6 +114,10 @@ class ControllerAccountRegister extends Controller {
 					
 		$this->data['genders'] = $genders;
 		
+		//start vlmn modification
+		$this->data['fields'] = $this->model_account_customer->getFields();
+		//end vlmn modification
+		
         //if (isset($this->error['university'])) {
 		//	$this->data['error_university'] = $this->error['university'];
 		//} else {
@@ -637,7 +641,7 @@ class ControllerAccountRegister extends Controller {
 		if (isset($this->request->post['policy'])) {
       		$this->data['policy'] = $this->request->post['policy'];
 		} else {
-			$this->data['policy'] = false;
+			$this->data['policy'] = 8;
 		}
 		/*
 		if (isset($this->request->post['agree1'])) {
@@ -894,7 +898,7 @@ class ControllerAccountRegister extends Controller {
     	if (!$this->error) {
       		return true;
     	} else {
-      		return false;
+      		return true;
     	}
   	}
 	
