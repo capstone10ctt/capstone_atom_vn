@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']         = 'Duyệt sinh viên';
+$_['heading_title']         = 'Nhận sinh viên';
 
 /////////////////////// Modification//////////////////////
 // ID: 1051015	 	 	 	
