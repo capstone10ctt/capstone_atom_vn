@@ -33,7 +33,7 @@ class ModelPriceStandard extends Model {
         $this->db->query('DELETE FROM e_standard WHERE `id` = "' . $id . '"');
         $this->db->query('DELETE FROM e_lifetime WHERE `id` = "' . $id . '"');
         $lastRow = $this->db->query('SELECT `id` FROM e_lifetime ORDER BY `id` DESC LIMIT 1')->row;
-        $this->db->query('UPDATE e_lifetime SET `to` = null WHERE `id` = "' . $lastRow['id'] . '"');
+        $this->db->query('UPDATE e_lifetime SET `to` = null WHERE `id` = "' . $lastRow[$id] . '"');
     }
 
     public function getCurrentApplyDateElectricity() {

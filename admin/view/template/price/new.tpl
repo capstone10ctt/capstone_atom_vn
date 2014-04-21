@@ -88,6 +88,11 @@
     .dlg-no-title .ui-dialog-titlebar {
         display: none;
     }
+
+    #header {
+        text-align: center;
+        color: cornflowerblue;
+    }
 </style>
 
 <script src="view/javascript/jquery.blockUI.js"></script>
@@ -258,7 +263,7 @@
                 alert('Bạn phải nhập giá trị khác -1 cho cột Đến kW/người dòng cuối cùng trước khi thêm dòng mới')
             } else {
                 // select dummy-line
-                $dummy = $('.dummy-line');
+                $dummy = $('#update-electricity-standard').find('.dummy-line');
                 // add a new dummy-line after the default dummy-line, change the default dummy-line into a `line` and make all its children visible
                 // the new dummy-line become the default dummy-line
                 $dummy.after($dummy.outerHTML()).removeClass("dummy-line").addClass("line")
@@ -325,7 +330,7 @@
                 alert('Bạn phải nhập giá trị khác -1 cho cột Đến kW/người dòng cuối cùng trước khi thêm dòng mới')
             } else {
                 // select dummy-line
-                $dummy = $('.dummy-line');
+                $dummy = $('#update-water-standard').find('.dummy-line');
                 // add a new dummy-line after the default dummy-line, change the default dummy-line into a `line` and make all its children visible
                 // the new dummy-line become the default dummy-line
                 $dummy.after($dummy.outerHTML()).removeClass("dummy-line").addClass("line")
@@ -1051,6 +1056,10 @@
             window.location.href = "index.php?route=price/edit/historyStandardPriceView&token=<?php echo $token; ?>";
         });
 
+        $('#btnEditStandardPrice').click(function() {
+            window.location.href = "index.php?route=price/edit/editStandardPriceView&token=<?php echo $token; ?>";
+        });
+
         $('#from-date-electricity').datepicker({
             dateFormat: 'M yy',
             changeMonth: true,
@@ -1149,9 +1158,11 @@
         Bạn có muốn xóa định mức hiện tại?
     </div>
 
+    <div id="header"><h1><?php echo $header_new; ?></h1></div>
 
     <div class="com-button-panel">
         <input type="button" value="Lịch Sử" id="btnHistoryStandardPrice" />
+        <input type="button" value="Chỉnh Sửa" id="btnEditStandardPrice" />
         <input type="button" value="Hiện Tại" id="btnCurrentStandardPrice" />
     </div>
     <div style="clear: both;"></div>

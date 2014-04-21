@@ -31,6 +31,7 @@ class ControllerPriceEdit extends Controller {
         $this->data['description_water'] = $this->language->get('description_water');
         $this->data['description_garbage'] = $this->language->get('description_garbage');
         $this->data['valid_date_range'] = $this->language->get('valid_date_range');
+        $this->data['header_current'] = $this->language->get('header_current');
         // set default page for view
         $this->template = 'price/main.tpl';
         $this->children = array(
@@ -56,7 +57,7 @@ class ControllerPriceEdit extends Controller {
         $this->data['description_water'] = $this->language->get('description_water');
         $this->data['description_garbage'] = $this->language->get('description_garbage');
         $this->data['valid_date_range'] = $this->language->get('valid_date_range');
-
+        $this->data['header_new'] = $this->language->get('header_new');
         // load view
         $this->template = 'price/new.tpl';
         $this->children = array(
@@ -98,9 +99,42 @@ class ControllerPriceEdit extends Controller {
         $this->data['description_water'] = $this->language->get('description_water');
         $this->data['description_garbage'] = $this->language->get('description_garbage');
         $this->data['valid_date_range'] = $this->language->get('valid_date_range');
-
+        $this->data['header_history'] = $this->language->get('header_history');
         // load view
         $this->template = 'price/history.tpl';
+        $this->children = array(
+            'common/header',
+            'common/footer'
+        );
+        $this->response->setOutput($this->render());
+    }
+
+    public function editStandardPriceView() {
+        $this->language->load('price/standard');
+        $this->load->model('price/standard');
+        $this->data['token'] = $this->session->data['token'];
+
+        $electricity_last_modified = $this->model_price_standard->getElectricityLastModified();
+        $electricity_last_modified_list = $this->model_price_standard->getElectricityLastModifiedList();
+        // put modified date list into variable 'electricity_last_modified_list' & `water_last_modified_list`
+        $this->data['electricity_last_modified_list'] = $electricity_last_modified_list;
+        // load electricity standard price based on the provided date
+        $this->loadElectricityStandardPrice($electricity_last_modified['id']);
+        // load language values
+        $this->data['text_electricity_from'] = $this->language->get('text_electricity_from');
+        $this->data['text_electricity_to'] = $this->language->get('text_electricity_to');
+        $this->data['text_electricity_price'] = $this->language->get('text_electricity_price');
+        $this->data['text_water_from'] = $this->language->get('text_water_from');
+        $this->data['text_water_to'] = $this->language->get('text_water_to');
+        $this->data['text_water_price'] = $this->language->get('text_water_price');
+        $this->data['text_garbage_price'] = $this->language->get('text_garbage_price');
+        $this->data['description_electricity'] = $this->language->get('description_electricity');
+        $this->data['description_water'] = $this->language->get('description_water');
+        $this->data['description_garbage'] = $this->language->get('description_garbage');
+        $this->data['valid_date_range'] = $this->language->get('valid_date_range');
+        $this->data['header_edit'] = $this->language->get('header_edit');
+        // load view
+        $this->template = 'price/edit.tpl';
         $this->children = array(
             'common/header',
             'common/footer'
@@ -114,7 +148,11 @@ class ControllerPriceEdit extends Controller {
         $json = array();
 
         $electricity_last_modified = $this->model_price_standard->getElectricityLastModified();
-        $json['id'] = $electricity_last_modified['id'];
+        if (empty($electricity_last_modified)) {
+            $json['id'] = -1;
+        } else {
+            $json['id'] = $electricity_last_modified['id'];
+        }
         $this->response->setOutput(json_encode($json));
     }
 
@@ -188,8 +226,17 @@ class ControllerPriceEdit extends Controller {
 
         $json = array();
         $latestUpdateDate = $this->model_price_standard->getLatestElectricityUpdateDate();
-        $json['month'] = $latestUpdateDate['Month'];
-        $json['year'] = $latestUpdateDate['Year'];
+        if (empty($latestUpdateDate)) {
+            date_default_timezone_set('UTC');
+            $json['month'] = date('m') - 1;
+            $json['year'] = date('Y');
+        } else {
+            $json['month'] = $latestUpdateDate['Month'];
+            $json['year'] = $latestUpdateDate['Year'];
+        }
+        $handle = fopen("log.txt","w");
+        fwrite($handle,var_export($json,true));
+        fclose($handle);
         $this->response->setOutput(json_encode($json));
     }
 

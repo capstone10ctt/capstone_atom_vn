@@ -1,6 +1,6 @@
 <?php
-$_['text_electricity_from'] = 'Từ kW/người';
-$_['text_electricity_to'] = 'Đến kW/người';
+$_['text_electricity_from'] = 'Từ kW/phòng';
+$_['text_electricity_to'] = 'Đến kW/phòng';
 $_['text_electricity_price'] = 'Thành Tiền';
 
 $_['text_water_from'] = 'Từ m3/người/tháng';
@@ -13,4 +13,9 @@ $_['description_electricity'] = 'Định Mức Điện';
 $_['description_water'] = 'Định Mức Nước';
 $_['description_garbage'] = 'Định Mức Rác';
 $_['valid_date_range'] = 'Hiệu Lực Từ:';
+
+$_['header_current'] = 'ĐỊNH MỨC HIỆN TẠI';
+$_['header_history'] = 'LỊCH SỬ ĐỊNH MỨC';
+$_['header_new'] = 'THÊM MỚI ĐỊNH MỨC';
+$_['header_edit'] = 'CHỈNH SỬA ĐỊNH MỨC';
 ?>

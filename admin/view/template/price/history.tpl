@@ -69,6 +69,11 @@
             width: 80%;
             text-align: center;
         }
+
+        #header {
+            text-align: center;
+            color: cornflowerblue;
+        }
     </style>
     <script src="view/javascript/jquery.blockUI.js"></script>
     <script type="text/javascript">
@@ -86,6 +91,10 @@
 
             $('#btnNewStandardPrice').click(function() {
                 window.location.href = "index.php?route=price/edit/newStandardPriceView&token=<?php echo $token; ?>"
+            });
+
+            $('#btnEditStandardPrice').click(function() {
+                window.location.href = "index.php?route=price/edit/editStandardPriceView&token=<?php echo $token; ?>"
             });
 
             $('#electricity_modified_date').change(function() {
@@ -297,8 +306,10 @@
     </script>
 </head>
 <div id="content">
+    <div id="header"><h1><?php echo $header_history; ?></h1></div>
     <div class="com-button-panel">
         <input type="button" value="Hiện Tại" id="btnCurrentStandardPrice" />
+        <input type="button" value="Chỉnh Sửa" id="btnEditStandardPrice" />
         <input type="button" value="Thêm Mới" id="btnNewStandardPrice" />
     </div>
     <div style="clear: both;"></div>
