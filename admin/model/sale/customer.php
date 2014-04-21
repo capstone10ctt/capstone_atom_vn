@@ -136,7 +136,6 @@ class ModelSaleCustomer extends Model {
 
 		return $query->rows;
 	}
-	
 	public function getCustomerGroupIdFromFloor($parent_id = 0)
 	{
 		$query = $this->db->query( "SELECT cgd.customer_group_id, cg.name FROM " . DB_PREFIX . "customer_group cg LEFT JOIN ". DB_PREFIX ."customer_group_description cgd ON(cg.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') ."' AND cg.floor_id = '" . (int)$parent_id . "'");
@@ -194,12 +193,6 @@ class ModelSaleCustomer extends Model {
 			$implode[] = "cg.floor_id = '" . (int)$data['filter_floor_id'] . "'";
 		}
 		
-		//filter by status state
-		if (!empty($data['filter_student_status']) && !is_null($data['filter_student_status'])) {
-			$implode[] = "c.student_status = '" . (int)$data['filter_student_status'] . "'";
-		}
-		//filter by status state
-			
 		if (!empty($data['filter_ethnic'])) {
 			$implode[] = "c.ethnic LIKE '%" . $this->db->escape($data['filter_ethnic']) . "%'";
 		}
@@ -241,6 +234,18 @@ class ModelSaleCustomer extends Model {
 			$implode[] = "c.approved = '" . (int)$data['filter_approved'] . "'";
 		}	
 				
+		if (isset($data['filter_student_status']) && !is_null($data['filter_student_status'])) {
+			$implode[] = "c.student_status = '" . (int)$data['filter_student_status'] . "'";
+		}	
+
+		if (isset($data['filter_valid']) && !is_null($data['filter_valid'])) {
+			$implode[] = "student_valid = '" . (int)$data['filter_valid'] . "'";
+		}		
+
+		if (isset($data['filter_resident']) && !is_null($data['filter_resident'])) {
+			$implode[] = "resident = '" . (int)$data['filter_resident'] . "'";
+		}		
+				
 		if (!empty($data['filter_date_added'])) {
 			$implode[] = "DATE(c.date_added) = DATE('" . $this->db->escape($data['filter_date_added']) . "')";
 		}
@@ -266,7 +271,8 @@ class ModelSaleCustomer extends Model {
 			'ethnic',
 			'address_1',
 			'c.status',
-			'c.approved',
+			'c.student_valid',
+			'c.resident',
 			'c.ip',
 			'c.date_added'
 			// end LMT
@@ -301,11 +307,11 @@ class ModelSaleCustomer extends Model {
 		return $query->rows;	
 	}
 	
-	public function approve($customer_id) {
+	public function approve($customer_id, $value) {
 		$customer_info = $this->getCustomer($customer_id);
 
 		if ($customer_info) {
-			$this->db->query("UPDATE " . DB_PREFIX . "customer SET approved = '1' WHERE customer_id = '" . (int)$customer_id . "'");
+			$this->db->query("UPDATE " . DB_PREFIX . "customer SET student_status = '" . (int)$value . "' WHERE customer_id = '" . (int)$customer_id . "'");
 			/*
 			$this->language->load('mail/customer');
 			
@@ -458,14 +464,21 @@ class ModelSaleCustomer extends Model {
 			$implode[] = "status = '" . (int)$data['filter_status'] . "'";
 		}	
 		
-		//filter by status state
-		if (!empty($data['filter_student_status']) && !is_null($data['filter_student_status'])) {
-			$implode[] = "student_status = '" . (int)$data['filter_student_status'] . "'";
-		}
-		//filter by status state		
-		
 		if (isset($data['filter_approved']) && !is_null($data['filter_approved'])) {
 			$implode[] = "approved = '" . (int)$data['filter_approved'] . "'";
+		}	
+
+		if (isset($data['filter_student_status']) && !is_null($data['filter_student_status'])) {
+			$implode[] = "student_status = '" . (int)$data['filter_student_status'] . "'";
+		}
+		
+		if (isset($data['filter_valid']) && !is_null($data['filter_valid'])) {
+			$implode[] = "student_valid = '" . (int)$data['filter_valid'] . "'";
+		}		
+
+
+		if (isset($data['filter_resident']) && !is_null($data['filter_resident'])) {
+			$implode[] = "resident = '" . (int)$data['filter_resident'] . "'";
 		}		
 				
 		if (!empty($data['filter_date_added'])) {
@@ -477,6 +490,7 @@ class ModelSaleCustomer extends Model {
 		}
 				
 		$query = $this->db->query($sql);
+				
 				
 		return $query->row['total'];
 	}

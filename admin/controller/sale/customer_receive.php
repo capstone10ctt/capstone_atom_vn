@@ -1,9 +1,9 @@
 <?php    
-class ControllerSaleCustomerApproval extends Controller { 
+class ControllerSaleCustomerReceive extends Controller { 
 	private $error = array();
   
   	public function index() {
-		$this->language->load('sale/customer_approval');
+		$this->language->load('sale/customer_receive');
 		 
 		$this->document->setTitle($this->language->get('heading_title'));
 		
@@ -11,9 +11,9 @@ class ControllerSaleCustomerApproval extends Controller {
 		
     	$this->getList();
   	}
-  
-	public function verify() {
-		$this->language->load('sale/customer_approval');
+
+	public function valid() {
+		$this->language->load('sale/customer');
     	
 		$this->document->setTitle($this->language->get('heading_title'));
 		
@@ -22,19 +22,19 @@ class ControllerSaleCustomerApproval extends Controller {
 		if (!$this->user->hasPermission('modify', 'sale/customer')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		} elseif (isset($this->request->post['selected'])) {
-			$verified = 0;
+			$approved = 0;
 			
 			foreach ($this->request->post['selected'] as $customer_id) {
 				$customer_info = $this->model_sale_customer->getCustomer($customer_id);
 				
-				if ($customer_info && $customer_info['student_status']=='2') {
-					$this->model_sale_customer->approve($customer_id,3);
+				if ($customer_info && !$customer_info['student_status']==0) {
+					$this->model_sale_customer->approve($customer_id,1);
 					
-					$verified++;
+					$approved++;
 				}
 			} 
 			
-			$this->session->data['success'] = sprintf($this->language->get('text_verified'), $verified);	
+			$this->session->data['success'] = sprintf($this->language->get('text_approved'), $approved);	
 			
 			$url = '';
 		
@@ -53,13 +53,13 @@ class ControllerSaleCustomerApproval extends Controller {
 			if (isset($this->request->get['filter_status'])) {
 				$url .= '&filter_status=' . $this->request->get['filter_status'];
 			}
-			
-			if (isset($this->request->get['filter_valid'])) {
-				$url .= '&filter_valid=' . $this->request->get['filter_valid'];
-			}
 
 			if (isset($this->request->get['filter_resident'])) {
 				$url .= '&filter_resident=' . $this->request->get['filter_resident'];
+			}
+			
+			if (isset($this->request->get['filter_approved'])) {
+				$url .= '&filter_approved=' . $this->request->get['filter_approved'];
 			}
 				
 			if (isset($this->request->get['filter_ip'])) {
@@ -82,14 +82,14 @@ class ControllerSaleCustomerApproval extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}	
 	
-			$this->redirect($this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . $url, 'SSL'));			
+			$this->redirect($this->url->link('sale/customer_receive', 'token=' . $this->session->data['token'] . $url, 'SSL'));			
 		}
 		
 		$this->getList();
 	} 
 
 	public function unapprove() {
-		$this->language->load('sale/customer_approval');
+		$this->language->load('sale/customer_receive');
     	
 		$this->document->setTitle($this->language->get('heading_title'));
 
@@ -129,8 +129,8 @@ class ControllerSaleCustomerApproval extends Controller {
 				$url .= '&filter_status=' . $this->request->get['filter_status'];
 			}
 			
-			if (isset($this->request->get['filter_student_status'])) {
-				$url .= '&filter_student_status=' . $this->request->get['filter_student_status'];
+			if (isset($this->request->get['filter_approved'])) {
+				$url .= '&filter_approved=' . $this->request->get['filter_approved'];
 			}
 				
 			if (isset($this->request->get['filter_ip'])) {
@@ -153,7 +153,7 @@ class ControllerSaleCustomerApproval extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}	
 	
-			//$this->redirect($this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . $url, 'SSL'));			
+			//$this->redirect($this->url->link('sale/customer_receive', 'token=' . $this->session->data['token'] . $url, 'SSL'));			
 		}
 		
 		$this->getList();
@@ -240,7 +240,14 @@ class ControllerSaleCustomerApproval extends Controller {
 			} else {
 				$filter_address_1 = null;
 			}
-
+			
+			$this->data['text_search'] = $this->language->get('text_search');
+			$this->data['text_report'] = $this->language->get('text_report');
+			$this->data['text_received'] = $this->language->get('text_received');
+			
+			$this->data['text_do_search'] = $this->language->get('text_do_search');
+			$this->data['text_cancel'] = $this->language->get('text_cancel');
+			
 			$this->data['column_student_id'] = $this->language->get('column_student_id');
 			$this->data['column_gender'] = $this->language->get('column_gender');
 			$this->data['column_telephone'] = $this->language->get('column_telephone');
@@ -263,8 +270,8 @@ class ControllerSaleCustomerApproval extends Controller {
 			$this->data['NKUniversity'] = $NKUniversity;
 
 			$this->data['text_none'] = $this->language->get('text_none');
-			$this->data['text_not_valid'] = $this->language->get('text_not_valid');
-			$this->data['text_valid'] = $this->language->get('text_valid');
+			$this->data['text_not_approve'] = $this->language->get('text_not_approve');
+			$this->data['text_approve'] = $this->language->get('text_approve');
 			$this->data['text_resident'] = $this->language->get('text_resident');
 			$this->data['text_not_resident'] = $this->language->get('text_not_resident');
 
@@ -305,10 +312,10 @@ class ControllerSaleCustomerApproval extends Controller {
 			$filter_status = null;
 		}
 		
-		if (isset($this->request->get['filter_valid'])) {
-			$filter_valid = $this->request->get['filter_valid'];
+		if (isset($this->request->get['filter_approved'])) {
+			$filter_approved = $this->request->get['filter_approved'];
 		} else {
-			$filter_valid = null;
+			$filter_approved = null;
 		}
 
 		if (isset($this->request->get['filter_resident'])) {
@@ -406,6 +413,10 @@ class ControllerSaleCustomerApproval extends Controller {
 		if (isset($this->request->get['filter_approved'])) {
 			$url .= '&filter_approved=' . $this->request->get['filter_approved'];
 		}	
+
+		if (isset($this->request->get['filter_resident'])) {
+				$url .= '&filter_resident=' . $this->request->get['filter_resident'];
+		}
 		
 		if (isset($this->request->get['filter_ip'])) {
 			$url .= '&filter_ip=' . $this->request->get['filter_ip'];
@@ -437,11 +448,12 @@ class ControllerSaleCustomerApproval extends Controller {
 
    		$this->data['breadcrumbs'][] = array(
        		'text'      => $this->language->get('heading_title'),
-			'href'      => $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . $url, 'SSL'),
+			'href'      => $this->url->link('sale/customer_receive', 'token=' . $this->session->data['token'] . $url, 'SSL'),
       		'separator' => ' :: '
    		);
 		
-		$this->data['verify'] = $this->url->link('sale/customer_approval/verify', 'token=' . $this->session->data['token'] . $url, 'SSL');
+		$this->data['approve'] = $this->url->link('sale/customer_receive/approve', 'token=' . $this->session->data['token'] . $url, 'SSL');
+		$this->data['unapprove'] = $this->url->link('sale/customer_receive/unapprove', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		$this->data['insert'] = $this->url->link('sale/customer/insert', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		$this->data['delete'] = $this->url->link('sale/customer/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');
 
@@ -450,6 +462,10 @@ class ControllerSaleCustomerApproval extends Controller {
 		$data = array(
             // start LMT
             'filter_university'              => $filter_university,
+			
+				'filter_gender' => $filter_gender,
+				'filter_student_status' => 1,
+				
             'filter_faculty'              => $filter_faculty,
             'filter_floor_id'              => $filter_floor_id,
             'filter_date_of_birth' 		=> $filter_date_of_birth,
@@ -466,9 +482,7 @@ class ControllerSaleCustomerApproval extends Controller {
 			'filter_email'             => $filter_email, 
 			'filter_customer_group_id' => $filter_customer_group_id, 
 			'filter_status'            => $filter_status, 
-			'filter_valid'            => $filter_valid, 
 			'filter_resident'            => $filter_resident, 
-			'filter_student_status'          => 2, 
 			'filter_date_added'        => $filter_date_added,
 			'filter_ip'                => $filter_ip,
 			'sort'                     => $sort,
@@ -477,6 +491,20 @@ class ControllerSaleCustomerApproval extends Controller {
 			'limit'                    => $this->config->get('config_admin_limit')
 		);
 		
+		//start vlmn modification
+		$data_filter_status = array('status' => 0, 'gender'=> -1);
+		$this->data['total_online'] = $this->model_sale_customer->getTotalCustomersByData($data_filter_status);
+		
+		$data_filter_status = array('status' => 1, 'gender'=> -1);
+		$this->data['total_received'] = $this->model_sale_customer->getTotalCustomersByData($data_filter_status);
+		
+		$data_filter_status = array('status' => 1, 'gender'=> 0);
+		$this->data['total_received_male'] = $this->model_sale_customer->getTotalCustomersByData($data_filter_status);
+		
+		$data_filter_status = array('status' => 1, 'gender'=> 1);
+		$this->data['total_received_female'] = $this->model_sale_customer->getTotalCustomersByData($data_filter_status);
+		
+		//end vlmn modification
 		$customer_total = $this->model_sale_customer->getTotalCustomers($data);
 	
 		$results = $this->model_sale_customer->getCustomers($data);
@@ -515,9 +543,7 @@ class ControllerSaleCustomerApproval extends Controller {
 				'address_1'          => $zone['name'],
 				'customer_group' => $result['customer_group'],
 				'status'         => ($result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
-				'valid'       => ($result['student_valid'] ? $this->language->get('text_valid') : $this->language->get('text_not_valid')),
 				'resident'       => ($result['resident'] ? $this->language->get('text_resident') : $this->language->get('text_not_resident')),
-
 				
 				'selected'       => isset($this->request->post['selected']) && in_array($result['customer_id'], $this->request->post['selected']),
 				'action'         => $action
@@ -535,7 +561,7 @@ class ControllerSaleCustomerApproval extends Controller {
 		$this->data['text_select'] = $this->language->get('text_select');	
 		$this->data['text_default'] = $this->language->get('text_default');		
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
-		$this->data['text_verify'] = $this->language->get('text_verify');
+
 
 		$this->data['column_field'] = $this->language->get('column_field');
 		$this->data['column_name'] = $this->language->get('column_name');
@@ -642,27 +668,26 @@ class ControllerSaleCustomerApproval extends Controller {
 		}
 		
 		// start LMT
-		$this->data['sort_field'] = $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . '&sort=field' . $url, 'SSL');
-		$this->data['sort_student_id'] = $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . '&sort=student_id' . $url, 'SSL');
-		$this->data['sort_date_of_birth'] = $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . '&sort=date_of_birth' . $url, 'SSL');
-		$this->data['sort_gender'] = $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . '&sort=gender' . $url, 'SSL');
-		$this->data['sort_telephone'] = $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . '&sort=telephone' . $url, 'SSL');
-		$this->data['sort_university'] = $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . '&sort=university' . $url, 'SSL');
-		$this->data['sort_faculty'] = $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . '&sort=faculty' . $url, 'SSL');	
-		$this->data['sort_floor'] = $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . '&sort=floor' . $url, 'SSL');	
-		$this->data['sort_bed'] = $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . '&sort=bed' . $url, 'SSL');	
-		$this->data['sort_ethnic'] = $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . '&sort=ethnic' . $url, 'SSL');	
-		$this->data['sort_address_1'] = $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . '&sort=id_location' . $url, 'SSL');	
+		$this->data['sort_field'] = $this->url->link('sale/customer_receive', 'token=' . $this->session->data['token'] . '&sort=field' . $url, 'SSL');
+		$this->data['sort_student_id'] = $this->url->link('sale/customer_receive', 'token=' . $this->session->data['token'] . '&sort=student_id' . $url, 'SSL');
+		$this->data['sort_date_of_birth'] = $this->url->link('sale/customer_receive', 'token=' . $this->session->data['token'] . '&sort=date_of_birth' . $url, 'SSL');
+		$this->data['sort_gender'] = $this->url->link('sale/customer_receive', 'token=' . $this->session->data['token'] . '&sort=gender' . $url, 'SSL');
+		$this->data['sort_telephone'] = $this->url->link('sale/customer_receive', 'token=' . $this->session->data['token'] . '&sort=telephone' . $url, 'SSL');
+		$this->data['sort_university'] = $this->url->link('sale/customer_receive', 'token=' . $this->session->data['token'] . '&sort=university' . $url, 'SSL');
+		$this->data['sort_faculty'] = $this->url->link('sale/customer_receive', 'token=' . $this->session->data['token'] . '&sort=faculty' . $url, 'SSL');	
+		$this->data['sort_floor'] = $this->url->link('sale/customer_receive', 'token=' . $this->session->data['token'] . '&sort=floor' . $url, 'SSL');	
+		$this->data['sort_bed'] = $this->url->link('sale/customer_receive', 'token=' . $this->session->data['token'] . '&sort=bed' . $url, 'SSL');	
+		$this->data['sort_ethnic'] = $this->url->link('sale/customer_receive', 'token=' . $this->session->data['token'] . '&sort=ethnic' . $url, 'SSL');	
+		$this->data['sort_address_1'] = $this->url->link('sale/customer_receive', 'token=' . $this->session->data['token'] . '&sort=id_location' . $url, 'SSL');	
 		// end LMT
 
-		$this->data['sort_name'] = $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . '&sort=name' . $url, 'SSL');
-		$this->data['sort_email'] = $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . '&sort=c.email' . $url, 'SSL');
-		$this->data['sort_customer_group'] = $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . '&sort=customer_group' . $url, 'SSL');
-		$this->data['sort_status'] = $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . '&sort=c.status' . $url, 'SSL');
-		$this->data['sort_valid'] = $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . '&sort=c.valid' . $url, 'SSL');
-		$this->data['sort_resident'] = $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . '&sort=c.resident' . $url, 'SSL');
-		$this->data['sort_ip'] = $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . '&sort=c.ip' . $url, 'SSL');
-		$this->data['sort_date_added'] = $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . '&sort=c.date_added' . $url, 'SSL');
+		$this->data['sort_name'] = $this->url->link('sale/customer_receive', 'token=' . $this->session->data['token'] . '&sort=name' . $url, 'SSL');
+		$this->data['sort_email'] = $this->url->link('sale/customer_receive', 'token=' . $this->session->data['token'] . '&sort=c.email' . $url, 'SSL');
+		$this->data['sort_customer_group'] = $this->url->link('sale/customer_receive', 'token=' . $this->session->data['token'] . '&sort=customer_group' . $url, 'SSL');
+		$this->data['sort_status'] = $this->url->link('sale/customer_receive', 'token=' . $this->session->data['token'] . '&sort=c.status' . $url, 'SSL');
+		$this->data['sort_resident'] = $this->url->link('sale/customer_receive', 'token=' . $this->session->data['token'] . '&sort=c.resident' . $url, 'SSL');
+		$this->data['sort_ip'] = $this->url->link('sale/customer_receive', 'token=' . $this->session->data['token'] . '&sort=c.ip' . $url, 'SSL');
+		$this->data['sort_date_added'] = $this->url->link('sale/customer_receive', 'token=' . $this->session->data['token'] . '&sort=c.date_added' . $url, 'SSL');
 		
 		$url = '';
 
@@ -714,8 +739,8 @@ class ControllerSaleCustomerApproval extends Controller {
 			$url .= '&filter_status=' . $this->request->get['filter_status'];
 		}
 		
-		if (isset($this->request->get['filter_valid'])) {
-			$url .= '&filter_approved=' . $this->request->get['filter_valid'];
+		if (isset($this->request->get['filter_approved'])) {
+			$url .= '&filter_approved=' . $this->request->get['filter_approved'];
 		}
 		
 		if (isset($this->request->get['filter_ip'])) {
@@ -739,7 +764,7 @@ class ControllerSaleCustomerApproval extends Controller {
 		$pagination->page = $page;
 		$pagination->limit = $this->config->get('config_admin_limit');
 		$pagination->text = $this->language->get('text_pagination');
-		$pagination->url = $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
+		$pagination->url = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
 			
 		$this->data['pagination'] = $pagination->render();
 
@@ -761,7 +786,7 @@ class ControllerSaleCustomerApproval extends Controller {
 		$this->data['filter_name'] = $filter_name;
 		$this->data['filter_email'] = $filter_email;
 		$this->data['filter_status'] = $filter_status;
-		$this->data['filter_valid'] = $filter_valid;
+		$this->data['filter_approved'] = $filter_approved;
 		$this->data['filter_ip'] = $filter_ip;
 		$this->data['filter_date_added'] = $filter_date_added;
 		
@@ -785,7 +810,7 @@ class ControllerSaleCustomerApproval extends Controller {
 		$this->data['sort'] = $sort;
 		$this->data['order'] = $order;
 		
-		$this->template = 'sale/customer_list_approval.tpl';
+		$this->template = 'sale/customer_list_receive.tpl';
 		$this->children = array(
 			'common/header',
 			'common/footer'
@@ -829,6 +854,9 @@ class ControllerSaleCustomerApproval extends Controller {
 
 		$NKUniversity = $this->model_catalog_category->NKUniversity();
 		$this->data['NKUniversity'] = $NKUniversity;
+
+		$this->data['text_resident'] = $this->language->get('text_resident');
+		$this->data['text_not_resident'] = $this->language->get('text_not_resident');
 
 		$this->load->model('sale/customer');
         $this->data['floors'] = $this->model_sale_customer->getAllFloors();

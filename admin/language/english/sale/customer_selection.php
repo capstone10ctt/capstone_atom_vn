@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']         = 'Verify Students';
+$_['heading_title']         = 'Select Students';
 
 /////////////////////// Modification//////////////////////
 // ID: 1051015	 	 	 	
@@ -29,6 +29,8 @@ $_['column_ethnic']           = 'Ethnic';
 $_['text_male']          = 'Male';
 $_['text_female']          = 'Female';
 
+$_['button_finish']          = 'Finish';
+$_['button_unselect']          = 'Unselect';
 $_['text_resident']          = 'Resident';
 $_['text_not_resident']          = 'Not resident';
 $_['text_verify']          = 'Verify';
@@ -91,6 +93,8 @@ $_['text_success']          = 'Success: You have modified customers!';
 $_['text_default']          = 'Default';
 $_['text_approved']         = 'You have approved %s accounts!';
 $_['text_verified']         = 'You have verified %s accounts!';
+$_['text_selected']         = 'You have selected %s accounts!';
+$_['text_unselected']         = 'You have unselected %s accounts!';
 $_['text_wait']             = 'Please Wait!';
 $_['text_balance']          = 'Balance:';
 $_['text_add_ban_ip']       = 'Add Ban IP';

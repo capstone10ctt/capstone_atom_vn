@@ -30,11 +30,21 @@
       <a onclick="$('form').attr('action', '<?php echo $approve; ?>'); $('form').submit();" class="button"><?php echo $button_approve; ?></a>
       -->
       <!-- end LMT -->
-      <a onclick="$('form').attr('action', '<?php echo $verify; ?>'); $('form').submit();" class="button"><?php echo $text_verify; ?></a></div>
+      <a onclick="$('form').attr('action', '<?php echo $approve; ?>'); $('form').submit();" class="button"><?php echo $text_approve; ?></a><a onclick="$('form').attr('action', '<?php echo $unapprove; ?>'); $('form').submit();" class="button"><?php echo $text_not_approve; ?></a></div>
     </div>
     <div class="content">
-    <div id="leftcol" style="float:fleft;width:200px;text-alignment:left">
-      
+    <div id="leftcol" style="float:left;width:200px;text-alignment:left">
+      <div style="margin-bottom:5px;font-size:15px;font-weight:bold;"><?php echo $text_search; ?></div>
+         <input type="text" />
+         <input type="button" value="<?php echo $text_do_search; ?>" style="width:70px;"/>
+         <input type="button" value="<?php echo $text_cancel; ?>" style="width:70px;"/>
+        
+        <div style="margin-top:20px;margin-bottom:5px;font-size:15px;font-weight:bold;"><?php echo $text_report; ?></div>
+        <div style="margin-bottom:5px;"><?php echo $text_received; ?> <?php echo $total_received.'/'.$total_online;?></div>
+        <div style="margin-bottom:5px"><?php echo $text_male; ?><?php echo ': '.$total_received_male;?></div>
+    	<div style="margin-bottom:5px"><?php echo $text_female; ?><?php echo ': '.$total_received_female;?></div>
+        
+        <div id="block_info"></div> 
     </div>
     <div id="rightcol" style="margin-left:200px;text-alignment:left">
       <form action="" method="post" enctype="multipart/form-data" id="form">
@@ -85,17 +95,11 @@
                 <?php } else { ?>
                 <a href="<?php echo $sort_telephone; ?>"><?php echo $column_telephone; ?></a>
                 <?php } ?></td>
-                <!-- Add comlumn resident -->
+                <!-- Add comlumn approve -->
                 <td class="left"><?php if ($sort == 'c.resident') { ?>
                 <a href="<?php echo $sort_resident; ?>" class="<?php echo strtolower($order); ?>"><?php echo $text_resident; ?></a>
                 <?php } else { ?>
                 <a href="<?php echo $sort_resident; ?>"><?php echo $text_resident; ?></a>
-                <?php } ?></td>
-                <!-- Add comlumn approve -->
-                <td class="left"><?php if ($sort == 'c.student_valid') { ?>
-                <a href="<?php echo $sort_valid; ?>" class="<?php echo strtolower($order); ?>"><?php echo $text_valid; ?></a>
-                <?php } else { ?>
-                <a href="<?php echo $sort_valid; ?>"><?php echo $text_valid; ?></a>
                 <?php } ?></td>
 
               <!-- Delete
@@ -158,6 +162,7 @@
               </td>
            
               <td><input type="text" name="filter_telephone" value="<?php echo $filter_telephone; ?>" /></td>
+
               <td><select name="filter_resident">
                   <option value=""></option>
                   <?php if ($filter_resident) { ?>
@@ -169,19 +174,6 @@
                   <option value="0" selected="selected"><?php echo $text_not_resident; ?></option>
                   <?php } else { ?>
                   <option value="0"><?php echo $text_not_resident; ?></option>
-                  <?php } ?>
-                </select></td>
-              <td><select name="filter_valid">
-                  <option value=""></option>
-                  <?php if ($filter_valid) { ?>
-                  <option value="1" selected="selected"><?php echo $text_valid; ?></option>
-                  <?php } else { ?>
-                  <option value="1"><?php echo $text_valid; ?></option>
-                  <?php } ?>
-                  <?php if (!is_null($filter_valid) && !$filter_validd) { ?>
-                  <option value="0" selected="selected"><?php echo $text_not_valid; ?></option>
-                  <?php } else { ?>
-                  <option value="0"><?php echo $text_not_valid; ?></option>
                   <?php } ?>
                 </select></td>
                 <!-- Delete
@@ -230,7 +222,6 @@
                 <td class="left"><?php echo $customer['gender']; ?></td>
                 <td class="left"><?php echo $customer['telephone']; ?></td>
                 <td class="left"><?php echo $customer['resident']; ?></td>
-                <td class="left"><?php echo $customer['valid']; ?></td>
                 
                 <!-- end LMT -->
               <td class="right"><?php foreach ($customer['action'] as $action) { ?>
@@ -340,16 +331,10 @@ var filter_id = $('input[name=\'filter_id\']').attr('value');
     url += '&filter_gender=' + encodeURIComponent(filter_gender);
   }
 
-   var filter_resident= $('select[name=\'filter_resident\']').attr('value');
+  var filter_resident= $('select[name=\'filter_resident\']').attr('value');
   
   if (filter_resident) {
     url += '&filter_resident=' + encodeURIComponent(filter_resident);
-  }
-
-   var filter_valid= $('select[name=\'filter_valid\']').attr('value');
-  
-  if (filter_valid) {
-    url += '&filter_valid=' + encodeURIComponent(filter_valid);
   }
    var filter_field = $('select[name=\'filter_field\']').attr('value');
   

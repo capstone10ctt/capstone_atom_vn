@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']         = 'Duyệt sinh viên';
+$_['heading_title']         = 'Chọn sinh viên';
 
 /////////////////////// Modification//////////////////////
 // ID: 1051015	 	 	 	
@@ -30,6 +30,8 @@ $_['column_ethnic']           = 'Dân tộc';
 $_['text_male']          = 'Nam';
 $_['text_female']          = 'Nữ';
 
+$_['button_finish']          = 'Hoàn thành';
+$_['button_unselect']          = 'Bỏ chọn';
 $_['text_resident']          = 'Lưu trú';
 $_['text_not_resident']          = 'Không lưu trú';
 $_['text_verify']          = 'Duyệt';
@@ -90,6 +92,8 @@ $_['text_success']          = 'Bạn đã sửa đổi sinh viên thành công!'
 $_['text_default']          = 'Mặc định';
 $_['text_approved']         = 'Tài khoản %s vừa được phê chuẩn!';
 $_['text_verified']         = '%s hồ sơ vừa được duyệt';
+$_['text_selected']         = '%s hồ sơ vừa được chọn';
+$_['text_unselected']         = '%s hồ sơ vừa được bỏ chọn';
 $_['text_not_approved']         = 'Tài khoản %s vừa được bỏ phê chuẩn!';
 $_['text_wait']             = 'Xin vui lòng đợi!';
 $_['text_balance']          = 'Số dư:';

@@ -27,14 +27,17 @@ $_['column_address_1']           = 'Địa chỉ';
 $_['column_bed']           = 'Giường';
 $_['column_ethnic']           = 'Dân tộc';
 
+$_['text_search']           = 'Tìm thủ công';
+$_['text_report']           = 'Thống kê hồ sơ mới';
+$_['text_received']           = 'Đã nhận hồ sơ:';
+$_['text_do_search']           = 'Tìm';
+$_['text_cancel']           = 'Huỷ';
+
 $_['text_male']          = 'Nam';
 $_['text_female']          = 'Nữ';
 
 $_['text_resident']          = 'Lưu trú';
 $_['text_not_resident']          = 'Không lưu trú';
-$_['text_verify']          = 'Duyệt';
-$_['text_valid']          = 'Hợp lệ';
-$_['text_not_valid']          = 'Không hợp lệ';
 $_['text_basic_info']          = 'Thông tin cá nhân';
 $_['text_contact']          = 'Liên lạc';
 $_['text_identity']          = 'Chứng minh nhân dân';
@@ -89,7 +92,6 @@ $_['text_not_receive']		= "Không nhận";
 $_['text_success']          = 'Bạn đã sửa đổi sinh viên thành công!';
 $_['text_default']          = 'Mặc định';
 $_['text_approved']         = 'Tài khoản %s vừa được phê chuẩn!';
-$_['text_verified']         = '%s hồ sơ vừa được duyệt';
 $_['text_not_approved']         = 'Tài khoản %s vừa được bỏ phê chuẩn!';
 $_['text_wait']             = 'Xin vui lòng đợi!';
 $_['text_balance']          = 'Số dư:';
