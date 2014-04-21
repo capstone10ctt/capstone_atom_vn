@@ -90,7 +90,9 @@ $(document).ready(function(){
         <ul>
           <?php if($this->user->getUserGroup() == ADMIN_IDX) { ?>
           <li><a href="<?php echo $customer; ?>"><?php echo $text_customer; ?></a></li>
+          <li><a href="<?php echo $customer_receive ?>"><?php echo $text_customer_receive; ?></a></li>
           <li><a href="<?php echo $customer_approval; ?>"><?php echo $text_customer_approval; ?></a></li>
+          <li><a href="<?php echo $customer_selection; ?>"><?php echo $text_customer_selection; ?></a></li>
           <li><a href="<?php echo $customer_group; ?>"><?php echo $text_customer_group; ?></a></li>
           <li><a href="<?php echo $category; ?>"><?php echo $text_category; ?></a></li>
           <li><a href="<?php echo $manage_wie_limit; ?>"><?php echo $text_manage_wie_limit; ?></a></li>
