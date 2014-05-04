@@ -1,4 +1,7 @@
 <?php 
+// kah2914
+//session_start();
+// kah2914
 class ControllerAccountRegister extends Controller {
 	private $error = array();
 	public $NKUniversity = 0;
@@ -12,11 +15,18 @@ class ControllerAccountRegister extends Controller {
 		
 		$this->document->setTitle($this->language->get('heading_title'));
 		$this->document->addScript('catalog/view/javascript/jquery/colorbox/jquery.colorbox-min.js');
-		$this->document->addStyle('catalog/view/javascript/jquery/colorbox/colorbox.css');
+		$this->document->addStyle('catalog/view/javascript/jquery/colorbox/colorbox.css');		
 					
 		$this->load->model('account/customer');
-		
-    	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
+
+		//kah2914		
+    	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) 
+    	{		
+    		define ('SITE_ROOT', realpath('./'));
+			$imagename = $_FILES['userfile']['name'].'_'.date('Y-m-d-H-i-s').'_'.uniqid().'.jpg';
+			$this->request->post['portrait']=$imagename;
+			move_uploaded_file($_FILES['userfile']['tmp_name'],SITE_ROOT.'\image\portrait\\'.$imagename);
+
 			$this->model_account_customer->addCustomer($this->request->post);
 
 			$this->customer->login($this->request->post['email'], $this->request->post['password']);
@@ -25,7 +35,7 @@ class ControllerAccountRegister extends Controller {
 							  	  
 	  		$this->redirect($this->url->link('account/success'));
     	} 
-
+	    //kah2914
       	$this->data['breadcrumbs'] = array();
 
       	$this->data['breadcrumbs'][] = array(
@@ -47,6 +57,10 @@ class ControllerAccountRegister extends Controller {
       	);
 		
     	$this->data['heading_title'] = $this->language->get('heading_title');
+
+		//kah2914
+		$this->data['url']=$this->config->get('config_url');
+		//kah2914
 		
 		$this->data['text_account_already'] = sprintf($this->language->get('text_account_already'), $this->url->link('account/login', '', 'SSL'));
 		$this->data['text_your_details'] = $this->language->get('text_your_details');
@@ -79,7 +93,9 @@ class ControllerAccountRegister extends Controller {
 		$this->data['error_university'] = $this->language->get('error_university');
 		$this->data['error_faculty'] = $this->language->get('error_faculty');
 		$this->data['error_student_id'] = $this->language->get('error_student_id');
+		$this->data['error_portrait'] = $this->language->get('error_portrait');	
 		
+		$this->data['entry_portrait'] = $this->language->get('entry_portrait');
 		$this->data['entry_idnum'] = $this->language->get('entry_idnum');
 		$this->data['entry_iddate'] = $this->language->get('entry_iddate');
 		$this->data['entry_idlocation'] = $this->language->get('entry_idlocation');
@@ -227,10 +243,10 @@ class ControllerAccountRegister extends Controller {
 			$this->data['address_9'] = '';
 		}
 
-		if (isset($this->request->post['idnum'])) {
-    		$this->data['idnum'] = $this->request->post['idnum'];
+		if (isset($this->request->post['id_num'])) {
+    		$this->data['id_num'] = $this->request->post['id_num'];
 		} else {
-			$this->data['idnum'] = '';
+			$this->data['id_num'] = '';
 		}
 		/*if (isset($this->request->post['iddate'])) {
     		$this->data['iddate'] = $this->request->post['iddate'];
@@ -281,6 +297,22 @@ class ControllerAccountRegister extends Controller {
 			$this->data['error_fullname'] = '';
 		}	
 
+		//kah2914
+		if (isset($this->error['txtCaptcha'])) {
+			$this->data['error_txtCaptcha'] = $this->error['txtCaptcha'];
+		} else {
+			$this->data['error_txtCaptcha'] = '';
+		}	
+		//kah2914
+
+		//kah2914
+		if (isset($this->error['portrait'])) {
+			$this->data['error_portrait'] = $this->error['portrait'];
+		} else {
+			$this->data['error_portrait'] = '';
+		}	
+		//kah2914
+		
 		/*
 		if (isset($this->error['firstname'])) {
 			$this->data['error_firstname'] = $this->error['firstname'];
@@ -704,6 +736,20 @@ class ControllerAccountRegister extends Controller {
   	}
 	
   	protected function validate() {
+  		// kah2914
+  		if ($_FILES['userfile']['name']==""){
+  			$this->error['portrait'] = $this->language->get('error_portrait');
+  		}
+  		// kah2914
+
+  		// kah2914
+		if ($this->request->post['txtCaptcha'] != $_SESSION["security_code"])
+		{			
+			$this->error['txtCaptcha'] = $this->language->get('error_txtCaptcha');
+		}
+		// kah2914    		
+
+
 
   		if ((utf8_strlen($this->request->post['fullname']) < 1) || (utf8_strlen($this->request->post['fullname']) > 32)) {
       		$this->error['fullname'] = $this->language->get('error_fullname');
@@ -742,7 +788,7 @@ class ControllerAccountRegister extends Controller {
         if ((utf8_strlen($this->request->post['ethnic']) >= 9)) {
       		$this->error['ethnic'] = $this->language->get('error_ethnic');
     	}
-		if ((utf8_strlen($this->request->post['idnum']) != 9)) {
+		if ((utf8_strlen($this->request->post['id_num']) != 9)) {
       		$this->error['idnum'] = $this->language->get('error_idnum');
     	}
 		//if ((int)$this->request->post['university_id'] == -1) {
@@ -750,8 +796,7 @@ class ControllerAccountRegister extends Controller {
     	//}
 		/*if ((int)$this->request->post['faculty_id'] == -1) {
       		$this->error['faculty'] = $this->language->get('error_faculty');
-    	}*/
-		
+    	}*/		
 		if ($this->request->post['student_id'] == '' || !$this->checkStudentID($this->request->post['student_id'])) {
       		$this->error['student_id'] = $this->language->get('error_student_id');
     	}
@@ -759,10 +804,12 @@ class ControllerAccountRegister extends Controller {
 		if ($this->request->post['reason'] == '' || strlen($this->request->post['reason']) < 15) {
       		$this->error['reason'] = $this->language->get('error_reason');
     	}
-        
-        if (is_null(utf8_strlen($this->request->post['idnum'])) || !$this->checkIDNum($this->request->post['idnum'])) {
-      		$this->error['error_idnum'] = $this->language->get('error_idnum');
+        //kah2914
+        if (is_null(utf8_strlen($this->request->post['id_num'])) || !$this->checkIDNum($this->request->post['id_num'])) {
+      		//$this->error['error_idnum'] = $this->language->get('error_idnum');
+      		$this->error['idnum'] = $this->language->get('error_idnum');
     	}
+    	//kah2914
 				//check input date satisfy dd/mm/yyyy
 		/*if (!$this->checkdateDDMMYYYY($this->request->post['iddate'])) {
       		$this->error['iddate'] = $this->language->get('error_iddate');
@@ -896,7 +943,7 @@ class ControllerAccountRegister extends Controller {
     	if (!$this->error) {
       		return true;
     	} else {
-      		return true;
+      		return false;
     	}
   	}
 	

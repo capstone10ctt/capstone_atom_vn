@@ -63,6 +63,7 @@ $_['error_university']         = 'Lỗi: Xin lựa chọn trường!';
 $_['error_faculty']         = 'Lỗi: Xin lựa chọn khoa!';
 $_['error_student_id']         = 'Lỗi: Xin nhập mã số sinh viên hoặc mã sinh viên bị trùng!';
 
+$_['entry_portrait']        = 'Hình 3x4 chuẩn';
 $_['entry_idnum']        = 'Số CMND:';
 $_['entry_iddate']        = 'Ngày cấp:';
 $_['entry_idlocation']        = 'Nơi cấp:';
@@ -73,8 +74,9 @@ $_['error_date_of_birth']         = 'Lỗi: Ngày sinh không hợp lệ!';
 $_['error_ethnic']         = 'Lỗi: Xin nhập tôn giáo và độ dài phải bé hơn 9';
 $_['error_gender']         = 'Lỗi: Xin lựa chọn giới tính!';
 $_['error_id_location']         = 'Lỗi: Xin lựa chọn khu vực!';
-
 $_['error_reason']         = 'Lỗi: Lý do không được để trống và phải dài hơn 15 ký tự!';
+$_['error_portrait']         = 'Lỗi: Phải đính kèm ảnh 3x4!';
+
 
 $_['entry_gender']        = 'Giới tính:';
 $_['entry_male']        = 'Nam';
@@ -82,6 +84,7 @@ $_['entry_female']        = 'Nữ';
 // end changing: adding new feature and error message
 
 // Error
+$_['error_txtCaptcha']     	  = 'Lỗi: Captcha không hợp lệ';
 $_['error_exists']     	  = 'Lỗi: Email đã có người sử dụng!';
 $_['error_fullname']     = 'Họ và tên phải từ 1 đến 32 ký tự!';
 $_['error_firstname']     = 'Tên phải từ 1 đến 32 ký tự!';
