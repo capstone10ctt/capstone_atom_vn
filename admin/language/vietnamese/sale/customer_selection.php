@@ -29,7 +29,8 @@ $_['column_ethnic']           = 'Dân tộc';
 
 $_['text_male']          = 'Nam';
 $_['text_female']          = 'Nữ';
-
+$_['text_unidentified_field']          = 'Diện không xác định';
+$_['text_report_field']          = 'Thống kê theo diện';
 $_['button_finish']          = 'Hoàn thành';
 $_['button_unselect']          = 'Bỏ chọn';
 $_['text_resident']          = 'Lưu trú';

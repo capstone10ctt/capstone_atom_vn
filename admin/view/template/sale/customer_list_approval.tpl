@@ -1,4 +1,18 @@
-<?php echo $header; ?>
+<?php echo $header;
+$count_resident = 0;
+$count_field = array();
+$count_field["0"]=0;
+foreach ($fields as $field) { 
+  $count_field[$field['field_id']] = 0;
+}
+foreach ($customers as $customer) {
+if($customer['resident'] == $text_resident)
+  {
+    $count_resident++;
+  }
+  $count_field[$customer['field']]++;
+  }
+ ?>
 <div id="content">
   <div class="breadcrumb">
     <?php foreach ($breadcrumbs as $breadcrumb) { ?>
@@ -33,10 +47,28 @@
       <a onclick="$('form').attr('action', '<?php echo $verify; ?>'); $('form').submit();" class="button"><?php echo $text_verify; ?></a></div>
     </div>
     <div class="content">
-    <div id="leftcol" style="float:fleft;width:200px;text-alignment:left">
-      
+    <div id="leftcol" style="float:left;width:300px;text-alignment:left">
+      <h2><?php echo $text_select_field; ?></h2>
+      <div id="select_field">
+
+        <input type="checkbox" name="resident" value="true" /><?php echo $text_resident.': '.$count_resident; ?><br />
+        <input type="checkbox" name="0" value="true" /><?php echo $text_unidentified_field.': '.$count_field["0"]; ?><br />
+        <div id="leftfield" style="float:left;width:100px;text-alignment:left">
+        <?php $count=0;
+        foreach ($fields as $field) {
+          echo '<input type="checkbox" name="'.$field['field_id'].'" value="true" />'.$field['field_name'].': '.$count_field[$field['field_id']].'<br />';
+          $count++;
+          if($count == count($fields)/2)
+            echo '</div><div id="rightfield" style="margin-left:150px;text-alignment:left">';
+        }
+         ?>
+         </div>
+      </div>
+      <br />
+      <div style="margin-left:80px"><a onclick="select_field();" class="button"><?php echo $button_select; ?></a></div>
+
     </div>
-    <div id="rightcol" style="margin-left:200px;text-alignment:left">
+    <div id="rightcol" style="margin-left:300px;text-alignment:left">
       <form action="" method="post" enctype="multipart/form-data" id="form">
         <table class="list">
           <thead>
@@ -224,14 +256,13 @@
                 <input type="checkbox" name="selected[]" value="<?php echo $customer['customer_id']; ?>" />
                 <?php } ?></td>
                 <!-- start LMT -->
-                <td class="left"><?php echo $customer['field']; ?></td>
+                <td class="left field"><?php echo $customer['field']; ?></td>
                 <td class="left"><?php echo $customer['student_id']; ?></td>
                 <td class="left"><?php echo $customer['name']; ?></td>
                 <td class="left"><?php echo $customer['gender']; ?></td>
                 <td class="left"><?php echo $customer['telephone']; ?></td>
-                <td class="left"><?php echo $customer['resident']; ?></td>
+                <td class="left resident"><?php echo $customer['resident']; ?></td>
                 <td class="left"><?php echo $customer['valid']; ?></td>
-                
                 <!-- end LMT -->
               <td class="right"><?php foreach ($customer['action'] as $action) { ?>
                 [ <a href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> ]
@@ -248,7 +279,7 @@
       </form>
     </div>
       
-      <div class="pagination"><?php echo $pagination; ?></div>
+      <div class="pagination" style="clear:both"><?php echo $pagination; ?></div>
     </div>
   </div>
 </div>
@@ -360,6 +391,37 @@ var filter_id = $('input[name=\'filter_id\']').attr('value');
   // end LMT
 	location = url;
 }
+
+function select_field() {
+  if(($('input[name=\'resident\']').prop('checked')))
+    {
+      $('.list > tbody  > tr').each(function() {
+        if($(this).children('.resident').html()=="<?php echo $text_not_resident; ?>")
+         $(this).find('input:checkbox').prop("checked",true);
+      });
+    }
+
+    if(($('input[name=\'0\']').prop('checked')))
+    {
+      $('.list > tbody  > tr').each(function() {
+        if($(this).children('.field').html()=="0")
+        
+        $(this).find('input:checkbox').prop("checked",true);
+      });
+    }
+
+    <?php foreach ($fields as $field) {?>
+      if(($('input[name=\'<?php echo $field['field_id']; ?>\']').prop('checked')))
+    {
+      $('.list > tbody  > tr').each(function() {
+        if($(this).children('.field').html()=="<?php echo $field['field_id']; ?>")
+        
+        $(this).find('input:checkbox').prop("checked",true);
+      });
+    }
+    <?php } ?>
+}
+
 //--></script>
 <script type="text/javascript"><!--
 $(document).ready(function() {

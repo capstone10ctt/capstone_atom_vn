@@ -29,6 +29,8 @@ $_['column_ethnic']           = 'Ethnic';
 $_['text_male']          = 'Male';
 $_['text_female']          = 'Female';
 
+$_['text_report_field']          = 'Report by field';
+$_['text_unidentified_field']          = 'Unidentified field';
 $_['button_finish']          = 'Finish';
 $_['button_unselect']          = 'Unselect';
 $_['text_resident']          = 'Resident';

@@ -1,4 +1,13 @@
-<?php echo $header; ?>
+<?php echo $header; 
+$count_field = array();
+$count_field["0"]=0;
+foreach ($fields as $field) { 
+  $count_field[$field['field_id']] = 0;
+}
+foreach ($customers as $customer) {
+  $count_field[$customer['field']]++;
+  }
+ ?>
 <div id="content">
   <div class="breadcrumb">
     <?php foreach ($breadcrumbs as $breadcrumb) { ?>
@@ -33,10 +42,21 @@
       <a onclick="$('form').attr('action', '<?php echo $select; ?>'); $('form').submit();" class="button"><?php echo $button_finish; ?></a><a onclick="$('form').attr('action', '<?php echo $unselect; ?>'); $('form').submit();" class="button"><?php echo $button_unselect; ?></a></div>
     </div>
     <div class="content">
-    <div id="leftcol" style="float:fleft;width:200px;text-alignment:left">
-      
-    </div>
-    <div id="rightcol" style="margin-left:200px;text-alignment:left">
+    <div id="leftcol" style="float:left;width:300px;text-alignment:left">
+        <h2><?php echo $text_report_field; ?></h2>
+      <?php echo $text_unidentified_field.': '.$count_field["0"]; ?><br />
+        <div id="leftfield" style="float:left;width:100px;text-alignment:left">
+        <?php $count=0;
+        foreach ($fields as $field) {
+          echo $field['field_name'].': '.$count_field[$field['field_id']].'<br />';
+          $count++;
+          if($count == count($fields)/2)
+            echo '</div><div id="rightfield" style="margin-left:150px;text-alignment:left">';
+        }
+         ?>
+         </div>
+      </div>
+    <div id="rightcol" style="margin-left:300px;text-alignment:left">
       <form action="" method="post" enctype="multipart/form-data" id="form">
         <table class="list">
           <thead>
