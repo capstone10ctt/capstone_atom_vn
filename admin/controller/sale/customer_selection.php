@@ -274,7 +274,9 @@ class ControllerSaleCustomerselection extends Controller {
 			$this->data['text_valid'] = $this->language->get('text_valid');
 			$this->data['text_resident'] = $this->language->get('text_resident');
 			$this->data['text_not_resident'] = $this->language->get('text_not_resident');
-
+			$this->data['text_report_field'] = $this->language->get('text_report_field');
+			$this->data['text_unidentified_field'] = $this->language->get('text_unidentified_field');
+			
 			$genders = array(
 					array('gender_id' => '1', 'gender_name' => $this->language->get('entry_male')),
 					array('gender_id' => '0', 'gender_name' => $this->language->get('entry_female')),

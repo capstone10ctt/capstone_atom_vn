@@ -30,6 +30,9 @@ $_['column_ethnic']           = 'Dân tộc';
 $_['text_male']          = 'Nam';
 $_['text_female']          = 'Nữ';
 
+$_['button_select']          = 'Chọn';
+$_['text_select_field']          = 'Chọn theo diện';
+$_['text_unidentified_field']          = 'Diện không xác định';
 $_['text_resident']          = 'Lưu trú';
 $_['text_not_resident']          = 'Không lưu trú';
 $_['text_verify']          = 'Duyệt';
