@@ -502,17 +502,17 @@ class ControllerSaleCustomerReceive extends Controller {
 		);
 		
 		//start vlmn modification
-		$data_filter_status = array('status' => 0, 'gender'=> -1);
-		$this->data['total_online'] = $this->model_sale_customer->getTotalCustomersByData($data_filter_status);
+		$data_filter_status = array('filter_student_status' => 0, 'filter_gender'=> -1);
+		$this->data['total_online'] = $this->model_sale_customer->getTotalStudentsByData($data_filter_status);
 		
-		$data_filter_status = array('status' => 1, 'gender'=> -1);
-		$this->data['total_received'] = $this->model_sale_customer->getTotalCustomersByData($data_filter_status);
+		$data_filter_status = array('filter_student_status' => 1, 'filter_gender'=> -1);
+		$this->data['total_received'] = $this->model_sale_customer->getTotalStudentsByData($data_filter_status);
 		
-		$data_filter_status = array('status' => 1, 'gender'=> 1);
-		$this->data['total_received_male'] = $this->model_sale_customer->getTotalCustomersByData($data_filter_status);
+		$data_filter_status = array('filter_student_status' => 1, 'filter_gender'=> 1);
+		$this->data['total_received_male'] = $this->model_sale_customer->getTotalStudentsByData($data_filter_status);
 		
-		$data_filter_status = array('status' => 1, 'gender'=> 0);
-		$this->data['total_received_female'] = $this->model_sale_customer->getTotalCustomersByData($data_filter_status);
+		$data_filter_status = array('filter_student_status' => 1, 'filter_gender'=> 0);
+		$this->data['total_received_female'] = $this->model_sale_customer->getTotalStudentsByData($data_filter_status);
 		
 		//end vlmn modification
 		$customer_total = $this->model_sale_customer->getTotalCustomers($data);
