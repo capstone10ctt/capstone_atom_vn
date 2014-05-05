@@ -7,6 +7,10 @@ class ModelPriceStandard extends Model {
 		$query2 = $this->db->query("SELECT * FROM e_lifetime WHERE `from` = '" . $query1->row['from']. "'");
         return $query2->row;
     }
+    public function getElectricityAppliedLifeTime($month, $year) {
+        $query2 = $this->db->query("SELECT * FROM e_lifetime WHERE `from` = '" . $query1->row['from']. "'");
+        return $query2->row;
+    }
 	//end vlmn modification
     
     public function getElectricityStandardPrice($id) {

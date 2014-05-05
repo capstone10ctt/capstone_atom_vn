@@ -2,6 +2,14 @@
 // Heading
 $_['heading_title']         = 'Nhận sinh viên';
 
+//start vlmn modification
+$_['popup_thongtinsv']           = 'Thông tin sinh viên';
+$_['popup_thongtinsv2']           = 'Thông tin sinh viên 2';
+$_['text_popup_header_student']           = 'Thông tin sinh viên';
+$_['text_confirm']           = 'Xác nhận';
+$_['text_exit']           = 'Không xác nhận';
+//end vlmn modification
+
 /////////////////////// Modification//////////////////////
 // ID: 1051015	 	 	 	
 // Name: Luu Minh Tan 	 	 	 	 	

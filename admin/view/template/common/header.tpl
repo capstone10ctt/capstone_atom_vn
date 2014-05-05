@@ -32,6 +32,24 @@
 //-----------------------------------------
 // Confirm Actions (delete, uninstall)
 //-----------------------------------------
+function loadingForm(show) {
+    //toggle show
+    if(show)
+    {
+        //show box
+        var left = ($(window).width() - $('#loading-form').width()) / 2;
+        var top = ($(window).height() - $('#loading-form').height()) / 2;
+        $('#loading-form').css('left',left + 'px');
+        $('#loading-form').css('top',top + 'px');
+        $('#loading-form-back').fadeIn(400);
+        $('#loading-form').fadeIn(400);
+    }
+    else
+    {
+        $('#loading-form-back').fadeOut(400);
+        $('#loading-form').fadeOut(400);
+    }
+}
 $(document).ready(function(){
     // Confirm Delete
     $('#form').submit(function(){
@@ -54,6 +72,15 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
+
+<div id="loading-form-back" class="loading-form-back"></div>
+<div id="loading-form" class="loading-form">
+    <div class="fbody">
+        <img src="view/image/loading.gif" alt=""/>
+        <p><?php echo $text_loading; ?></p>
+    </div>
+</div>
+
 <div id="container">
 <div id="header">
   <div class="div1">

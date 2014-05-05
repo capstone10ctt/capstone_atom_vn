@@ -128,6 +128,10 @@ class ModelAccountCustomer extends Model {
 		
 		$this->db->query("INSERT INTO " . DB_PREFIX . "file_to_student SET student_id = '" . $student_id . "' AND file_code = '" . $random_barcode . "'");
 		//end barcode
+
+        //student receive
+        $period = $this->db->query("SELECT * FROM " . DB_PREFIX . "student_receive_period WHERE `is_apply` = '1'");
+        $this->db->query("INSERT INTO " . DB_PREFIX . "student_receive SET student_id = '" . $student_id . "', `student_status` = '0', `recurring` = '0', `period` = '" . $period->row['period_id'] . "'");
 		
 		$this->language->load('mail/customer');
 		

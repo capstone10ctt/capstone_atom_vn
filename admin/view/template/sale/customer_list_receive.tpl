@@ -35,9 +35,9 @@
     <div class="content">
     <div id="leftcol" style="float:left;width:200px;text-alignment:left">
       <div style="margin-bottom:5px;font-size:15px;font-weight:bold;"><?php echo $text_search; ?></div>
-         <input type="text" />
-         <input type="button" value="<?php echo $text_do_search; ?>" style="width:70px;"/>
-         <input type="button" value="<?php echo $text_cancel; ?>" style="width:70px;"/>
+         <input type="text" id="student_id_input" />
+         <input type="button" value="<?php echo $text_do_search; ?>" onclick="searchStudentByMSSV()" style="width:70px;"/>
+         <!--<input type="button" value="<?php echo $text_cancel; ?>" style="width:70px;"/>-->
         
         <div style="margin-top:20px;margin-bottom:5px;font-size:15px;font-weight:bold;"><?php echo $text_report; ?></div>
         <div style="margin-bottom:5px;"><?php echo $text_received; ?> <?php echo $total_received.'/'.$total_online;?></div>
@@ -253,16 +253,19 @@
         <a onclick="popStudentInfo(false);" style="float:right;margin:8px 10px 0px 0px;font-weight:bold;color:#fff;text-decoration:none;">Thoát</a>
     </div>
     <div class="fbody">
-    	<img src="../image/no_image.jpg" alt=""/>
+    	<img id="student_portrait" src="../image/no_image.jpg" alt=""/>
     	<p style="margin-top:20px;" id="student_id">MSSV: 1051025</p>
        <p id="student_name">Họ và tên: Võ Lý Minh Nhân</p>
        <p id="student_field">Diện:</p>
        <span id="student_gender">Giới tính: Nam</span>
        <span id="student_dob">Ngày sinh: 16/03/1992</span>
-       <span id="student_city">Quê quán: Bình thuận</span>
-       <textarea rows="10" cols="104"></textarea>
+        <span id="student_ethnic">Dân tộc: Bình thuận</span>
+        <span id="student_email">Email: Bình thuận</span>
+        <span id="student_address1">Địa chi thường trú: Bình thuận</span>
+        <span id="student_address2">Địa chỉ tạm trú: Bình thuận</span>
+       <textarea rows="10" cols="94"></textarea>
        <div class="buttons">
-       <a id="confirmPreview" onclick="checkpaid();" class="button" /><?php echo $text_confirm ?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="previewWieToggle(false);" class="button"/><?php echo $text_exit; ?></a></div>
+       <a id="confirmPreview" onclick="confirmStudent();" class="button" /><?php echo $text_confirm ?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="previewWieToggle(false);" class="button"/><?php echo $text_exit; ?></a></div>
     </div>
     
     </div>
@@ -288,6 +291,72 @@
 
 
 <script type="text/javascript"><!--
+   // popStudentInfo(true);
+var mssv = '';
+function searchStudentByMSSV() {
+    mssv = $("#student_id_input").val();
+    if(mssv == '') {
+        return;
+    }
+
+    loadingForm(true);
+    $.ajax({
+        url: 'index.php?route=sale/customer_receive/getStudentInfo&token=<?php echo $token; ?>',
+        type: 'post',
+        data: 'student_id=' + mssv,
+        dataType: 'json',
+        success: function(json) {
+            loadingForm(false);
+            //console.log(json);
+            if(json['student']) {
+                var student = json['student'];
+                var address = ((student['address'][0]) ? student['address'][0] : null)
+
+                $("#student_portrait").attr("src", ((student['portrait']) ? ""  : "../image/no-image.jpg"))
+                $("#student_id").html("MSSV: " + mssv);
+                $("#student_name").html("Họ tên: " + student['firstname'] + '' + student['lastname']);
+                $("#student_field").html("Diện: " + student['field']);
+                $("#student_gender").html("Giới tính: " + ((student['gender'] == 1 ) ? 'Nam' : 'Nữ'));
+                $("#student_dob").html("Ngày sinh: " + student['date_of_birth']);
+                $("#student_ethnic").html("Dân tộc: " + student['ethnic']);
+                $("#student_email").html("Email: " + student['email']);
+                $("#student_address1").html("Địa chỉ thường trú: " + ((address) ? address['sonha1'] + " " + address['duong1'] + " - Phường: " + address['phuongxa1'] + " - Quận: " + address['quanhuyen1']  + " - Thành phố: " + address['thanhpho1'] : ""));
+                $("#student_address2").html("Địa chỉ tạm trú: " + ((address) ? address['sonha2'] + " " + address['duong2'] + " - Phường: " + address['phuongxa2'] + " - Quận: " + address['quanhuyen2']  + " - Thành phố: " + address['thanhpho2'] : ""));
+               //call popups tudent
+                popStudentInfo(true);
+            }
+        },
+        error : function(error) {
+            loadingForm(false);
+            alert("Không tìm thấy sinh viên này!")
+            console.log(error);
+        }
+    });
+}
+function confirmStudent() {
+    if(mssv == "") {
+        return;
+    }
+
+    $.ajax({
+        url: 'index.php?route=sale/customer_receive/confirmStudent&token=<?php echo $token; ?>',
+        type: 'post',
+        data: 'student_id=' + mssv,
+        dataType: 'json',
+        success: function(json) {
+            loadingForm(false);
+            //console.log(json);
+            if(json['success']) {
+                location.reload();
+            }
+        },
+        error : function(error) {
+            loadingForm(false);
+            alert("Có lỗi, xin thử lại sau!")
+            console.log(error);
+        }
+    });
+}
 function popStudentInfo(show) {
 	//toggle show
 	if(show)

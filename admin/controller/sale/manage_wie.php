@@ -150,8 +150,10 @@ class ControllerSaleManageWie extends Controller {
 		$this->data['cur_year'] = $cur_year;
 		$this->data['cur_month'] = $cur_month;
 		$this->data['token'] = $this->session->data['token'];
-		
-		$this->data['text_history'] = $this->language->get('text_history');
+
+        $this->data['text_total_all'] = $this->language->get('text_total_all');
+		$this->data['text_orange_charged_late'] = $this->language->get('text_orange_charged_late');
+        $this->data['text_history'] = $this->language->get('text_history');
 		$this->data['text_room_bill_null'] = $this->language->get('text_room_bill_null');
 		$this->data['text_red_stop_service'] = $this->language->get('text_red_stop_service');
 		$this->data['text_loading'] = $this->language->get('text_loading');
@@ -509,14 +511,14 @@ class ControllerSaleManageWie extends Controller {
 	
 				// Tong tien
 				
-				number_format($this->roundMoney((int)str_replace(",","",$room_data_e["Money"]) + (int)str_replace(",","",$room_data_w["Money"]) + (($wie_stat["room_data"]["garbage"]) ? $wie_stat["room_data"]["garbage"] : 0)),0),		//10
-				$this->convert_number_to_words($this->roundMoney((int)str_replace(",","",$room_data_e["Money"]) + (int)str_replace(",","",$room_data_w["Money"]) + (($wie_stat["room_data"]["garbage"]) ? $wie_stat["room_data"]["garbage"] : 0))).' đồng',					//11
+				number_format($this->roundMoney((int)str_replace(",","",$room_data_e["Money"]) + (int)str_replace(",","",$room_data_w["Money"]) + (($wie_stat["room_data"]["garbage"]) ? (int)str_replace(",","",$wie_stat["room_data"]["garbage"]) : 0)),0),		//10
+				$this->convert_number_to_words($this->roundMoney((int)str_replace(",","",$room_data_e["Money"]) + (int)str_replace(",","",$room_data_w["Money"]) + (($wie_stat["room_data"]["garbage"]) ? (int)str_replace(",","",$wie_stat["room_data"]["garbage"]) : 0))).' đồng',					//11
 	
 				date("m"),									//12
 				date("d"),									//13
 				date("m"),									//14
 				date("Y"),									//15
-				((!is_null($wie_stat["room_data"]["garbage"])) ? number_format($wie_stat["room_data"]["garbage"],0) : ''),			//16
+				((!is_null($wie_stat["room_data"]["garbage"])) ? number_format((int)str_replace(",","",$wie_stat["room_data"]["garbage"]),0) : ''),			//16
 				
 				"",											// room leader info ?
 				""											// deadline ?
@@ -561,14 +563,14 @@ class ControllerSaleManageWie extends Controller {
 	
 				// Tong tien
 				
-				number_format($this->roundMoney((int)str_replace(",","",$room_data_e["Money"]) + (int)str_replace(",","",$room_data_w["Money"]) + (($wie_stat["room_data"]["garbage"]) ? $wie_stat["room_data"]["garbage"] : 0)),0),		//10
-				$this->convert_number_to_words($this->roundMoney((int)str_replace(",","",$room_data_e["Money"]) + (int)str_replace(",","",$room_data_w["Money"]) + (($wie_stat["room_data"]["garbage"]) ? $wie_stat["room_data"]["garbage"] : 0))).' đồng',					//11
+				number_format($this->roundMoney((int)str_replace(",","",$room_data_e["Money"]) + (int)str_replace(",","",$room_data_w["Money"]) + (($wie_stat["room_data"]["garbage"]) ? (int)str_replace(",","",$wie_stat["room_data"]["garbage"]) : 0)),0),		//10
+				$this->convert_number_to_words($this->roundMoney((int)str_replace(",","",$room_data_e["Money"]) + (int)str_replace(",","",$room_data_w["Money"]) + (($wie_stat["room_data"]["garbage"]) ? (int)str_replace(",","",$wie_stat["room_data"]["garbage"]) : 0))).' đồng',					//11
 	
 				date("m"),									//12
 				date("d"),									//13
 				date("m"),									//14
 				date("Y"),									//15
-				((!is_null($wie_stat["room_data"]["garbage"])) ? number_format($wie_stat["room_data"]["garbage"],0) : ''),			//16
+				((!is_null($wie_stat["room_data"]["garbage"])) ? number_format((int)str_replace(",","",$wie_stat["room_data"]["garbage"]),0) : ''),			//16
 				
 				"",											// room leader info ?
 				""											// deadline ?
@@ -880,6 +882,22 @@ class ControllerSaleManageWie extends Controller {
 		
 		$this->response->setOutput(json_encode($json));
 	}
+
+    public function saveTotalMoney() {
+        $json = array();
+
+        $this->load->model('sale/manage_wie');
+        $this->model_sale_manage_wie->saveTotalMoney($this->request->post);
+
+        $cur_year = date('Y');
+        $cur_month = date('m');
+
+        $period = $cur_month.'-'.$cur_year;
+        $json['period'] = $period;
+        $json['success'] = 'yes';
+
+        $this->response->setOutput(json_encode($json));
+    }
 	
 	public function getCurrentDeadline() {
 		$json = array();
@@ -958,7 +976,7 @@ class ControllerSaleManageWie extends Controller {
 		
 		$this->response->setOutput(json_encode($json));
 	}
-	
+
 	public function printSelectedRooms() {
 		$json = array();
 		
@@ -987,32 +1005,43 @@ class ControllerSaleManageWie extends Controller {
 				$json['bills'] .= '<div style="page-break-after: always;">'.$bill["body"].'</div>';
 			}
 		}
-		
-		$this->response->setOutput(json_encode($json));
+
+//        $mpdf=new mPDF();
+//        $mpdf->WriteHTML($json['bills']);
+//        $mpdf->Output('preview.pdf','F');
+
+
+        $this->response->setOutput(json_encode($json));
 	}
 
 	public function sendMailMinistry() {
 		$json = array();
-		
-		$data = array('mail_to' => $this->request->post['mail_to']);
-		$mailMinistry = $this->replaceMonthlyMailData();
 
-		$mail = new Mail();
-		$mail->protocol = $this->config->get('config_mail_protocol');
-		$mail->parameter = $this->config->get('config_mail_parameter');
-		$mail->hostname = $this->config->get('config_smtp_host');
-		$mail->username = $this->config->get('config_smtp_username');
-		$mail->password = $this->config->get('config_smtp_password');
-		$mail->port = $this->config->get('config_smtp_port');
-		$mail->timeout = $this->config->get('config_smtp_timeout');
-		$mail->setTo($data["mail_to"]);
-		$mail->setFrom($this->config->get('config_email'));
-		$mail->setSender($this->config->get('config_name'));
-		$mail->setSubject($mailMinistry["title"]);
-		$mail->setHTML($mailMinistry["body"]);
-		$mail->send();
+        $this->load->model('sale/manage_wie');
+        $mail_to = $this->model_sale_manage_wie->getMinistryEmail();
 
-		$json['success'] = 'yes';
+        if($mail_to) {
+            $mailMinistry = $this->replaceMonthlyMailData();
+
+            $mail = new Mail();
+            $mail->protocol = $this->config->get('config_mail_protocol');
+            $mail->parameter = $this->config->get('config_mail_parameter');
+            $mail->hostname = $this->config->get('config_smtp_host');
+            $mail->username = $this->config->get('config_smtp_username');
+            $mail->password = $this->config->get('config_smtp_password');
+            $mail->port = $this->config->get('config_smtp_port');
+            $mail->timeout = $this->config->get('config_smtp_timeout');
+            $mail->setTo($mail_to);
+            $mail->setFrom($this->config->get('config_email'));
+            $mail->setSender($this->config->get('config_name'));
+            $mail->setSubject($mailMinistry["title"]);
+            $mail->setHTML($mailMinistry["body"]);
+            $mail->send();
+            $json['success'] = 'yes';
+        }
+        else {
+            $json['error'] = 'no_email';
+        }
 		
 		$this->response->setOutput(json_encode($json));
 	}

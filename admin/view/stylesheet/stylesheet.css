@@ -63,7 +63,7 @@
 }
 .studentinfo-form{
 	position:fixed;
-	width:600px;
+	width:550px;
 	z-index:9999999;
 	background:#FFF;
 	border-radius:7px;
@@ -100,7 +100,7 @@
 }
 .studentinfo-form .fbody img{
 	float:right;
-	width:180px;
+	width:170px;
 	height:180px;
 	margin:20px 30px 0px 0px;
 	padding:0px;
@@ -122,7 +122,10 @@
 	width:55%;
 	margin:10px 10px 0px 30px;
 	padding:0px;
-	font-size: 18px;
+	font-size: 14px;
+}
+#student_gender {
+    margin-top: 20px;
 }
 .studentinfo-form .fbody textarea{
 	float:left;
@@ -144,6 +147,10 @@
 	position:relative;
 	width:400px;
 	margin:0px auto 0px;
+    display: none;
+}
+.plusWidth{
+    width:600px!important;
 }
 .colorbox{
 	float:left;
@@ -180,6 +187,14 @@
 	margin-top:10px;
 	background:#ff7a04;
 	border:solid 1px #ccc;
+}
+.colorbox .orange-rec{
+    float:left;
+    width:60px;
+    height:30px;
+    margin-top:10px;
+    background:#ff7a04;
+    border:solid 1px #ccc;
 }
 .colorwhite td{
 	color:white!important;
@@ -361,6 +376,12 @@
 	width:75%;
 	border-collapse:collapse;
 	margin:0px 0px 10px 0px;
+}
+.viewWie td{
+    text-align: right;
+}
+.viewWie .tblheader td{
+    text-align: center;
 }
 .editWie{
 	float:left;

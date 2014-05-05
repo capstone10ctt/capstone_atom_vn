@@ -10,6 +10,15 @@ class ModelSaleManageWie extends Model {
 
 		return $list;
 	}
+    public function getMinistryEmail() {
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "user WHERE `username`  = 'ctsv'");
+
+        if($query->num_rows) {
+            return $query->row['email'];
+        }
+
+        return null;
+    }
 	public function inputNewCard($card_id,$student_id){
 		$this->db->query("INSERT INTO " . DB_PREFIX . "card_id_to_student_id SET `card_id` = '" . $this->db->escape($card_id) . "', `student_id` = '" . $this->db->escape($student_id) . "'");
 	}
@@ -31,12 +40,30 @@ class ModelSaleManageWie extends Model {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "deadline_total WHERE MONTH(period) = '" . (int)$cur_month . "' AND YEAR(period) = '" . (int)$cur_year . "'");
 		
 		if($query->num_rows) {
-			$this->db->query("UPDATE " . DB_PREFIX . "deadline_total SET `deadline_charge` = '" . (int)$this->db->escape($data['deadline_charge']) . "', `deadline_edit` = '" . (int)$this->db->escape($data['deadline_edit']) . "', `deadline_supply` = '" . (int)$this->db->escape($data['deadline_supply']) . "' , `total_elec` = '" . $this->db->escape($data['total_elec']) . "' , `total_water` = '" . $this->db->escape($data['total_water']) . "', period = '" . $date_final . "' WHERE MONTH(period) = '" . (int)$cur_month . "' AND YEAR(period) = '" . (int)$cur_year . "'");		
+			$this->db->query("UPDATE " . DB_PREFIX . "deadline_total SET `deadline_charge` = '" . (int)$this->db->escape($data['deadline_charge']) . "', `deadline_edit` = '" . (int)$this->db->escape($data['deadline_edit']) . "', `deadline_supply` = '" . (int)$this->db->escape($data['deadline_supply']) . "', period = '" . $date_final . "' WHERE MONTH(period) = '" . (int)$cur_month . "' AND YEAR(period) = '" . (int)$cur_year . "'");
 		}
 		else {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "deadline_total SET `deadline_charge` = '" . (int)$this->db->escape($data['deadline_charge']) . "', `deadline_edit` = '" . (int)$this->db->escape($data['deadline_edit']) . "', `deadline_supply` = '" . (int)$this->db->escape($data['deadline_supply']) . "' , `total_elec` = '" . $this->db->escape($data['total_elec']) . "' , `total_water` = '" . $this->db->escape($data['total_water']) . "', period = '" . $date_final . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "deadline_total SET `deadline_charge` = '" . (int)$this->db->escape($data['deadline_charge']) . "', `deadline_edit` = '" . (int)$this->db->escape($data['deadline_edit']) . "', `deadline_supply` = '" . (int)$this->db->escape($data['deadline_supply']) . "', period = '" . $date_final . "'");
 		}
 	}
+
+    public function saveTotalMoney($data){
+        //check exist first
+        $cur_year = date('Y');
+        $cur_month = date('m');
+        $date = new DateTime();
+        $date->setDate($cur_year, $cur_month, 1);
+        $date_final = $date->format('Y-m-d');
+
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "deadline_total WHERE MONTH(period) = '" . (int)$cur_month . "' AND YEAR(period) = '" . (int)$cur_year . "'");
+
+        if($query->num_rows) {
+            $this->db->query("UPDATE " . DB_PREFIX . "deadline_total SET `total_elec` = '" . $this->db->escape($data['total_elec']) . "' , `total_water` = '" . $this->db->escape($data['total_water']) . "', period = '" . $date_final . "' WHERE MONTH(period) = '" . (int)$cur_month . "' AND YEAR(period) = '" . (int)$cur_year . "'");
+        }
+        else {
+            $this->db->query("INSERT INTO " . DB_PREFIX . "deadline_total SET `total_elec` = '" . $this->db->escape($data['total_elec']) . "' , `total_water` = '" . $this->db->escape($data['total_water']) . "', period = '" . $date_final . "'");
+        }
+    }
 	
 	public function getDeadline($period){
 		//check exist first
@@ -169,13 +196,13 @@ class ModelSaleManageWie extends Model {
 					}
 					
 					$billing_wie_classified[$result['customer_group_id']]['elec']['Usage'] = $e_usage;
-					$money = $this->calculate_money_elec($e_standard, $e_usage);
-					$billing_wie_classified[$result['customer_group_id']]['elec']['Money'] = number_format($this->roundMoney($money),0);
+					$money_elec = $this->calculate_money_elec($e_standard, $e_usage);
+					$billing_wie_classified[$result['customer_group_id']]['elec']['Money'] = number_format($this->roundMoney($money_elec),0);
 					$billing_wie_classified[$result['customer_group_id']]['elec']['End'] = (isset($elec['End']) ? $elec['End'] : 0);
 					$billing_wie_classified[$result['customer_group_id']]['elec']['Start'] = (isset($elec['Start']) ? $elec['Start'] : 0);
 					$billing_wie_classified[$result['customer_group_id']]['elec']['Charged'] = $charge;
 					$billing_wie_classified[$result['customer_group_id']]['elec']['ok'] = (($e_usage == 0) ? 'no' : 'yes');
-					$totalmoney += $money;
+					$totalmoney += $money_elec;
 				}
 				
 				$water = $this->getWaterLogByRoomIdDate($result['customer_group_id'],$cur_month,$cur_year);					
@@ -207,15 +234,19 @@ class ModelSaleManageWie extends Model {
 					$billing_wie_classified[$result['customer_group_id']]['water']['Usage'] = $w_usage;
 					//$billing_wie_classified[$result['customer_group_id']]['water']['w_standard'] = $w_standard;
 					//$billing_wie_classified[$result['customer_group_id']]['water']['lifetime'] = $this->model_price_standard->getWaterLastestLifeTime();
-					$money = $this->calculate_money_water($w_standard, $w_usage, $result['customer_group_id']);
-					$billing_wie_classified[$result['customer_group_id']]['water']['Money'] = number_format($this->roundMoney($money),0);
+					$money_water = $this->calculate_money_water($w_standard, $w_usage, $result['customer_group_id']);
+					$billing_wie_classified[$result['customer_group_id']]['water']['Money'] = number_format($this->roundMoney($money_water),0);
 					$billing_wie_classified[$result['customer_group_id']]['water']['End'] = (isset($water['End']) ? $water['End'] : 0);
 					$billing_wie_classified[$result['customer_group_id']]['water']['Start'] = (isset($water['Start']) ? $water['Start'] : 0);
 					$billing_wie_classified[$result['customer_group_id']]['water']['Charged'] = $charge;
 					$billing_wie_classified[$result['customer_group_id']]['water']['ok'] = (($w_usage == 0) ? 'no' : 'yes');
-					
+                    $totalmoney += $money_water;
+
 					//garbage
-					$billing_wie_classified[$result['customer_group_id']]['garbage'] = (((int)$result['type_id'] == 3) ? $this->model_price_standard->getGarbageStandardPrice($this->model_price_standard->getGarbageLastModified()['id'])[0]['Price']: null);
+                    $money_garbage = $this->model_price_standard->getGarbageStandardPrice($this->model_price_standard->getGarbageLastModified()['id'])[0]['Price'];
+					$billing_wie_classified[$result['customer_group_id']]['garbage'] = (((int)$result['type_id'] == 3) ? number_format($this->roundMoney($money_garbage),0): null);
+                    $totalmoney += $money_garbage;
+
 					//late 3 times
 					$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "wie_late_record WHERE room_id = '" . (int)$result['customer_group_id'] . "'");
 			
@@ -255,11 +286,32 @@ class ModelSaleManageWie extends Model {
 						$supply = 'no';
 					}	
 					$billing_wie_classified[$result['customer_group_id']]['is_supply'] = $supply;
-					
-					$totalmoney += $money;
+
+                    //deadline charge
+                    if ($deadline) {
+                       $deadline_charge = (int)$deadline['deadline_charge'];
+                    } else {
+                       $deadline_charge = 5;
+                    }
+
+                    if((int)$today <= (int)$deadline_charge) {
+                        $can_charge = 'yes';
+                    }
+                    else {
+                        $can_charge = 'no';
+                    }
+                    $billing_wie_classified[$result['customer_group_id']]['can_charge'] = $can_charge;
+
+                    //have error
+                    if(($charge == 'no') && ((int)$billing_wie_classified[$result['customer_group_id']]['late_times'] >= 3 || $can_charge == 'no' || $cur_month != (int)date('m'))){
+                        $billing_wie_classified[$result['customer_group_id']]['have_error'] = 'yes';
+                    }
+                    else {
+                        $billing_wie_classified[$result['customer_group_id']]['have_error'] = 'no';
+                    }
 				}
 				
-				$billing_wie_classified[$result['customer_group_id']]['totalmoney'] = number_format($totalmoney,0);
+				$billing_wie_classified[$result['customer_group_id']]['totalmoney'] = number_format($this->roundMoney($totalmoney));;
 				$billing_wie_classified[$result['customer_group_id']]['inword'] = $this->convert_number_to_words((int)$totalmoney). ' đồng';
 				
 				if($elec && $water) {

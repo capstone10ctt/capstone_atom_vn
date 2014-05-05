@@ -25,6 +25,15 @@
       <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
       	<table class="tbTinyRows">
                 <tr>
+                    <td><?php echo $text_history?></td>
+                    <td><select id="sel_history" onchange="cur_history = this.value;filterRoomByFloorView()">
+                            <option value=""><?php echo $text_select; ?></option>
+                            <?php foreach($histories as $history) { ?>
+                            <option value="<?php echo $history ?>"><?php echo $history; ?></option>
+                            <?php } ?>
+                        </select></td>
+                </tr>
+                <tr>
                 	<td><?php echo $text_floor?></td>
                      <td><select id="sel_floor_wie" onchange="filterRoomByFloorView()">
                      <option value="-1"><?php echo $text_all; ?></option>
@@ -43,20 +52,11 @@
                      <td><select id="sel_room_wie" onchange="filterRoomByFloorView()">
                      	<option value="-1"><?php echo $text_all; ?></option>
                         <?php foreach($rooms_input as $room) { ?> 
-                        	<?php if($room['customer_group_id'] == $filter_room) {?>
+                        	<?php if($room['customer_group_id'] == $filter_room) { ?>
                             	<option value="<?php echo $room['customer_group_id'] ?>" selected="selected"><?php echo $room['name']; ?></option>
                             <?php } else { ?>
                             	<option value="<?php echo $room['customer_group_id'] ?>" ><?php echo $room['name']; ?></option>
                             <?php }?>
-                        <?php } ?>
-                    </select></td>
-                </tr>
-                <tr>
-                	<td><?php echo $text_history?></td>
-                     <td><select id="sel_history" onchange="cur_history = this.value;filterRoomByFloorView()">
-                     		<option value=""><?php echo $text_select; ?></option>
-                        <?php foreach($histories as $history) { ?>
-                          <option value="<?php echo $history ?>"><?php echo $history; ?></option>
                         <?php } ?>
                     </select></td>
                 </tr>
@@ -65,13 +65,14 @@
             <?php if($this->user->getUserGroup() == ADMIN_IDX) { ?>
             <table style="float:left;width:800px; margin-left:40px;">
                 <tr>
-                <td>eMail Phòng công tác sinh viên: </td>
+                <!--<td>eMail Phòng công tác sinh viên: </td>
                 <td><input id="ministryMail" name="ministryMail" value="<?php echo $ministryMail ?>" type="text"/></td>
-                <td><input type="submit" value="<?php echo $text_save ?>"/></td>
+                <td><input type="submit" value="<?php echo $text_save ?>"/></td>-->
                 <td>
                 	<div class="colorboxOuter" style="margin-bottom:0px;">
-                   <div class="colorboxWrapper">
+                   <div id="errorViewWIE" class="colorboxWrapper plusWidth">
                     <div class='colorbox'><div class="red"></div><p class="text"><?php echo $text_red_not_charged; ?></p></div>
+                    <div class='colorbox'><div class=orange-rec></div><p class="text"><?php echo $text_orange_charged_late; ?></p></div>
                     <div class='colorbox'><div class="orange"></div><p class="text" style="line-height:13px;"><?php echo $text_red_stop_service; ?></p></div>
                    </div>
                </div>
@@ -99,7 +100,7 @@
     </div>
     <div class="fbody">
     	<div class="colorboxOuter">
-           <div class="colorboxWrapper">
+           <div id="errorInputWIE" class="colorboxWrapper">
             <div class='colorbox'><div class="red"></div><p class="text"><?php echo $text_red; ?></p></div>
             <!--<div class='colorbox'><div class="green"></div><p class="text"><?php echo $text_green; ?></p></div>-->
            </div>
@@ -136,7 +137,7 @@
         
         </tbody>
        </table>
-    <a onclick="inputHistory();" class="button"/><?php echo $text_submit ?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="newsToggle(false);" class="button"/><?php echo $text_cancel ?></a>
+    <a onclick="inputWIE();" class="button"/><?php echo $text_submit ?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="newsToggle(false);" class="button"/><?php echo $text_cancel ?></a>
     </div>
 </div>
 <div id="printDiv"></div>
@@ -361,13 +362,9 @@
                 <td><p><?php echo $text_deadline_charge; ?></p></td>
                 <td>
                 	<select id="deadline_charge" name="deadline_charge">
-                      <option value=""><?php echo $text_select; ?></option>
-                        <?php foreach($alldays as $eachday) { ?> 
-                            <?php if($eachday == $deadline_charge) {?>
-                                <option value="<?php echo $eachday ?>" selected="selected"><?php echo $eachday; ?></option>
-                            <?php } else { ?>
-                                <option value="<?php echo $eachday ?>"><?php echo $eachday; ?></option>
-                            <?php }?>
+                      <option value="0"><?php echo $text_select; ?></option>
+                        <?php foreach($alldays as $eachday) { ?>
+                            <option value="<?php echo $eachday ?>"><?php echo $eachday; ?></option>
                         <?php } ?>
                     </select>
                 </td>
@@ -376,13 +373,9 @@
                 <td><p><?php echo $text_deadline_edit; ?></p></td>
                 <td>
                 	<select id="deadline_edit" name="deadline_edit">
-                      <option value=""><?php echo $text_select; ?></option>
-                        <?php foreach($alldays as $eachday) { ?> 
-                            <?php if($eachday == $deadline_edit) {?>
-                                <option value="<?php echo $eachday ?>" selected="selected"><?php echo $eachday; ?></option>
-                            <?php } else { ?>
-                                <option value="<?php echo $eachday ?>"><?php echo $eachday; ?></option>
-                            <?php }?>
+                      <option value="0"><?php echo $text_select; ?></option>
+                        <?php foreach($alldays as $eachday) { ?>
+                            <option value="<?php echo $eachday ?>"><?php echo $eachday; ?></option>
                         <?php } ?>
                     </select>
                 </td>
@@ -390,16 +383,17 @@
             <tr><td><p><?php echo $text_deadline_supply; ?></p></td>
             <td>
                 <select id="deadline_supply" name="deadline_supply">
-                  <option value=""><?php echo $text_select; ?></option>
-                    <?php foreach($alldays as $eachday) { ?> 
-                        <?php if($eachday == $deadline_supply) {?>
-                            <option value="<?php echo $eachday ?>" selected="selected"><?php echo $eachday; ?></option>
-                        <?php } else { ?>
-                            <option value="<?php echo $eachday ?>"><?php echo $eachday; ?></option>
-                        <?php }?>
+                  <option value="0"><?php echo $text_select; ?></option>
+                    <?php foreach($alldays as $eachday) { ?>
+                        <option value="<?php echo $eachday ?>"><?php echo $eachday; ?></option>
                     <?php } ?>
                 </select>
             </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <a onclick="saveDeadline()" class="button"/><?php echo $text_confirm ?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="deadlineForm(false);" class="button"/><?php echo $text_cancel ?></a>
+                </td>
             </tr>
           </tbody>
         </table>
@@ -414,9 +408,13 @@
                 <td><input type="text" id="total_water" value="<?php echo $total_elec ;?>" /></td>
             </tr>
             <tr><td colspan="2" style="height:40px;"></td></tr>
+            <tr>
+                <td colspan="2">
+                    <a onclick="saveTotalMoney()" class="button"/><?php echo $text_confirm ?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="deadlineForm(false);" class="button"/><?php echo $text_cancel ?></a>
+                </td>
+            </tr>
           </tbody>
         </table>
-        <div style="float:left;width:100%;"><a onclick="saveDeadline()" class="button"/><?php echo $text_confirm ?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="deadlineForm(false);" class="button"/><?php echo $text_cancel ?></a></div>
     </div>
 </div>
 
@@ -639,25 +637,18 @@
   }
   
   function saveDeadline() {
-	  var total_elec = $("#total_elec").val();
-	  var total_water = $("#total_water").val();
-	  
-	  if(total_elec == '' || total_water == '' || !total_elec.match(/^\d*[0-9](\.\d*[0-9])?$/) || !total_water.match(/^\d*[0-9](\.\d*[0-9])?$/)) {
-	  	alert('<?php echo $text_error_total; ?>');
-		return;
-	  }
-	  
+
 	  if(!confirmResult)
 		{
 			if($('#confirmbox-form').css('display') == 'none')
-				confirmBoxToggle(true,'Sửa hạn chót & tổng tiền ', saveDeadline);
+				confirmBoxToggle(true,'Sửa hạn chót ', saveDeadline);
 			return;
 		}
 	  
 		$.ajax({
 			url: 'index.php?route=sale/manage_wie/saveDeadline&token=<?php echo $token; ?>',
 			type: 'post',
-			data: 'deadline_charge=' + $("#deadline_charge").val() + '&deadline_edit=' + $("#deadline_edit").val() + '&deadline_supply=' + $("#deadline_supply").val() + '&total_elec=' + total_elec + '&total_water=' + total_water,
+			data: 'deadline_charge=' + $("#deadline_charge").val() + '&deadline_edit=' + $("#deadline_edit").val() + '&deadline_supply=' + $("#deadline_supply").val(),
 			dataType: 'json',
 			success: function(json) {
 				if(json['success']) {
@@ -675,6 +666,43 @@
 		
 		confirmResult = false;
   }
+
+    function saveTotalMoney(){
+        var total_elec = $("#total_elec").val();
+        var total_water = $("#total_water").val();
+
+        if(total_elec == '' || total_water == '' || !total_elec.match(/^\d*[0-9](\.\d*[0-9])?$/) || !total_water.match(/^\d*[0-9](\.\d*[0-9])?$/)) {
+            alert('<?php echo $text_error_total; ?>');
+            return;
+        }
+
+        if(!confirmResult)
+        {
+            if($('#confirmbox-form').css('display') == 'none')
+                confirmBoxToggle(true,'Sửa tổng tiền ', saveTotalMoney);
+            return;
+        }
+
+        $.ajax({
+            url: 'index.php?route=sale/manage_wie/saveTotalMoney&token=<?php echo $token; ?>',
+            type: 'post',
+            data: 'total_elec=' + total_elec + '&total_water=' + total_water,
+            dataType: 'json',
+            success: function(json) {
+                if(json['success']) {
+                    filterRoomByFloorView();
+                    $("#period").val(json['period']);
+                    alert('<?php echo $text_update_deadline; ?>');
+                    deadlineForm(false);
+                }
+            },
+            error : function(error) {
+                console.log(error);
+            }
+        });
+
+        confirmResult = false;
+    }
   
 
 	function loadOldValues() {
@@ -755,9 +783,10 @@
 		input = $.map(input, function(value, index) {
 			return [value];
 		});
-		
+
+        var have_error = false;
 		for(var i=0; i < input.length; i++) {
-			if(input[i]['rooms']) { 
+			if(input[i]['rooms']) {
 				strHTML += '<tr>' +
 						  '<td style="text-align: left;height:30px;line-height:30px;font-size:16px;font-weight:bold;" colspan="7">' + input[i]['floor_name'] + '</td>'+
 						'</tr>'+
@@ -768,13 +797,17 @@
 							((flag == 1) ? '<td><?php echo $text_cost?></td>' : '') +
 							//'<td><?php echo $text_paid?></td>' +
 							((flag == 1) ? '<td><?php echo $text_usage_water?></td>' : '<td><?php echo $text_start_num_water?></td>') +
-							 ((flag == 1) ? '<td><?php echo $text_cost?></td>' : '')+
-							'<td><?php echo $text_garbage?></td>' +
+							((flag == 1) ? '<td><?php echo $text_cost?></td>' : '')+
+                            ((flag == 1) ?'<td><?php echo $text_garbage?></td>' :'') +
+                            ((flag == 1) ?'<td><?php echo $text_total_all?></td>': '') +
 							'<td><?php echo $text_paid?></td>' +
 							((flag == 1) ? '<?php if($this->user->getUserGroup() == ADMIN_IDX) { ?>' + '<td><?php echo $text_tool?></td>' + '<?php } ?>' : '') +
 						'</tr>';
 						
 				for(var j=0; j < input[i]['rooms'].length; j++) {
+                    if(input[i]['rooms'][j]['room_data']['have_error'] == 'yes') {
+                        have_error = true;
+                    }
 					strHTML += '<tr class="body" >' +
 								'<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3 || (input[i]['rooms'][j]['room_data']['is_supply'] == "no" && input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'no')) ? 'style="background:#ff7a04;"' : "") + '>' + input[i]['rooms'][j]['name'] + '</td>' +
 								'<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3 || (input[i]['rooms'][j]['room_data']['is_supply'] == "no" && input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'no')) ? 'style="background:#ff7a04;"' : "") + '>' + input[i]['rooms'][j]['pay_month'] + '</td>' +
@@ -782,13 +815,21 @@
 								((flag == 1) ? '<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3 || (input[i]['rooms'][j]['room_data']['is_supply'] == "no" && input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'no')) ? 'style="background:#ff7a04;"' : "") + '>' + input[i]['rooms'][j]['room_data']['elec']['Money'] + '</td>' : '') +
 								'<td  ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3 || (input[i]['rooms'][j]['room_data']['is_supply'] == "no" && input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'no')) ? 'style="background:#ff7a04;text-align:center;"' : 'style="text-align:center;"') + '>' + ((flag == 1 || flag == 2) ? input[i]['rooms'][j]['room_data']['water']['Usage'] : '<input type="text" id="end_num_water_edit_' + input[i]['rooms'][j]['customer_group_id'] + '" value ="' + input[i]['rooms'][j]['room_data']['water']['End'] + '" />') + '</td>'  +
 								((flag == 1) ? '<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3 || (input[i]['rooms'][j]['room_data']['is_supply'] == "no" && input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'no')) ? 'style="background:#ff7a04;"' : "") + '>' + input[i]['rooms'][j]['room_data']['water']['Money'] + '</td>' : '') +
-								'<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3 || (input[i]['rooms'][j]['room_data']['is_supply'] == "no" && input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'no')) ? 'style="background:#ff7a04;"' : "") + '>' + ((input[i]['rooms'][j]['room_data']['garbage']) ? input[i]['rooms'][j]['room_data']['garbage'] : '') + '</td>' +
-								'<td align="center" id="checkpaid_water_td_' + input[i]['rooms'][j]['customer_group_id'] + '" style="' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? "background:#FFF;" : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? "background:#ff0433;" : "background:#ff7a04;" )) + '">' + ((flag == 2) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? '' : '') : '<?php echo $text_late; ?>' )) : ((flag == 1) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['is_supply'] == "no") ? '' : ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? ((parseInt(input[i]['rooms'][j]['pay_month'].split('-')[0]) == ((new Date).getMonth() + 1)) ? '<input type="checkbox" id="checkpaid_' + input[i]['rooms'][j]['customer_group_id'] + '" name="checkpaid_' + input[i]['rooms'][j]['customer_group_id'] + '" />' : '') : '')) : '<?php echo $text_late; ?>' )) : '<input type="checkbox" ' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] != 'no') ? 'checked' : '') + ' id="checkpaidedit_2' + input[i]['rooms'][j]['customer_group_id'] + '" />')) + '</td>' +
+                                ((flag == 1) ?'<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3 || (input[i]['rooms'][j]['room_data']['is_supply'] == "no" && input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'no')) ? 'style="background:#ff7a04;"' : "") + '>' + ((input[i]['rooms'][j]['room_data']['garbage']) ? input[i]['rooms'][j]['room_data']['garbage'] : '') + '</td>' : '') +
+                                ((flag == 1) ? '<td>' + input[i]['rooms'][j]['room_data']['totalmoney'] + '</td>' : '')+
+								'<td id="checkpaid_water_td_' + input[i]['rooms'][j]['customer_group_id'] + '" style="text-align: center;' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? "background:#FFF;" : (((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no' && ((input[i]['rooms'][j]['room_data']['can_charge'] == 'no') || parseInt(input[i]['rooms'][j]['pay_month'].split("-")[0]) != (new Date()).getMonth() + 1))) ? "background:#ff0433;" : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'late') ? "background:#ff7a04;" : "background:#fff;"))) + '">' + ((flag == 2) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? '' : '') : '<?php echo $text_late; ?>' )) : ((flag == 1) ? ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'yes') ? '<?php echo $text_paid; ?>' : ((input[i]['rooms'][j]['room_data']['water']['Charged'] == 'no') ? ((input[i]['rooms'][j]['room_data']['is_supply'] == "no") ? '' : ((input[i]['rooms'][j]['room_data']['water']['ok'] == 'yes') ? ((parseInt(input[i]['rooms'][j]['pay_month'].split('-')[0]) == ((new Date).getMonth() + 1)) ? '<input type="checkbox" id="checkpaid_' + input[i]['rooms'][j]['customer_group_id'] + '" name="checkpaid_' + input[i]['rooms'][j]['customer_group_id'] + '" />' : '') : '')) : '<?php echo $text_late; ?>' )) : '<input type="checkbox" ' + ((input[i]['rooms'][j]['room_data']['water']['Charged'] != 'no') ? 'checked' : '') + ' id="checkpaidedit_2' + input[i]['rooms'][j]['customer_group_id'] + '" />')) + '</td>' +
 								((flag == 1) ? '<?php if($this->user->getUserGroup() == ADMIN_IDX) { ?>' + '<td ' + ((input[i]['rooms'][j]['room_data']['late_times'] >= 3 || (input[i]['rooms'][j]['room_data']['is_supply'] == "no" && input[i]['rooms'][j]['room_data']['elec']['Charged'] == 'no')) ? 'style="background:#ff7a04;"' : "") + '>' + ((input[i]['rooms'][j]['room_data']['can_edit'] == 'yes' && parseInt(input[i]['rooms'][j]['pay_month'].split('-')[0]) == ((new Date).getMonth() + 1)) ? '<a style="float:right;color:blue;" onclick="editElecWater(' + input[i]['rooms'][j]['customer_group_id']  +');"><?php echo $text_edit; ?></a>' : '') + '</td>' + '<?php } ?>' : '') +
 							'</tr>';
 				}
 			}
 		}
+
+        if(have_error) {
+            $("#errorViewWIE").fadeIn();
+        }
+        else {
+            $("#errorViewWIE").hide();
+        }
 		
 		if(flag == 1) {
 			$("#viewWie").html(strHTML);
@@ -1067,12 +1108,12 @@
 		$("#sel_room_wie").html(strHTML);
 	}
 	var confirmResult = false;
-	function inputHistory() {
+	function inputWIE() {
 		loadingForm(true);
 		//if(!confirmResult)
 //		{
 //			if($('#confirmbox-form').css('display') == 'none')
-//				confirmBoxToggle(true,'Nhập điện nước',inputHistory);
+//				confirmBoxToggle(true,'Nhập điện nước',inputWIE);
 //			return;
 //		}
 		
@@ -1114,9 +1155,11 @@
 					var have_false = checkOutputAndHighlight(json['success']);
 					loadingForm(false);
 					if(!have_false) {
+                        $("#errorInputWIE").hide();
 						alert('<?php echo $text_success?>');
 					}
 					else {
+                        $("#errorInputWIE").fadeIn();
 						alert('<?php echo $text_error?>');
 					}
 					filterRoomByFloorView();					
@@ -1152,9 +1195,11 @@
 				}
 				
 				if(parseInt(electric_usage[i]['error'])) {
-					$("#usage_electric_" + electric_usage[i]['room_id']).css("color","#FFFFFF");
-					$("#usage_electric_" + electric_usage[i]['room_id']).css("background-color","#ec0c0c");
-					have_false = true;
+                    if($("#usage_electric_" + electric_usage[i]['room_id']).val() != '') {
+                        $("#usage_electric_" + electric_usage[i]['room_id']).css("color","#FFFFFF");
+                        $("#usage_electric_" + electric_usage[i]['room_id']).css("background-color","#ec0c0c");
+                        have_false = true;
+                    }
 				}
 			}
 			else {
@@ -1173,9 +1218,11 @@
 				}
 				
 				if(parseInt(water_usage[i]['error'])) {
-					$("#usage_water_" + water_usage[i]['room_id']).css("color","#FFFFFF");
-					$("#usage_water_" + water_usage[i]['room_id']).css("background-color","#ec0c0c");
-					have_false = true;
+                    if($("#usage_water_" + water_usage[i]['room_id']).val() != '') {
+                        $("#usage_water_" + water_usage[i]['room_id']).css("color","#FFFFFF");
+                        $("#usage_water_" + water_usage[i]['room_id']).css("background-color","#ec0c0c");
+                        have_false = true;
+                    }
 				}
 			}
 			else {
@@ -1324,25 +1371,6 @@
 		}
 	}
 	
-	function loadingForm(show) {
-		//toggle show
-		if(show)
-		{
-			//show box
-			var left = ($(window).width() - $('#loading-form').width()) / 2;
-			var top = ($(window).height() - $('#loading-form').height()) / 2;
-			$('#loading-form').css('left',left + 'px');
-			$('#loading-form').css('top',top + 'px');
-			$('#loading-form-back').fadeIn(400);
-			$('#loading-form').fadeIn(400);
-		}
-		else
-		{
-			$('#loading-form-back').fadeOut(400);
-			$('#loading-form').fadeOut(400);
-		}
-	}
-	
 	function editWieToggle(show) {
 		//toggle show
 		if(show)
@@ -1409,6 +1437,8 @@
 			  }
 			},
 			error : function(error) {
+              loadingForm(false);
+              alert("Lỗi mạng khi gửi mail, vui lòng thử lại sau!");
 			  console.log(error);
 			}
 		});
@@ -1438,23 +1468,28 @@
 			  }
 			},
 			error : function(error) {
+                loadingForm(false);
+                alert("Có lỗi khi in, vui lòng thử lại sau!");
 			  console.log(error);
 			}
 		});
   }
   
   function sendMailToMinistry() {
-	 loadingForm(true);
-    var ministryMail = $("#ministryMail").val();
+        loadingForm(true);
+        var ministryMail = $("#ministryMail").val();
 
-    $.ajax({
+        $.ajax({
             url: 'index.php?route=sale/manage_wie/sendMailMinistry&token=<?php echo $token; ?>',
             type: 'post',
             data: 'mail_to=' + ministryMail,
             dataType: 'json',
             success: function(json) {
+                loadingForm(false);
+                if(json['error']) {
+                    alert("Không có email!");
+                }
               if(json['success']) {
-				  loadingForm(false);
                 alert("Mail đã được chuyển tới giáo vụ thành công !");
               }
             },
@@ -1539,6 +1574,7 @@
 			data: 'period=' + $("#period").val(),
 			dataType: 'json',
 			success: function(json) {
+                //console.log(json);
 				if(json['deadline']) {
 					var deadline = json['deadline'];
 					

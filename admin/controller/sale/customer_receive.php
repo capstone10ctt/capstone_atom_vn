@@ -1,4 +1,6 @@
-<?php    
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 class ControllerSaleCustomerReceive extends Controller { 
 	private $error = array();
   
@@ -240,6 +242,14 @@ class ControllerSaleCustomerReceive extends Controller {
 			} else {
 				$filter_address_1 = null;
 			}
+
+            //start vlmn modification
+            $this->data['popup_thongtinsv'] = $this->language->get('popup_thongtinsv');
+            $this->data['popup_thongtinsv2'] = $this->language->get('popup_thongtinsv2');
+            $this->data['text_confirm'] = $this->language->get('text_confirm');
+            $this->data['text_exit'] = $this->language->get('text_exit');
+            $this->data['text_popup_header_student'] = $this->language->get('text_popup_header_student');
+            //end vlmn modification
 			
 			$this->data['text_search'] = $this->language->get('text_search');
 			$this->data['text_report'] = $this->language->get('text_report');
@@ -498,16 +508,16 @@ class ControllerSaleCustomerReceive extends Controller {
 		$data_filter_status = array('status' => 1, 'gender'=> -1);
 		$this->data['total_received'] = $this->model_sale_customer->getTotalCustomersByData($data_filter_status);
 		
-		$data_filter_status = array('status' => 1, 'gender'=> 0);
+		$data_filter_status = array('status' => 1, 'gender'=> 1);
 		$this->data['total_received_male'] = $this->model_sale_customer->getTotalCustomersByData($data_filter_status);
 		
-		$data_filter_status = array('status' => 1, 'gender'=> 1);
+		$data_filter_status = array('status' => 1, 'gender'=> 0);
 		$this->data['total_received_female'] = $this->model_sale_customer->getTotalCustomersByData($data_filter_status);
 		
 		//end vlmn modification
 		$customer_total = $this->model_sale_customer->getTotalCustomers($data);
 	
-		$results = $this->model_sale_customer->getCustomers($data);
+		$results = $this->model_sale_customer->getStudents($data);
  
     	foreach ($results as $result) {
 			$action = array();
@@ -528,7 +538,7 @@ class ControllerSaleCustomerReceive extends Controller {
 
 			$this->data['customers'][] = array(
                  
-				'customer_id'    => $result['customer_id'],
+				/*'customer_id'    => $result['customer_id'],
 				'student_id'    => $result['student_id'],
 				'name'           => $result['name'],
 				'gender'          => ($result['gender'] ? $this->language->get('text_male') : $this->language->get('text_female')),
@@ -544,10 +554,29 @@ class ControllerSaleCustomerReceive extends Controller {
 				'customer_group' => $result['customer_group'],
 				'status'         => ($result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
 				'resident'       => ($result['resident'] ? $this->language->get('text_resident') : $this->language->get('text_not_resident')),
-				
 				'selected'       => isset($this->request->post['selected']) && in_array($result['customer_id'], $this->request->post['selected']),
 				'action'         => $action
-                 // end LMT           
+                 // end LMT   */
+
+                'customer_id'    => $result['customer_id'],
+				'student_id'    => $result['student_id'],
+				'name'           => $result['name'],
+				'gender'          => ($result['gender'] ? $this->language->get('text_male') : $this->language->get('text_female')),
+                'field'				=> $result['field'],
+                'telephone'				=> $result['telephone'],
+				'date_of_birth' 	=> date("d-m-Y", strtotime($result['date_of_birth'])),
+				'university'          => ((isset($university['name'])) ? $university['name'] : ''),
+				'faculty'          => ((isset($faculty['name'])) ? $faculty['name'] : ''),
+				'floor'          => $result['floor_name'],
+				'bed'          => $result['bed'],
+				'ethnic'          => $result['ethnic'],
+				'address_1'          => ((isset($zone['name'])) ? $zone['name'] :''),
+				'customer_group' => $result['customer_group'],
+				'status'         => ($result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
+				'approved'       => ($result['approved'] ? $this->language->get('text_yes') : $this->language->get('text_no')),
+                'resident'       => ($result['resident'] ? $this->language->get('text_resident') : $this->language->get('text_not_resident')),
+				'selected'       => isset($this->request->post['selected']) && in_array($result['customer_id'], $this->request->post['selected']),
+				'action'         => $action
 				
 			);
 		}	
@@ -2018,5 +2047,24 @@ class ControllerSaleCustomerReceive extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 	// end LMT
+
+    function getStudentInfo(){
+        $json = array();
+
+        $this->load->model('sale/customer');
+        $json['student']  = $this->model_sale_customer->getStudentByStudentId((int)$this->request->post['student_id']);
+
+        $this->response->setOutput(json_encode($json));
+    }
+    function confirmStudent(){
+        $json = array();
+
+        $this->load->model('sale/customer');
+        $this->model_sale_customer->confirmStudent((int)$this->request->post['student_id']);
+
+        $json['success'] = 'yes';
+
+        $this->response->setOutput(json_encode($json));
+    }
 }
 ?>
