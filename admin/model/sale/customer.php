@@ -313,7 +313,7 @@ class ModelSaleCustomer extends Model {
                 $implode[] = "field = '" . (int)$data['filter_field'] . "'";
             }
 
-            if (isset($data['filter_gender']) && !is_null($data['filter_gender'])) {
+            if (isset($data['filter_gender']) && !is_null($data['filter_gender'])  && (int)$data['filter_gender'] != -1) {
                 $implode[] = "c.gender = '" . (int)$data['filter_gender'] . "'";
             }
 
@@ -880,16 +880,168 @@ class ModelSaleCustomer extends Model {
 	}
 
     //start vlmn modification
-    public function getTotalCustomersByData($data) {
-        $sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer WHERE student_status = '" . (int)$data['status'] . "'";
+    public function getTotalStudentsByData($data) {
+        $ouput = array();
 
-        if (isset($data['gender']) && (int)$data['gender'] != -1) {
-            $sql .= " AND gender = '" . (int)$data['gender'] . "'";
+        $period = $this->db->query("SELECT * FROM " . DB_PREFIX . "student_receive_period WHERE `is_apply` = '1'");
+        if((int)$data['filter_student_status'] != 0) {
+            $student_receive = $this->db->query("SELECT * FROM " . DB_PREFIX . "student_receive  WHERE student_status = '" . (int)$data['filter_student_status'] . "' AND `period` = '" . (int)$period->row['period_id'] . "'");
+        }
+       else {
+           $student_receive = $this->db->query("SELECT * FROM " . DB_PREFIX . "student_receive WHERE `period` = '" . (int)$period->row['period_id'] . "'");
+       }
+
+        foreach($student_receive->rows as $student) {
+            $sql = "SELECT *, CONCAT(c.lastname, ' ', c.firstname) AS name, cg.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group cg ON (c.customer_group_id = cg.customer_group_id) LEFT JOIN ". DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) LEFT JOIN ". DB_PREFIX . "floor_description fd ON (cg.floor_id = fd.floor_id AND fd.language_id = cgd.language_id ) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') ."'";
+            //$sql = "SELECT *, CONCAT(c.firstname, ' ', c.lastname) AS name, cg.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+            $implode = array();
+            // start LMT
+
+            if (!empty($data['filter_id'])) {
+                $implode[] = "student_id LIKE '%" . $this->db->escape($data['filter_id']) . "%'";
+            }
+
+            if (!empty($data['filter_field'])) {
+                $implode[] = "field = '" . (int)$data['filter_field'] . "'";
+            }
+
+            if (isset($data['filter_gender']) && !is_null($data['filter_gender']) && (int)$data['filter_gender'] != -1) {
+                $implode[] = "c.gender = '" . (int)$data['filter_gender'] . "'";
+            }
+
+            if (!empty($data['filter_telephone'])) {
+                $implode[] = "c.telephone LIKE '%" . $this->db->escape($data['filter_telephone']) . "%'";
+            }
+            if (!empty($data['filter_date_of_birth'])) {
+                $implode[] = "c.date_of_birth LIKE '%" . $this->db->escape(date("Y-m-d", strtotime($data['filter_date_of_birth']))) . "%'";
+            }
+            if (isset($data['filter_bed']) && !is_null($data['filter_bed'])) {
+                $implode[] = "c.bed = '" . (int)$data['filter_bed'] . "'";
+            }
+            /*
+            if (isset($data['filter_floor']) && !is_null($data['filter_floor'])) {
+                $implode[] = "fd.floor_name LIKE '%" .  $this->db->escape($data['filter_floor']) . "%'";
+            }
+            */
+            if (!empty($data['filter_floor_id']) && !is_null($data['filter_floor_id'])) {
+                $implode[] = "cg.floor_id = '" . (int)$data['filter_floor_id'] . "'";
+            }
+
+            if (!empty($data['filter_ethnic'])) {
+                $implode[] = "c.ethnic LIKE '%" . $this->db->escape($data['filter_ethnic']) . "%'";
+            }
+            if (!empty($data['filter_university'])) {
+                $implode[] = "c.university LIKE '%" . $this->db->escape($data['filter_university']) . "%'";
+            }
+            if (!empty($data['filter_faculty'])) {
+                $implode[] = "c.faculty LIKE '%" . $this->db->escape($data['filter_faculty']) . "%'";
+            }
+            if (!empty($data['filter_address_1'])) {
+                $implode[] = "c.id_location LIKE '%" . $this->db->escape($data['filter_address_1']) . "%'";
+            }
+            // end LMT
+            if (!empty($data['filter_name'])) {
+                $implode[] = "CONCAT(c.firstname, ' ', c.lastname) LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
+            }
+
+            if (!empty($data['filter_email'])) {
+                $implode[] = "c.email LIKE '" . $this->db->escape($data['filter_email']) . "%'";
+            }
+
+            if (isset($data['filter_newsletter']) && !is_null($data['filter_newsletter'])) {
+                $implode[] = "c.newsletter = '" . (int)$data['filter_newsletter'] . "'";
+            }
+
+            if (!empty($data['filter_customer_group_id'])) {
+                $implode[] = "c.customer_group_id = '" . (int)$data['filter_customer_group_id'] . "'";
+            }
+
+            if (!empty($data['filter_ip'])) {
+                $implode[] = "c.customer_id IN (SELECT customer_id FROM " . DB_PREFIX . "customer_ip WHERE ip = '" . $this->db->escape($data['filter_ip']) . "')";
+            }
+
+            if (isset($data['filter_status']) && !is_null($data['filter_status'])) {
+                $implode[] = "c.status = '" . (int)$data['filter_status'] . "'";
+            }
+
+            if (isset($data['filter_approved']) && !is_null($data['filter_approved'])) {
+                $implode[] = "c.approved = '" . (int)$data['filter_approved'] . "'";
+            }
+
+            if (isset($data['filter_valid']) && !is_null($data['filter_valid'])) {
+                $implode[] = "student_valid = '" . (int)$data['filter_valid'] . "'";
+            }
+
+            if (isset($data['filter_resident']) && !is_null($data['filter_resident'])) {
+                $implode[] = "resident = '" . (int)$data['filter_resident'] . "'";
+            }
+
+            if (!empty($data['filter_date_added'])) {
+                $implode[] = "DATE(c.date_added) = DATE('" . $this->db->escape($data['filter_date_added']) . "')";
+            }
+
+            if ($implode) {
+                $sql .= " AND " . implode(" AND ", $implode);
+            }
+
+            $sql .= " AND `student_id` = " . (int)$student['student_id'];
+
+            $sort_data = array(
+                // start LMT
+                'student_id',
+                'name',
+                'field',
+                'gender',
+                'date_of_birth',
+                'university',
+                'faculty',
+                'c.email',
+                'customer_group',
+                'floor_name',
+                'floor_id',
+                'bed',
+                'ethnic',
+                'address_1',
+                'c.status',
+                'c.student_valid',
+                'c.resident',
+                'c.ip',
+                'c.date_added'
+                // end LMT
+            );
+
+            if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+                $sql .= " ORDER BY " . $data['sort'];
+            } else {
+                $sql .= " ORDER BY name";
+            }
+
+            if (isset($data['order']) && ($data['order'] == 'DESC')) {
+                $sql .= " DESC";
+            } else {
+                $sql .= " ASC";
+            }
+
+            if (isset($data['start']) || isset($data['limit'])) {
+                if ($data['start'] < 0) {
+                    $data['start'] = 0;
+                }
+
+                if ($data['limit'] < 1) {
+                    $data['limit'] = 20;
+                }
+
+                $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+            }
+
+            $stu = $this->db->query($sql);
+
+            if($stu->num_rows) {
+                $ouput[] = $stu->row;
+            }
         }
 
-        $query = $this->db->query($sql);
-
-        return $query->row['total'];
+        return count($ouput);
     }
     public function getStudentByStudentId($student_id) {
         $query2 = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer WHERE student_id = '" . (int)$student_id . "'");
