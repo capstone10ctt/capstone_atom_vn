@@ -44,7 +44,8 @@ if($customer['resident'] == $text_resident)
       <a onclick="$('form').attr('action', '<?php echo $approve; ?>'); $('form').submit();" class="button"><?php echo $button_approve; ?></a>
       -->
       <!-- end LMT -->
-      <a onclick="$('form').attr('action', '<?php echo $verify; ?>'); $('form').submit();" class="button"><?php echo $text_verify; ?></a></div>
+      <a onclick="$('form').attr('action', '<?php echo $verify; ?>'); $('form').submit();" class="button"><?php echo $text_verify; ?></a>
+      <a href="<?php echo $report; ?>" class="button"><?php echo $text_report; ?></a></div>
     </div>
     <div class="content">
     <div id="leftcol" style="float:left;width:300px;text-alignment:left">

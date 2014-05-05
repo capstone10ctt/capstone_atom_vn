@@ -27,9 +27,20 @@ $_['column_address_1']           = 'Địa chỉ';
 $_['column_bed']           = 'Giường';
 $_['column_ethnic']           = 'Dân tộc';
 
+$_['text_total']          = 'Tổng';
+$_['text_total_verify']          = 'Tổng hồ sơ xét duyệt';
+$_['text_new_valid']          = 'Hồ sơ mới hợp lệ';
+$_['text_new_invalid']          = 'Hồ sơ mới không hợp lệ';
+$_['text_resident_valid']          = 'Tiếp tục lưu trú hợp lệ';
+$_['text_resident_invalid']          = 'Tiếp tục lưu trú không hợp lệ';
+
 $_['text_male']          = 'Nam';
 $_['text_female']          = 'Nữ';
-
+$_['text_report_valid']          = 'Thống Kê Hồ Sơ Hợp Lệ';
+$_['text_report_field']          = 'Thống Kê Hồ Sơ Diện Chính Sách';
+$_['text_valid_app']          = 'Hồ Sơ Hợp Lệ';
+$_['text_field_app']          = 'Hồ Sơ Diện Chính Sách';
+$_['text_report']          = 'Thống kê';
 $_['button_select']          = 'Chọn';
 $_['text_select_field']          = 'Chọn theo diện';
 $_['text_unidentified_field']          = 'Diện không xác định';

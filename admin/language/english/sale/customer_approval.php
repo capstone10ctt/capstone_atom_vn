@@ -29,8 +29,18 @@ $_['column_ethnic']           = 'Ethnic';
 $_['text_male']          = 'Male';
 $_['text_female']          = 'Female';
 
+$_['text_total']          = 'Total';
+$_['text_total_verify']          = 'Total application';
+$_['text_new_valid']          = 'New valid application';
+$_['text_new_invalid']          = 'New invalid application';
+$_['text_resident_valid']          = 'Resident valid application';
+$_['text_resident_invalid']          = 'Resident invalid application';
+
 $_['button_select']          = 'Select';
 $_['text_unidentified_field']          = 'Unidentified field';
+$_['text_report_valid']          = 'Report Valid Application';
+$_['text_report_field']          = 'Report Field Application';
+$_['text_report']          = 'Report';
 $_['text_resident']          = 'Resident';
 $_['text_not_resident']          = 'Not resident';
 $_['text_verify']          = 'Verify';
