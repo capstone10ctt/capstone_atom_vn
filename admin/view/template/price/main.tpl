@@ -94,7 +94,6 @@
             color: cornflowerblue;
         }
     </style>
-    <script src="view/javascript/date.js"></script>
     <script type="text/javascript">
         $(function() {
             $('#btnNewStandardPrice').click(function() {
@@ -105,8 +104,13 @@
                 window.location.href = "index.php?route=price/edit/historyStandardPriceView&token=<?php echo $token; ?>"
             });
 
-            $('#btnEditStandardPrice').click(function() {
-                window.location.href = "index.php?route=price/edit/editStandardPriceView&token=<?php echo $token; ?>"
+            $.ajax({
+                url: 'index.php?route=price/edit/updateApplyStandardElectricityPrice&token=<?php echo $token; ?>',
+                dataType: 'json',
+                type: 'post',
+                error: function(xhr) {
+                    console.log(xhr);
+                }
             });
 
             $.ajax({
@@ -114,8 +118,8 @@
                 dataType: 'json',
                 type: 'post',
                 success: function(json) {
-                    var date = new Date(json['date']).toString('dd/MM/yyyy');
-                    $('.electricity_apply_date').text(date);
+                    var date = new Date(json['date']);
+                    $('.electricity_apply_date').text(date.getUTCDate() + '/' + (date.getUTCMonth() + 1) + '/' + date.getUTCFullYear());
                 },
                 error: function(xhr) {
                     console.log(xhr);
@@ -154,7 +158,6 @@
     <div id="header"><h1><?php echo $header_current; ?></h1></div>
     <div class="com-button-panel">
         <input type="button" value="Lịch Sử" id="btnHistoryStandardPrice" />
-        <input type="button" value="Chỉnh Sửa" id="btnEditStandardPrice" />
         <input type="button" value="Thêm Mới" id="btnNewStandardPrice" />
     </div>
     <div style="clear: both;"></div>

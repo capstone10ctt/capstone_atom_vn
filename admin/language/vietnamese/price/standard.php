@@ -16,6 +16,5 @@ $_['valid_date_range'] = 'Hiệu Lực Từ:';
 
 $_['header_current'] = 'ĐỊNH MỨC HIỆN TẠI';
 $_['header_history'] = 'LỊCH SỬ ĐỊNH MỨC';
-$_['header_new'] = 'THÊM MỚI ĐỊNH MỨC';
-$_['header_edit'] = 'CHỈNH SỬA ĐỊNH MỨC';
+$_['header_new'] = 'ĐỊNH MỨC CHƯA ÁP DỤNG';
 ?>

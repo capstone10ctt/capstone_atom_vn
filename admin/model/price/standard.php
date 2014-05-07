@@ -15,7 +15,7 @@ class ModelPriceStandard extends Model {
     }
 
     public function getElectricityLastModified() {
-        $query = $this->db->query("SELECT `id` FROM e_lifetime ORDER BY `id` DESC LIMIT 1");
+        $query = $this->db->query("SELECT `id` FROM e_lifetime WHERE `to` IS NULL");
         return $query->row;
     }
 
@@ -25,7 +25,7 @@ class ModelPriceStandard extends Model {
     }
 
     public function getLatestElectricityUpdateDate() {
-        $query = $this->db->query("SELECT MONTH(`from`) AS Month, YEAR(`from`) AS Year FROM e_lifetime ORDER BY YEAR(`from`) DESC, MONTH(`from`) DESC LIMIT 1");
+        $query = $this->db->query("SELECT `id`, MONTH(`from`) AS Month, YEAR(`from`) AS Year FROM e_lifetime WHERE `to` IS NULL");
         return $query->row;
     }
 
@@ -33,12 +33,27 @@ class ModelPriceStandard extends Model {
         $this->db->query('DELETE FROM e_standard WHERE `id` = "' . $id . '"');
         $this->db->query('DELETE FROM e_lifetime WHERE `id` = "' . $id . '"');
         $lastRow = $this->db->query('SELECT `id` FROM e_lifetime ORDER BY `id` DESC LIMIT 1')->row;
-        $this->db->query('UPDATE e_lifetime SET `to` = null WHERE `id` = "' . $lastRow[$id] . '"');
+        if (!empty($lastRow)) {
+            $this->db->query('UPDATE e_lifetime SET `to` = null WHERE `id` = "' . $lastRow['id'] . '"');
+        }
     }
 
     public function getCurrentApplyDateElectricity() {
         $query = $this->db->query('SELECT `From` FROM e_lifetime WHERE `apply` = "1"');
         return $query->row;
+    }
+
+    public function getCurrentApplyIdElectricity() {
+        $query = $this->db->query('SELECT `id` FROM e_lifetime WHERE `apply` = "1"')->row;
+        return $query['id'];
+    }
+
+    public function updateApplyStandardElectricityPrice() {
+        $currentDate = date('Y-m-d');
+        // if $currentDate is within the range the future standard price time range
+        $this->db->query('UPDATE e_lifetime SET `apply` = "1" WHERE `to` IS NULL AND `from` <= "' . $currentDate . '"');
+        // if $currentDate is still within the current standard price time range
+        $this->db->query('UPDATE e_lifetime SET `apply` = "0" WHERE `from` <= "' . $currentDate . '" AND `to` >= "' . $currentDate . '"');
     }
     //==================================================================================================================
     //start vlmn modification

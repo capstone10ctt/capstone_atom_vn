@@ -5,20 +5,10 @@ class ControllerPriceEdit extends Controller {
         $this->load->model('price/standard');
         $this->data['token'] = $this->session->data['token'];
 
-        $electricity_last_modified = $this->model_price_standard->getElectricityLastModified();
-        $electricity_last_modified_list = $this->model_price_standard->getElectricityLastModifiedList();
-        $water_last_modified = $this->model_price_standard->getWaterLastModified();
-        $water_last_modified_list = $this->model_price_standard->getWaterLastModifiedList();
-        $garbage_last_modified = $this->model_price_standard->getGarbageLastModified();
-        $garbage_last_modified_list = $this->model_price_standard->getGarbageLastModifiedList();
-        // put modified date list into variable 'electricity_last_modified_list' & `water_last_modified_list`
-        $this->data['electricity_last_modified_list'] = $electricity_last_modified_list;
-        $this->data['water_last_modified_list'] = $water_last_modified_list;
-        $this->data['garbage_last_modified_list'] = $garbage_last_modified_list;
-        // load electricity standard price based on the provided date
-        $this->loadElectricityStandardPrice($electricity_last_modified['id']);
-        $this->loadWaterStandardPrice($water_last_modified['id']);
-        $this->loadGarbageStandardPrice($garbage_last_modified['id']);
+        // load current apply id
+        $electricityCurrentApplyId = $this->model_price_standard->getCurrentApplyIdElectricity();
+        // load electricity standard price based on the provided id
+        $this->loadElectricityStandardPrice($electricityCurrentApplyId);
         // store values for display purpose in View part
         $this->data['text_electricity_from'] = $this->language->get('text_electricity_from');
         $this->data['text_electricity_to'] = $this->language->get('text_electricity_to');
@@ -58,6 +48,7 @@ class ControllerPriceEdit extends Controller {
         $this->data['description_garbage'] = $this->language->get('description_garbage');
         $this->data['valid_date_range'] = $this->language->get('valid_date_range');
         $this->data['header_new'] = $this->language->get('header_new');
+        $this->data['button_add'] = $this->language->get('button_add');
         // load view
         $this->template = 'price/new.tpl';
         $this->children = array(
@@ -171,6 +162,7 @@ class ControllerPriceEdit extends Controller {
                 'Price' => $row['Price']
             );
         }
+
         $json['success'] = 'success';
         $this->response->setOutput(json_encode($json));
     }
@@ -184,6 +176,7 @@ class ControllerPriceEdit extends Controller {
             $id = $this->request->post['id'];
         }
         $e_standard = $this->model_price_standard->getElectricityStandardPrice($id);
+
         foreach ($e_standard as $row) {
             $this->data['e_standard'][] = array(
                 'From' => $row['From'],
@@ -207,13 +200,32 @@ class ControllerPriceEdit extends Controller {
             $oldEndDate = $this->request->post['old_end_date'];
             $electricity_new_data = $this->request->post['electricity_new_data'];
             $id = $this->request->post['id'];
-            // update the end date of old standard price
-            $this->db->query('UPDATE e_lifetime SET `to`= "' . $oldEndDate . '" WHERE id = "' . $id . '"');
-            // update table
-            $this->db->query('INSERT INTO e_lifetime (`from`, `to`) VALUES ("'. $updateDateFrom . '", NULL)');
-            $newestId = $this->db->query('SELECT id FROM e_lifetime WHERE `from` = "' . $updateDateFrom . '" AND `to` IS NULL')->row;
-            foreach ($electricity_new_data['electricity_new'] as $data) {
-                $this->db->query('INSERT INTO e_standard (`id`, `From`, `To`, `Price`) VALUES ("' . $newestId['id'] . '", "' . $data['from'] . '", "' . $data['to'] . '", "' . $data['price'] .'")');
+            // update the future standard price
+            $temp = $this->db->query('SELECT `from` FROM e_lifetime WHERE id = "' . $id . '"')->row;
+            $currentDate = date('Y-m-d');
+            date_default_timezone_set('UTC');
+            if (date(strtotime($temp['from'])) >= date(strtotime($currentDate))) {
+                // update To_date
+                $currentPriceId = $this->db->query('SELECT `id` FROM e_lifetime WHERE id <> "' . $id . '" ORDER BY `id` DESC LIMIT 1')->row['id'];
+                $handle = fopen("log.txt","w");
+                fwrite($handle,var_export($currentPriceId,true));
+                fclose($handle);
+                $this->db->query('UPDATE e_lifetime SET `to` = "' . $oldEndDate . '" WHERE `id` = "' . $currentPriceId . '"');
+                // update From_date
+                $this->db->query('UPDATE e_lifetime SET `from` = "' . $updateDateFrom . '" WHERE id = "' . $id . '"');
+                $this->db->query('DELETE FROM e_standard WHERE `id` = "' . $id . '"');
+                foreach ($electricity_new_data['electricity_new'] as $data) {
+                    $this->db->query('INSERT INTO e_standard (`id`, `From`, `To`, `Price`) VALUES ("' . $id . '", "' . $data['from'] . '", "' . $data['to'] . '", "' . $data['price'] .'")');
+                }
+            } else { // add new standard price
+                // update the end date of old standard price
+                $this->db->query('UPDATE e_lifetime SET `to`= "' . $oldEndDate . '" WHERE id = "' . $id . '"');
+                // update table
+                $this->db->query('INSERT INTO e_lifetime (`from`, `to`) VALUES ("'. $updateDateFrom . '", NULL)');
+                $newestId = $this->db->query('SELECT id FROM e_lifetime WHERE `from` = "' . $updateDateFrom . '" AND `to` IS NULL')->row;
+                foreach ($electricity_new_data['electricity_new'] as $data) {
+                    $this->db->query('INSERT INTO e_standard (`id`, `From`, `To`, `Price`) VALUES ("' . $newestId['id'] . '", "' . $data['from'] . '", "' . $data['to'] . '", "' . $data['price'] .'")');
+                }
             }
             // set 'success' string in order to send back to the View
             $json['success'] = 'success';
@@ -233,10 +245,8 @@ class ControllerPriceEdit extends Controller {
         } else {
             $json['month'] = $latestUpdateDate['Month'];
             $json['year'] = $latestUpdateDate['Year'];
+            $json['id'] = $latestUpdateDate['id'];
         }
-        $handle = fopen("log.txt","w");
-        fwrite($handle,var_export($json,true));
-        fclose($handle);
         $this->response->setOutput(json_encode($json));
     }
 
@@ -259,6 +269,19 @@ class ControllerPriceEdit extends Controller {
         $this->response->setOutput(json_encode($json));
     }
 
+    public function getCurrentApplyIdElectricity() {
+        // remember to put this line or $this->model_price_standard will be NULL when call this function from ajax for the 2nd time
+        $this->load->model('price/standard');
+        $currentApplyDate = $this->model_price_standard->getCurrentApplyIdElectricity();
+        return $currentApplyDate['id'];
+    }
+
+    public function updateApplyStandardElectricityPrice() {
+        // remember to put this line or $this->model_price_standard will be NULL when call this function from ajax for the 2nd time
+        $this->load->model('price/standard');
+        $this->model_price_standard->updateApplyStandardElectricityPrice();
+    }
+    //==================================================================================================================
     public function loadNewestWaterStandardPriceId() {
         // remember to put this line or $this->model_price_standard will be NULL when call this function from ajax for the 2nd time
         $this->load->model('price/standard');
@@ -363,7 +386,7 @@ class ControllerPriceEdit extends Controller {
         $json['date'] = $currentApplyDate['From'];
         $this->response->setOutput(json_encode($json));
     }
-
+    //==================================================================================================================
     public function loadNewestGarbageStandardPriceId() {
         // remember to put this line or $this->model_price_standard will be NULL when call this function from ajax for the 2nd time
         $this->load->model('price/standard');
