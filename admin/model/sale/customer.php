@@ -297,7 +297,7 @@ class ModelSaleCustomer extends Model {
         $ouput = array();
 
         $period = $this->db->query("SELECT * FROM " . DB_PREFIX . "student_receive_period WHERE `is_apply` = '1'");
-        $student_receive = $this->db->query("SELECT * FROM " . DB_PREFIX . "student_receive  WHERE student_status = '" . (int)$data['filter_student_status'] . "'");
+        $student_receive = $this->db->query("SELECT * FROM " . DB_PREFIX . "student_receive  WHERE student_status = '" . (int)$data['filter_student_status'] . "' AND `period` = ". (int)$period->row['period_id']);
 
         foreach($student_receive->rows as $student) {
             $sql = "SELECT *, CONCAT(c.lastname, ' ', c.firstname) AS name, cg.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group cg ON (c.customer_group_id = cg.customer_group_id) LEFT JOIN ". DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) LEFT JOIN ". DB_PREFIX . "floor_description fd ON (cg.floor_id = fd.floor_id AND fd.language_id = cgd.language_id ) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') ."'";
