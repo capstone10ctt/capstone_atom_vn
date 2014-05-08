@@ -1044,7 +1044,7 @@ class ModelSaleCustomer extends Model {
         return count($ouput);
     }
     public function getStudentByStudentId($student_id) {
-        $query2 = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer WHERE student_id = '" . (int)$student_id . "'");
+        $query2 = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer WHERE student_id = '" . $student_id . "' OR `id_num` = ".$student_id);
 
         if($query2->num_rows) {
             $query3 = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_group WHERE customer_group_id = '" . (int)$query2->row['customer_group_id'] . "'");
@@ -1061,12 +1061,12 @@ class ModelSaleCustomer extends Model {
         }
     }
 
-    function confirmStudent($student_id) {
-        $this->db->query("UPDATE " . DB_PREFIX . "student_receive SET `student_status` = '1' WHERE student_id = '" . (int)$student_id . "'");
+    function confirmStudent($student_id,$status) {
+        $this->db->query("UPDATE " . DB_PREFIX . "student_receive SET `student_status` = '" . (int)$status . "' WHERE student_id = '" . $student_id . "'");
     }
 
-    public function getStudentIDFromBarcode($card_id) {
-        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "file_to_student WHERE file_code = '" . trim($card_id) . "'");
+    public function getStudentIDFromBarcode($file_code) {
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "file_to_student WHERE file_code = '" . trim($file_code) . "'");
 
         if($query->num_rows) {
             $student_id =  $query->row['student_id'];
