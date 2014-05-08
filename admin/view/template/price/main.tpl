@@ -104,22 +104,24 @@
                 window.location.href = "index.php?route=price/edit/historyStandardPriceView&token=<?php echo $token; ?>"
             });
 
+
             $.ajax({
                 url: 'index.php?route=price/edit/updateApplyStandardElectricityPrice&token=<?php echo $token; ?>',
                 dataType: 'json',
                 type: 'post',
-                error: function(xhr) {
-                    console.log(xhr);
-                }
-            });
-
-            $.ajax({
-                url: 'index.php?route=price/edit/getCurrentApplyDateElectricity&token=<?php echo $token; ?>',
-                dataType: 'json',
-                type: 'post',
                 success: function(json) {
-                    var date = new Date(json['date']);
-                    $('.electricity_apply_date').text(date.getUTCDate() + '/' + (date.getUTCMonth() + 1) + '/' + date.getUTCFullYear());
+                    $.ajax({
+                        url: 'index.php?route=price/edit/getCurrentApplyDateElectricity&token=<?php echo $token; ?>',
+                        dataType: 'json',
+                        type: 'post',
+                        success: function(json) {
+                            var date = new Date(json['date']);
+                            $('.electricity_apply_date').text(date.getUTCDate() + '/' + (date.getUTCMonth() + 1) + '/' + date.getUTCFullYear());
+                        },
+                        error: function(xhr) {
+                            console.log(xhr);
+                        }
+                    });
                 },
                 error: function(xhr) {
                     console.log(xhr);

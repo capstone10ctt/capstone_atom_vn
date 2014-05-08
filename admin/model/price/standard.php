@@ -7,12 +7,8 @@ class ModelPriceStandard extends Model {
 		$query2 = $this->db->query("SELECT * FROM e_lifetime WHERE `from` = '" . $query1->row['from']. "'");
         return $query2->row;
     }
-    public function getElectricityAppliedLifeTime($month, $year) {
-        $query2 = $this->db->query("SELECT * FROM e_lifetime WHERE `from` = '" . $query1->row['from']. "'");
-        return $query2->row;
-    }
 	//end vlmn modification
-    
+
     public function getElectricityStandardPrice($id) {
         $query = $this->db->query('SELECT `From`, `To`, Price FROM e_standard WHERE id = "' . $id . '"');
         return $query->rows;
@@ -54,10 +50,9 @@ class ModelPriceStandard extends Model {
 
     public function updateApplyStandardElectricityPrice() {
         $currentDate = date('Y-m-d');
-        // if $currentDate is within the range the future standard price time range
-        $this->db->query('UPDATE e_lifetime SET `apply` = "1" WHERE `to` IS NULL AND `from` <= "' . $currentDate . '"');
-        // if $currentDate is still within the current standard price time range
-        $this->db->query('UPDATE e_lifetime SET `apply` = "0" WHERE `from` <= "' . $currentDate . '" AND `to` >= "' . $currentDate . '"');
+        $this->db->query('UPDATE e_lifetime SET `apply` = "0"');
+        $this->db->query('UPDATE e_lifetime SET `apply` = "1" WHERE `from` <= "' . $currentDate . '" AND `to` IS NULL');
+        $this->db->query('UPDATE e_lifetime SET `apply` = "1" WHERE `from` <= "' . $currentDate . '" AND "' . $currentDate . '" <= `to`');
     }
     //==================================================================================================================
     //start vlmn modification
