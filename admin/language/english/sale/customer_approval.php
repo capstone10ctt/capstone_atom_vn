@@ -29,6 +29,15 @@ $_['column_ethnic']           = 'Ethnic';
 $_['text_male']          = 'Male';
 $_['text_female']          = 'Female';
 
+$_['text_student_information']          = 'Student Information';
+$_['text_fullname']          = 'Fullname';
+$_['text_status']          = 'Status';
+$_['text_new']          = 'New';
+$_['text_verified']          = 'Verified';
+$_['text_notverifiedyet']          = 'Not Verified Yet';
+$_['text_type']          = 'Type';
+$_['text_unverify']          = 'Unverify';
+
 $_['text_total']          = 'Total';
 $_['text_total_verify']          = 'Total application';
 $_['text_new_valid']          = 'New valid application';

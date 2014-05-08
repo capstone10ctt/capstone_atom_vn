@@ -53,7 +53,7 @@ foreach ($customers as $customer) {
         foreach ($fields as $field) {
           echo $field['field_name'].': '.$count_field[$field['field_id']].'<br />';
           $count++;
-          if($count == count($fields)/2)
+          if($count == (int)((count($fields)+1)/2))
             echo '</div><div id="rightfield" style="margin-left:150px;text-alignment:left">';
         }
          ?>

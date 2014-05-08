@@ -34,6 +34,17 @@ $_['text_new_invalid']          = 'Hồ sơ mới không hợp lệ';
 $_['text_resident_valid']          = 'Tiếp tục lưu trú hợp lệ';
 $_['text_resident_invalid']          = 'Tiếp tục lưu trú không hợp lệ';
 
+$_['text_student_information']          = 'Thông Tin Sinh Viên';
+$_['text_fullname']          = 'Họ Tên';
+$_['text_status']          = 'Tình Trạng';
+$_['text_new']          = 'Mới';
+$_['text_verified']          = 'Duyệt';
+$_['text_notverifiedyet']          = 'Chưa duyệt';
+$_['text_type']          = 'Dạng';
+$_['text_unverify']          = 'Bỏ Duyệt';
+
+
+
 $_['text_male']          = 'Nam';
 $_['text_female']          = 'Nữ';
 $_['text_report_valid']          = 'Thống Kê Hồ Sơ Hợp Lệ';
@@ -47,6 +58,7 @@ $_['text_unidentified_field']          = 'Diện không xác định';
 $_['text_resident']          = 'Lưu trú';
 $_['text_not_resident']          = 'Không lưu trú';
 $_['text_verify']          = 'Duyệt';
+
 $_['text_valid']          = 'Hợp lệ';
 $_['text_not_valid']          = 'Không hợp lệ';
 $_['text_basic_info']          = 'Thông tin cá nhân';

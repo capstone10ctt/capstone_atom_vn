@@ -59,7 +59,7 @@ if($customer['resident'] == $text_resident)
         foreach ($fields as $field) {
           echo '<input type="checkbox" name="'.$field['field_id'].'" value="true" />'.$field['field_name'].': '.$count_field[$field['field_id']].'<br />';
           $count++;
-          if($count == count($fields)/2)
+          if($count == (int)((count($fields)+1)/2))
             echo '</div><div id="rightfield" style="margin-left:150px;text-alignment:left">';
         }
          ?>

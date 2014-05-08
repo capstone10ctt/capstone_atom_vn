@@ -482,7 +482,7 @@ class ControllerSaleCustomerselection extends Controller {
 			'filter_status'            => $filter_status, 
 			'filter_valid'            => $filter_valid, 
 			'filter_resident'            => $filter_resident, 
-			'filter_student_status'          => 3, 
+			'filter_student_status'          => 2, 
 			'filter_date_added'        => $filter_date_added,
 			'filter_ip'                => $filter_ip,
 			'sort'                     => $sort,
@@ -491,9 +491,10 @@ class ControllerSaleCustomerselection extends Controller {
 			'limit'                    => $this->config->get('config_admin_limit')
 		);
 		
-		$customer_total = $this->model_sale_customer->getTotalCustomers($data);
+		$customer_total = $this->model_sale_customer->getTotalStudentsByData($data);
 	
-		$results = $this->model_sale_customer->getCustomers($data);
+		$results = $this->model_sale_customer->getStudents($data);
+	
  
     	foreach ($results as $result) {
 			$action = array();
@@ -1121,7 +1122,7 @@ class ControllerSaleCustomerselection extends Controller {
 			'filter_status'            => $filter_status, 
 			'filter_valid'            => $filter_valid, 
 			'filter_resident'            => $filter_resident, 
-			'filter_student_status'          => 3, 
+			'filter_student_status'          => 2, 
 			'filter_date_added'        => $filter_date_added,
 			'filter_ip'                => $filter_ip,
 			'sort'                     => $sort,
@@ -1130,9 +1131,9 @@ class ControllerSaleCustomerselection extends Controller {
 			'limit'                    => $this->config->get('config_admin_limit')
 		);
 		
-		$customer_total = $this->model_sale_customer->getTotalCustomers($data);
+		$customer_total = $this->model_sale_customer->getTotalStudentsByData($data);
 	
-		$results = $this->model_sale_customer->getCustomers($data);
+		$results = $this->model_sale_customer->getStudents($data);
  
     	foreach ($results as $result) {
 			$action = array();
@@ -1763,7 +1764,7 @@ class ControllerSaleCustomerselection extends Controller {
 			'filter_status'            => $filter_status, 
 			'filter_valid'            => $filter_valid, 
 			'filter_resident'            => $filter_resident, 
-			'filter_student_status'          => 3, 
+			'filter_student_status'          => 2, 
 			'filter_date_added'        => $filter_date_added,
 			'filter_ip'                => $filter_ip,
 			'sort'                     => $sort,
@@ -1772,9 +1773,9 @@ class ControllerSaleCustomerselection extends Controller {
 			'limit'                    => $this->config->get('config_admin_limit')
 		);
 		
-		$customer_total = $this->model_sale_customer->getTotalCustomers($data);
+		$customer_total = $this->model_sale_customer->getTotalStudentsByData($data);
 	
-		$results = $this->model_sale_customer->getCustomers($data);
+		$results = $this->model_sale_customer->getStudents($data);
  
     	foreach ($results as $result) {
 			$action = array();
@@ -2413,9 +2414,9 @@ class ControllerSaleCustomerselection extends Controller {
 			'limit'                    => $this->config->get('config_admin_limit')
 		);
 		
-		$customer_total = $this->model_sale_customer->getTotalCustomers($data);
+		$customer_total = $this->model_sale_customer->getTotalStudentsByData($data);
 	
-		$results = $this->model_sale_customer->getCustomers($data);
+		$results = $this->model_sale_customer->getStudents($data);
  
     	foreach ($results as $result) {
 			$action = array();
