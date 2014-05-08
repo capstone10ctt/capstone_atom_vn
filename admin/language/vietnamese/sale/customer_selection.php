@@ -157,4 +157,8 @@ $_['error_city']              = 'Thành phố phải từ 3 đến 128 ký tự!
 $_['error_postcode']          = 'Mã bưu điện phải từ 2 đến 10 ký tự!';
 $_['error_country']           = 'Xin vui lòng chọn quốc gia!';
 $_['error_zone']              = 'Xin vui lòng chọn Tỉnh/Thành phố!';
+
+$_['text_report']              = 'Thống kê';
+$_['text_report_amount']              = 'Thống kê số lượng tuyển sinh';
+$_['text_report_school']              = 'Thống kê số lượng theo trường';
 ?>

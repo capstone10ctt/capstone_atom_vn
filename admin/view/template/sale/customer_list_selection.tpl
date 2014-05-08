@@ -39,7 +39,10 @@ foreach ($customers as $customer) {
       <a onclick="$('form').attr('action', '<?php echo $approve; ?>'); $('form').submit();" class="button"><?php echo $button_approve; ?></a>
       -->
       <!-- end LMT -->
-      <a onclick="$('form').attr('action', '<?php echo $select; ?>'); $('form').submit();" class="button"><?php echo $button_finish; ?></a><a onclick="$('form').attr('action', '<?php echo $unselect; ?>'); $('form').submit();" class="button"><?php echo $button_unselect; ?></a></div>
+      <a onclick="$('form').attr('action', '<?php echo $select; ?>'); $('form').submit();" class="button"><?php echo $button_finish; ?></a><a onclick="$('form').attr('action', '<?php echo $unselect; ?>'); $('form').submit();" class="button"><?php echo $button_unselect; ?></a>
+      <a href="<?php echo $report_amount; ?>" class="button"><?php echo $text_report; ?></a>
+      </div>
+
     </div>
     <div class="content">
     <div id="leftcol" style="float:left;width:300px;text-alignment:left">

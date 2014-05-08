@@ -30,7 +30,10 @@
       <a onclick="$('form').attr('action', '<?php echo $approve; ?>'); $('form').submit();" class="button"><?php echo $button_approve; ?></a>
       -->
       <!-- end LMT -->
-      <a onclick="$('form').attr('action', '<?php echo $approve; ?>'); $('form').submit();" class="button"><?php echo $text_approve; ?></a><a onclick="$('form').attr('action', '<?php echo $unapprove; ?>'); $('form').submit();" class="button"><?php echo $text_not_approve; ?></a></div>
+      <a onclick="$('form').attr('action', '<?php echo $approve; ?>'); $('form').submit();" class="button"><?php echo $text_approve; ?></a><a onclick="$('form').attr('action', '<?php echo $unapprove; ?>'); $('form').submit();" class="button"><?php echo $text_not_approve; ?></a>
+      <a href="<?php echo $report; ?>" class="button"><?php echo $text_report; ?></a></div>
+      </div>
+
     </div>
     <div class="content">
     <div id="leftcol" style="float:left;width:200px;text-alignment:left">
