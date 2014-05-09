@@ -104,7 +104,9 @@
                 window.location.href = "index.php?route=price/edit/historyStandardPriceView&token=<?php echo $token; ?>"
             });
 
-
+    //==============================================================================================================
+    // ELECTRICITY
+    //==============================================================================================================
             $.ajax({
                 url: 'index.php?route=price/edit/updateApplyStandardElectricityPrice&token=<?php echo $token; ?>',
                 dataType: 'json',
@@ -127,27 +129,51 @@
                     console.log(xhr);
                 }
             });
-
+    //==============================================================================================================
+    // WATER
+    //==============================================================================================================
             $.ajax({
-                url: 'index.php?route=price/edit/getCurrentApplyDateWater&token=<?php echo $token; ?>',
+                url: 'index.php?route=price/edit/updateApplyStandardWaterPrice&token=<?php echo $token; ?>',
                 dataType: 'json',
                 type: 'post',
                 success: function(json) {
-                    var date = new Date(json['date']).toString('dd/MM/yyyy');
-                    $('.water_apply_date').text(date);
+                    $.ajax({
+                        url: 'index.php?route=price/edit/getCurrentApplyDateWater&token=<?php echo $token; ?>',
+                        dataType: 'json',
+                        type: 'post',
+                        success: function(json) {
+                            var date = new Date(json['date']);
+                            $('.water_apply_date').text(date.getUTCDate() + '/' + (date.getUTCMonth() + 1) + '/' + date.getUTCFullYear());
+                        },
+                        error: function(xhr) {
+                            console.log(xhr);
+                        }
+                    });
                 },
                 error: function(xhr) {
                     console.log(xhr);
                 }
             });
-
+    //==============================================================================================================
+    // GARBAGE
+    //==============================================================================================================
             $.ajax({
-                url: 'index.php?route=price/edit/getCurrentApplyDateGarbage&token=<?php echo $token; ?>',
+                url: 'index.php?route=price/edit/updateApplyStandardGarbagePrice&token=<?php echo $token; ?>',
                 dataType: 'json',
                 type: 'post',
                 success: function(json) {
-                    var date = new Date(json['date']).toString('dd/MM/yyyy');
-                    $('.garbage_apply_date').text(date);
+                    $.ajax({
+                        url: 'index.php?route=price/edit/getCurrentApplyDateGarbage&token=<?php echo $token; ?>',
+                        dataType: 'json',
+                        type: 'post',
+                        success: function(json) {
+                            var date = new Date(json['date']);
+                            $('.garbage_apply_date').text(date.getUTCDate() + '/' + (date.getUTCMonth() + 1) + '/' + date.getUTCFullYear());
+                        },
+                        error: function(xhr) {
+                            console.log(xhr);
+                        }
+                    });
                 },
                 error: function(xhr) {
                     console.log(xhr);
@@ -192,7 +218,7 @@
             </tbody>
         </table>
     </div>
-    <div class="table_water">
+    <div class="table_garbage">
         <?php echo '<h3>' . $description_water . '</h3>'; ?>
         <?php echo $valid_date_range; ?>
         <span class="water_apply_date"></span>

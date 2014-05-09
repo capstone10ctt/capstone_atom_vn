@@ -93,6 +93,11 @@
                 window.location.href = "index.php?route=price/edit/newStandardPriceView&token=<?php echo $token; ?>"
             });
 
+            $('.content-compare').hide();
+
+    //==============================================================================================================
+    // ELECTRICITY
+    //==============================================================================================================
             $('#electricity_modified_date').change(function() {
                 $.blockUI({ message: '<h3><span><img src="view/image/price/preloader.gif" height="16" width="16" /></span> Đang tải dữ liệu...</h3>' });
                 $.ajax({
@@ -125,82 +130,8 @@
                 });
             });
 
-            $('#water_modified_date').change(function() {
-                $.blockUI({ message: '<h3><span><img src="view/image/price/preloader.gif" height="16" width="16" /></span> Đang tải dữ liệu...</h3>' });
-                $.ajax({
-                    url: 'index.php?route=price/edit/loadWaterStandardPrice&token=<?php echo $token; ?>',
-                    data: { 'id' : $(this).children('option').filter(':selected').val() },
-                    dataType: 'json',
-                    type: 'post',
-                    success: function(json) {
-                        var $edit = $('.water_standard_price').find('tbody');
-                        // delete all current lines in the table
-                        $edit.empty();
-                        // loop all elements in a list of objects
-                        for (var index in json['data']) {
-                            var price = parseInt(json['data'][index]['Price']);
-                            var to = json['data'][index]['To'];
-                            if (to == -1) {
-                                to = '';
-                            }
-                            // add new lines represent the standard price corresponding to the inputted date
-                            $edit.append('<tr class="line">' +
-                                    '<td class="from">' + json['data'][index]['From'] + '</td>' +
-                                    '<td class="to">' + to + '</td>' +
-                                    '<td class="price">' + price.format() + '&nbsp₫</td>' + // format function: convert 1234 -> 1,234
-                                    '</tr>');
-                        }
-                    }, // for debugging purpose
-                    error: function(xhr) {
-                        console.log(xhr);
-                    }
-                });
-            });
-
-            $('#garbage_modified_date').change(function() {
-                $.blockUI({ message: '<h3><span><img src="view/image/price/preloader.gif" height="16" width="16" /></span> Đang tải dữ liệu...</h3>' });
-                $.ajax({
-                    url: 'index.php?route=price/edit/loadGarbageStandardPrice&token=<?php echo $token; ?>',
-                    data: { 'id' : $(this).children('option').filter(':selected').val() },
-                    dataType: 'json',
-                    type: 'post',
-                    success: function(json) {
-                        var $edit = $('.garbage_standard_price').find('tbody');
-                        // delete all current lines in the table
-                        $edit.empty();
-                        // loop all elements in a list of objects
-                        for (var index in json['data']) {
-                            var price = parseInt(json['data'][index]['Price']);
-                            var to = json['data'][index]['To'];
-                            if (to == -1) {
-                                to = '';
-                            }
-                            // add new lines represent the standard price corresponding to the inputted date
-                            $edit.append('<tr class="line">' +
-                                    '<td class="from">' + json['data'][index]['From'] + '</td>' +
-                                    '<td class="to">' + to + '</td>' +
-                                    '<td class="price">' + price.format() + '&nbsp₫</td>' + // format function: convert 1234 -> 1,234
-                                    '</tr>');
-                        }
-                    }, // for debugging purpose
-                    error: function(xhr) {
-                        console.log(xhr);
-                    }
-                });
-            });
-
-            $('.content-compare').hide();
-
             $('.table_electricity > .link-compare > a').click(function() {
                 $('.table_electricity > .content-compare').toggle();
-            });
-
-            $('.table_water > .link-compare > a').click(function() {
-                $('.table_water > .content-compare').toggle();
-            });
-
-            $('.table_garbage > .link-compare > a').click(function() {
-                $('.table_garbage > .content-compare').toggle();
             });
 
             $('#compare-electricity_modified_date').change(function() {
@@ -234,6 +165,44 @@
                     }
                 });
             });
+    //==============================================================================================================
+    // WATER
+    //==============================================================================================================
+            $('#water_modified_date').change(function() {
+                $.blockUI({ message: '<h3><span><img src="view/image/price/preloader.gif" height="16" width="16" /></span> Đang tải dữ liệu...</h3>' });
+                $.ajax({
+                    url: 'index.php?route=price/edit/loadWaterStandardPrice&token=<?php echo $token; ?>',
+                    data: { 'id' : $(this).children('option').filter(':selected').val() },
+                    dataType: 'json',
+                    type: 'post',
+                    success: function(json) {
+                        var $edit = $('.water_standard_price').find('tbody');
+                        // delete all current lines in the table
+                        $edit.empty();
+                        // loop all elements in a list of objects
+                        for (var index in json['data']) {
+                            var price = parseInt(json['data'][index]['Price']);
+                            var to = json['data'][index]['To'];
+                            if (to == -1) {
+                                to = '';
+                            }
+                            // add new lines represent the standard price corresponding to the inputted date
+                            $edit.append('<tr class="line">' +
+                                    '<td class="from">' + json['data'][index]['From'] + '</td>' +
+                                    '<td class="to">' + to + '</td>' +
+                                    '<td class="price">' + price.format() + '&nbsp₫</td>' + // format function: convert 1234 -> 1,234
+                                    '</tr>');
+                        }
+                    }, // for debugging purpose
+                    error: function(xhr) {
+                        console.log(xhr);
+                    }
+                });
+            });
+
+            $('.table_water > .link-compare > a').click(function() {
+                $('.table_water > .content-compare').toggle();
+            });
 
             $('#compare-water_modified_date').change(function() {
                 $.blockUI({ message: '<h3><span><img src="view/image/price/preloader.gif" height="16" width="16" /></span> Đang tải dữ liệu...</h3>' });
@@ -265,6 +234,44 @@
                         console.log(xhr);
                     }
                 });
+            });
+    //==============================================================================================================
+    // ELECTRICITY
+    //==============================================================================================================
+            $('#garbage_modified_date').change(function() {
+                $.blockUI({ message: '<h3><span><img src="view/image/price/preloader.gif" height="16" width="16" /></span> Đang tải dữ liệu...</h3>' });
+                $.ajax({
+                    url: 'index.php?route=price/edit/loadGarbageStandardPrice&token=<?php echo $token; ?>',
+                    data: { 'id' : $(this).children('option').filter(':selected').val() },
+                    dataType: 'json',
+                    type: 'post',
+                    success: function(json) {
+                        var $edit = $('.garbage_standard_price').find('tbody');
+                        // delete all current lines in the table
+                        $edit.empty();
+                        // loop all elements in a list of objects
+                        for (var index in json['data']) {
+                            var price = parseInt(json['data'][index]['Price']);
+                            var to = json['data'][index]['To'];
+                            if (to == -1) {
+                                to = '';
+                            }
+                            // add new lines represent the standard price corresponding to the inputted date
+                            $edit.append('<tr class="line">' +
+                                    '<td class="from">' + json['data'][index]['From'] + '</td>' +
+                                    '<td class="to">' + to + '</td>' +
+                                    '<td class="price">' + price.format() + '&nbsp₫</td>' + // format function: convert 1234 -> 1,234
+                                    '</tr>');
+                        }
+                    }, // for debugging purpose
+                    error: function(xhr) {
+                        console.log(xhr);
+                    }
+                });
+            });
+
+            $('.table_garbage > .link-compare > a').click(function() {
+                $('.table_garbage > .content-compare').toggle();
             });
 
             $('#compare-garbage_modified_date').change(function() {
@@ -447,6 +454,7 @@
                 ?>
             </tbody>
         </table>
+        <br />
         <div class="link-compare"><a>So Sánh</a></div>
         <br />
         <div class="content-compare">
