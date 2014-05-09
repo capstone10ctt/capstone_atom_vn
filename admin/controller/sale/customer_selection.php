@@ -26,13 +26,9 @@ class ControllerSaleCustomerselection extends Controller {
 			$selected = 0;
 			
 			foreach ($this->request->post['selected'] as $customer_id) {
-				$customer_info = $this->model_sale_customer->getCustomer($customer_id);
-				
-				if ($customer_info && $customer_info['student_status']=='3') {
-					$this->model_sale_customer->approve($customer_id,4);
+				$this->model_sale_customer->confirmStudent($customer_id,3);
 					
 					$selected++;
-				}
 			} 
 			
 			$this->session->data['success'] = sprintf($this->language->get('text_selected'), $selected);	
@@ -102,13 +98,11 @@ class ControllerSaleCustomerselection extends Controller {
 			$unselected = 0;
 			
 			foreach ($this->request->post['selected'] as $customer_id) {
-				$customer_info = $this->model_sale_customer->getCustomer($customer_id);
-				
-				if ($customer_info && $customer_info['student_status']=='3') {
-					$this->model_sale_customer->approve($customer_id,2);
+				$this->model_sale_customer->confirmStudent($customer_id,2);
+					
 					
 					$unselected++;
-				}
+				
 			} 
 			
 			$this->session->data['success'] = sprintf($this->language->get('text_unselected'), $unselected);	
@@ -818,6 +812,11 @@ class ControllerSaleCustomerselection extends Controller {
 		
 			$this->load->model('sale/customer');
 
+			if (isset($this->request->get['filter_period'])) {
+				$filter_period = $this->request->get['filter_period'];
+			} else {
+				$filter_period = null;
+			}
   			if (isset($this->request->get['filter_id'])) {
 				$filter_id = $this->request->get['filter_id'];
 			} else {
@@ -1078,6 +1077,9 @@ class ControllerSaleCustomerselection extends Controller {
 		if (isset($this->request->get['page'])) {
 			$url .= '&page=' . $this->request->get['page'];
 		}
+		if (isset($this->request->get['filter_period'])) {
+			$url .= '&filter_period=' . $this->request->get['filter_period'];
+		}
 
   		$this->data['breadcrumbs'] = array();
 
@@ -1122,6 +1124,7 @@ class ControllerSaleCustomerselection extends Controller {
 			'filter_status'            => $filter_status, 
 			'filter_valid'            => $filter_valid, 
 			'filter_resident'            => $filter_resident, 
+			'filter_period'            => $filter_period, 
 			'filter_student_status'          => 2, 
 			'filter_date_added'        => $filter_date_added,
 			'filter_ip'                => $filter_ip,
@@ -1134,6 +1137,8 @@ class ControllerSaleCustomerselection extends Controller {
 		$customer_total = $this->model_sale_customer->getTotalStudentsByData($data);
 	
 		$results = $this->model_sale_customer->getStudents($data);
+
+		$this->data["periods"] = $this->model_sale_customer->getPeriods();
  
     	foreach ($results as $result) {
 			$action = array();
@@ -1202,6 +1207,7 @@ class ControllerSaleCustomerselection extends Controller {
 		$this->data['column_login'] = $this->language->get('column_login');
 		$this->data['column_action'] = $this->language->get('column_action');		
 		
+		$this->data['text_period'] = $this->language->get('text_period');
 		$this->data['button_finish'] = $this->language->get('button_finish');
 		$this->data['button_unselect'] = $this->language->get('button_unselect');
 		$this->data['button_insert'] = $this->language->get('button_insert');
@@ -1415,6 +1421,7 @@ class ControllerSaleCustomerselection extends Controller {
 		$this->data['filter_address_1'] = $filter_address_1;
 		// end LMT
 
+		$this->data['filter_period'] = $filter_period;
 		$this->data['filter_name'] = $filter_name;
 		$this->data['filter_email'] = $filter_email;
 		$this->data['filter_status'] = $filter_status;
@@ -1460,6 +1467,12 @@ class ControllerSaleCustomerselection extends Controller {
 		
 			$this->load->model('sale/customer');
 
+			if (isset($this->request->get['filter_period'])) {
+				$filter_period = $this->request->get['filter_period'];
+			} else {
+				$filter_period = null;
+			}
+
   			if (isset($this->request->get['filter_id'])) {
 				$filter_id = $this->request->get['filter_id'];
 			} else {
@@ -1721,6 +1734,10 @@ class ControllerSaleCustomerselection extends Controller {
 			$url .= '&page=' . $this->request->get['page'];
 		}
 
+		if (isset($this->request->get['filter_period'])) {
+			$url .= '&filter_period=' . $this->request->get['filter_period'];
+		}
+
   		$this->data['breadcrumbs'] = array();
 
    		$this->data['breadcrumbs'][] = array(
@@ -1764,6 +1781,7 @@ class ControllerSaleCustomerselection extends Controller {
 			'filter_status'            => $filter_status, 
 			'filter_valid'            => $filter_valid, 
 			'filter_resident'            => $filter_resident, 
+			'filter_period'            => $filter_period, 
 			'filter_student_status'          => 2, 
 			'filter_date_added'        => $filter_date_added,
 			'filter_ip'                => $filter_ip,
@@ -1776,6 +1794,8 @@ class ControllerSaleCustomerselection extends Controller {
 		$customer_total = $this->model_sale_customer->getTotalStudentsByData($data);
 	
 		$results = $this->model_sale_customer->getStudents($data);
+
+		$this->data["periods"] = $this->model_sale_customer->getPeriods();
  
     	foreach ($results as $result) {
 			$action = array();
@@ -1844,6 +1864,7 @@ class ControllerSaleCustomerselection extends Controller {
 		$this->data['column_login'] = $this->language->get('column_login');
 		$this->data['column_action'] = $this->language->get('column_action');		
 		
+		$this->data['text_period'] = $this->language->get('text_period');
 		$this->data['button_finish'] = $this->language->get('button_finish');
 		$this->data['button_unselect'] = $this->language->get('button_unselect');
 		$this->data['button_insert'] = $this->language->get('button_insert');
@@ -2057,6 +2078,7 @@ class ControllerSaleCustomerselection extends Controller {
 		$this->data['filter_address_1'] = $filter_address_1;
 		// end LMT
 
+		$this->data['filter_period'] = $filter_period;
 		$this->data['filter_name'] = $filter_name;
 		$this->data['filter_email'] = $filter_email;
 		$this->data['filter_status'] = $filter_status;
@@ -2101,6 +2123,12 @@ class ControllerSaleCustomerselection extends Controller {
 		
 			$this->load->model('sale/customer');
 
+			if (isset($this->request->get['filter_period'])) {
+				$filter_period = $this->request->get['filter_period'];
+			} else {
+				$filter_period = null;
+			}
+
   			if (isset($this->request->get['filter_id'])) {
 				$filter_id = $this->request->get['filter_id'];
 			} else {
@@ -2361,6 +2389,9 @@ class ControllerSaleCustomerselection extends Controller {
 		if (isset($this->request->get['page'])) {
 			$url .= '&page=' . $this->request->get['page'];
 		}
+		if (isset($this->request->get['filter_period'])) {
+			$url .= '&filter_period=' . $this->request->get['filter_period'];
+		}
 
   		$this->data['breadcrumbs'] = array();
 
@@ -2405,7 +2436,8 @@ class ControllerSaleCustomerselection extends Controller {
 			'filter_status'            => $filter_status, 
 			'filter_valid'            => $filter_valid, 
 			'filter_resident'            => $filter_resident, 
-			'filter_student_status'          => 3, 
+			'filter_period'            => $filter_period, 
+			'filter_student_status'          => 2,
 			'filter_date_added'        => $filter_date_added,
 			'filter_ip'                => $filter_ip,
 			'sort'                     => $sort,
@@ -2417,6 +2449,8 @@ class ControllerSaleCustomerselection extends Controller {
 		$customer_total = $this->model_sale_customer->getTotalStudentsByData($data);
 	
 		$results = $this->model_sale_customer->getStudents($data);
+
+		$this->data["periods"] = $this->model_sale_customer->getPeriods();
  
     	foreach ($results as $result) {
 			$action = array();
@@ -2484,7 +2518,8 @@ class ControllerSaleCustomerselection extends Controller {
 		$this->data['column_date_added'] = $this->language->get('column_date_added');
 		$this->data['column_login'] = $this->language->get('column_login');
 		$this->data['column_action'] = $this->language->get('column_action');		
-		
+
+		$this->data['text_period'] = $this->language->get('text_period');
 		$this->data['button_finish'] = $this->language->get('button_finish');
 		$this->data['button_unselect'] = $this->language->get('button_unselect');
 		$this->data['button_insert'] = $this->language->get('button_insert');
@@ -2698,6 +2733,7 @@ class ControllerSaleCustomerselection extends Controller {
 		$this->data['filter_address_1'] = $filter_address_1;
 		// end LMT
 
+		$this->data['filter_period'] = $filter_period;
 		$this->data['filter_name'] = $filter_name;
 		$this->data['filter_email'] = $filter_email;
 		$this->data['filter_status'] = $filter_status;

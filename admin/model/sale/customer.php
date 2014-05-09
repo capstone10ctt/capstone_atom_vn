@@ -312,7 +312,7 @@ class ModelSaleCustomer extends Model {
         $student_receive = $this->db->query($query);
 
         foreach($student_receive->rows as $student) {
-            $sql = "SELECT *, CONCAT(c.lastname, ' ', c.firstname) AS name, cg.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group cg ON (c.customer_group_id = cg.customer_group_id) LEFT JOIN ". DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') ."'";
+            $sql = "SELECT *, CONCAT(c.lastname, ' ', c.firstname) AS name FROM " . DB_PREFIX . "customer c WHERE `student_id` = " . (int)$student['student_id'];
             //$sql = "SELECT *, CONCAT(c.firstname, ' ', c.lastname) AS name, cg.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
             $implode = array();
             // start LMT
@@ -404,7 +404,6 @@ class ModelSaleCustomer extends Model {
                 $sql .= " AND " . implode(" AND ", $implode);
             }
 
-            $sql .= " AND `student_id` = " . (int)$student['student_id'];
 
             $sort_data = array(
                 // start LMT
@@ -464,6 +463,10 @@ class ModelSaleCustomer extends Model {
         return $ouput;
     }
 
+    public function getPeriods($data = array()) {
+    	$result = $this->db->query("SELECT * FROM " . DB_PREFIX . "student_receive_period");
+    	return $result->rows;
+    }
 
 	
 	public function approve($customer_id, $value) {
@@ -913,7 +916,7 @@ class ModelSaleCustomer extends Model {
         $student_receive = $this->db->query($query);
 
         foreach($student_receive->rows as $student) {
-            $sql = "SELECT *, CONCAT(c.lastname, ' ', c.firstname) AS name, cg.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group cg ON (c.customer_group_id = cg.customer_group_id) LEFT JOIN ". DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') ."'";
+            $sql = "SELECT *, CONCAT(c.lastname, ' ', c.firstname) AS name FROM " . DB_PREFIX . "customer c WHERE `student_id` = " . (int)$student['student_id'];
             //$sql = "SELECT *, CONCAT(c.firstname, ' ', c.lastname) AS name, cg.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
             $implode = array();
             // start LMT
@@ -1004,8 +1007,6 @@ class ModelSaleCustomer extends Model {
             if ($implode) {
                 $sql .= " AND " . implode(" AND ", $implode);
             }
-
-            $sql .= " AND `student_id` = " . (int)$student['student_id'];
 
             $sort_data = array(
                 // start LMT

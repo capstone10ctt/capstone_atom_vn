@@ -38,6 +38,7 @@ $_['text_notverifiedyet']          = 'Not Verified Yet';
 $_['text_type']          = 'Type';
 $_['text_unverify']          = 'Unverify';
 
+$_['text_period']          = 'Period';
 $_['text_total']          = 'Total';
 $_['text_total_verify']          = 'Total application';
 $_['text_new_valid']          = 'New valid application';

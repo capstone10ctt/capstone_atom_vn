@@ -44,7 +44,7 @@ $_['text_type']          = 'Dạng';
 $_['text_unverify']          = 'Bỏ Duyệt';
 
 
-
+$_['text_period']          = 'Đợt';
 $_['text_male']          = 'Nam';
 $_['text_female']          = 'Nữ';
 $_['text_report_valid']          = 'Thống Kê Hồ Sơ Hợp Lệ';

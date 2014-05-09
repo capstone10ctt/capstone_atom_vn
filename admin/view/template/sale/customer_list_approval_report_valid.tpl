@@ -65,6 +65,18 @@ $count_total[$gender['gender_id']] = $count_resident_valid[$gender['gender_id']]
     </div>
     <div class="content">
     <div id="leftcol" style="float:left;width:300px;text-alignment:left">
+    <?php echo $text_period; ?>
+    <br />
+    <select name="filter_period">
+                  <option value=""></option>
+                  <?php foreach ($periods as $period) { ?>
+                  <?php if ((is_null($filter_period) && $period['is_apply'] == '1') || (!is_null($period) && $period['period_id'] == $filter_period)) { ?>
+                  <option value="<?php echo $period['period_id']; ?>" selected="selected"><?php echo date('d/m/Y', strtotime($period['period_start'])).' - '.date('d/m/Y', strtotime($period['period_end'])) ; ?></option>
+                  <?php } else { ?>
+                  <option value="<?php echo $period['period_id']; ?>"><?php echo date('d/m/Y', strtotime($period['period_start'])).' - '.date('d/m/Y', strtotime($period['period_end'])) ; ?></option>
+                  <?php } ?>
+                  <?php } ?>
+                </select><br />
     <h2><?php echo $text_report; ?></h2>
       <?php echo $text_valid_app; ?><br />
       <a href="<?php echo $report_field; ?>"><?php echo $text_field_app; ?></a><br />
@@ -165,6 +177,19 @@ $count_total[$gender['gender_id']] = $count_resident_valid[$gender['gender_id']]
 <script type="text/javascript"><!--
 $(document).ready(function() {
 	$('#date').datepicker({dateFormat: 'dd-mm-yy'});
+
+
+$('select[name=\'filter_period\']').on('change', function (e) {
+    
+    var valueSelected = this.value;
+    url = 'index.php?route=sale/customer_approval/report_valid&token=<?php echo $token; ?>';
+    if(valueSelected)
+    {
+      url +="&filter_period="+encodeURIComponent(valueSelected);
+      location = url;
+    }
+});
+
 });
 //--></script>
 <?php echo $footer; ?> 

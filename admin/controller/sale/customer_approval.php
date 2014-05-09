@@ -1035,6 +1035,12 @@ class ControllerSaleCustomerApproval extends Controller {
 				$filter_id = null;
 			}
 
+			if (isset($this->request->get['filter_period'])) {
+				$filter_period = $this->request->get['filter_period'];
+			} else {
+				$filter_period = null;
+			}
+
 			if (isset($this->request->get['filter_field'])) {
 				$filter_field = $this->request->get['filter_field'];
 			} else {
@@ -1133,6 +1139,7 @@ class ControllerSaleCustomerApproval extends Controller {
 			$this->data['text_field_app'] = $this->language->get('text_field_app');
 			$this->data['button_select'] = $this->language->get('button_select');
 
+			$this->data['text_period'] = $this->language->get('text_period');
 			$this->data['text_total'] = $this->language->get('text_total');
 			$this->data['text_total_verify'] = $this->language->get('text_total_verify');
 			$this->data['text_new_valid'] = $this->language->get('text_new_valid');
@@ -1232,6 +1239,10 @@ class ControllerSaleCustomerApproval extends Controller {
 		if (isset($this->request->get['filter_field'])) {
 			$url .= '&filter_field=' . $this->request->get['filter_field'];
 		}	
+
+		if (isset($this->request->get['filter_period'])) {
+			$url .= '&filter_period=' . $this->request->get['filter_period'];
+		}	
 		if (isset($this->request->get['filter_telephone'])) {
 			$url .= '&filter_telephone=' . urlencode(html_entity_decode($this->request->get['filter_telephone'], ENT_QUOTES, 'UTF-8'));
 		}	
@@ -1274,6 +1285,10 @@ class ControllerSaleCustomerApproval extends Controller {
 		if (isset($this->request->get['filter_status'])) {
 			$url .= '&filter_status=' . $this->request->get['filter_status'];
 		}
+
+		if (isset($this->request->get['filter_period'])) {
+			$url .= '&filter_period=' . $this->request->get['filter_period'];
+		}
 		
 		if (isset($this->request->get['filter_approved'])) {
 			$url .= '&filter_approved=' . $this->request->get['filter_approved'];
@@ -1309,7 +1324,7 @@ class ControllerSaleCustomerApproval extends Controller {
 
    		$this->data['breadcrumbs'][] = array(
        		'text'      => $this->language->get('heading_title'),
-			'href'      => $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . $url, 'SSL'),
+			'href'      => $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'], 'SSL'),
       		'separator' => ' :: '
    		);
    		$this->data['breadcrumbs'][] = array(
@@ -1347,6 +1362,7 @@ class ControllerSaleCustomerApproval extends Controller {
 			'filter_status'            => $filter_status, 
 			'filter_valid'            => $filter_valid, 
 			'filter_resident'            => $filter_resident, 
+			'filter_period'            => $filter_period, 
 			'filter_student_status'          => 1, 
 			'filter_date_added'        => $filter_date_added,
 			'filter_ip'                => $filter_ip,
@@ -1359,7 +1375,8 @@ class ControllerSaleCustomerApproval extends Controller {
 		$customer_total = $this->model_sale_customer->getTotalStudentsByData($data);
 	
 		$results = $this->model_sale_customer->getStudents($data);
- 
+ 		
+ 		$this->data["periods"] = $this->model_sale_customer->getPeriods();
     	foreach ($results as $result) {
 			$action = array();
 		
@@ -1493,6 +1510,8 @@ class ControllerSaleCustomerApproval extends Controller {
 		if (isset($this->request->get['filter_customer_group_id'])) {
 			$url .= '&filter_customer_group_id=' . $this->request->get['filter_customer_group_id'];
 		}
+
+
 			
 		if (isset($this->request->get['filter_status'])) {
 			$url .= '&filter_status=' . $this->request->get['filter_status'];
@@ -1636,7 +1655,7 @@ class ControllerSaleCustomerApproval extends Controller {
 		$this->data['filter_ethnic'] = $filter_ethnic;
 		$this->data['filter_address_1'] = $filter_address_1;
 		// end LMT
-
+		$this->data['filter_period'] = $filter_period;
 		$this->data['filter_name'] = $filter_name;
 		$this->data['filter_email'] = $filter_email;
 		$this->data['filter_status'] = $filter_status;
@@ -1679,6 +1698,12 @@ class ControllerSaleCustomerApproval extends Controller {
 		
 			$this->load->model('sale/customer');
             // start LMT
+
+            if (isset($this->request->get['filter_period'])) {
+				$filter_period = $this->request->get['filter_period'];
+			} else {
+				$filter_period = null;
+			}
 
   			if (isset($this->request->get['filter_id'])) {
 				$filter_id = $this->request->get['filter_id'];
@@ -1784,6 +1809,7 @@ class ControllerSaleCustomerApproval extends Controller {
 			$this->data['text_field_app'] = $this->language->get('text_field_app');
 			$this->data['button_select'] = $this->language->get('button_select');
 
+			$this->data['text_period'] = $this->language->get('text_period');
 			$this->data['text_total'] = $this->language->get('text_total');
 			$this->data['text_total_verify'] = $this->language->get('text_total_verify');
 			$this->data['text_new_valid'] = $this->language->get('text_new_valid');
@@ -1921,6 +1947,10 @@ class ControllerSaleCustomerApproval extends Controller {
 		if (isset($this->request->get['filter_email'])) {
 			$url .= '&filter_email=' . urlencode(html_entity_decode($this->request->get['filter_email'], ENT_QUOTES, 'UTF-8'));
 		}
+
+		if (isset($this->request->get['filter_period'])) {
+			$url .= '&filter_period=' . $this->request->get['filter_period'];
+		}
 			
 		if (isset($this->request->get['filter_status'])) {
 			$url .= '&filter_status=' . $this->request->get['filter_status'];
@@ -1960,7 +1990,7 @@ class ControllerSaleCustomerApproval extends Controller {
 
    		$this->data['breadcrumbs'][] = array(
        		'text'      => $this->language->get('heading_title'),
-			'href'      => $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'] . $url, 'SSL'),
+			'href'      => $this->url->link('sale/customer_approval', 'token=' . $this->session->data['token'], 'SSL'),
       		'separator' => ' :: '
    		);
    		$this->data['breadcrumbs'][] = array(
@@ -1997,6 +2027,7 @@ class ControllerSaleCustomerApproval extends Controller {
 			'filter_status'            => $filter_status, 
 			'filter_valid'            => $filter_valid, 
 			'filter_resident'            => $filter_resident, 
+			'filter_period'            => $filter_period, 
 			'filter_student_status'          => 1, 
 			'filter_date_added'        => $filter_date_added,
 			'filter_ip'                => $filter_ip,
@@ -2009,6 +2040,8 @@ class ControllerSaleCustomerApproval extends Controller {
 		$customer_total = $this->model_sale_customer->getTotalStudentsByData($data);
 	
 		$results = $this->model_sale_customer->getStudents($data);
+
+		$this->data["periods"] = $this->model_sale_customer->getPeriods();
  
     	foreach ($results as $result) {
 			$action = array();
@@ -2287,6 +2320,7 @@ class ControllerSaleCustomerApproval extends Controller {
 		$this->data['filter_address_1'] = $filter_address_1;
 		// end LMT
 
+		$this->data['filter_period'] = $filter_period;
 		$this->data['filter_name'] = $filter_name;
 		$this->data['filter_email'] = $filter_email;
 		$this->data['filter_status'] = $filter_status;

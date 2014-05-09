@@ -27,6 +27,7 @@ $_['column_address_1']           = 'Địa chỉ';
 $_['column_bed']           = 'Giường';
 $_['column_ethnic']           = 'Dân tộc';
 
+$_['text_period']          = 'Đợt';
 $_['text_male']          = 'Nam';
 $_['text_female']          = 'Nữ';
 $_['text_unidentified_field']          = 'Diện không xác định';
