@@ -236,7 +236,7 @@
                 });
             });
     //==============================================================================================================
-    // ELECTRICITY
+    // GARBAGE
     //==============================================================================================================
             $('#garbage_modified_date').change(function() {
                 $.blockUI({ message: '<h3><span><img src="view/image/price/preloader.gif" height="16" width="16" /></span> Đang tải dữ liệu...</h3>' });
@@ -252,14 +252,8 @@
                         // loop all elements in a list of objects
                         for (var index in json['data']) {
                             var price = parseInt(json['data'][index]['Price']);
-                            var to = json['data'][index]['To'];
-                            if (to == -1) {
-                                to = '';
-                            }
                             // add new lines represent the standard price corresponding to the inputted date
                             $edit.append('<tr class="line">' +
-                                    '<td class="from">' + json['data'][index]['From'] + '</td>' +
-                                    '<td class="to">' + to + '</td>' +
                                     '<td class="price">' + price.format() + '&nbsp₫</td>' + // format function: convert 1234 -> 1,234
                                     '</tr>');
                         }
@@ -275,6 +269,7 @@
             });
 
             $('#compare-garbage_modified_date').change(function() {
+                console.log('hello');
                 $.blockUI({ message: '<h3><span><img src="view/image/price/preloader.gif" height="16" width="16" /></span> Đang tải dữ liệu...</h3>' });
                 $.ajax({
                     url: 'index.php?route=price/edit/loadGarbageStandardPrice&token=<?php echo $token; ?>',
@@ -288,14 +283,8 @@
                         // loop all elements in a list of objects
                         for (var index in json['data']) {
                             var price = parseInt(json['data'][index]['Price']);
-                            var to = json['data'][index]['To'];
-                            if (to == -1) {
-                                to = '';
-                            }
                             // add new lines represent the standard price corresponding to the inputted date
                             $edit.append('<tr class="line">' +
-                                    '<td class="from">' + json['data'][index]['From'] + '</td>' +
-                                    '<td class="to">' + to + '</td>' +
                                     '<td class="price">' + price.format() + '&nbsp₫</td>' + // format function: convert 1234 -> 1,234
                                     '</tr>');
                         }
@@ -506,7 +495,7 @@
     <div class="table_garbage">
         <?php echo '<h3>' . $description_garbage . '</h3>'; ?>
         <?php echo $valid_date_range; ?>
-        <select id="compare-garbage_modified_date">
+        <select id="garbage_modified_date">
             <?php
                     foreach ($garbage_last_modified_list as $row) {
                     $from = date("m-Y", strtotime($row['from']));
