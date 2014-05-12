@@ -3,7 +3,7 @@ class ModelPriceStandard extends Model {
     
     //start vlmn modification
 	public function getElectricityLastestLifeTime() {
-        $query1 = $this->db->query('SELECT MAX(`from`) as `from` FROM w_lifetime');
+        $query1 = $this->db->query('SELECT MAX(`from`) as `from` FROM e_lifetime');
 		$query2 = $this->db->query("SELECT * FROM e_lifetime WHERE `from` = '" . $query1->row['from']. "'");
         return $query2->row;
     }
@@ -140,7 +140,7 @@ class ModelPriceStandard extends Model {
     }
 
     public function getCurrentApplyDateGarbage() {
-        $query = $this->db->query('SELECT `From` FROM g_lifetime WHERE `apply` = "1"');
+        $query = $this->db->query('SELECT `from` FROM g_lifetime WHERE `apply` = "1"');
         return $query->row;
     }
 

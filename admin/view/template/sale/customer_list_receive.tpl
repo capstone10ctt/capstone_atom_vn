@@ -211,9 +211,9 @@
             <?php foreach ($customers as $customer) { ?>
             <tr>
               <td style="text-align: center;"><?php if ($customer['selected']) { ?>
-                <input type="checkbox" name="selected[]" value="<?php echo $customer['customer_id']; ?>" checked="checked" />
+                <input type="checkbox" name="selected[]" value="<?php echo $customer['student_id']; ?>" checked="checked" />
                 <?php } else { ?>
-                <input type="checkbox" name="selected[]" value="<?php echo $customer['customer_id']; ?>" />
+                <input type="checkbox" name="selected[]" value="<?php echo $customer['student_id']; ?>" />
                 <?php } ?></td>
                 <!-- start LMT -->
                 <td class="left"><?php echo $customer['field']; ?></td>

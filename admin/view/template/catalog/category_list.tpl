@@ -11,6 +11,7 @@
   <?php if ($success) { ?>
   <div class="success"><?php echo $success; ?></div>
   <?php } ?>
+    <h1 style="text-align: center; color: cornflowerblue;"><?php echo $page_title; ?></h1>
   <div class="box">
     <div class="heading">
       <h1><img src="view/image/category.png" alt="" /> <?php echo $heading_title; ?></h1>
@@ -23,7 +24,8 @@
             <tr>
               <td width="1" style="text-align: center;"><input type="checkbox" onclick="$('input[name*=\'selected\']').attr('checked', this.checked);" /></td>
               <td class="left"><?php echo $column_name; ?></td>
-              <td class="right"><?php echo $column_sort_order; ?></td>
+              <td class="right"><?php echo $column_male_qty; ?></td>
+                <td class="right"><?php echo $column_female_qty; ?></td>
               <td class="right"><?php echo $column_action; ?></td>
             </tr>
           </thead>
@@ -37,7 +39,8 @@
                 <input type="checkbox" name="selected[]" value="<?php echo $category['category_id']; ?>" />
                 <?php } ?></td>
               <td class="left"><?php echo $category['name']; ?></td>
-              <td class="right"><?php echo $category['sort_order']; ?></td>
+              <td class="right"><?php echo $category['male_qty']; ?></td>
+              <td class="right"><?php echo $category['female_qty']; ?></td>
               <td class="right"><?php foreach ($category['action'] as $action) { ?>
                 [ <a href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> ]
                 <?php } ?></td>

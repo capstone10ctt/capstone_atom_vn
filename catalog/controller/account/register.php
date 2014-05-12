@@ -90,6 +90,7 @@ class ControllerAccountRegister extends Controller {
         $this->data['entry_ethnic'] = $this->language->get('entry_ethnic');
 		$this->data['entry_faculty'] = $this->language->get('entry_faculty');
 		$this->data['entry_student_id'] = $this->language->get('entry_student_id');
+		
 		$this->data['error_university'] = $this->language->get('error_university');
 		$this->data['error_faculty'] = $this->language->get('error_faculty');
 		$this->data['error_student_id'] = $this->language->get('error_student_id');
@@ -126,7 +127,7 @@ class ControllerAccountRegister extends Controller {
 		//} else {
 			//$this->data['error_university'] = '';
 		//}
-                if (isset($this->error['ethnic'])) {
+        if (isset($this->error['ethnic'])) {
 			$this->data['error_ethnic'] = $this->error['ethnic'];
 		} else {
 			$this->data['error_ethnic'] = '';
@@ -174,8 +175,8 @@ class ControllerAccountRegister extends Controller {
 		}
 		
 		
-                if (isset($this->request->post['ethnic'])) {
-                    $this->data['ethnic'] = $this->request->post['ethnic'];
+        if (isset($this->request->post['ethnic'])) {
+            $this->data['ethnic'] = $this->request->post['ethnic'];
 		} else {
 			$this->data['ethnic'] = '';
 		}
@@ -259,18 +260,21 @@ class ControllerAccountRegister extends Controller {
     	//$this->data['entry_firstname'] = $this->language->get('entry_firstname');
     	//$this->data['entry_lastname'] = $this->language->get('entry_lastname');
     	$this->data['entry_email'] = $this->language->get('entry_email');
+    	$this->data['entry_emailuniversity'] = $this->language->get('entry_emailuniversity');
     	$this->data['entry_telephone'] = $this->language->get('entry_telephone');
     	$this->data['entry_fax'] = $this->language->get('entry_fax');
 		$this->data['entry_company'] = $this->language->get('entry_company');
 		$this->data['entry_customer_group'] = $this->language->get('entry_customer_group');
 		$this->data['entry_company_id'] = $this->language->get('entry_company_id');
 		$this->data['entry_tax_id'] = $this->language->get('entry_tax_id');
-		$this->data['entry_address_0'] = $this->language->get('entry_address_0');
+		// kah2914
+		//$this->data['entry_address_0'] = $this->language->get('entry_address_0');
     	$this->data['entry_address_1'] = $this->language->get('entry_address_1');
     	$this->data['entry_address_2'] = $this->language->get('entry_address_2');
     	$this->data['entry_address_3'] = $this->language->get('entry_address_3');
     	$this->data['entry_address_4'] = $this->language->get('entry_address_4');
-    	$this->data['entry_address_5'] = $this->language->get('entry_address_5');
+    	// kah2914
+    	//$this->data['entry_address_5'] = $this->language->get('entry_address_5');
     	$this->data['entry_address_6'] = $this->language->get('entry_address_6');
     	$this->data['entry_address_7'] = $this->language->get('entry_address_7');
     	$this->data['entry_address_8'] = $this->language->get('entry_address_8');
@@ -367,12 +371,13 @@ class ControllerAccountRegister extends Controller {
 		} else {
 			$this->data['error_reason'] = '';
 		}
-		
+		/* kah2914
 		if (isset($this->error['address_0'])) {
 			$this->data['error_address_0'] = $this->error['address_0'];
 		} else {
 			$this->data['error_address_0'] = '';
-		}						
+		}
+		*/						
   		if (isset($this->error['address_1'])) {
 			$this->data['error_address_1'] = $this->error['address_1'];
 		} else {
@@ -388,16 +393,20 @@ class ControllerAccountRegister extends Controller {
 		} else {
 			$this->data['error_address_4'] = '';
 		}
+		/* kah2914
    		if (isset($this->error['address_5'])) {
 			$this->data['error_address_5'] = $this->error['address_5'];
 		} else {
 			$this->data['error_address_5'] = '';
 		}
+		
+
 		if (isset($this->error['address_6'])) {
 			$this->data['error_address_6'] = $this->error['address_6'];
 		} else {
 			$this->data['error_address_6'] = '';
-		}			
+		}	
+			
 		if (isset($this->error['address_7'])) {
 			$this->data['error_address_7'] = $this->error['address_7'];
 		} else {
@@ -412,7 +421,8 @@ class ControllerAccountRegister extends Controller {
 			$this->data['error_address_9'] = $this->error['address_9'];
 		} else {
 			$this->data['error_address_9'] = '';
-		}						
+		}		
+		*/				
 		if (isset($this->error['city'])) {
 			$this->data['error_city'] = $this->error['city'];
 		} else {
@@ -461,6 +471,12 @@ class ControllerAccountRegister extends Controller {
     		$this->data['email'] = $this->request->post['email'];
 		} else {
 			$this->data['email'] = '';
+		}
+		
+		if (isset($this->request->post['emailuniversity'])) {
+    		$this->data['emailuniversity'] = $this->request->post['emailuniversity'];
+		} else {
+			$this->data['emailuniversity'] = '';
 		}
 		
 		if (isset($this->request->post['telephone'])) {
@@ -516,11 +532,13 @@ class ControllerAccountRegister extends Controller {
 		}
 						
 
+		/* kah2914
 		if (isset($this->request->post['address_0'])) {
     		$this->data['address_0'] = $this->request->post['address_0'];
 		} else {
 			$this->data['address_0'] = '';
 		}
+		*/
 
 		if (isset($this->request->post['address_1'])) {
     		$this->data['address_1'] = $this->request->post['address_1'];
@@ -545,11 +563,13 @@ class ControllerAccountRegister extends Controller {
     	} else {
 			$this->data['address_4'] = '';
 		}
+		/* kah2914
 		if (isset($this->request->post['address_5'])) {
     		$this->data['address_5'] = $this->request->post['address_5'];
 		} else {
 			$this->data['address_5'] = '';
 		}
+		*/
 
 		if (isset($this->request->post['address_6'])) {
     		$this->data['address_6'] = $this->request->post['address_6'];
@@ -574,6 +594,7 @@ class ControllerAccountRegister extends Controller {
     	} else {
 			$this->data['address_9'] = '';
 		}
+		
 		if (isset($this->request->post['reason'])) {
     		$this->data['reason'] = $this->request->post['reason'];		
     	} else {
@@ -785,7 +806,7 @@ class ControllerAccountRegister extends Controller {
         // 	 Last updated: list the change by line number and goal, ex: 
         //	 	 + line 289: optimize the operation
         /////////// Start “you-id” - “your-name” modifications/////////////
-        if ((utf8_strlen($this->request->post['ethnic']) >= 9)) {
+        if ((utf8_strlen($this->request->post['ethnic']) == 0)) {
       		$this->error['ethnic'] = $this->language->get('error_ethnic');
     	}
 		if ((utf8_strlen($this->request->post['id_num']) != 9)) {
@@ -844,10 +865,12 @@ class ControllerAccountRegister extends Controller {
 				$this->error['tax_id'] = $this->language->get('error_tax_id');
 			}						
 		}
-		
+
+		/* kah2914
     	if ((utf8_strlen($this->request->post['address_0']) < 1) || (utf8_strlen($this->request->post['address_0']) > 128)) {
       		$this->error['address_0'] = $this->language->get('error_address_0');
     	}
+    	*/
     	if ((utf8_strlen($this->request->post['address_1']) < 1) || (utf8_strlen($this->request->post['address_1']) > 128)) {
       		$this->error['address_1'] = $this->language->get('error_address_1');
     	}
@@ -859,9 +882,11 @@ class ControllerAccountRegister extends Controller {
       		$this->error['address_4'] = $this->language->get('error_address_4');
     	}
 
+    	/* kah2914
     	if ((utf8_strlen($this->request->post['address_5']) < 1) || (utf8_strlen($this->request->post['address_5']) > 128)) {
       		$this->error['address_5'] = $this->language->get('error_address_5');
     	}
+    	*/
     	if ((utf8_strlen($this->request->post['address_6']) < 1) || (utf8_strlen($this->request->post['address_6']) > 128)) {
       		$this->error['address_6'] = $this->language->get('error_address_6');
     	}

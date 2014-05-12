@@ -100,7 +100,7 @@
         display: none;
     }
 
-    #header {
+    #header_title {
         text-align: center;
         color: cornflowerblue;
     }
@@ -377,91 +377,96 @@
             var $lastRow = $('#update-electricity-standard').find('.line').last();
             var to = $lastRow.children('.to').children().val();
             var price = $lastRow.children('.price').children().val();
-            var currentDate = new Date();
-            // In order to submit data, the last row must satisfy 2 conditions:
-            // - To = -1
-            // - There is no empty cell in the table
-            if (currentDate < electricityUpdateDateFrom) {
-                if (to == -1 && checkFill) {
-                    jsonElectricityNew.electricity_new = {};
-                    $('#update-electricity-standard').find('.line').each(function(index, element) {
-                        jsonElectricityNew.electricity_new[index] = {};
-                        jsonElectricityNew.electricity_new[index].from = $(element).children('.from').children().val();
-                        jsonElectricityNew.electricity_new[index].to = $(element).children('.to').children().val();
-                        jsonElectricityNew.electricity_new[index].price = $(element).children('.price').children().val();
-                    });
-                    var day = electricityUpdateDateFrom.getDate();
-                    var month = electricityUpdateDateFrom.getMonth() + 1;
-                    var year = electricityUpdateDateFrom.getFullYear();
-                    var updateDate = year + '-' + month + '-' + day;
-                    var prevDate = electricityUpdateDateFrom;
-                    prevDate.setDate(0);
-                    day = prevDate.getDate();
-                    month = prevDate.getMonth() + 1;
-                    year = prevDate.getFullYear();
-                    var endDate = year + '-' + month + '-' + day;
-                    $.ajax({
-                        url: 'index.php?route=price/edit/loadNewestElectricityStandardPriceId&token=<?php echo $token; ?>',
-                        dataType: 'json',
-                        type: 'post',
-                        success: function(json) {
-                            idNewestElectricity = json['id'];
-                            $.ajax({
-                                url: 'index.php?route=price/edit/updateElectricityStandardPrice&token=<?php echo $token; ?>',
-                                data: {
-                                    'electricity_new_data': jsonElectricityNew,
-                                    'update_date_from': updateDate,
-                                    'old_end_date': endDate,
-                                    'id': idNewestElectricity
-                                },
-                                dataType: 'json',
-                                type: 'post',
-                                success: function(json) {
-                                    var arr = jsonElectricityNew.electricity_new;
-                                    var $edit = $('#update-electricity-standard').find('tbody');
-                                    // clear current content
-                                    $('#update-electricity-standard')
-                                            .find('p').hide()
-                                            .end()
-                                            .find('.com-action-button-panel').hide();
-                                    $edit.empty();
-                                    // update new content
-                                    $('.table_electricity').find('.com-edit-button-panel')
-                                            .css('display', 'inline')
-                                            .show();
-                                    $('#from-date-electricity')
-                                            .before('<span class="input-date">' + $('#from-date-electricity').val() + '</span>')
-                                            .hide();
-                                    for (var index in arr) {
-                                        var price = parseInt(arr[index].price);
-                                        var to = parseInt(arr[index].to);
-                                        if (to == -1) {
-                                            to = '';
-                                        }
-                                        $edit.append('<tr class="line">' +
-                                                '<td class="from">' + arr[index].from + '</td>' +
-                                                '<td class="to">' + to + '</td>' +
-                                                '<td class="price">' + price.format() + '&nbsp₫</td>' +
-                                                '</tr>');
-                                    }
-                                    // replace edit element with display element
-
-                                }, // for debugging purpose
-                                error: function(xhr) {
-                                    console.log(xhr);
-                                }
-                            });
-                        },
-                        error: function(xhr) {
-                            console.log(xhr);
-                        }
-                    });
-                } else {
-                    alert('Bạn chưa nhập đủ dữ liệu');
-
-                }
+            if (price && (!$.isNumeric(price) || parseInt(price) <= 0)) {
+                alert('Giá trị nhập vào không hợp lệ');
+                $lastRow.children('.price').children().focus().select();
             } else {
-                alert('Thời điểm bắt đầu phải sau ' + $.datepicker.formatDate('M, yy', currentDate));
+                var currentDate = new Date();
+                // In order to submit data, the last row must satisfy 2 conditions:
+                // - To = -1
+                // - There is no empty cell in the table
+                if (currentDate < electricityUpdateDateFrom) {
+                    if (to == -1 && checkFill) {
+                        jsonElectricityNew.electricity_new = {};
+                        $('#update-electricity-standard').find('.line').each(function(index, element) {
+                            jsonElectricityNew.electricity_new[index] = {};
+                            jsonElectricityNew.electricity_new[index].from = $(element).children('.from').children().val();
+                            jsonElectricityNew.electricity_new[index].to = $(element).children('.to').children().val();
+                            jsonElectricityNew.electricity_new[index].price = $(element).children('.price').children().val();
+                        });
+                        var day = electricityUpdateDateFrom.getDate();
+                        var month = electricityUpdateDateFrom.getMonth() + 1;
+                        var year = electricityUpdateDateFrom.getFullYear();
+                        var updateDate = year + '-' + month + '-' + day;
+                        var prevDate = electricityUpdateDateFrom;
+                        prevDate.setDate(0);
+                        day = prevDate.getDate();
+                        month = prevDate.getMonth() + 1;
+                        year = prevDate.getFullYear();
+                        var endDate = year + '-' + month + '-' + day;
+                        $.ajax({
+                            url: 'index.php?route=price/edit/loadNewestElectricityStandardPriceId&token=<?php echo $token; ?>',
+                            dataType: 'json',
+                            type: 'post',
+                            success: function(json) {
+                                idNewestElectricity = json['id'];
+                                $.ajax({
+                                    url: 'index.php?route=price/edit/updateElectricityStandardPrice&token=<?php echo $token; ?>',
+                                    data: {
+                                        'electricity_new_data': jsonElectricityNew,
+                                        'update_date_from': updateDate,
+                                        'old_end_date': endDate,
+                                        'id': idNewestElectricity
+                                    },
+                                    dataType: 'json',
+                                    type: 'post',
+                                    success: function(json) {
+                                        var arr = jsonElectricityNew.electricity_new;
+                                        var $edit = $('#update-electricity-standard').find('tbody');
+                                        // clear current content
+                                        $('#update-electricity-standard')
+                                                .find('p').hide()
+                                                .end()
+                                                .find('.com-action-button-panel').hide();
+                                        $edit.empty();
+                                        // update new content
+                                        $('.table_electricity').find('.com-edit-button-panel')
+                                                .css('display', 'inline')
+                                                .show();
+                                        $('#from-date-electricity')
+                                                .before('<span class="input-date">' + $('#from-date-electricity').val() + '</span>')
+                                                .hide();
+                                        for (var index in arr) {
+                                            var price = parseInt(arr[index].price);
+                                            var to = parseInt(arr[index].to);
+                                            if (to == -1) {
+                                                to = '';
+                                            }
+                                            $edit.append('<tr class="line">' +
+                                                    '<td class="from">' + arr[index].from + '</td>' +
+                                                    '<td class="to">' + to + '</td>' +
+                                                    '<td class="price">' + price.format() + '&nbsp₫</td>' +
+                                                    '</tr>');
+                                        }
+                                        // replace edit element with display element
+
+                                    }, // for debugging purpose
+                                    error: function(xhr) {
+                                        console.log(xhr);
+                                    }
+                                });
+                            },
+                            error: function(xhr) {
+                                console.log(xhr);
+                            }
+                        });
+                    } else {
+                        alert('Bạn chưa nhập đủ dữ liệu');
+
+                    }
+                } else {
+                    alert('Thời điểm bắt đầu phải sau ' + $.datepicker.formatDate('M, yy', currentDate));
+                }
             }
         });
 
@@ -897,91 +902,96 @@
             var $lastRow = $('#update-water-standard').find('.line').last();
             var to = $lastRow.children('.to').children().val();
             var price = $lastRow.children('.price').children().val();
-            var currentDate = new Date();
-            // In order to submit data, the last row must satisfy 2 conditions:
-            // - To = -1
-            // - There is no empty cell in the table
-            if (currentDate < waterUpdateDateFrom) {
-                if (to == -1 && checkFill) {
-                    jsonWaterNew.water_new = {};
-                    $('#update-water-standard').find('.line').each(function(index, element) {
-                        jsonWaterNew.water_new[index] = {};
-                        jsonWaterNew.water_new[index].from = $(element).children('.from').children().val();
-                        jsonWaterNew.water_new[index].to = $(element).children('.to').children().val();
-                        jsonWaterNew.water_new[index].price = $(element).children('.price').children().val();
-                    });
-                    var day = waterUpdateDateFrom.getDate();
-                    var month = waterUpdateDateFrom.getMonth() + 1;
-                    var year = waterUpdateDateFrom.getFullYear();
-                    var updateDate = year + '-' + month + '-' + day;
-                    var prevDate = waterUpdateDateFrom;
-                    prevDate.setDate(0);
-                    day = prevDate.getDate();
-                    month = prevDate.getMonth() + 1;
-                    year = prevDate.getFullYear();
-                    var endDate = year + '-' + month + '-' + day;
-                    $.ajax({
-                        url: 'index.php?route=price/edit/loadNewestWaterStandardPriceId&token=<?php echo $token; ?>',
-                        dataType: 'json',
-                        type: 'post',
-                        success: function(json) {
-                            idNewestWater = json['id'];
-                            $.ajax({
-                                url: 'index.php?route=price/edit/updateWaterStandardPrice&token=<?php echo $token; ?>',
-                                data: {
-                                    'water_new_data': jsonWaterNew,
-                                    'update_date_from': updateDate,
-                                    'old_end_date': endDate,
-                                    'id': idNewestWater
-                                },
-                                dataType: 'json',
-                                type: 'post',
-                                success: function(json) {
-                                    var arr = jsonWaterNew.water_new;
-                                    var $edit = $('#update-water-standard').find('tbody');
-                                    // clear current content
-                                    $('#update-water-standard')
-                                            .find('p').hide()
-                                            .end()
-                                            .find('.com-action-button-panel').hide();
-                                    $edit.empty();
-                                    // update new content
-                                    $('.table_water').find('.com-edit-button-panel')
-                                            .css('display', 'inline')
-                                            .show();
-                                    $('#from-date-water')
-                                            .before('<span class="input-date">' + $('#from-date-water').val() + '</span>')
-                                            .hide();
-                                    for (var index in arr) {
-                                        var price = parseInt(arr[index].price);
-                                        var to = parseInt(arr[index].to);
-                                        if (to == -1) {
-                                            to = '';
-                                        }
-                                        $edit.append('<tr class="line">' +
-                                                '<td class="from">' + arr[index].from + '</td>' +
-                                                '<td class="to">' + to + '</td>' +
-                                                '<td class="price">' + price.format() + '&nbsp₫</td>' +
-                                                '</tr>');
-                                    }
-                                    // replace edit element with display element
-
-                                }, // for debugging purpose
-                                error: function(xhr) {
-                                    console.log(xhr);
-                                }
-                            });
-                        },
-                        error: function(xhr) {
-                            console.log(xhr);
-                        }
-                    });
-                } else {
-                    alert('Bạn chưa nhập đủ dữ liệu');
-
-                }
+            if (price && (!$.isNumeric(price) || parseInt(price) <= 0)) {
+                alert('Giá trị nhập vào không hợp lệ');
+                $lastRow.children('.price').children().focus().select();
             } else {
-                alert('Thời điểm bắt đầu phải sau ' + $.datepicker.formatDate('M, yy', currentDate));
+                var currentDate = new Date();
+                // In order to submit data, the last row must satisfy 2 conditions:
+                // - To = -1
+                // - There is no empty cell in the table
+                if (currentDate < waterUpdateDateFrom) {
+                    if (to == -1 && checkFill) {
+                        jsonWaterNew.water_new = {};
+                        $('#update-water-standard').find('.line').each(function(index, element) {
+                            jsonWaterNew.water_new[index] = {};
+                            jsonWaterNew.water_new[index].from = $(element).children('.from').children().val();
+                            jsonWaterNew.water_new[index].to = $(element).children('.to').children().val();
+                            jsonWaterNew.water_new[index].price = $(element).children('.price').children().val();
+                        });
+                        var day = waterUpdateDateFrom.getDate();
+                        var month = waterUpdateDateFrom.getMonth() + 1;
+                        var year = waterUpdateDateFrom.getFullYear();
+                        var updateDate = year + '-' + month + '-' + day;
+                        var prevDate = waterUpdateDateFrom;
+                        prevDate.setDate(0);
+                        day = prevDate.getDate();
+                        month = prevDate.getMonth() + 1;
+                        year = prevDate.getFullYear();
+                        var endDate = year + '-' + month + '-' + day;
+                        $.ajax({
+                            url: 'index.php?route=price/edit/loadNewestWaterStandardPriceId&token=<?php echo $token; ?>',
+                            dataType: 'json',
+                            type: 'post',
+                            success: function(json) {
+                                idNewestWater = json['id'];
+                                $.ajax({
+                                    url: 'index.php?route=price/edit/updateWaterStandardPrice&token=<?php echo $token; ?>',
+                                    data: {
+                                        'water_new_data': jsonWaterNew,
+                                        'update_date_from': updateDate,
+                                        'old_end_date': endDate,
+                                        'id': idNewestWater
+                                    },
+                                    dataType: 'json',
+                                    type: 'post',
+                                    success: function(json) {
+                                        var arr = jsonWaterNew.water_new;
+                                        var $edit = $('#update-water-standard').find('tbody');
+                                        // clear current content
+                                        $('#update-water-standard')
+                                                .find('p').hide()
+                                                .end()
+                                                .find('.com-action-button-panel').hide();
+                                        $edit.empty();
+                                        // update new content
+                                        $('.table_water').find('.com-edit-button-panel')
+                                                .css('display', 'inline')
+                                                .show();
+                                        $('#from-date-water')
+                                                .before('<span class="input-date">' + $('#from-date-water').val() + '</span>')
+                                                .hide();
+                                        for (var index in arr) {
+                                            var price = parseInt(arr[index].price);
+                                            var to = parseInt(arr[index].to);
+                                            if (to == -1) {
+                                                to = '';
+                                            }
+                                            $edit.append('<tr class="line">' +
+                                                    '<td class="from">' + arr[index].from + '</td>' +
+                                                    '<td class="to">' + to + '</td>' +
+                                                    '<td class="price">' + price.format() + '&nbsp₫</td>' +
+                                                    '</tr>');
+                                        }
+                                        // replace edit element with display element
+
+                                    }, // for debugging purpose
+                                    error: function(xhr) {
+                                        console.log(xhr);
+                                    }
+                                });
+                            },
+                            error: function(xhr) {
+                                console.log(xhr);
+                            }
+                        });
+                    } else {
+                        alert('Bạn chưa nhập đủ dữ liệu');
+
+                    }
+                } else {
+                    alert('Thời điểm bắt đầu phải sau ' + $.datepicker.formatDate('M, yy', currentDate));
+                }
             }
         });
 
@@ -1346,12 +1356,15 @@
             var $lastRow = $('#update-garbage-standard').find('.line').last();
             var to = $lastRow.children('.to').children().val();
             var price = $lastRow.children('.price').children().val();
-            var currentDate = new Date();
-            // In order to submit data, the last row must satisfy 2 conditions:
-            // - To = -1
-            // - There is no empty cell in the table
-            if (currentDate < garbageUpdateDateFrom) {
-                if (to == -1 && checkFill) {
+            if (price && (!$.isNumeric(price) || parseInt(price) <= 0)) {
+                alert('Giá trị nhập vào không hợp lệ');
+                $lastRow.children('.price').children().focus().select();
+            } else {
+                var currentDate = new Date();
+                // In order to submit data, the last row must satisfy 2 conditions:
+                // - To = -1
+                // - There is no empty cell in the table
+                if (currentDate < garbageUpdateDateFrom) {
                     jsonGarbageNew.garbage_new = {};
                     $('#update-garbage-standard').find('.line').each(function(index, element) {
                         jsonGarbageNew.garbage_new[index] = {};
@@ -1418,11 +1431,8 @@
                         }
                     });
                 } else {
-                    alert('Bạn chưa nhập đủ dữ liệu');
-
+                    alert('Thời điểm bắt đầu phải sau ' + $.datepicker.formatDate('M, yy', currentDate));
                 }
-            } else {
-                alert('Thời điểm bắt đầu phải sau ' + $.datepicker.formatDate('M, yy', currentDate));
             }
         });
 
@@ -1605,7 +1615,7 @@
         Bạn có muốn xóa định mức hiện tại?
     </div>
 
-    <div id="header"><h1><?php echo $header_new; ?></h1></div>
+    <div id="header_title"><h1><?php echo $header_new; ?></h1></div>
 
     <div class="com-button-panel">
         <input type="button" value="Lịch Sử" id="btnHistoryStandardPrice" />
