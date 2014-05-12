@@ -100,7 +100,7 @@
         display: none;
     }
 
-    #header {
+    #header_title {
         text-align: center;
         color: cornflowerblue;
     }
@@ -1615,7 +1615,7 @@
         Bạn có muốn xóa định mức hiện tại?
     </div>
 
-    <div id="header"><h1><?php echo $header_new; ?></h1></div>
+    <div id="header_title"><h1><?php echo $header_new; ?></h1></div>
 
     <div class="com-button-panel">
         <input type="button" value="Lịch Sử" id="btnHistoryStandardPrice" />
