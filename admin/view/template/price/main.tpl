@@ -89,7 +89,7 @@
             display: none;
         }
 
-        #header_title {
+        #header {
             text-align: center;
             color: cornflowerblue;
         }
@@ -183,7 +183,7 @@
     </script>
 </head>
 <div id="content">
-    <div id="header_title"><h1><?php echo $header_current; ?></h1></div>
+    <div id="header"><h1><?php echo $header_current; ?></h1></div>
     <div class="com-button-panel">
         <input type="button" value="Lịch Sử" id="btnHistoryStandardPrice" />
         <input type="button" value="Thêm Mới" id="btnNewStandardPrice" />

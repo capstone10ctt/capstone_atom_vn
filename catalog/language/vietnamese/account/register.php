@@ -15,9 +15,7 @@ $_['text_newsletter']      = 'Nhận tin';
 $_['text_your_password']   = 'Mật khẩu';
 $_['text_your_special']   = 'Hoàn cảnh gia đình';
 //$_['text_your_special']   = 'Diện chính sách';
-//kah2914
-//$_['text_agree']           = 'Tôi đã đọc và đồng ý với <a class="fancybox" href="%s" alt="%s"><b>%s</b></a>';
-$_['text_agree']           = 'Tôi đã đọc và đồng ý với ';
+$_['text_agree']           = 'Tôi đã đọc và đồng ý với <a class="fancybox" href="%s" alt="%s"><b>%s</b></a>';
 $_['text_agree0']           = 'Không có';
 $_['text_agree1']           = 'Sinh viên khuyết tật.';
 $_['text_agree2']           = 'Sinh viên là con liệt sỹ, con thương binh, con bệnh binh, con của người hưởng chính sách như thương binh, con của người có công. ';
@@ -33,23 +31,16 @@ $_['entry_fullname']       = 'Họ và tên:';
 $_['entry_firstname']      = 'Tên:';
 $_['entry_lastname']       = 'Họ:';
 $_['entry_email']          = 'Email:';
-$_['entry_emailuniversity']          = 'Email chính thức của trường:';
 $_['entry_telephone']      = 'Điện thoại:';
 $_['entry_fax']            = 'Fax:';
 $_['entry_company']        = 'Công ty:';
-/*kah2914
 $_['entry_address_0']      = 'Số nhà';
 $_['entry_address_1']      = 'Đường';
-*/
-$_['entry_address_1']      = 'Địa chỉ';
 $_['entry_address_2']      = 'Phường xã';
 $_['entry_address_3']      = 'Quận huyện';
 $_['entry_address_4']      = 'Tỉnh/TP';
-/* kah2914
 $_['entry_address_5']      = 'Số nhà';
 $_['entry_address_6']      = 'Đường';
-*/
-$_['entry_address_6']      = 'Địa chỉ';
 $_['entry_address_7']      = 'Phường xã';
 $_['entry_address_8']      = 'Quận huyện';
 $_['entry_address_9']      = 'Tỉnh/TP';
@@ -77,11 +68,10 @@ $_['entry_idnum']        = 'Số CMND:';
 $_['entry_iddate']        = 'Ngày cấp:';
 $_['entry_idlocation']        = 'Nơi cấp:';
 $_['text_id']   = 'Chứng minh nhân dân';
-
 $_['error_idnum']         = 'Lỗi: Số CMND phải có chiều dài là 9 ký tự hoặc đã được đăng ký';
 $_['error_iddate']         = 'Lỗi: Ngày cấp không hợp lệ!';
 $_['error_date_of_birth']         = 'Lỗi: Ngày sinh không hợp lệ!';
-$_['error_ethnic']         = 'Lỗi: Xin nhập dân tộc';
+$_['error_ethnic']         = 'Lỗi: Xin nhập tôn giáo và độ dài phải bé hơn 9';
 $_['error_gender']         = 'Lỗi: Xin lựa chọn giới tính!';
 $_['error_id_location']         = 'Lỗi: Xin lựa chọn khu vực!';
 $_['error_reason']         = 'Lỗi: Lý do không được để trống và phải dài hơn 15 ký tự!';
@@ -103,20 +93,13 @@ $_['error_email']       = 'Email không hợp lệ!';
 $_['error_telephone']   = 'Điện thoại phải từ 3 đến 32 ký tự!';
 $_['error_password']    = 'Mật khẩu phải từ 4 đến 20 ký tự!';
 $_['error_confirm']     = 'Mật khẩu không giống nhau!';
-
-/* kah2914
 $_['error_address_0']   = 'Số nhà phải từ 1 đến 128 ký tự!';
-$_['error_address_1']   = 'Địa chỉ phải từ 1 đến 128 ký tự!';
-*/
-$_['error_address_1']   = 'Địa chỉ phải từ 1 đến 128 ký tự!';
+$_['error_address_1']   = 'Đường phải từ 1 đến 128 ký tự!';
 $_['error_address_2']   = 'Phường/xã phải từ 1 đến 128 ký tự!';
 $_['error_address_3']   = 'Quận/huyện phải từ 1 đến 128 ký tự!';
 $_['error_address_4']   = 'Xin chọn khu vực';
-/* kah2914
 $_['error_address_5']   = 'Số nhà phải từ 1 đến 128 ký tự!';
 $_['error_address_6']   = 'Đường phải từ 1 đến 128 ký tự!';
-*/
-$_['error_address_6']   = 'Địa chỉ phải từ 1 đến 128 ký tự!';
 $_['error_address_7']   = 'Phường/xã phải từ 1 đến 128 ký tự!';
 $_['error_address_8']   = 'Quận/huyện phải từ 1 đến 128 ký tự!';
 $_['error_address_9']   = 'Xin chọn khu vực';

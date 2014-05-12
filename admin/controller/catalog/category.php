@@ -158,23 +158,18 @@ class ControllerCatalogCategory extends Controller {
 				'category_id' => $result['category_id'],
 				'name'        => $result['name'],
 				'sort_order'  => $result['sort_order'],
-                'male_qty' => $result['male_qty'],
-                'female_qty' => $result['female_qty'],
 				'selected'    => isset($this->request->post['selected']) && in_array($result['category_id'], $this->request->post['selected']),
 				'action'      => $action
 			);
 		}
 		
 		$this->data['heading_title'] = $this->language->get('heading_title');
-        $this->data['page_title'] = $this->language->get('page_title');
 
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
 
 		$this->data['column_name'] = $this->language->get('column_name');
 		$this->data['column_sort_order'] = $this->language->get('column_sort_order');
 		$this->data['column_action'] = $this->language->get('column_action');
-        $this->data['column_male_qty'] = $this->language->get('column_male_qty');
-        $this->data['column_female_qty'] = $this->language->get('column_female_qty');
 
 		$this->data['button_insert'] = $this->language->get('button_insert');
 		$this->data['button_delete'] = $this->language->get('button_delete');
@@ -239,8 +234,6 @@ class ControllerCatalogCategory extends Controller {
 		$this->data['entry_sort_order'] = $this->language->get('entry_sort_order');
 		$this->data['entry_status'] = $this->language->get('entry_status');
 		$this->data['entry_layout'] = $this->language->get('entry_layout');
-        $this->data['entry_male_qty'] = $this->language->get('entry_male_qty');
-        $this->data['entry_female_qty'] = $this->language->get('entry_female_qty');
 		
 		$this->data['button_save'] = $this->language->get('button_save');
 		$this->data['button_cancel'] = $this->language->get('button_cancel');
@@ -403,23 +396,7 @@ class ControllerCatalogCategory extends Controller {
 		} else {
 			$this->data['sort_order'] = 0;
 		}
-
-        if (isset($this->request->post['male_qty'])) {
-            $this->data['male_qty'] = $this->request->post['male_qty'];
-        } elseif (!empty($category_info)) {
-            $this->data['male_qty'] = $category_info['male_qty'];
-        } else {
-            $this->data['male_qty'] = 0;
-        }
-
-        if (isset($this->request->post['female_qty'])) {
-            $this->data['female_qty'] = $this->request->post['female_qty'];
-        } elseif (!empty($category_info)) {
-            $this->data['female_qty'] = $category_info['female_qty'];
-        } else {
-            $this->data['female_qty'] = 0;
-        }
-
+		
 		if (isset($this->request->post['status'])) {
 			$this->data['status'] = $this->request->post['status'];
 		} elseif (!empty($category_info)) {
