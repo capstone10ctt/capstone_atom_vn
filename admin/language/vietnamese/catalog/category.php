@@ -1,6 +1,7 @@
 <?php
 // Heading
 $_['heading_title']          = 'Trường';
+$_['page_title'] = 'Quản Lý Chỉ Tiêu Hồ Sơ Các Trường';
 
 // Text
 $_['text_success']           = 'Bạn đã thay đổi trường thành công!';
@@ -8,11 +9,14 @@ $_['text_default']           = 'Mặc định';
 $_['text_image_manager']     = 'Quản lý ảnh';
 $_['text_browse']            = 'Chọn tập tin';
 $_['text_clear']             = 'Xóa ảnh';
+$_['text_edit'] = 'Sửa';
 
 // Column
 $_['column_name']            = 'Tên trường';
 $_['column_sort_order']      = 'Sắp xếp';
 $_['column_action']          = 'Hành động';
+$_['column_male_qty'] = 'Nam';
+$_['column_female_qty'] = 'Nữ';
 
 // Entry
 $_['entry_name']             = 'Tên trường:';
@@ -28,9 +32,18 @@ $_['entry_column']           = 'Cột:<br/><span class="help">Số cột để s
 $_['entry_sort_order']       = 'Sắp xếp:';
 $_['entry_status']           = 'Tình trạng:';
 $_['entry_layout']           = 'Cách trình bày:';
+$_['entry_male_qty']       = 'Số lượng nam:';
+$_['entry_female_qty'] = 'Số lượng nữ:';
 
 // Error
 $_['error_warning']          = 'Cảnh báo: Hãy kiểm tra cẩn thận hình thức cho các lỗi!';
 $_['error_permission']       = 'Cảnh báo: Bạn không được phép sửa đổi chuyên mục!';
 $_['error_name']             = 'Tên Trường phải lớn hơn 2 và ít hơn 32 ký tự!';
+
+// Button
+$_['button_insert'] = 'Thêm';
+$_['button_delete'] = 'Xóa';
+$_['button_save'] = 'Lưu';
+$_['button_cancel'] = 'Hủy';
+
 ?>
