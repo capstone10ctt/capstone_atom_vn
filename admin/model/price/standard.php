@@ -140,7 +140,7 @@ class ModelPriceStandard extends Model {
     }
 
     public function getCurrentApplyDateGarbage() {
-        $query = $this->db->query('SELECT `From` FROM g_lifetime WHERE `apply` = "1"');
+        $query = $this->db->query('SELECT `from` FROM g_lifetime WHERE `apply` = "1"');
         return $query->row;
     }
 
