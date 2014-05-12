@@ -207,13 +207,10 @@ class ControllerPriceEdit extends Controller {
             // update the future standard price
             $temp = $this->db->query('SELECT `from` FROM e_lifetime WHERE id = "' . $id . '"')->row;
             $currentDate = date('Y-m-d');
-            date_default_timezone_set('UTC');
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
             if (date(strtotime($temp['from'])) >= date(strtotime($currentDate))) {
                 // update To_date
                 $currentPriceId = $this->db->query('SELECT `id` FROM e_lifetime WHERE id <> "' . $id . '" ORDER BY `id` DESC LIMIT 1')->row['id'];
-                $handle = fopen("log.txt","w");
-                fwrite($handle,var_export($currentPriceId,true));
-                fclose($handle);
                 $this->db->query('UPDATE e_lifetime SET `to` = "' . $oldEndDate . '" WHERE `id` = "' . $currentPriceId . '"');
                 // update From_date
                 $this->db->query('UPDATE e_lifetime SET `from` = "' . $updateDateFrom . '" WHERE id = "' . $id . '"');
@@ -243,7 +240,7 @@ class ControllerPriceEdit extends Controller {
         $json = array();
         $latestUpdateDate = $this->model_price_standard->getLatestElectricityUpdateDate();
         if (empty($latestUpdateDate)) {
-            date_default_timezone_set('UTC');
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
             $json['month'] = date('m') - 1;
             $json['year'] = date('Y');
         } else {
@@ -356,13 +353,10 @@ class ControllerPriceEdit extends Controller {
             // update the future standard price
             $temp = $this->db->query('SELECT `from` FROM w_lifetime WHERE id = "' . $id . '"')->row;
             $currentDate = date('Y-m-d');
-            date_default_timezone_set('UTC');
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
             if (date(strtotime($temp['from'])) >= date(strtotime($currentDate))) {
                 // update To_date
                 $currentPriceId = $this->db->query('SELECT `id` FROM w_lifetime WHERE id <> "' . $id . '" ORDER BY `id` DESC LIMIT 1')->row['id'];
-                $handle = fopen("log.txt","w");
-                fwrite($handle,var_export($currentPriceId,true));
-                fclose($handle);
                 $this->db->query('UPDATE w_lifetime SET `to` = "' . $oldEndDate . '" WHERE `id` = "' . $currentPriceId . '"');
                 // update From_date
                 $this->db->query('UPDATE w_lifetime SET `from` = "' . $updateDateFrom . '" WHERE id = "' . $id . '"');
@@ -392,7 +386,7 @@ class ControllerPriceEdit extends Controller {
         $json = array();
         $latestUpdateDate = $this->model_price_standard->getLatestWaterUpdateDate();
         if (empty($latestUpdateDate)) {
-            date_default_timezone_set('UTC');
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
             $json['month'] = date('m') - 1;
             $json['year'] = date('Y');
         } else {
@@ -459,8 +453,6 @@ class ControllerPriceEdit extends Controller {
         $temp = $this->model_price_standard->getGarbageStandardPrice($garbage_last_modified['id']);
         foreach ($temp as $row) {
             $json['newest'][] = array(
-                'From' => $row['From'],
-                'To'       => $row['To'],
                 'Price' => $row['Price']
             );
         }
@@ -484,9 +476,6 @@ class ControllerPriceEdit extends Controller {
                 'Price' => $row['Price']
             );
         }
-        $handle = fopen("log.txt","w");
-        fwrite($handle,var_export($g_standard,true));
-        fclose($handle);
         // set 'success' string in order to send back to the View
         $json['success'] = 'success';
         $json['data'] = $g_standard;
@@ -506,7 +495,7 @@ class ControllerPriceEdit extends Controller {
             // update the future standard price
             $temp = $this->db->query('SELECT `from` FROM g_lifetime WHERE id = "' . $id . '"')->row;
             $currentDate = date('Y-m-d');
-            date_default_timezone_set('UTC');
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
             if (date(strtotime($temp['from'])) >= date(strtotime($currentDate))) {
                 // update To_date
                 $currentPriceId = $this->db->query('SELECT `id` FROM g_lifetime WHERE id <> "' . $id . '" ORDER BY `id` DESC LIMIT 1')->row['id'];
@@ -515,7 +504,7 @@ class ControllerPriceEdit extends Controller {
                 $this->db->query('UPDATE g_lifetime SET `from` = "' . $updateDateFrom . '" WHERE id = "' . $id . '"');
                 $this->db->query('DELETE FROM g_standard WHERE `id` = "' . $id . '"');
                 foreach ($garbage_new_data['garbage_new'] as $data) {
-                    $this->db->query('INSERT INTO g_standard (`id`, `From`, `To`, `Price`) VALUES ("' . $id . '", "' . $data['from'] . '", "' . $data['to'] . '", "' . $data['price'] .'")');
+                    $this->db->query('INSERT INTO g_standard (`id`, `Price`) VALUES ("' . $id . '", "' . $data['price'] .'")');
                 }
             } else { // add new standard price
                 // update the end date of old standard price
@@ -523,8 +512,8 @@ class ControllerPriceEdit extends Controller {
                 // update table
                 $this->db->query('INSERT INTO g_lifetime (`from`, `to`) VALUES ("'. $updateDateFrom . '", NULL)');
                 $newestId = $this->db->query('SELECT id FROM g_lifetime WHERE `from` = "' . $updateDateFrom . '" AND `to` IS NULL')->row;
-                foreach ($garbage_new_data['water_new'] as $data) {
-                    $this->db->query('INSERT INTO g_standard (`id`, `From`, `To`, `Price`) VALUES ("' . $newestId['id'] . '", "' . $data['from'] . '", "' . $data['to'] . '", "' . $data['price'] .'")');
+                foreach ($garbage_new_data['garbage_new'] as $data) {
+                    $this->db->query('INSERT INTO g_standard (`id`, `Price`) VALUES ("' . $newestId['id'] . '", "' . $data['price'] .'")');
                 }
             }
             // set 'success' string in order to send back to the View
@@ -539,7 +528,7 @@ class ControllerPriceEdit extends Controller {
         $json = array();
         $latestUpdateDate = $this->model_price_standard->getLatestGarbageUpdateDate();
         if (empty($latestUpdateDate)) {
-            date_default_timezone_set('UTC');
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
             $json['month'] = date('m') - 1;
             $json['year'] = date('Y');
         } else {
@@ -565,7 +554,7 @@ class ControllerPriceEdit extends Controller {
         $json = array();
 
         $currentApplyDate = $this->model_price_standard->getCurrentApplyDateGarbage();
-        $json['date'] = $currentApplyDate['From'];
+        $json['date'] = $currentApplyDate['from'];
         $this->response->setOutput(json_encode($json));
     }
 

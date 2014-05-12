@@ -138,7 +138,7 @@
 <select name="yearbirth" type="text" class="scroll" id="yearbirth width="115" style="width: 115px"">
   <option value=0 <?php echo ($yearbirth == 0) ? ' selected="selected"' : ''; ?>>Năm</option>
   <?php
-    for($i=1920; $i<=2000; $i++) {
+    for($i=2000; $i>=1950; $i--) {
         if ($yearbirth == $i){
         echo '<option value='.$i.' selected="selected">'. $i .'</option>';
         }
@@ -164,7 +164,7 @@
         </td>
         </tr>
         <tr>
-          <td> <?php echo $entry_ethnic; ?></td>
+          <td> <?php echo $entry_ethnic; ?><span class="required" >*</span></td>
     </tr>
     <tr>
           <td><input type="text" name="ethnic" value="<?php echo $ethnic; ?>" />
@@ -202,8 +202,9 @@
         </tr>
         <tr>
           <td> 
-            
+            <!-- kah2914
              <div class="banana" style="width:45px; min-width:45px; display: inline-block"> <?php echo $entry_address_0; ?><span class="required" >*</span> </div>
+             -->
              <div class="banana" style="width:120px; min-width:120px; display: inline-block"> <?php echo $entry_address_1; ?><span class="required" >*</span> </div>
              <div class="banana" style="width:45px;min-width:45px; display: inline-block"> <?php echo $entry_address_2; ?><span class="required" >*</span> </div>
              <div class="banana" style="width:45px;min-width:45px; display: inline-block"> <?php echo $entry_address_3; ?><span class="required" >*</span> </div>
@@ -213,10 +214,11 @@
 
         <tr>
           <td >
+          <!-- kah2914
             <div class="banana" style="width:45px; min-width:45px; display: inline-block">
-              <input type="text" style="width:45px;" name="address_0" value="<?php echo $address_0; ?>" />
-              
+              <input type="text" style="width:45px;" name="address_0" value="<?php echo $address_0; ?>" />              
             </div>
+            -->
 
             <div class="banana" style="width:120px; min-width:120px; display: inline-block">
               <input type="text" style="width:120px;" name="address_1" value="<?php echo $address_1; ?>" />
@@ -242,9 +244,11 @@
       
          <tr>
          <td>
+         <!-- kah2914
          <div><?php if ($error_address_0) { ?>
               <span class="error"><?php echo $error_address_0; ?></span>
               <?php } ?></div>
+              -->
 
           <div><?php if ($error_address_1) { ?>
               <span class="error"><?php echo $error_address_1; ?></span>
@@ -273,21 +277,24 @@
          </tr>
         <tr>
           <td> 
-            
+            <!--kah2914
              <div class="banana" style="width:45px; min-width:45px; display: inline-block"> <?php echo $entry_address_5; ?><span class="required" >*</span> </div>
-             <div class="banana" style="width:120px; min-width:120px; display: inline-block"> <?php echo $entry_address_6; ?><span class="required" >*</span> </div>
-             <div class="banana" style="width:45px;min-width:45px; display: inline-block"> <?php echo $entry_address_7; ?><span class="required" >*</span> </div>
-             <div class="banana" style="width:45px;min-width:45px; display: inline-block"> <?php echo $entry_address_8; ?><span class="required" >*</span> </div>
-             <div class="banana" style="width:90px;min-width:90px; display: inline-block"> <?php echo $entry_address_9; ?><span class="required" >*</span> </div>             
+             -->
+             <div class="banana" style="width:120px; min-width:120px; display: inline-block"> <?php echo $entry_address_6; ?> </div>
+             <div class="banana" style="width:45px;min-width:45px; display: inline-block"> <?php echo $entry_address_7; ?> </div>
+             <div class="banana" style="width:45px;min-width:45px; display: inline-block"> <?php echo $entry_address_8; ?> </div>
+             <div class="banana" style="width:90px;min-width:90px; display: inline-block"> <?php echo $entry_address_9; ?> </div>             
           </td>          
         </tr>
 
         <tr>
           <td >
+          <!--kah2914
             <div class="banana" style="width:45px; min-width:45px; display: inline-block">
               <input type="text" style="width:45px;" name="address_5" value="<?php echo $address_5; ?>" />
               
             </div>
+            -->
 
             <div class="banana" style="width:120px; min-width:120px; display: inline-block">
               <input type="text" style="width:120px;" name="address_6" value="<?php echo $address_6; ?>" />
@@ -314,9 +321,11 @@
       
          <tr>
          <td>
+         <!--kah2914
          <div><?php if ($error_address_5) { ?>
               <span class="error"><?php echo $error_address_5; ?></span>
               <?php } ?></div>
+              
 
           <div><?php if ($error_address_6) { ?>
               <span class="error"><?php echo $error_address_6; ?></span>
@@ -333,7 +342,7 @@
           <div><?php if ($error_address_9) { ?>
               <span class="error"><?php echo $error_address_9; ?></span>
               <?php } ?></div>
-         
+         -->
          </td>
          </tr>
 
@@ -528,19 +537,10 @@
 
 
     <!--<h2 class="password"><?php echo $text_id; ?></h2>-->
-    <div class="content">
+    <!--<div class="content">
       <table class="form">
-        <tr>
-          <td> <?php echo $entry_idnum; ?><span class="required">*</span></td>
-    </tr>
-    <tr>
-          <td><input type="text" name="id_num" value="<?php echo $id_num; ?>" />
-            <?php if ($error_idnum) { ?>
-            <span class="error"><?php echo $error_idnum; ?></span>
-            <?php } ?></td>
-        </tr>
-
-        <!--
+        
+        
         <tr>
           <td> <?php echo $entry_iddate; ?><span class="required">*</span></td>
     </tr>
@@ -573,9 +573,9 @@
         </tr>
 
 
--->
+
       </table>
-    </div>
+    </div>-->
 
     <!--<h2 class="password"><?php echo $text_your_password; ?></h2>-->
     <div class="content">
@@ -598,6 +598,26 @@
             <span class="error"><?php echo $error_confirm; ?></span>
             <?php } ?></td>
         </tr>
+
+      <tr>
+          <td> <?php echo $entry_idnum; ?><span class="required">*</span></td>
+    </tr>
+    <tr>
+          <td><input type="text" name="id_num" value="<?php echo $id_num; ?>" />
+            <?php if ($error_idnum) { ?>
+            <span class="error"><?php echo $error_idnum; ?></span>
+            <?php } ?></td>
+        </tr>
+
+      <!--kah2914 -->
+      <tr>
+          <td> <?php echo $entry_emailuniversity; ?></td>
+    </tr>
+    <tr>
+          <td><input type="text" name="emailuniversity" value="<?php echo $emailuniversity; ?>" />
+            </td>
+        </tr>
+        <!--kah2914-->
 
     <!-- kah2914 -->        
     <tr>
@@ -716,7 +736,7 @@
         </div>
         
         <div class="banana" style="width:115px; min-width:30px; display: inline-block">
-          <a href="JavaScript:void(0)" onClick="alert('1) Sinh viên khuyết tật.\n\n2) Sinh viên là con liệt sỹ, con thương binh, con bệnh binh, con của người hưởng chính sách như thương binh, con của người có công.\n\n3) Sinh viên là người dân tộc thiểu số.\n\n4) Sinh viên mồ côi cả cha và mẹ. \n\n5) Sinh viên có hộ khẩu thường trú tại vùng cao, vùng có điều kiện kinh tế  - xã hội đặc biệt khó khăn.\n\n6) Sinh viên là con hộ nghèo, cận nghèo theo quy định hiện hành của Nhà nước.\n\n7) Sinh viên tích cực tham gia các hoạt động do nhà trường, Đoàn TNCS Hồ Chí Minh, Hội sinh viên, khu nội trú hoặc các tổ chức xã hội tổ chức.\n\n8) Các sinh viên không thuộc các đối tượng trên.(Ghi rõ lý do)')">Chi tiết các diện</a>
+          <a href="JavaScript:void(0)" onClick="alert('1) Sinh viên khuyết tật.\n\n2) Sinh viên là con liệt sỹ, con thương binh, con bệnh binh, con của người hưởng chính sách như thương binh, con của người có công.\n\n3) Sinh viên là người dân tộc thiểu số.\n\n4) Sinh viên mồ côi cả cha và mẹ. \n\n5) Sinh viên có hộ khẩu thường trú tại vùng cao, vùng có điều kiện kinh tế  - xã hội đặc biệt khó khăn.\n\n6) Sinh viên là con hộ nghèo, cận nghèo theo quy định hiện hành của Nhà nước.\n\n7) Sinh viên tích cực tham gia các hoạt động do nhà trường, Đoàn TNCS Hồ Chí Minh, Hội sinh viên, khu nội trú hoặc các tổ chức xã hội tổ chức.\n\n8) Các sinh viên không thuộc các đối tượng trên.(Ghi rõ lý do)')"><p style="color: #CC0000">Chi tiết các diện</p></a>
         </div>
 
         </td>
@@ -766,7 +786,11 @@
         <input type="checkbox" name="agree" value="1" checked="checked" />
         <?php } else { ?>
         <input type="checkbox" name="agree" value="1" />
-        <?php } ?>&nbsp;<?php echo $text_agree; ?></br></br></br>
+        <?php } ?>&nbsp;<?php echo $text_agree; ?>
+        <a href="/capstone_atom_vn/image/ChinhsachsinhvienoKTX.JPG" download="chinhsachsinhvien" title="chinhsachsinhvien" style="color: #CC0000">
+        chính sách sinh viên
+        </a>
+        </br></br></br>
         <span class="button_fr_ip"><input type="submit" value="<?php echo $button_continue; ?>" class="button cst" /></span>
       </div>
     </div>
