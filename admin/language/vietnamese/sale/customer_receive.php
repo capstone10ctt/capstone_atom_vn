@@ -22,7 +22,7 @@ $_['text_exit']           = 'Không xác nhận';
 // + $_['error_bed']: line 42
 //////////////////////////////////////////////////////////////
 // start LMT
-$_['column_field']           = 'Diện';
+$_['column_field']           = '	';
 $_['column_student_id']           = 'MSSV';
 $_['column_gender']           = 'Giới tính';
 $_['column_telephone']           = 'Số điện thoại';
@@ -36,7 +36,12 @@ $_['column_bed']           = 'Giường';
 $_['column_ethnic']           = 'Dân tộc';
 
 $_['text_search']           = 'Tìm thủ công';
-$_['text_report']           = 'Thống kê hồ sơ mới';
+$_['text_report']           = 'Thống kê';
+$_['text_report_online']           = 'Thống kê hồ sơ nộp online';
+$_['text_report_paper']           = 'Thống kê hồ sơ nộp giấy';
+$_['text_report_no_paper']           = 'Thống kê hồ sơ chưa nộp giấy';
+$_['text_report_area']           = 'Thống kê hồ sơ diện';
+
 $_['text_received']           = 'Đã nhận hồ sơ:';
 $_['text_do_search']           = 'Tìm';
 $_['text_cancel']           = 'Huỷ';
@@ -94,6 +99,18 @@ $_['text_approve']		= "Hợp lệ";
 $_['text_not_approve']		= "Không hợp lệ";
 $_['text_receive']		= "Nhận";
 $_['text_not_receive']		= "Không nhận";
+$_['text_total']		= "Tổng";
+$_['text_online_app']		= "Hồ sơ nộp online";
+$_['text_paper_app']		= "Hồ sơ nộp giấy";
+$_['text_no_paper_app']		= "Hồ sơ chưa nộp giấy";
+$_['text_area_app']		= "Hồ sơ diện chính sách";
+
+$_['text_online']		= "Nộp online";
+$_['text_paper']		= "Nộp bản giấy";
+$_['text_no_paper']		= "Chưa nộp giấy";
+$_['text_new_student']		= "Sinh viên mới";
+$_['text_stay_student']		= "Sinh viên lưu trú";
+$_['text_unidentified_field'] = "Diện không xác định";
 // end LMT
 
 // Text

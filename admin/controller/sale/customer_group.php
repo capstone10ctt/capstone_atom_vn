@@ -9,7 +9,6 @@ class ControllerSaleCustomerGroup extends Controller {
  		
 		$this->load->model('sale/customer_group');
 
-        $this->data['token'] = $this->session->data['token'];
 
 		$this->getList();
 
@@ -212,7 +211,6 @@ class ControllerSaleCustomerGroup extends Controller {
 				$action = array();
 			
 				$action[] = array(
-                'text' => $this->language->get('text_details'),
 				'href' => $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . '&filter_customer_group_id=' . $room['customer_group_id'] . $url, 'SSL')
 				);
 
@@ -240,30 +238,9 @@ class ControllerSaleCustomerGroup extends Controller {
 		}
 
 		$this->data['rooms']= $rooms;
+	
 		$this->data['heading_title'] = $this->language->get('heading_title');
-
-        //start vlmn modification
-        $this->data['text_confirm'] = $this->language->get('text_confirm');
-        $this->data['text_auto_room'] = $this->language->get('text_auto_room');
-        $this->data['text_bed'] = $this->language->get('text_bed');
-        $this->data['text_id'] = $this->language->get('text_id');
-        $this->data['text_advance_search'] = $this->language->get('text_advance_search');
-        $this->data['text_cancel_search'] = $this->language->get('text_cancel_search');
-		$this->data['text_select'] = $this->language->get('text_select');
-        $this->data['text_do_search'] = $this->language->get('text_do_search');
-
-        $this->data['text_name'] = $this->language->get('text_name');
-        $this->data['text_university'] = $this->language->get('text_university');
-        $this->data['text_birthday'] = $this->language->get('text_birthday');
-        $this->data['text_hometown'] = $this->language->get('text_hometown');
-
-        $this->data['text_resident'] = $this->language->get('text_resident');
-        $this->data['text_full'] = $this->language->get('text_full');
-        $this->data['text_almost_full'] = $this->language->get('text_almost_full');
-        $this->data['text_empty'] = $this->language->get('text_empty');
-        $this->data['text_current'] = $this->language->get('text_current');
-        //end vlmn modification
-
+		
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
 		$this->data['text_block'] = $this->language->get('text_block');
 		$this->data['text_floor'] = $this->language->get('text_floor');
@@ -301,32 +278,6 @@ class ControllerSaleCustomerGroup extends Controller {
 
 		$this->data['button_insert'] = $this->language->get('button_insert');
 		$this->data['button_delete'] = $this->language->get('button_delete');
-
-        //start vlmn modification
-        $alldays = array();
-        for($i = 1; $i < 32; $i ++) {
-            $alldays[] = $i;
-        }
-        $allmonths = array();
-        for($i = 1; $i < 13; $i ++) {
-            $allmonths[] = $i;
-        }
-        $allyears = array();
-        for($i = date("Y"); $i >1950; $i --) {
-            $allyears[] = $i;
-        }
-        $this->data['allmonths'] = $allmonths;
-        $this->data['allyears'] = $allyears;
-        $this->data['alldays'] = $alldays;
-
-        $this->load->model('catalog/category');
-        $universities = $this->model_catalog_category->getUniversityCategories();
-        $this->data['universities'] = $universities;
-
-        $this->load->model('localisation/zone');
-        $zones = $this->model_localisation_zone->getZonesByCountryId((int)$this->config->get('config_country_id'));
-        $this->data['zones'] = $zones;
-        //end vlmn modification
  
  		if (isset($this->error['warning'])) {
 			$this->data['error_warning'] = $this->error['warning'];
@@ -547,34 +498,5 @@ class ControllerSaleCustomerGroup extends Controller {
 			return false;
 		}
 	}
-
-    //start vlmn modification
-    public function getStudentInfo(){
-        $json = array();
-
-        $this->load->model('sale/customer');
-        $json['student']  = $this->model_sale_customer->getStudentByStudentId($this->request->post['student_id']);
-
-        $this->response->setOutput(json_encode($json));
-    }
-    public function autoSuggestRoom(){
-        $json = array();
-
-        $this->load->model('sale/customer_group');
-        $json['room_info']  = $this->model_sale_customer_group->autoSuggestRoom();
-
-        $this->response->setOutput(json_encode($json));
-    }
-    public function chooseRoom(){
-        $json = array();
-
-        $this->load->model('sale/customer_group');
-        $this->model_sale_customer_group->chooseRoom($this->request->post['student_id'], $this->request->post['selected_room'], $this->request->post['selected_bed']);
-
-        $json['success']  = 'yes';
-
-        $this->response->setOutput(json_encode($json));
-    }
-    //end vlmn modification
 }
 ?>

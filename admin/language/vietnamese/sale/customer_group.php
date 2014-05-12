@@ -3,24 +3,6 @@
 $_['heading_title']    = 'Danh Sách Phòng';
 $_['insert_title']             	= 'Thêm Phòng';
 $_['edit_title']             	= 'Sửa Phòng';
-$_['text_do_search']     = 'Tìm';
-$_['text_id']     = 'CMND/MSSV';
-$_['text_advance_search']     = 'Tìm nâng cao';
-$_['text_cancel_search']     = 'Huỷ';
-$_['text_select']     = 'Xin chọn';
-$_['text_name']     = 'Họ tên';
-$_['text_university']     = 'Trường';
-$_['text_birthday']     = 'Ngày ';
-$_['text_hometown']     = 'Quê quán';
-$_['text_details']     = 'Chi tiết';
-$_['text_auto_room']     = 'Phân phòng tự động';
-$_['text_bed']     = 'Giường';
-
-$_['text_resident']     = 'Hộ gia đình';
-$_['text_almost_full']     = 'Sắp đầy';
-$_['text_empty']     = 'Trống';
-$_['text_current']     = 'Đang chọn';
-$_['text_confirm']     = 'Xác nhận';
 
 // Text
 $_['text_success']     = 'Danh sách phòng đã được thay đổi thành công: ';
@@ -44,8 +26,8 @@ $_['text_numunassignedboy']  	= 'Số sinh viên nam chưa bố trí';
 $_['text_numunassignedgirl']  	= 'Số sinh viên nữ chưa bố trí';
 $_['text_roomleader']  			= 'Trưởng phòng';
 $_['text_all']  				= 'Tất cả';
-$_['text_full']  				= 'Đã đầy';
-$_['text_notfull']  			= 'Chưa đầy';
+$_['text_full']  				= 'Đã đủ';
+$_['text_notfull']  			= 'Chưa đủ';
 $_['text_empty']  				= 'Trống';
 
 // Column

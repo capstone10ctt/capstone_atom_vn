@@ -30,7 +30,10 @@
       <a onclick="$('form').attr('action', '<?php echo $approve; ?>'); $('form').submit();" class="button"><?php echo $button_approve; ?></a>
       -->
       <!-- end LMT -->
-      <a onclick="$('form').attr('action', '<?php echo $approve; ?>'); $('form').submit();" class="button"><?php echo $text_approve; ?></a><a onclick="$('form').attr('action', '<?php echo $unapprove; ?>'); $('form').submit();" class="button"><?php echo $text_not_approve; ?></a></div>
+      <a onclick="$('form').attr('action', '<?php echo $approve; ?>'); $('form').submit();" class="button"><?php echo $text_approve; ?></a><a onclick="$('form').attr('action', '<?php echo $unapprove; ?>'); $('form').submit();" class="button"><?php echo $text_not_approve; ?></a>
+      <a href="<?php echo $report; ?>" class="button"><?php echo $text_report; ?></a></div>
+      </div>
+
     </div>
     <div class="content">
     <div id="leftcol" style="float:left;width:200px;text-alignment:left">
@@ -333,47 +336,6 @@ function searchStudentByMSSV() {
         }
     });
 }
-function searchStudentByFileCode(filecode) {
-    //alert(filecode);
-    if(filecode == '') {
-        return;
-    }
-
-    loadingForm(true);
-    $.ajax({
-        url: 'index.php?route=sale/customer_receive/searchStudentByFileCode&token=<?php echo $token; ?>',
-        type: 'post',
-        data: 'file_code=' + filecode,
-        dataType: 'json',
-        success: function(json) {
-            loadingForm(false);
-            //console.log(json);
-            if(json['student']) {
-                var student = json['student'];
-                mssv = student['student_id'];
-                var address = ((student['address'][0]) ? student['address'][0] : null)
-
-                $("#student_portrait").attr("src", ((student['portrait']) ? ""  : "../image/no-image.jpg"))
-                $("#student_id").html("MSSV: " + mssv);
-                $("#student_name").html("Họ tên: " + student['firstname'] + '' + student['lastname']);
-                $("#student_field").html("Diện: " + student['field']);
-                $("#student_gender").html("Giới tính: " + ((student['gender'] == 1 ) ? 'Nam' : 'Nữ'));
-                $("#student_dob").html("Ngày sinh: " + student['date_of_birth']);
-                $("#student_ethnic").html("Dân tộc: " + student['ethnic']);
-                $("#student_email").html("Email: " + student['email']);
-                $("#student_address1").html("Địa chỉ thường trú: " + ((address) ? address['sonha1'] + " " + address['duong1'] + " - Phường: " + address['phuongxa1'] + " - Quận: " + address['quanhuyen1']  + " - Thành phố: " + address['thanhpho1'] : ""));
-                $("#student_address2").html("Địa chỉ tạm trú: " + ((address) ? address['sonha2'] + " " + address['duong2'] + " - Phường: " + address['phuongxa2'] + " - Quận: " + address['quanhuyen2']  + " - Thành phố: " + address['thanhpho2'] : ""));
-                //call popups tudent
-                popStudentInfo(true);
-            }
-        },
-        error : function(error) {
-            loadingForm(false);
-            alert("Không tìm thấy sinh viên này!")
-            console.log(error);
-        }
-    });
-}
 function confirmStudent() {
     if(mssv == "") {
         return;
@@ -436,25 +398,25 @@ function popStudentInfo2(show) {
 	}
 }
 
-var bar_code = '';
+var card_code = '';
 $("body").bind("keyup", function(e){
 	e.preventDefault();
 	//console.log(String.fromCharCode(e.which));  
 	if(e.keyCode != 13) {
-        bar_code += String.fromCharCode(e.which);
+		card_code += String.fromCharCode(e.which);
 	}
 	else {
 		// && card_code.match(/^\d*[0-9](\.\d*[0-9])?$/)
-		if(bar_code.length >= 10) {
-			var bar_code_ori = bar_code.substr(bar_code.length - 10, 10);
+		if(card_code.length >= 10) {
+			var card_code_ori = card_code.substr(card_code.length - 10, 10);
 			//alert(card_code_ori);
 			//alert(allDigits(card_code_ori));
-            bar_code = '';
-			if($('#studentinfo-form').css("display") == 'none' && allDigits(bar_code_ori)) {
-                searchStudentByFileCode(bar_code_ori);
+			card_code = '';
+			if($('#editwiepreview-form').css("display") == 'none' && allDigits(card_code_ori)) {
+				previewElecWaterCard(card_code_ori);
 			}
-			else if($('#studentinfo-form').css("display") != 'none' && allDigits(bar_code_ori)){
-                confirmStudent();
+			else if($('#editwiepreview-form').css("display") != 'none' && allDigits(card_code_ori)){
+				checkpaid();
 			}
 			//console.log(card_code_ori);
 			
