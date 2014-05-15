@@ -20,7 +20,7 @@ class ControllerCommonHeader extends Controller {
 		$this->language->load('common/header');
 
 		$this->data['heading_title'] = $this->language->get('heading_title');
-		
+        $this->data['text_loading'] = $this->language->get('text_loading');
 		$this->data['text_annoucement'] = $this->language->get('text_annoucement');
 		$this->data['text_manage_wie_limit'] = $this->language->get('text_manage_wie_limit');
 		$this->data['text_manage_wie'] = $this->language->get('text_manage_wie');

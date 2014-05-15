@@ -20,7 +20,9 @@ class ControllerAccountRegister extends Controller {
 		$this->load->model('account/customer');
 
 		//kah2914		
-    	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) 
+    	if (($this->request->server['REQUEST_METHOD'] == 'POST') ) 
+		{
+		if ($this->validate())		
     	{		
     		define ('SITE_ROOT', realpath('./'));
 			$imagename = $_FILES['userfile']['name'].'_'.date('Y-m-d-H-i-s').'_'.uniqid().'.jpg';
@@ -34,7 +36,14 @@ class ControllerAccountRegister extends Controller {
 			unset($this->session->data['guest']);
 							  	  
 	  		$this->redirect($this->url->link('account/success'));
-    	} 
+    	}
+    	else{
+    		// kah2914  		
+  			$this->error['portrait'] = $this->language->get('error_portrait');
+  		}  		
+  		// kah2914
+    	}    		 
+    	
 	    //kah2914
       	$this->data['breadcrumbs'] = array();
 
@@ -85,9 +94,12 @@ class ControllerAccountRegister extends Controller {
         // 	 Last updated: list the change by line number and goal, ex: 
         //	 	 + line 289: optimize the operation
         /////////// Start “you-id” - “your-name” modifications/////////////
+		$this->data['ethniclist']=array("Kinh","Tày","Thái","Mường","Khơ Me","Hmông","Nùng","Hoa","Dao","Gia rai","Ê Đê","Ba Na","Xơ Đăng","Sán","Chay","Cơ Ho","Chăm","Sán Dìu","Hrê","Ra Glai","Mnông","Xtiêng","Bru-Vân","Kiều","Thổ","Khơ Mú","Cơ Tu","Giáy","Giẻ Triêng","Tà Ôi","Mạ","Co","Chơ Ro","Xinh ","Mun","Hà Nhì","Chu Ru","Lào","Kháng","La Chí","Phú Lá","La Hủ","La Ha","Pà Thẻn","Chứt","Lự","Lô Lô","Mảng","Cờ Lao","Bố Y","Cống","Ngái","Si La","Pu Péo","Rơ măm","Brâu","Ơ Đu");
+		$this->data['religionlist']=array("Phật Giáo","Công Giáo","Hòa Hảo","Hồi Giáo","Cao Đài","Minh Sư Đạo","Minh Lý Đạo","Tin Lành","Tịnh độ cư sĩ Phật hội Việt Nam","Đạo Tứ ấn hiếu nghĩa","Bửu sơn Kỳ hương","Bahá'í","Bà La Môn");
 		$this->data['entry_university'] = $this->language->get('entry_university');
 		$this->data['entry_date_of_birth'] = $this->language->get('entry_date_of_birth');
         $this->data['entry_ethnic'] = $this->language->get('entry_ethnic');
+        $this->data['entry_religion'] = $this->language->get('entry_religion');
 		$this->data['entry_faculty'] = $this->language->get('entry_faculty');
 		$this->data['entry_student_id'] = $this->language->get('entry_student_id');
 		
@@ -132,6 +144,13 @@ class ControllerAccountRegister extends Controller {
 		} else {
 			$this->data['error_ethnic'] = '';
 		}
+
+		if (isset($this->error['religion'])) {
+			$this->data['error_religion'] = $this->error['religion'];
+		} else {
+			$this->data['error_religion'] = '';
+		}
+
 
 		if (isset($this->error['date_of_birth'])) {
 			$this->data['error_date_of_birth'] = $this->error['date_of_birth'];
@@ -181,6 +200,11 @@ class ControllerAccountRegister extends Controller {
 			$this->data['ethnic'] = '';
 		}
 
+		if (isset($this->request->post['religion'])) {
+            $this->data['religion'] = $this->request->post['religion'];
+		} else {
+			$this->data['religion'] = '';
+		}
 
 		if (isset($this->request->post['datebirth'])) {
                     $this->data['datebirth'] = $this->request->post['datebirth'];
@@ -237,13 +261,13 @@ class ControllerAccountRegister extends Controller {
 		} else {
 			$this->data['address_4'] = '';
 		}
-
+		/*kah2914
 		if (isset($this->request->post['address_9'])) {
     		$this->data['address_9'] = $this->request->post['address_9'];
 		} else {
 			$this->data['address_9'] = '';
 		}
-
+		*/
 		if (isset($this->request->post['id_num'])) {
     		$this->data['id_num'] = $this->request->post['id_num'];
 		} else {
@@ -273,12 +297,13 @@ class ControllerAccountRegister extends Controller {
     	$this->data['entry_address_2'] = $this->language->get('entry_address_2');
     	$this->data['entry_address_3'] = $this->language->get('entry_address_3');
     	$this->data['entry_address_4'] = $this->language->get('entry_address_4');
-    	// kah2914
-    	//$this->data['entry_address_5'] = $this->language->get('entry_address_5');
+    	/* kah2914
+    	$this->data['entry_address_5'] = $this->language->get('entry_address_5');
     	$this->data['entry_address_6'] = $this->language->get('entry_address_6');
     	$this->data['entry_address_7'] = $this->language->get('entry_address_7');
     	$this->data['entry_address_8'] = $this->language->get('entry_address_8');
     	$this->data['entry_address_9'] = $this->language->get('entry_address_9');      
+    	*/
     	$this->data['entry_postcode'] = $this->language->get('entry_postcode');
     	$this->data['entry_city'] = $this->language->get('entry_city');
     	$this->data['entry_country'] = $this->language->get('entry_country');
@@ -569,7 +594,7 @@ class ControllerAccountRegister extends Controller {
 		} else {
 			$this->data['address_5'] = '';
 		}
-		*/
+		
 
 		if (isset($this->request->post['address_6'])) {
     		$this->data['address_6'] = $this->request->post['address_6'];
@@ -594,7 +619,8 @@ class ControllerAccountRegister extends Controller {
     	} else {
 			$this->data['address_9'] = '';
 		}
-		
+		*/
+
 		if (isset($this->request->post['reason'])) {
     		$this->data['reason'] = $this->request->post['reason'];		
     	} else {
@@ -756,13 +782,7 @@ class ControllerAccountRegister extends Controller {
 		$this->response->setOutput($this->render());	
   	}
 	
-  	protected function validate() {
-  		// kah2914
-  		if ($_FILES['userfile']['name']==""){
-  			$this->error['portrait'] = $this->language->get('error_portrait');
-  		}
-  		// kah2914
-
+  	protected function validate() {  		
   		// kah2914
 		if ($this->request->post['txtCaptcha'] != $_SESSION["security_code"])
 		{			
@@ -808,6 +828,9 @@ class ControllerAccountRegister extends Controller {
         /////////// Start “you-id” - “your-name” modifications/////////////
         if ((utf8_strlen($this->request->post['ethnic']) == 0)) {
       		$this->error['ethnic'] = $this->language->get('error_ethnic');
+    	}
+    	if ((utf8_strlen($this->request->post['religion']) == 0)) {
+      		$this->error['religion'] = $this->language->get('error_religion');
     	}
 		if ((utf8_strlen($this->request->post['id_num']) != 9)) {
       		$this->error['idnum'] = $this->language->get('error_idnum');
@@ -886,7 +909,7 @@ class ControllerAccountRegister extends Controller {
     	if ((utf8_strlen($this->request->post['address_5']) < 1) || (utf8_strlen($this->request->post['address_5']) > 128)) {
       		$this->error['address_5'] = $this->language->get('error_address_5');
     	}
-    	*/
+    	
     	if ((utf8_strlen($this->request->post['address_6']) < 1) || (utf8_strlen($this->request->post['address_6']) > 128)) {
       		$this->error['address_6'] = $this->language->get('error_address_6');
     	}
@@ -899,7 +922,7 @@ class ControllerAccountRegister extends Controller {
 		if ($this->request->post['address_9'] == '') {
       		$this->error['address_9'] = $this->language->get('error_address_9');
     	}
-
+		*/
 
 
 	/////////////////////// Modification//////////////////////

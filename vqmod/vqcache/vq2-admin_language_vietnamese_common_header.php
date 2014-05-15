@@ -5,7 +5,7 @@ $_['text_manage_wie']         = 'Quản lý điện nước';
 $_['text_manage_wie_limit']         = 'Quản lý mức giá điện nước';
 $_['text_manage_email_templates']         = 'Quản lý mẫu email';
 $_['text_annoucement']         = 'Thông báo';
-
+$_['text_loading']             = 'Đang xử lý...';
 //---------------Võ Lý Minh Nhân – volyminhnhan@gmail.com - 0902 644 077 - Atom Company----------------//
 // Heading
 $_['heading_title']         = 'Ban quản trị';

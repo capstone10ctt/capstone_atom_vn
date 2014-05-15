@@ -3,6 +3,7 @@
 $_['heading_title']        = 'Đăng ký mới';
 
 // Text
+$_['text_select']         = 'Chọn';
 $_['text_account']         = 'Tài khoản';
 $_['text_register']        = 'Đăng ký';
 $_['text_account_already'] = 'Nếu bạn đã có tài khoản, xin vui lòng đăng nhập <a href="%s">tại đây</a>.';
@@ -66,6 +67,7 @@ $_['entry_district']        = 'Quận/Huyện:';
 $_['entry_university']        = 'Trường đại học:';
 $_['entry_date_of_birth']        = 'Ngày sinh:';
 $_['entry_ethnic']        = 'Dân tộc:';
+$_['entry_religion']        = 'Tôn giáo:';
 $_['entry_faculty']        = 'Khoa:';
 $_['entry_student_id']        = 'MSSV:';
 $_['error_university']         = 'Lỗi: Xin lựa chọn trường!';
@@ -81,7 +83,8 @@ $_['text_id']   = 'Chứng minh nhân dân';
 $_['error_idnum']         = 'Lỗi: Số CMND phải có chiều dài là 9 ký tự hoặc đã được đăng ký';
 $_['error_iddate']         = 'Lỗi: Ngày cấp không hợp lệ!';
 $_['error_date_of_birth']         = 'Lỗi: Ngày sinh không hợp lệ!';
-$_['error_ethnic']         = 'Lỗi: Xin nhập dân tộc';
+$_['error_ethnic']         = 'Lỗi: Xin chọn dân tộc';
+$_['error_religion']         = 'Lỗi: Xin chọn tôn giáo';
 $_['error_gender']         = 'Lỗi: Xin lựa chọn giới tính!';
 $_['error_id_location']         = 'Lỗi: Xin lựa chọn khu vực!';
 $_['error_reason']         = 'Lỗi: Lý do không được để trống và phải dài hơn 15 ký tự!';

@@ -22,6 +22,7 @@
     <div class="content">
       <table class="form">
     <tr>
+    <br>    
           <td><?php echo $entry_fullname; ?><span class="required">*</span></td>
     </tr>
     <tr>
@@ -102,8 +103,8 @@
 
 
 <form method="post">
-<div class="banana" style="width:115px; min-width:115px; display: inline-block">
-<select name="datebirth" type="text" class="scroll" id="datebirth width="115" style="width: 115px"">
+<div class="banana" style="width:100px; min-width:100px; display: inline-block">
+<select name="datebirth" type="text" class="scroll" id="datebirth width="100" style="width: 100px"">
   <option value=0 <?php echo ($datebirth == 0) ? ' selected="selected"' : ''; ?>>Ngày</option>
   <?php
     for($i=1; $i<=31; $i++) {
@@ -118,8 +119,8 @@
 </select>
 </div>
 
-<div class="banana" style="width:115px; min-width:115px; display: inline-block">
-<select name="monthbirth" type="text" class="scroll" id="monthbirth" width="115" style="width: 115px">
+<div class="banana" style="width:100px; min-width:100px; display: inline-block">
+<select name="monthbirth" type="text" class="scroll" id="monthbirth" width="100" style="width: 100px">
   <option value=0 <?php echo ($monthbirth == 0) ? ' selected="selected"' : ''; ?>>Tháng</option>
   <?php
     for($i=1; $i<=12; $i++) {
@@ -134,8 +135,8 @@
 </select>
 </div>
 
-<div class="banana" style="width:115px; min-width:115px; display: inline-block">
-<select name="yearbirth" type="text" class="scroll" id="yearbirth width="115" style="width: 115px"">
+<div class="banana" style="width:100px; min-width:100px; display: inline-block">
+<select name="yearbirth" type="text" class="scroll" id="yearbirth width="100" style="width: 100px"">
   <option value=0 <?php echo ($yearbirth == 0) ? ' selected="selected"' : ''; ?>>Năm</option>
   <?php
     for($i=2000; $i>=1950; $i--) {
@@ -167,11 +168,50 @@
           <td> <?php echo $entry_ethnic; ?><span class="required" >*</span></td>
     </tr>
     <tr>
-          <td><input type="text" name="ethnic" value="<?php echo $ethnic; ?>" />
+          <td>              
+          <select name="ethnic" >
+              <option value="" selected="selected"><?php echo $text_select; ?></option>
+              <?php foreach ($ethniclist as $ethniccur) { ?>
+              <?php if ($ethniccur == $ethnic) { ?>
+              <option value="<?php echo $ethniccur; ?>" selected="selected"><?php echo $ethniccur; ?></option>
+              <?php } else { ?>
+              <option value="<?php echo $ethniccur; ?>"><?php echo $ethniccur; ?></option>
+              <?php } ?>
+              <?php } ?>
+            </select>
             <?php if ($error_ethnic) { ?>
             <span class="error"><?php echo $error_ethnic; ?></span>
-            <?php } ?></td>
+            <?php } ?>          
+            </td>
         </tr>
+
+        <tr>
+          <td> <?php echo $entry_religion; ?><span class="required" >*</span></td>
+    </tr>
+    <tr>
+          <td>              
+          <select name="religion" >
+              <option value="" selected="selected"><?php echo $text_select; ?></option>
+              <?php foreach ($religionlist as $religioncur) { ?>
+              <?php if ($religioncur == $religion) { ?>
+              <option value="<?php echo $religioncur; ?>" selected="selected"><?php echo $religioncur; ?></option>
+              <?php } else { ?>
+              <option value="<?php echo $religioncur; ?>"><?php echo $religioncur; ?></option>
+              <?php } ?>
+              <?php } ?>
+            </select>
+            <?php if ($error_religion) { ?>
+            <span class="error"><?php echo $error_religion; ?></span>
+            <?php } ?>          
+            </td>
+        </tr>
+
+        <!-- kah2914 
+          <input type="text" name="ethnic" value="<?php echo $ethnic; ?>" />
+            <?php if ($error_ethnic) { ?>
+            <span class="error"><?php echo $error_ethnic; ?></span>
+            <?php } ?>
+            -->
         <!--<tr>
           <td><?php echo $entry_fax; ?></td>
     </tr>
@@ -197,6 +237,7 @@
 
       <tr>
         <td> 
+
         <?php echo $text_your_address1; ?>
         </td>
         </tr>
@@ -269,17 +310,18 @@
          </td>        
          </tr>
     
-
+     <!--kah2914
       <tr>
        <td>         
     <?php echo $text_your_address2; ?>
          </td>        
          </tr>
+    
         <tr>
           <td> 
-            <!--kah2914
+            
              <div class="banana" style="width:45px; min-width:45px; display: inline-block"> <?php echo $entry_address_5; ?><span class="required" >*</span> </div>
-             -->
+             
              <div class="banana" style="width:120px; min-width:120px; display: inline-block"> <?php echo $entry_address_6; ?> </div>
              <div class="banana" style="width:45px;min-width:45px; display: inline-block"> <?php echo $entry_address_7; ?> </div>
              <div class="banana" style="width:45px;min-width:45px; display: inline-block"> <?php echo $entry_address_8; ?> </div>
@@ -294,7 +336,7 @@
               <input type="text" style="width:45px;" name="address_5" value="<?php echo $address_5; ?>" />
               
             </div>
-            -->
+            
 
             <div class="banana" style="width:120px; min-width:120px; display: inline-block">
               <input type="text" style="width:120px;" name="address_6" value="<?php echo $address_6; ?>" />
@@ -342,13 +384,16 @@
           <div><?php if ($error_address_9) { ?>
               <span class="error"><?php echo $error_address_9; ?></span>
               <?php } ?></div>
-         -->
+         
          </td>
-         </tr>
+         </tr>-->
 
 <!-- kah2914 -->  
   <tr>
     <td>
+    <br>
+    <br>
+    <br>
     <h2 for="captcha">Captcha</h2>
     </td>
   </tr>    
@@ -532,9 +577,7 @@
             <?php } ?></td>
         </tr>
         <!-- end -->
-         </table>
-    </div>
-
+         
 
     <!--<h2 class="password"><?php echo $text_id; ?></h2>-->
     <!--<div class="content">
@@ -578,8 +621,6 @@
     </div>-->
 
     <!--<h2 class="password"><?php echo $text_your_password; ?></h2>-->
-    <div class="content">
-      <table class="form">
         <tr>
           <td> <?php echo $entry_password; ?><span class="required">*</span></td>
     </tr>
@@ -787,7 +828,7 @@
         <?php } else { ?>
         <input type="checkbox" name="agree" value="1" />
         <?php } ?>&nbsp;<?php echo $text_agree; ?>
-        <a href="/capstone_atom_vn/image/ChinhsachsinhvienoKTX.JPG" download="chinhsachsinhvien" title="chinhsachsinhvien" style="color: #CC0000">
+        <a href="/capstone_atom_vn/image/ChinhsachsinhvienoKTX.xlsx" download="chinhsachsinhvien" title="chinhsachsinhvien" style="color: #CC0000">
         chính sách sinh viên
         </a>
         </br></br></br>
@@ -897,7 +938,8 @@ $('select[name=\'country_id\']').bind('change', function() {
         for (i = 0; i < json['zone'].length; i++) {
               html_id_location += '<option value="' + json['zone'][i]['zone_id'] + '"';
             
-          if (json['zone'][i]['zone_id'] == '<?php echo $id_location; ?>') {
+          // kah2914 mỗi $id_location trước selected="selected" được thay bằng $address_4
+            if (json['zone'][i]['zone_id'] == '<?php echo $address_4; ?>') {
                 html_id_location += ' selected="selected"';
             }
   
@@ -915,7 +957,7 @@ $('select[name=\'country_id\']').bind('change', function() {
         for (i = 0; i < json['zone'].length; i++) {
               html_id_location += '<option value="' + json['zone'][i]['zone_id'] + '"';
             
-          if (json['zone'][i]['zone_id'] == '<?php echo $id_location; ?>') {
+          if (json['zone'][i]['zone_id'] == '<?php echo $address_4; ?>') {
                 html_id_location += ' selected="selected"';
             }
   
@@ -926,7 +968,7 @@ $('select[name=\'country_id\']').bind('change', function() {
       }
       
       $('select[name=\'id_location\']').html(html_id_location);
-      $('select[name=\'address_9\']').html(html_id_location);
+      //$('select[name=\'address_9\']').html(html_id_location);
       $('select[name=\'address_4\']').html(html_id_location);
 
 
