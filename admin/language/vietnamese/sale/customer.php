@@ -37,6 +37,8 @@ $_['column_ethnic']           = 'Dân tộc';
 $_['text_male']          = 'Nam';
 $_['text_female']          = 'Nữ';
 
+$_['text_export_excel']          = 'Xuất ra Excel';
+
 $_['text_basic_info']          = 'Thông tin cá nhân';
 $_['text_contact']          = 'Liên lạc';
 $_['text_identity']          = 'Chứng minh nhân dân';

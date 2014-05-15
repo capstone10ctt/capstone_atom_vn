@@ -23,6 +23,7 @@ $_['text_current']     = 'Đang chọn';
 $_['text_confirm']     = 'Xác nhận';
 
 // Text
+$_['text_export_excel']          = 'Xuất ra Excel';
 $_['text_success']     = 'Danh sách phòng đã được thay đổi thành công: ';
 $_['text_block']     = 'Tòa nhà';
 $_['text_floor']     = 'Tầng';

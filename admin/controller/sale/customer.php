@@ -343,6 +343,8 @@ class ControllerSaleCustomer extends Controller {
 			$this->data['column_bed'] = $this->language->get('column_bed');
 			$this->data['column_address_1'] = $this->language->get('column_address_1');
 
+			$this->data['text_export_excel'] = $this->language->get('text_export_excel');
+
 			$this->data['text_male'] = $this->language->get('text_male');
 			$this->data['text_female'] = $this->language->get('text_female');
 
@@ -503,6 +505,7 @@ class ControllerSaleCustomer extends Controller {
       		'separator' => ' :: '
    		);
 		
+		$this->data['export'] = $this->url->link('sale/customer/exportExcel', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		$this->data['approve'] = $this->url->link('sale/customer/approve', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		$this->data['insert'] = $this->url->link('sale/customer/insert', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		$this->data['delete'] = $this->url->link('sale/customer/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');
@@ -825,6 +828,336 @@ class ControllerSaleCustomer extends Controller {
 		);
 				
 		$this->response->setOutput($this->render());
+  	}
+
+  	public function exportExcel() {
+            
+            // start LMT
+  		/*
+            if (isset($this->request->get['filter_gender'])) {
+				$filter_gender = $this->request->get['filter_gender'];
+			} else {
+				$filter_gender = null;
+			}
+			*/
+			$this->language->load('sale/customer');
+		 
+		$this->document->setTitle($this->language->get('heading_title'));
+		
+		$this->load->model('sale/customer');
+
+
+			if (isset($this->request->get['filter_date_of_birth'])) {
+				$filter_date_of_birth = $this->request->get['filter_date_of_birth'];
+			} else {
+				$filter_date_of_birth = null;
+			}
+			if (isset($this->request->get['filter_university'])) {
+				$filter_university = $this->request->get['filter_university'];
+			} else {
+				$filter_university = null;
+			}
+			if (isset($this->request->get['filter_faculty'])) {
+				$filter_faculty= $this->request->get['filter_faculty'];
+			} else {
+				$filter_faculty = null;
+			}
+			if (isset($this->request->get['filter_floor_id'])) {
+				$filter_floor_id = $this->request->get['filter_floor_id'];
+			} else {
+				$filter_floor_id = null;
+			}
+            if (isset($this->request->get['filter_customer_group_id'])) {
+				$filter_customer_group_id = $this->request->get['filter_customer_group_id'];
+			} else {
+				$filter_customer_group_id = null;
+			}
+			if (isset($this->request->get['filter_bed'])) {
+				$filter_bed= $this->request->get['filter_bed'];
+			} else {
+				$filter_bed = null;
+			}
+			if (isset($this->request->get['filter_ethnic'])) {
+				$filter_ethnic= $this->request->get['filter_ethnic'];
+			} else {
+				$filter_ethnic = null;
+			}
+			if (isset($this->request->get['filter_address_1'])) {
+				$filter_address_1= $this->request->get['filter_address_1'];
+			} else {
+				$filter_address_1 = null;
+			}
+
+			//start vlmn modification
+			$this->data['popup_thongtinsv'] = $this->language->get('popup_thongtinsv');
+			$this->data['popup_thongtinsv2'] = $this->language->get('popup_thongtinsv2');
+			$this->data['text_confirm'] = $this->language->get('text_confirm');
+			$this->data['text_exit'] = $this->language->get('text_exit');
+			$this->data['text_popup_header_student'] = $this->language->get('text_popup_header_student');
+			//end vlmn modification
+			$this->data['column_student_id'] = $this->language->get('column_student_id');
+			$this->data['column_gender'] = $this->language->get('column_gender');
+			$this->data['column_university'] = $this->language->get('column_university');
+			$this->data['column_faculty'] = $this->language->get('column_faculty');
+			$this->data['column_floor'] = $this->language->get('column_floor');
+			$this->data['column_date_of_birth'] = $this->language->get('column_date_of_birth');
+			$this->data['column_ethnic'] = $this->language->get('column_ethnic');
+			$this->data['column_bed'] = $this->language->get('column_bed');
+			$this->data['column_address_1'] = $this->language->get('column_address_1');
+
+			$this->data['text_male'] = $this->language->get('text_male');
+			$this->data['text_female'] = $this->language->get('text_female');
+
+			$this->load->model('catalog/category');
+			$universities = $this->model_catalog_category->getUniversityCategories();
+			$this->data['universities'] = $universities;
+
+			$NKUniversity = $this->model_catalog_category->NKUniversity();
+			$this->data['NKUniversity'] = $NKUniversity;
+
+			$this->data['text_none'] = $this->language->get('text_none');
+			
+			$beds = array(
+					array('bed_id' => '1', 'name' => $this->language->get('entry_bed_1')),
+					array('bed_id' => '2', 'name' => $this->language->get('entry_bed_2')),
+					array('bed_id' => '3', 'name' => $this->language->get('entry_bed_3')),
+					array('bed_id' => '4', 'name' => $this->language->get('entry_bed_4')),
+					array('bed_id' => '5', 'name' => $this->language->get('entry_bed_5')),
+					array('bed_id' => '6', 'name' => $this->language->get('entry_bed_6')),
+					array('bed_id' => '7', 'name' => $this->language->get('entry_bed_7')),
+					array('bed_id' => '8', 'name' => $this->language->get('entry_bed_8')),
+					);
+					
+			$this->data['beds'] = $beds;
+
+            // end LMT
+		if (isset($this->request->get['filter_name'])) {
+			$filter_name = $this->request->get['filter_name'];
+		} else {
+			$filter_name = null;
+		}
+		if (isset($this->request->get['filter_email'])) {
+			$filter_email = $this->request->get['filter_email'];
+		} else {
+			$filter_email = null;
+		}
+		if (isset($this->request->get['filter_status'])) {
+			$filter_status = $this->request->get['filter_status'];
+		} else {
+			$filter_status = null;
+		}
+		
+		if (isset($this->request->get['filter_approved'])) {
+			$filter_approved = $this->request->get['filter_approved'];
+		} else {
+			$filter_approved = null;
+		}
+		
+		if (isset($this->request->get['filter_ip'])) {
+			$filter_ip = $this->request->get['filter_ip'];
+		} else {
+			$filter_ip = null;
+		}
+				
+		if (isset($this->request->get['filter_date_added'])) {
+			$filter_date_added = $this->request->get['filter_date_added'];
+		} else {
+			$filter_date_added = null;
+		}		
+		
+		if (isset($this->request->get['sort'])) {
+			$sort = $this->request->get['sort'];
+		} else {
+			$sort = 'name'; 
+		}
+		
+		if (isset($this->request->get['order'])) {
+			$order = $this->request->get['order'];
+		} else {
+			$order = 'ASC';
+		}
+		
+		if (isset($this->request->get['page'])) {
+			$page = $this->request->get['page'];
+		} else {
+			$page = 1;
+		}
+						
+		$url = '';
+		// start LMT
+		if (isset($this->request->get['filter_gender'])) {
+			$url .= '&filter_gender=' . $this->request->get['filter_gender'];
+		}	
+		if (isset($this->request->get['filter_customer_group_id'])) {
+			$url .= '&filter_customer_group_id=' . $this->request->get['filter_customer_group_id'];
+		}	
+		if (isset($this->request->get['filter_date_of_birth'])) {
+			$url .= '&filter_date_of_birth=' . $this->request->get['filter_date_of_birth'];
+		}	
+		if (isset($this->request->get['filter_university'])) {
+			$url .= '&filter_university=' . $this->request->get['filter_university'];
+		}
+		if (isset($this->request->get['filter_faculty'])) {
+			$url .= '&filter_faculty=' . $this->request->get['filter_faculty'];
+		}
+		if (isset($this->request->get['filter_floor_id'])) {
+			$url .= '&filter_floor_id=' . $this->request->get['filter_floor_id'];
+		}
+		if (isset($this->request->get['filter_bed'])) {
+			$url .= '&filter_bed=' . $this->request->get['filter_bed'];
+		}
+		if (isset($this->request->get['filter_ethnic'])) {
+			$url .= '&filter_ethnic=' . urlencode(html_entity_decode($this->request->get['filter_ethnic'], ENT_QUOTES, 'UTF-8'));
+		}
+		if (isset($this->request->get['filter_address_1'])) {
+			$url .= '&filter_address_1=' . $this->request->get['filter_address_1'];
+		}
+		
+		// end LMT
+
+		if (isset($this->request->get['filter_name'])) {
+			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
+		}
+		
+		if (isset($this->request->get['filter_email'])) {
+			$url .= '&filter_email=' . urlencode(html_entity_decode($this->request->get['filter_email'], ENT_QUOTES, 'UTF-8'));
+		}
+			
+		if (isset($this->request->get['filter_status'])) {
+			$url .= '&filter_status=' . $this->request->get['filter_status'];
+		}
+		
+		if (isset($this->request->get['filter_approved'])) {
+			$url .= '&filter_approved=' . $this->request->get['filter_approved'];
+		}	
+		
+		if (isset($this->request->get['filter_ip'])) {
+			$url .= '&filter_ip=' . $this->request->get['filter_ip'];
+		}
+					
+		if (isset($this->request->get['filter_date_added'])) {
+			$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
+		}
+						
+		if (isset($this->request->get['sort'])) {
+			$url .= '&sort=' . $this->request->get['sort'];
+		}
+
+		if (isset($this->request->get['order'])) {
+			$url .= '&order=' . $this->request->get['order'];
+		}
+		
+		if (isset($this->request->get['page'])) {
+			$url .= '&page=' . $this->request->get['page'];
+		}
+		include 'PHPExcel/IOFactory.php';
+		$objPHPExcel = new PHPExcel(); 
+// Set the active Excel worksheet to sheet 0
+		$objPHPExcel->setActiveSheetIndex(0); 
+// Initialise the Excel row number
+		$rowCount = 1; 
+
+    	$objPHPExcel->getActiveSheet()->SetCellValue('A'.$rowCount, "MSSV"); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('B'.$rowCount, "Họ và Tên"); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('C'.$rowCount, "Ngày sinh"); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('D'.$rowCount, "Trường"); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('E'.$rowCount, "Ngành"); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('F'.$rowCount, "Phòng"); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('G'.$rowCount, "Số giường"); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('H'.$rowCount, "Dân tộc"); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('I'.$rowCount, "Địa chỉ"); 
+    // Increment the Excel row counter
+    	$rowCount++;
+
+
+
+		$customers = array();
+
+		$data = array(
+            // start LMT
+            'filter_university'              => $filter_university,
+            'filter_faculty'              => $filter_faculty,
+            'filter_floor_id'              => $filter_floor_id,
+            'filter_date_of_birth' 		=> $filter_date_of_birth,
+
+            'filter_bed'              => $filter_bed,
+            'filter_ethnic'              => $filter_ethnic,
+            'filter_address_1'              => $filter_address_1,
+            // end LMT
+			'filter_name'              => $filter_name, 
+			'filter_email'             => $filter_email, 
+			'filter_customer_group_id' => $filter_customer_group_id, 
+			'filter_status'            => $filter_status, 
+			'filter_approved'          => $filter_approved, 
+			'filter_date_added'        => $filter_date_added,
+			'filter_ip'                => $filter_ip,
+			'sort'                     => $sort,
+			'order'                    => $order,
+		);
+		
+		$customer_total = $this->model_sale_customer->getTotalCustomers($data);
+	
+		$results = $this->model_sale_customer->getCustomers($data);
+ 
+    	foreach ($results as $result) {
+			$action = array();
+		
+			
+			
+			// start LMT
+			
+			$this->load->model('catalog/category');
+			$university = $this->model_catalog_category->getCategory($result['university']);
+			$faculty = $this->model_catalog_category->getCategory($result['faculty']);
+			$this->load->model('localisation/zone');
+			$zone = $this->model_localisation_zone->getZone($result['id_location']);
+			// $address = get address by id_location
+
+			$objPHPExcel->getActiveSheet()->SetCellValue('A'.$rowCount, $result['student_id']); 
+ 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('B'.$rowCount, $result['name']); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('C'.$rowCount, date("d/m/Y", strtotime($result['date_of_birth']))); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('D'.$rowCount, ((isset($university['name'])) ? $university['name'] : '')); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('E'.$rowCount, ((isset($faculty['name'])) ? $faculty['name'] : '')); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('F'.$rowCount, $result['customer_group']); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('G'.$rowCount, $result['bed']); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('H'.$rowCount, $result['ethnic']); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('I'.$rowCount, ((isset($zone['name'])) ? $zone['name'] :'')); 
+    // Increment the Excel row counter
+    	$rowCount++;
+			$customers[] = array(
+                 
+				'customer_id'    => $result['customer_id'],
+				'student_id'    => $result['student_id'],
+				'name'           => $result['name'],
+				'gender'          => ($result['gender'] ? $this->language->get('text_male') : $this->language->get('text_female')),
+				'date_of_birth' 	=> date("d-m-Y", strtotime($result['date_of_birth'])),
+				'university'          => ((isset($university['name'])) ? $university['name'] : ''),
+				'faculty'          => ((isset($faculty['name'])) ? $faculty['name'] : ''),
+				'floor'          => $result['floor_name'],
+				'bed'          => $result['bed'],
+				'ethnic'          => $result['ethnic'],
+				'address_1'          => ((isset($zone['name'])) ? $zone['name'] :''),
+				'customer_group' => $result['customer_group'],
+				'status'         => ($result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
+				'approved'       => ($result['approved'] ? $this->language->get('text_yes') : $this->language->get('text_no')),
+				
+				'selected'       => isset($this->request->post['selected']) && in_array($result['customer_id'], $this->request->post['selected']),
+				'action'         => $action
+                 // end LMT           
+				
+			);
+		}	
+
+		
+					
+		header('Content-Type: application/vnd.ms-excel'); 
+header('Content-Disposition: attachment;filename="StudentList.xls"'); 
+header('Cache-Control: max-age=0'); 
+$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5'); 
+$objWriter->save('php://output');
+
+
   	}
   /////////////////////// Modification//////////////////////
   // ID: 1051015        

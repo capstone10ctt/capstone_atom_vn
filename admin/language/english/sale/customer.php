@@ -28,6 +28,9 @@ $_['column_ethnic']           = 'Ethnic';
 $_['text_male']          = 'Male';
 $_['text_female']          = 'Female';
 
+
+$_['text_export_excel']          = 'Export to Excel';
+
 $_['text_basic_info']          = 'Personal Details';
 $_['text_contact']          = 'Contact';
 $_['text_identity']          = 'Identity';

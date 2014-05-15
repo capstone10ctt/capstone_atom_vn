@@ -5,6 +5,7 @@ $_['insert_title']             	= 'Add Room';
 $_['insert_title']             	= 'Edit Room';
 
 // Text
+$_['text_export_excel']          = 'Export to Excel';
 $_['text_success']              = 'Success: You have modified rooms list!';
 $_['text_block']    			= 'Block';
 $_['text_floor']     			= 'Floor';

@@ -30,7 +30,7 @@
       <a onclick="$('form').attr('action', '<?php echo $approve; ?>'); $('form').submit();" class="button"><?php echo $button_approve; ?></a>
       -->
       <!-- end LMT -->
-      <a onclick="popStudentInfo(true);" class="button"><?php echo $popup_thongtinsv; ?></a><a onclick="popStudentInfo2(true);" class="button"><?php echo $popup_thongtinsv2; ?></a>
+      <a href="<?php echo $export; ?>" class="button"><?php echo $text_export_excel; ?></a><a onclick="popStudentInfo(true);" class="button"><?php echo $popup_thongtinsv; ?></a><a onclick="popStudentInfo2(true);" class="button"><?php echo $popup_thongtinsv2; ?></a>
       <a href="<?php echo $insert; ?>" class="button"><?php echo $button_insert; ?></a><a onclick="$('form').attr('action', '<?php echo $delete; ?>'); $('form').submit();" class="button"><?php echo $button_delete; ?></a></div>
     </div>
     <div class="content">

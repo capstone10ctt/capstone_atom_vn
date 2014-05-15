@@ -41,6 +41,9 @@ echo $header; ?>
   <div class="box">
   <div class="heading">
   <h1><img src="view/image/customer.png" alt="" /> <?php echo $heading_title; ?></h1>
+  <div class="buttons">
+      <a href="<?php echo $export; ?>" class="button"><?php echo $text_export_excel; ?></a>
+      </div>
   </div>
   <div class="content">
    <div id="leftcol" style="float:left;width:200px;height: 500px;text-alignment:left;position: relative;">

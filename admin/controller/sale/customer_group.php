@@ -151,7 +151,8 @@ class ControllerSaleCustomerGroup extends Controller {
 							
 		$this->data['insert'] = $this->url->link('sale/customer_group/insert', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		$this->data['delete'] = $this->url->link('sale/customer_group/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');	
-		
+		$this->data['export'] = $this->url->link('sale/customer_group/exportExcel', 'token=' . $this->session->data['token'] . $url, 'SSL');
+
 		$this->data['blocks'] = array();
 		$this->data['list_floors'] = array();
 		$this->data['rooms'] = array();
@@ -256,7 +257,7 @@ class ControllerSaleCustomerGroup extends Controller {
         $this->data['text_university'] = $this->language->get('text_university');
         $this->data['text_birthday'] = $this->language->get('text_birthday');
         $this->data['text_hometown'] = $this->language->get('text_hometown');
-
+        $this->data['text_export_excel'] = $this->language->get('text_export_excel');
         $this->data['text_resident'] = $this->language->get('text_resident');
         $this->data['text_full'] = $this->language->get('text_full');
         $this->data['text_almost_full'] = $this->language->get('text_almost_full');
@@ -388,6 +389,157 @@ class ControllerSaleCustomerGroup extends Controller {
 		);
 				
 		$this->response->setOutput($this->render());
+ 	}
+
+ 	public function exportExcel() {
+
+ 		$this->language->load('sale/customer_group');
+ 
+		$this->document->setTitle($this->language->get('heading_title'));
+ 		
+		$this->load->model('sale/customer_group');
+
+        $this->data['token'] = $this->session->data['token'];
+
+		if (isset($this->request->get['sort'])) {
+			$sort = $this->request->get['sort'];
+		} else {
+			$sort = 'cg.name';
+		}
+		 
+		if (isset($this->request->get['order'])) {
+			$order = $this->request->get['order'];
+		} else {
+			$order = 'ASC';
+		}
+		
+		if (isset($this->request->get['page'])) {
+			$page = $this->request->get['page'];
+		} else {
+			$page = 1;
+		}
+		
+		$url = '';
+		
+		if (isset($this->request->get['sort'])) {
+			$url .= '&sort=' . $this->request->get['sort'];
+		}
+
+		if (isset($this->request->get['order'])) {
+			$url .= '&order=' . $this->request->get['order'];
+		}	
+		
+		if (isset($this->request->get['page'])) {
+			$url .= '&page=' . $this->request->get['page'];
+		}
+			
+  		$this->data['breadcrumbs'] = array();
+
+   		$this->data['breadcrumbs'][] = array(
+       		'text'      => $this->language->get('text_home'),
+			'href'      => $this->url->link('common/home', 'token=' . $this->session->data['token'], 'SSL'),
+      		'separator' => false
+   		);
+
+   		$this->data['breadcrumbs'][] = array(
+       		'text'      => $this->language->get('heading_title'),
+			'href'      => $this->url->link('sale/customer_group', 'token=' . $this->session->data['token'] . $url, 'SSL'),
+      		'separator' => ' :: '
+   		);
+							
+		
+		$this->data['blocks'] = array();
+		$this->data['list_floors'] = array();
+		$this->data['rooms'] = array();
+			
+		$blocks = $this->model_sale_customer_group->getBlocks();
+
+		foreach ($blocks as $block) {
+		
+			$this->data['blocks'][] = array(
+				'id' => $block['block_id'],
+				'name'  => $block['block_name'] 
+			);
+		}
+
+
+
+		$filter_block=0;
+		$filter_floor=0;
+		$filter_status=0;
+		$filter_type=0;
+
+
+		
+		if (isset($this->request->get['filter_block'])) {
+			$filter_block=$this->request->get['filter_block'];
+		}
+		if (isset($this->request->get['filter_floor'])) {
+			$filter_floor=$this->request->get['filter_floor'];
+		}
+		if (isset($this->request->get['filter_status'])) {
+			$filter_status=$this->request->get['filter_status'];
+		}
+		if (isset($this->request->get['filter_type'])) {
+			$filter_type=$this->request->get['filter_type'];
+		}
+
+		if($filter_block>0)
+		{
+			$this->data['block_info'] = $this->model_sale_customer_group->getBlockInfo($filter_block);
+		}
+
+		$floors = $this->model_sale_customer_group->getFloors($filter_block);
+		foreach ($floors as $floor) {
+		
+			$this->data['list_floors'][$floor['floor_id']] = $floor['floor_name'];
+		}
+
+		$data = array(
+			'filter_floor'  => $filter_floor,
+			'filter_status'  => $filter_status,
+			'filter_type' => $filter_type
+			);
+		$this->data['room_types'] = $this->model_sale_customer_group->getTypes();
+		$results = $this->model_sale_customer_group->getCustomerGroups($data);
+		$rooms = array();
+
+		include 'PHPExcel/IOFactory.php';
+		$objPHPExcel = new PHPExcel(); 
+// Set the active Excel worksheet to sheet 0
+		$objPHPExcel->setActiveSheetIndex(0); 
+// Initialise the Excel row number
+		$rowCount = 1; 
+
+    	$objPHPExcel->getActiveSheet()->SetCellValue('A'.$rowCount, "Tên phòng"); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('B'.$rowCount, "Tầng"); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('C'.$rowCount, "Loại"); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('D'.$rowCount, "Số người tối đa"); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('E'.$rowCount, "Hiện có"); 
+    	
+    // Increment the Excel row counter
+    	$rowCount++;
+
+		foreach ($results as $room) {
+
+				$objPHPExcel->getActiveSheet()->SetCellValue('A'.$rowCount, $room['name']); 
+ 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('B'.$rowCount, $room['floor_id']); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('C'.$rowCount, $room['type_name']); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('D'.$rowCount, $room['max_student']); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('E'.$rowCount, $room['assigned']); 
+			
+    	$rowCount++;
+		}
+		
+
+		header('Content-Type: application/vnd.ms-excel'); 
+header('Content-Disposition: attachment;filename="RoomList.xls"'); 
+header('Cache-Control: max-age=0'); 
+$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5'); 
+$objWriter->save('php://output');
+
+		
  	}
 
 	protected function getForm() {
