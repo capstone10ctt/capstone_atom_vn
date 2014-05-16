@@ -1060,6 +1060,7 @@ class ControllerSaleCustomer extends Controller {
     	$objPHPExcel->getActiveSheet()->SetCellValue('A'.$rowCount, "MSSV"); 
     	$objPHPExcel->getActiveSheet()->SetCellValue('B'.$rowCount, "Họ và Tên"); 
     	$objPHPExcel->getActiveSheet()->SetCellValue('C'.$rowCount, "Ngày sinh"); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('C'.$rowCount, "Giới tính"); 
     	$objPHPExcel->getActiveSheet()->SetCellValue('D'.$rowCount, "Trường"); 
     	$objPHPExcel->getActiveSheet()->SetCellValue('E'.$rowCount, "Ngành"); 
     	$objPHPExcel->getActiveSheet()->SetCellValue('F'.$rowCount, "Phòng"); 
@@ -1117,12 +1118,13 @@ class ControllerSaleCustomer extends Controller {
  
     	$objPHPExcel->getActiveSheet()->SetCellValue('B'.$rowCount, $result['name']); 
     	$objPHPExcel->getActiveSheet()->SetCellValue('C'.$rowCount, date("d/m/Y", strtotime($result['date_of_birth']))); 
-    	$objPHPExcel->getActiveSheet()->SetCellValue('D'.$rowCount, ((isset($university['name'])) ? $university['name'] : '')); 
-    	$objPHPExcel->getActiveSheet()->SetCellValue('E'.$rowCount, ((isset($faculty['name'])) ? $faculty['name'] : '')); 
-    	$objPHPExcel->getActiveSheet()->SetCellValue('F'.$rowCount, $result['customer_group']); 
-    	$objPHPExcel->getActiveSheet()->SetCellValue('G'.$rowCount, $result['bed']); 
-    	$objPHPExcel->getActiveSheet()->SetCellValue('H'.$rowCount, $result['ethnic']); 
-    	$objPHPExcel->getActiveSheet()->SetCellValue('I'.$rowCount, ((isset($zone['name'])) ? $zone['name'] :'')); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('D'.$rowCount, ($result['gender'] ? $this->language->get('text_male') : $this->language->get('text_female'))); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('E'.$rowCount, ((isset($university['name'])) ? $university['name'] : '')); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('F'.$rowCount, ((isset($faculty['name'])) ? $faculty['name'] : '')); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('G'.$rowCount, $result['customer_group']); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('H'.$rowCount, $result['bed']); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('I'.$rowCount, $result['ethnic']); 
+    	$objPHPExcel->getActiveSheet()->SetCellValue('J'.$rowCount, ((isset($zone['name'])) ? $zone['name'] :'')); 
     // Increment the Excel row counter
     	$rowCount++;
 			$customers[] = array(
