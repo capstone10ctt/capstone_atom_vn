@@ -12,6 +12,7 @@ $_['text_success']     = 'Success: You have successfully imported your database!
 $_['entry_studentid']		= 'Student ID';
 $_['entry_name']			= 'Name';
 $_['entry_faculty']			= 'Faculty';
+$_['column_gender']			= 'Gender';
 $_['entry_birthday']		= 'Birthday';
 $_['entry_room']			= 'Room';
 $_['entry_bed']				= 'Bed';

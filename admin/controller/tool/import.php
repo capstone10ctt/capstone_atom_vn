@@ -21,6 +21,7 @@ class ControllerToolImport extends Controller {
 		$this->data['entry_name'] = $this->language->get('entry_name');
 		$this->data['entry_faculty'] = $this->language->get('entry_faculty');
 		$this->data['entry_birthday'] = $this->language->get('entry_birthday');
+		$this->data['column_gender'] = $this->language->get('column_gender');
 		$this->data['entry_room'] = $this->language->get('entry_room');
 		$this->data['entry_bed'] = $this->language->get('entry_bed');
 		$this->data['entry_ethnic'] = $this->language->get('entry_ethnic');
@@ -49,6 +50,7 @@ class ControllerToolImport extends Controller {
    		$this->session->data['col_id']="";
 		$this->session->data['col_name']="";
 		$this->session->data['col_birthday']="";
+		$this->session->data['col_gender']="";
 		$this->session->data['col_faculty']="";
 		$this->session->data['col_room']="";
 		$this->session->data['col_bed']="";
@@ -98,6 +100,9 @@ class ControllerToolImport extends Controller {
 										break;
 									case "ngay sinh": 
 										$this->session->data['col_birthday'] = $key;
+										break;
+									case "gioi tinh": 
+										$this->session->data['col_gender'] = $key;
 										break;
 									case "nganh": 
 										$this->session->data['col_faculty'] = $key;
@@ -169,6 +174,7 @@ class ControllerToolImport extends Controller {
 			$this->session->data['col_id']="";
 			$this->session->data['col_name']="";
 			$this->session->data['col_birthday']="";
+			$this->session->data['col_gender']="";
 			$this->session->data['col_faculty']="";
 			$this->session->data['col_room']="";
 			$this->session->data['col_bed']="";
@@ -389,6 +395,11 @@ class ControllerToolImport extends Controller {
 			      
 			      	if($this->session->data['col_ethnic']!='')
 			        	$student['ethnic'] = $this->session->data['sheetData'][$i][$this->session->data['col_ethnic']];
+			        if($this->session->data['col_gender']!='')
+			        {
+			        	if($this->cleanString($this->session->data['sheetData'][$i][$this->session->data['col_gender']]) == 'nam')
+			        	$student['gender_id'] = '1';
+			        }
 			      
 			      	//if($this->session->data['col_address']!='')
 			        //	$student['address'] = $this->session->data['sheetData'][$i][$this->session->data['col_address']];

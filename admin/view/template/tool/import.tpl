@@ -44,6 +44,8 @@
       echo '<td>'.$entry_name.'</td>';
     if($this->session->data['col_birthday']!='')
       echo '<td>'.$entry_birthday.'</td>';
+    if($this->session->data['col_gender']!='')
+      echo '<td>'.$column_gender.'</td>';
     if($this->session->data['col_faculty']!='')
       echo '<td>'.$entry_faculty.'</td>';
     if($this->session->data['col_room']!='')
@@ -123,6 +125,11 @@
         else
           $result='';
         echo '<td>'.$result.'</td>';
+      }
+
+      if($this->session->data['col_gender']!='')
+      {
+        echo '<td>'.$this->session->data['sheetData'][$i][$this->session->data['col_gender']].'</td>';
       }
       
       if($this->session->data['col_faculty']!='')

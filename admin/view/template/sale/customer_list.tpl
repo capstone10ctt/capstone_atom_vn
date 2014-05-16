@@ -69,6 +69,12 @@
                 <?php } else { ?>
                 <a href="<?php echo $sort_date_of_birth; ?>"><?php echo $column_date_of_birth; ?></a>
                 <?php } ?></td>
+
+                <td class="left"><?php if ($sort == 'gender') { ?>
+                <a href="<?php echo $sort_date_of_birth; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_gender; ?></a>
+                <?php } else { ?>
+                <a href="<?php echo $sort_date_of_birth; ?>"><?php echo $column_gender; ?></a>
+                <?php } ?></td>
                <!-- Add column university -->
               <td class="left"><?php if ($sort == 'university') { ?>
                 <a href="<?php echo $sort_university; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_university; ?></a>
@@ -151,6 +157,7 @@
               <!-- start LMT -->
               <!-- add filter date of birth --> 
               <td><input type="text" name="filter_date_of_birth" value="<?php echo $filter_date_of_birth; ?>" size="12" id="date" /></td>
+              <td><input type="text" name="filter_gender" value="<?php echo $filter_date_of_birth; ?>" size="12" id="date" /></td>
               <!-- add filter university --> 
               <td><select name="filter_university">
                 <option value=""><?php echo $text_select; ?></option>
@@ -261,6 +268,7 @@
                 <td class="left"><?php echo $customer['student_id']; ?></td>
                 <td class="left"><?php echo $customer['name']; ?></td>
                 <td class="left"><?php echo $customer['date_of_birth']; ?></td>
+                <td class="left"><?php echo $customer['gender']; ?></td>
                 <td class="left"><?php echo $customer['university']; ?></td>
                 <td class="left"><?php echo $customer['faculty']; ?></td>
                 <td class="left"><?php echo $customer['floor']; ?></td>

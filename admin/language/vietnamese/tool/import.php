@@ -13,6 +13,7 @@ $_['entry_studentid']		= 'MSSV';
 $_['entry_name']			= 'Tên';
 $_['entry_faculty']			= 'Ngành';
 $_['entry_birthday']		= 'Ngày sinh';
+$_['column_gender']			= 'Giới tính';
 $_['entry_room']			= 'Phòng';
 $_['entry_bed']				= 'Giường';
 $_['entry_ethnic']			= 'Dân tộc';
