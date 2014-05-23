@@ -487,7 +487,7 @@ $('select[name=\'filter_university\']').trigger('change');
 ////////////////////////////////////////////////////////////// 
            
 function filter() {
-	url = 'index.php?route=sale/customer_approval&token=<?php echo $token; ?>';
+	url = 'index.php?route=sale/customer_receive&token=<?php echo $token; ?>';
 	
 var filter_id = $('input[name=\'filter_id\']').attr('value');
   
